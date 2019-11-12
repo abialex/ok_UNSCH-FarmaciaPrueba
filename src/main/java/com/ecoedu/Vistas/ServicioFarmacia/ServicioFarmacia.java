@@ -9,6 +9,7 @@ import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Receta;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -142,6 +143,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
      public void principalEjecucion(){
          llenar_Tabla_de_Recetas(Lista_Recetas);
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
+         jtaDiagnostico.setEditable(false);
          desglozarDatos();
      }  
      public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
@@ -231,7 +233,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel16 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jtxtDiagnostico = new javax.swing.JTextArea();
+        jtxtDiagnosticoNuevo = new javax.swing.JTextArea();
         jPanel17 = new javax.swing.JPanel();
         cabeza = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
@@ -349,9 +351,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jtfLookCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfLookCodigo.setText("27150506");
         jtfLookCodigo.setPreferredSize(new java.awt.Dimension(85, 30));
-        jtfLookCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtfLookCodigoMouseClicked(evt);
+        jtfLookCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfLookCodigoKeyPressed(evt);
             }
         });
         jPanel7.add(jtfLookCodigo);
@@ -483,9 +485,10 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel23.setText("DIAGNÓSTICO :");
         jPanel16.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jtxtDiagnostico.setColumns(20);
-        jtxtDiagnostico.setRows(5);
-        jScrollPane4.setViewportView(jtxtDiagnostico);
+        jtxtDiagnosticoNuevo.setColumns(20);
+        jtxtDiagnosticoNuevo.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        jtxtDiagnosticoNuevo.setRows(5);
+        jScrollPane4.setViewportView(jtxtDiagnosticoNuevo);
 
         jPanel16.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 700, 110));
 
@@ -617,6 +620,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
         jtaDiagnostico.setBackground(new java.awt.Color(255, 255, 0));
         jtaDiagnostico.setColumns(20);
+        jtaDiagnostico.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
         jtaDiagnostico.setRows(5);
         jScrollPane7.setViewportView(jtaDiagnostico);
 
@@ -734,10 +738,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
        llenar_Tabla_de_Recetas(listaDetalles);
         
     }
-    private void jtfLookCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfLookCodigoMouseClicked
-         llenarControlAlumno();
-    }//GEN-LAST:event_jtfLookCodigoMouseClicked
-
     private void jbtEntregarMedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtEntregarMedicamentosActionPerformed
         cuerpo1ListaRecetas.setVisible(false);
         cuerp2CrearRecetas.setVisible(true);
@@ -780,6 +780,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         cuerp2CrearRecetas.setVisible(false);
         cuerpo1ListaRecetas.setVisible(true);
     }//GEN-LAST:event_jbtnCancelarCrearDiagnosticoActionPerformed
+
+    private void jtfLookCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyPressed
+
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){  
+            llenarControlAlumno();            
+        }
+    }//GEN-LAST:event_jtfLookCodigoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -853,7 +860,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JTable jtblMedicinasEntregada;
     private javax.swing.JTable jtblRecetas;
     private javax.swing.JTextField jtfLookCodigo;
-    private javax.swing.JTextArea jtxtDiagnostico;
+    private javax.swing.JTextArea jtxtDiagnosticoNuevo;
     // End of variables declaration//GEN-END:variables
 public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
     

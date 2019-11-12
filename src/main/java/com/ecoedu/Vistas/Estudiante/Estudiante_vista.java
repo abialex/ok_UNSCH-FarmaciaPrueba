@@ -1,4 +1,4 @@
-package com.ecoedu.Vistas.Inventario;
+package com.ecoedu.Vistas.Estudiante;
 
 
 import com.ecoedu.model.Detalle_Medicamentos;
@@ -19,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author yrma
  */
-public class AgregarMedicamentos extends javax.swing.JPanel {   
-    public AgregarMedicamentos() {
+public class Estudiante_vista extends javax.swing.JPanel {   
+    public Estudiante_vista() {
         initComponents();
         jcbYearDesde.setVisible(false);
         jlblDesde.setVisible(false);
@@ -80,7 +80,7 @@ public class AgregarMedicamentos extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("AGREGAR NUEVOS MEDICAMENTOS");
+        jLabel12.setText("Estudiante");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
