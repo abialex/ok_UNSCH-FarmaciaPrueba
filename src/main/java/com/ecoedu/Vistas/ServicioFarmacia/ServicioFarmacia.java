@@ -223,6 +223,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jlblMontoTotal = new javax.swing.JLabel();
@@ -431,6 +432,10 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
         jLabel18.setPreferredSize(new java.awt.Dimension(10, 14));
         jPanel9.add(jLabel18, java.awt.BorderLayout.LINE_START);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Click en la tabla para ver Detalles de la Receta");
+        jPanel9.add(jLabel1, java.awt.BorderLayout.PAGE_END);
 
         cuerpo1ListaRecetas.add(jPanel9);
 
@@ -798,6 +803,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JPanel cuerpo4VerDetallesDeLaReceta;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

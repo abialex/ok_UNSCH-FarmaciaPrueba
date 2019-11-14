@@ -43,8 +43,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         ConsultaBD();
         principalEjecucion();
         
-    }
-    
+    }   
     
     public void ConsultaBD(){
         Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");

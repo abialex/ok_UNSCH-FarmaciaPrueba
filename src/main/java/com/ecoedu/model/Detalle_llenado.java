@@ -5,6 +5,7 @@
  */
 package com.ecoedu.model;
 
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,12 +37,35 @@ public class Detalle_llenado {
     @ManyToOne(cascade = CascadeType.ALL)
     private Lote_detalle lote_detalle;
     
-     @Column(name="precio_Unitario",nullable = false)
+    @Column(name="precio_Unitario",nullable = false)
     private int  precio_unitario;
+    
+    @Column(name="fecha_de_registro",nullable = false)
+    private Date fecha_de_registro;
+    
+    @Column(name = "cantidad", nullable = false)
+    private int cantidad;
 
     public int getId_Detalle_llenado() {
         return id_Detalle_llenado;
     }
+
+    public Date getFecha_de_registro() {
+        return fecha_de_registro;
+    }
+
+    public void setFecha_de_registro(Date fecha_de_registro) {
+        this.fecha_de_registro = fecha_de_registro;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
 
     public void setId_Detalle_llenado(int id_Detalle_llenado) {
         this.id_Detalle_llenado = id_Detalle_llenado;
