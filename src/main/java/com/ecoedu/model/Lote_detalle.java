@@ -29,7 +29,18 @@ public class Lote_detalle{
     @ManyToOne(cascade = CascadeType.ALL)
     private Inventario inventario;
     
-     @Column(name="fecha_vencimiento",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_Fabricante",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Fabricante fabricante;
+    
+    @JoinColumn(insertable = true,updatable = false,name="id_Factura",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Factura factura;
+    
+    @Column(name = "Precio_Venta_Redondeado",nullable = true)
+    private float precio_Venta_Redondeado;
+    
+    @Column(name="fecha_vencimiento",nullable = false)
     private Date  fecha_vencimiento;
     
     @Column(name="cantidad",nullable = false)
@@ -38,9 +49,33 @@ public class Lote_detalle{
     @Column(name="codigo",length = 40,nullable = false)
     private String  codigo;
 
+    public float getPrecio_Venta_Redondeado() {
+        return precio_Venta_Redondeado;
+    }
+
+    public void setPrecio_Venta_Redondeado(float precio_Venta_Redondeado) {
+        this.precio_Venta_Redondeado = precio_Venta_Redondeado;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }   
+    
     public int getId_Lote_detalle() {
         return id_Lote_detalle;
     }
+
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
+    }   
 
     public Date getFecha_vencimiento() {
         return fecha_vencimiento;
@@ -77,6 +112,6 @@ public class Lote_detalle{
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-    
-    
-}
+
+
+    }

@@ -38,7 +38,7 @@ public class Detalle_llenado {
     private Lote_detalle lote_detalle;
     
     @Column(name="precio_Unitario",nullable = false)
-    private int  precio_unitario;
+    private float  precio_unitario;
     
     @Column(name="fecha_de_registro",nullable = false)
     private Date fecha_de_registro;
@@ -95,11 +95,11 @@ public class Detalle_llenado {
         this.lote_detalle = lote_detalle;
     }
 
-    public int getPrecio_unitario() {
+    public float getPrecio_unitario() {
         return precio_unitario;
     }
 
-    public void setPrecio_unitario(int precio_unitario) {
+    public void setPrecio_unitario(float precio_unitario) {
         this.precio_unitario = precio_unitario;
     }
      

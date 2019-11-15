@@ -31,9 +31,21 @@ public class Usuario implements Serializable {
     @Column(name="contraseña",length = 20,nullable = false)
     private String contraseña;
     
+    @JoinColumn(insertable = true,updatable = false,name="id_Rol",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Rol rol;
+    
     @JoinColumn(insertable = true,updatable = false,name="id_Persona",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Persona persona;
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 
     public int getId_Usuario() {
         return id_Usuario;

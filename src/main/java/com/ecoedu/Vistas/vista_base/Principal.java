@@ -134,6 +134,15 @@ public class Principal extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jleftUsuario_AdministrarRol = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
+        jlefProveedorYfabrecante = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jlblConsultasFlecha3 = new javax.swing.JLabel();
+        jtfsub_ProveedorYfabricante = new javax.swing.JPanel();
+        jleftUsuario_CrearModificarUser1 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jleftUsuario_AdministrarRol1 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
         bodyContenedor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -676,7 +685,7 @@ public class Principal extends javax.swing.JFrame {
         jleftUsuario.add(jLabel23, java.awt.BorderLayout.CENTER);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/003-pros-and-cons.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jefe.png"))); // NOI18N
         jLabel9.setPreferredSize(new java.awt.Dimension(100, 14));
         jleftUsuario.add(jLabel9, java.awt.BorderLayout.LINE_START);
 
@@ -740,6 +749,97 @@ public class Principal extends javax.swing.JFrame {
         jtfsub_Usuario.add(jleftUsuario_AdministrarRol);
 
         left.add(jtfsub_Usuario);
+
+        jlefProveedorYfabrecante.setBackground(new java.awt.Color(73, 20, 119));
+        jlefProveedorYfabrecante.setPreferredSize(new java.awt.Dimension(300, 32));
+        jlefProveedorYfabrecante.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jlefProveedorYfabrecanteMouseMoved(evt);
+            }
+        });
+        jlefProveedorYfabrecante.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlefProveedorYfabrecanteMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jlefProveedorYfabrecanteMouseExited(evt);
+            }
+        });
+        jlefProveedorYfabrecante.setLayout(new java.awt.BorderLayout());
+
+        jLabel26.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel26.setText("Usuario");
+        jLabel26.setPreferredSize(new java.awt.Dimension(200, 50));
+        jlefProveedorYfabrecante.add(jLabel26, java.awt.BorderLayout.CENTER);
+
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jefe.png"))); // NOI18N
+        jLabel27.setPreferredSize(new java.awt.Dimension(100, 14));
+        jlefProveedorYfabrecante.add(jLabel27, java.awt.BorderLayout.LINE_START);
+
+        jlblConsultasFlecha3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblConsultasFlecha3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
+        jlblConsultasFlecha3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblConsultasFlecha3.setPreferredSize(new java.awt.Dimension(50, 32));
+        jlefProveedorYfabrecante.add(jlblConsultasFlecha3, java.awt.BorderLayout.LINE_END);
+
+        left.add(jlefProveedorYfabrecante);
+
+        jtfsub_ProveedorYfabricante.setBackground(new java.awt.Color(73, 20, 100));
+        jtfsub_ProveedorYfabricante.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jleftUsuario_CrearModificarUser1.setBackground(new java.awt.Color(73, 20, 100));
+        jleftUsuario_CrearModificarUser1.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftUsuario_CrearModificarUser1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftUsuario_CrearModificarUser1MouseMoved(evt);
+            }
+        });
+        jleftUsuario_CrearModificarUser1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftUsuario_CrearModificarUser1MouseExited(evt);
+            }
+        });
+        jleftUsuario_CrearModificarUser1.setLayout(new java.awt.BorderLayout());
+
+        jLabel28.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel28.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Crear Usuario");
+        jLabel28.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftUsuario_CrearModificarUser1.add(jLabel28, java.awt.BorderLayout.CENTER);
+
+        jtfsub_ProveedorYfabricante.add(jleftUsuario_CrearModificarUser1);
+
+        jleftUsuario_AdministrarRol1.setBackground(new java.awt.Color(73, 20, 100));
+        jleftUsuario_AdministrarRol1.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftUsuario_AdministrarRol1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftUsuario_AdministrarRol1MouseMoved(evt);
+            }
+        });
+        jleftUsuario_AdministrarRol1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftUsuario_AdministrarRol1MouseExited(evt);
+            }
+        });
+        jleftUsuario_AdministrarRol1.setLayout(new java.awt.BorderLayout());
+
+        jLabel29.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("Administrar Rol");
+        jLabel29.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftUsuario_AdministrarRol1.add(jLabel29, java.awt.BorderLayout.CENTER);
+
+        jtfsub_ProveedorYfabricante.add(jleftUsuario_AdministrarRol1);
+
+        left.add(jtfsub_ProveedorYfabricante);
 
         contenedorPrincipal.add(left, java.awt.BorderLayout.LINE_START);
 
@@ -1024,6 +1124,34 @@ public class Principal extends javax.swing.JFrame {
         jleftUsuario_AdministrarRol.setBackground(colorExitSub);
     }//GEN-LAST:event_jleftUsuario_AdministrarRolMouseExited
 
+    private void jlefProveedorYfabrecanteMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlefProveedorYfabrecanteMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jlefProveedorYfabrecanteMouseMoved
+
+    private void jlefProveedorYfabrecanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlefProveedorYfabrecanteMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jlefProveedorYfabrecanteMouseClicked
+
+    private void jlefProveedorYfabrecanteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlefProveedorYfabrecanteMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jlefProveedorYfabrecanteMouseExited
+
+    private void jleftUsuario_CrearModificarUser1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_CrearModificarUser1MouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftUsuario_CrearModificarUser1MouseMoved
+
+    private void jleftUsuario_CrearModificarUser1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_CrearModificarUser1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftUsuario_CrearModificarUser1MouseExited
+
+    private void jleftUsuario_AdministrarRol1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRol1MouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftUsuario_AdministrarRol1MouseMoved
+
+    private void jleftUsuario_AdministrarRol1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRol1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftUsuario_AdministrarRol1MouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -1051,6 +1179,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1065,12 +1197,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jlblConsultasFlecha;
     private javax.swing.JLabel jlblConsultasFlecha1;
     private javax.swing.JLabel jlblConsultasFlecha2;
+    private javax.swing.JLabel jlblConsultasFlecha3;
     private javax.swing.JLabel jlblEstudianteFlecha1;
     private javax.swing.JLabel jlblInventarioFlecha;
     private javax.swing.JLabel jlblMinimizar;
     private javax.swing.JLabel jlblNavegacion;
     private javax.swing.JLabel jlblSalir;
     private javax.swing.JLabel jlblUsuario;
+    private javax.swing.JPanel jlefProveedorYfabrecante;
     private javax.swing.JPanel jleftConsultas;
     private javax.swing.JPanel jleftConsultas_Entregadeldia;
     private javax.swing.JPanel jleftConsultas_MedicamentoUsado;
@@ -1087,10 +1221,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftServicioFarmacia;
     private javax.swing.JPanel jleftUsuario;
     private javax.swing.JPanel jleftUsuario_AdministrarRol;
+    private javax.swing.JPanel jleftUsuario_AdministrarRol1;
     private javax.swing.JPanel jleftUsuario_CrearModificarUser;
+    private javax.swing.JPanel jleftUsuario_CrearModificarUser1;
     private javax.swing.JPanel jtfsub_Consultas;
     private javax.swing.JPanel jtfsub_Estudiante;
     private javax.swing.JPanel jtfsub_Medicina;
+    private javax.swing.JPanel jtfsub_ProveedorYfabricante;
     private javax.swing.JPanel jtfsub_Usuario;
     private javax.swing.JPanel jtfsub_inventario;
     private javax.swing.JPanel left;

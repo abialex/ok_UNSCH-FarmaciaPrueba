@@ -39,12 +39,13 @@
       <artifactId>RSCalendar</artifactId>
       <version>SNAPSHOT</version>
     </dependency>
+    
     <dependency>
       <groupId>unknown.binary</groupId>
-      <artifactId>Animationes</artifactId>
-      <version>MALIN</version>
-          
+      <artifactId>AutoCompleter</artifactId>
+      <version>SNAPSHOT</version>
     </dependency>
+   
   </dependencies>
   <build> 
     <plugins> 
@@ -64,7 +65,7 @@
                             <archive>
                                 <manifest>
                                     <!-- Clase Main -->
-                                    <mainClass>com.ecoedu.Animafx.CuadroMediano</mainClass>
+                                    <mainClass>com.ecoedu.Vistas.vista_base.CuadroLogin</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>

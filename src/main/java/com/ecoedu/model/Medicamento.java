@@ -17,8 +17,29 @@ public class Medicamento{
     private String  nombre;
     
     
-    @Column(name="precio_Unitario",nullable = false)
-    private float  precio_Unitario;
+    @Column(name="forma_farmaceutica",nullable = true)
+    private String forma_farmaceutica;
+    
+    @Column(name="concentracion",nullable = true)
+    private String concentracion;
+
+    public String getConcentracion() {
+        return concentracion;
+    }
+
+    public void setConcentracion(String concentracion) {
+        this.concentracion = concentracion;
+    }
+    
+    
+
+    public String getForma_farmaceutica() {
+        return forma_farmaceutica;
+    }
+
+    public void setForma_farmaceutica(String forma_farmaceutica) {
+        this.forma_farmaceutica = forma_farmaceutica;
+    }
     
     
 
@@ -38,16 +59,5 @@ public class Medicamento{
         this.nombre = nombre;
     }
 
-    public float getPrecio_Unitario() {
-        return precio_Unitario;
-    }
-
-    public void setPrecio_Unitario(int precio_Unitario) {
-        this.precio_Unitario = precio_Unitario;
-    }
-    
-    
-        
-    
     
 }

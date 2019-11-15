@@ -90,9 +90,9 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
          DefaultTableModel modelo;
          Object[] fila_actividad;
          //.....................................TABLA......................................
-         String [] lista={"Código","Medicamento","Cantidad","Precio Unitario"}; 
+         String [] lista={"Código","Medicamento","Cantidad"}; 
          modelo=new DefaultTableModel(null,lista){
-             boolean[] canEdit = new boolean [] {false, false, false, false};
+             boolean[] canEdit = new boolean [] {false, false, false};
              @Override
              public boolean isCellEditable(int rowIndex, int columnIndex){
                  return canEdit [columnIndex];
@@ -103,8 +103,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
          for (int i = 0; i < listaInventario.size(); i++){
              fila_actividad[0]=listaInventario.get(i).getId_Inventario();
              fila_actividad[1]=listaInventario.get(i).getId_Medicamento().getNombre();             
-             fila_actividad[2]=listaInventario.get(i).getCantidad();
-             fila_actividad[3]=listaInventario.get(i).getId_Medicamento().getPrecio_Unitario()+"0";       
+             fila_actividad[2]=listaInventario.get(i).getCantidad();     
              modelo.addRow(fila_actividad);//agregando filas
              }
          jtlblInventario.setModel(modelo);
@@ -112,9 +111,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
          tcr.setHorizontalAlignment(SwingConstants.CENTER);
          jtlblInventario.getColumnModel().getColumn(0).setCellRenderer(tcr);
          jtlblInventario.getColumnModel().getColumn(1).setCellRenderer(tcr);
-         jtlblInventario.getColumnModel().getColumn(2).setCellRenderer(tcr);
-         jtlblInventario.getColumnModel().getColumn(3).setCellRenderer(tcr);      
-         
+         jtlblInventario.getColumnModel().getColumn(2).setCellRenderer(tcr);     
          
          jtlblInventario.setFont(new java.awt.Font("Tahoma", 0, 15));
          jtlblInventario.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
@@ -123,7 +120,6 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
          jtlblInventario.getColumnModel().getColumn(0).setPreferredWidth(119);
          jtlblInventario.getColumnModel().getColumn(1).setPreferredWidth(273);
          jtlblInventario.getColumnModel().getColumn(2).setPreferredWidth(75);
-         jtlblInventario.getColumnModel().getColumn(3).setPreferredWidth(158);
          ((DefaultTableCellRenderer)jtlblInventario.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);         
     }
     
@@ -370,12 +366,12 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
                 objDetalle_Medicamento_Final.setId_Medicamento(list_Inventario.get(i).getId_Medicamento());
                 break;
             }
-        }
+        }//reutilizando el medicamento que ya me dio para luego guardarlo
         Lote_detalle objLoteDetalle=fechaVencimientoCercano(auxlista_Lote_detalle);
         jlblFechaVencimiento.setText(Herramienta.formatoFecha(objLoteDetalle.getFecha_vencimiento()));
         jlblLoteNombre.setText(objLoteDetalle.getCodigo());        
         jlblProductoFarmaceutico.setText(jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),1).toString());
-        jlblPrecioUnitario.setText(jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),3).toString());
+        jlblPrecioUnitario.setText(Float.toString(objLoteDetalle.getPrecio_Venta_Redondeado()));
         //
         objDetalle_Medicamento_Final.setLote_detalle(objLoteDetalle);
         objDetalle_Medicamento_Final.setFecha(new Date());        

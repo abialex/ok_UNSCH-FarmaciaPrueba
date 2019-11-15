@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import com.ecoedu.model.Inventario;
+import com.ecoedu.model.Medicamento;
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.util.ArrayList;
 
 
@@ -21,11 +23,14 @@ import java.util.ArrayList;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
 public class LlenarInventario extends javax.swing.JPanel {   
-    List<Inventario> Lista_Inventario;
+    List<Medicamento> Lista_Medicamento;
     EntityManager jpa;
     Principal objPrincipal;
+    TextAutoCompleter tac;
+    
     public LlenarInventario(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
+        this.tac=new TextAutoCompleter(jtfProductoFarmaceutico);
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
         ConsultaBD();
@@ -33,32 +38,13 @@ public class LlenarInventario extends javax.swing.JPanel {
            
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Inventario p");
-        Lista_Inventario=query1.getResultList();      
+        Query query1=jpa.createQuery("SELECT p FROM Medicamento p");
+        Lista_Medicamento=query1.getResultList();      
     }   
     public void principalEjecucion(){
-        
-        jtfProductoFarmaceutico.setEnabled(false);
-        jtfPrecioUnitarioVenta.setEnabled(false);
-        llenar_tabla_de_inventarioOperaciones(getMedicamentosParecidos(""));
-        
-    }
-    public List<Inventario> getMedicamentosParecidos(String palabra){
-        List<Inventario> listaInventario=new ArrayList<>();
-        for (int n = 0; n < Lista_Inventario.size(); n++) {
-            boolean aux=true;
-            for (int i = 0; i<palabra.length(); i++) {
-               
-                if(palabra.charAt(i)!=Lista_Inventario.get(n).getId_Medicamento().getNombre().charAt(i)){
-                    aux=false;
-                    break;                   
-                }            
-            }
-            if(aux){
-                listaInventario.add(Lista_Inventario.get(n));
-            }
-        }
-        return listaInventario;        
+        for (int i = 0; i < Lista_Medicamento.size(); i++) {
+            tac.addItem(Lista_Medicamento.get(i).getNombre());
+        }       
     }
 
     /**
@@ -75,48 +61,42 @@ public class LlenarInventario extends javax.swing.JPanel {
         head = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         bodyCard = new javax.swing.JPanel();
-        vista2 = new javax.swing.JPanel();
-        headListaInventarioVoF = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtblInventarioOperaciones = new javax.swing.JTable();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
-        jtfMedicamento = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        body3 = new javax.swing.JPanel();
-        base = new javax.swing.JPanel();
-        vista1 = new javax.swing.JPanel();
-        jLabel38 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jtfPrecioUnitarioVenta = new javax.swing.JTextField();
-        jcbFechaVencimiento = new rojeru_san.componentes.RSDateChooser();
-        jtfCantidad = new javax.swing.JTextField();
+        vistaLlenar = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel40 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jlblConcentracion = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jcbFechaVencimiento1 = new rojeru_san.componentes.RSDateChooser();
+        jtfPrecioUnitarioVenta1 = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
         jtfProductoFarmaceutico = new javax.swing.JTextField();
-        jtfLote = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jtfCantidad2 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jlblFormaFarmaceutica = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jtfLote3 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jtblLoteDetalle = new javax.swing.JTable();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel32 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        vista3 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jtblLotesDetalle = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -139,18 +119,142 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         bodyCard.setLayout(new java.awt.CardLayout());
 
-        vista2.setBackground(new java.awt.Color(255, 255, 255));
+        vistaLlenar.setBackground(new java.awt.Color(255, 255, 255));
+        vistaLlenar.setLayout(new java.awt.BorderLayout());
 
-        headListaInventarioVoF.setBackground(new java.awt.Color(255, 255, 255));
-        headListaInventarioVoF.setPreferredSize(new java.awt.Dimension(900, 220));
-        headListaInventarioVoF.setLayout(new java.awt.BorderLayout());
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setLayout(new java.awt.BorderLayout());
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setPreferredSize(new java.awt.Dimension(890, 170));
-        jPanel8.setLayout(new java.awt.BorderLayout());
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jtblInventarioOperaciones.setBorder(new javax.swing.border.MatteBorder(null));
-        jtblInventarioOperaciones.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel40.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel40.setText("Ingrese los datos correspondientes");
+        jPanel6.add(jLabel40);
+
+        jPanel13.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jlblConcentracion.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblConcentracion.setForeground(new java.awt.Color(0, 102, 204));
+        jlblConcentracion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblConcentracion.setPreferredSize(new java.awt.Dimension(330, 25));
+        jPanel7.add(jlblConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 60, 150, -1));
+
+        jLabel18.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("Código del Lote:");
+        jLabel18.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 110, 25));
+
+        jLabel11.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("Cantidad:");
+        jLabel11.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 70, 25));
+
+        jLabel13.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setText("Fecha Vencimiento:");
+        jLabel13.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 140, 25));
+
+        jcbFechaVencimiento1.setFormatoFecha("dd/MM/yyyy ");
+        jcbFechaVencimiento1.setPlaceholder("Desde ");
+        jcbFechaVencimiento1.setPreferredSize(new java.awt.Dimension(170, 30));
+        jPanel7.add(jcbFechaVencimiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 160, 25));
+
+        jtfPrecioUnitarioVenta1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfPrecioUnitarioVenta1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel7.add(jtfPrecioUnitarioVenta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 110, 50, 25));
+
+        jLabel16.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel16.setText("Precio Venta Redondeado");
+        jLabel16.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, 190, 25));
+
+        jtfProductoFarmaceutico.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfProductoFarmaceutico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfProductoFarmaceutico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfProductoFarmaceuticoKeyReleased(evt);
+            }
+        });
+        jPanel7.add(jtfProductoFarmaceutico, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 640, 25));
+
+        jLabel19.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel19.setText("Forma Farmaceutica");
+        jLabel19.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 140, 25));
+
+        jtfCantidad2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfCantidad2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel7.add(jtfCantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 50, 25));
+
+        jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel6.setText("Producto Farmaceutico:");
+        jLabel6.setPreferredSize(new java.awt.Dimension(330, 25));
+        jPanel7.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 160, -1));
+
+        jLabel23.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel23.setText("Concentración");
+        jLabel23.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 60, 110, 25));
+
+        jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("0.3");
+        jLabel24.setPreferredSize(new java.awt.Dimension(330, 25));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 50, 25));
+
+        jLabel14.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel14.setPreferredSize(new java.awt.Dimension(700, 14));
+        jPanel7.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 900, 10));
+
+        jLabel25.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel25.setPreferredSize(new java.awt.Dimension(700, 14));
+        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 900, 10));
+
+        jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel26.setText("Precio Unitario de Compra");
+        jLabel26.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 190, 25));
+
+        jlblFormaFarmaceutica.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblFormaFarmaceutica.setForeground(new java.awt.Color(0, 102, 204));
+        jlblFormaFarmaceutica.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblFormaFarmaceutica.setPreferredSize(new java.awt.Dimension(330, 25));
+        jPanel7.add(jlblFormaFarmaceutica, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 150, -1));
+
+        jLabel28.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel28.setPreferredSize(new java.awt.Dimension(700, 14));
+        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 900, 10));
+
+        jtfLote3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfLote3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel7.add(jtfLote3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 120, 25));
+
+        jButton3.setBackground(new java.awt.Color(0, 0, 0));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("AGREGAR A LA LISTA DE LOTES");
+        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, -1, -1));
+
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(452, 100));
+
+        jtblLoteDetalle.setBorder(new javax.swing.border.MatteBorder(null));
+        jtblLoteDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -177,352 +281,118 @@ public class LlenarInventario extends javax.swing.JPanel {
                 "Fecha", "Producto Farmaceutico", "Cantidad", "Monto"
             }
         ));
-        jtblInventarioOperaciones.setGridColor(new java.awt.Color(0, 0, 0));
-        jtblInventarioOperaciones.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblInventarioOperaciones.setPreferredSize(new java.awt.Dimension(200, 260));
-        jtblInventarioOperaciones.setRequestFocusEnabled(false);
-        jScrollPane2.setViewportView(jtblInventarioOperaciones);
+        jtblLoteDetalle.setGridColor(new java.awt.Color(0, 0, 0));
+        jtblLoteDetalle.setMinimumSize(new java.awt.Dimension(500, 100));
+        jtblLoteDetalle.setPreferredSize(new java.awt.Dimension(200, 100));
+        jtblLoteDetalle.setRequestFocusEnabled(false);
+        jScrollPane4.setViewportView(jtblLoteDetalle);
 
-        jPanel8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel10.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        jLabel22.setPreferredSize(new java.awt.Dimension(10, 14));
-        jPanel8.add(jLabel22, java.awt.BorderLayout.LINE_START);
+        jLabel29.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel10.add(jLabel29, java.awt.BorderLayout.LINE_START);
 
-        jLabel21.setPreferredSize(new java.awt.Dimension(10, 14));
-        jPanel8.add(jLabel21, java.awt.BorderLayout.LINE_END);
+        jLabel30.setPreferredSize(new java.awt.Dimension(10, 10));
+        jPanel10.add(jLabel30, java.awt.BorderLayout.LINE_END);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel37.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel37.setText("Nombre Medicamento a Llenar:");
-        jPanel1.add(jLabel37);
+        jLabel31.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel31.setText("Lista de Lotes ");
+        jLabel31.setPreferredSize(new java.awt.Dimension(300, 30));
+        jPanel11.add(jLabel31);
 
-        jtfMedicamento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfMedicamento.setPreferredSize(new java.awt.Dimension(150, 30));
-        jtfMedicamento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfMedicamentoKeyReleased(evt);
-            }
-        });
-        jPanel1.add(jtfMedicamento);
+        jPanel10.add(jPanel11, java.awt.BorderLayout.PAGE_START);
 
-        jPanel8.add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setPreferredSize(new java.awt.Dimension(100, 35));
 
-        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("Click en el Medicamento a agregar");
-        jPanel8.add(jLabel15, java.awt.BorderLayout.PAGE_END);
-
-        headListaInventarioVoF.add(jPanel8, java.awt.BorderLayout.CENTER);
-
-        vista2.add(headListaInventarioVoF);
-
-        body3.setBackground(new java.awt.Color(255, 255, 255));
-        body3.setMaximumSize(new java.awt.Dimension(1990, 650));
-        body3.setMinimumSize(new java.awt.Dimension(200, 200));
-        body3.setPreferredSize(new java.awt.Dimension(900, 220));
-        body3.setLayout(new java.awt.BorderLayout());
-
-        base.setBackground(new java.awt.Color(255, 255, 255));
-        base.setPreferredSize(new java.awt.Dimension(900, 220));
-        base.setLayout(new java.awt.CardLayout());
-
-        vista1.setBackground(new java.awt.Color(255, 255, 255));
-        vista1.setMinimumSize(new java.awt.Dimension(900, 170));
-        vista1.setPreferredSize(new java.awt.Dimension(900, 220));
-        vista1.setLayout(new java.awt.BorderLayout());
-
-        jLabel38.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        vista1.add(jLabel38, java.awt.BorderLayout.CENTER);
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel8.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText("Precio Unitario de Venta:");
-        jLabel8.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 180, 25));
-
-        jtfPrecioUnitarioVenta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfPrecioUnitarioVenta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel4.add(jtfPrecioUnitarioVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 60, 140, 25));
-
-        jcbFechaVencimiento.setFormatoFecha("dd/MM/yyyy ");
-        jcbFechaVencimiento.setPlaceholder("Desde ");
-        jcbFechaVencimiento.setPreferredSize(new java.awt.Dimension(170, 30));
-        jPanel4.add(jcbFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 130, -1, 25));
-
-        jtfCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel4.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 90, 25));
-
-        jtfProductoFarmaceutico.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfProductoFarmaceutico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel4.add(jtfProductoFarmaceutico, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 120, 25));
-
-        jtfLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel4.add(jtfLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 110, 25));
-
-        jLabel7.setText("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        jLabel7.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 890, 10));
-
-        jLabel17.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel17.setText("Código del Lote:");
-        jLabel17.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 110, 25));
-
-        jLabel10.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel10.setText("Fecha Vencimiento:");
-        jLabel10.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 140, 25));
-
-        jLabel9.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel9.setText("Cantidad:");
-        jLabel9.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, 70, 25));
-
-        jLabel39.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel39.setText("Ingrese los datos correspondientes");
-        jPanel4.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, -1, -1));
-
-        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("Producto Farmaceutico:");
-        jLabel1.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 160, -1));
-
-        vista1.add(jPanel4, java.awt.BorderLayout.LINE_START);
-
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setPreferredSize(new java.awt.Dimension(100, 40));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setText("Click para modificar");
+        jLabel32.setMaximumSize(new java.awt.Dimension(400, 14));
+        jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
+        jPanel12.add(jLabel32);
 
         jButton2.setBackground(new java.awt.Color(0, 0, 0));
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("VER LOTES DEL MEDICAMENTO");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(jButton2);
+        jButton2.setText("GUARDAR");
+        jPanel12.add(jButton2);
 
-        jLabel2.setPreferredSize(new java.awt.Dimension(400, 14));
-        jPanel5.add(jLabel2);
+        jPanel10.add(jPanel12, java.awt.BorderLayout.PAGE_END);
 
-        jButton4.setBackground(new java.awt.Color(0, 0, 0));
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("AGREGAR");
-        jPanel5.add(jButton4);
+        jPanel9.add(jPanel10, java.awt.BorderLayout.CENTER);
 
-        vista1.add(jPanel5, java.awt.BorderLayout.PAGE_END);
+        jPanel7.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 900, 200));
 
-        base.add(vista1, "card2");
+        jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-        vista3.setBackground(new java.awt.Color(255, 255, 255));
-        vista3.setMinimumSize(new java.awt.Dimension(900, 170));
-        vista3.setPreferredSize(new java.awt.Dimension(900, 220));
-        vista3.setLayout(new java.awt.BorderLayout());
+        vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 40));
-
-        jLabel41.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel41.setText("Lista de los Lotes del Medicamento:");
-        jPanel2.add(jLabel41);
-
-        jLabel42.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel42.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel42.setText("amoxicilina");
-        jPanel2.add(jLabel42);
-
-        vista3.add(jPanel2, java.awt.BorderLayout.PAGE_START);
-
-        jLabel4.setPreferredSize(new java.awt.Dimension(10, 14));
-        vista3.add(jLabel4, java.awt.BorderLayout.LINE_START);
-
-        jLabel5.setPreferredSize(new java.awt.Dimension(10, 14));
-        vista3.add(jLabel5, java.awt.BorderLayout.LINE_END);
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(900, 40));
-
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("VOLVER");
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton1);
-
-        vista3.add(jPanel3, java.awt.BorderLayout.PAGE_END);
-
-        jtblLotesDetalle.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jtblLotesDetalle);
-
-        vista3.add(jScrollPane3, java.awt.BorderLayout.CENTER);
-
-        base.add(vista3, "card2");
-
-        body3.add(base, java.awt.BorderLayout.CENTER);
-
-        vista2.add(body3);
-
-        bodyCard.add(vista2, "card3");
+        bodyCard.add(vistaLlenar, "card3");
 
         add(bodyCard, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfMedicamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMedicamentoKeyReleased
-        llenar_tabla_de_inventarioOperaciones(getMedicamentosParecidos(jtfMedicamento.getText()));
-    }//GEN-LAST:event_jtfMedicamentoKeyReleased
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        vista3.setVisible(false);
-        vista1.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        vista3.setVisible(true);
-        vista1.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jtfProductoFarmaceuticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProductoFarmaceuticoKeyReleased
+       
+        for (int i = 0; i < Lista_Medicamento.size(); i++) {
+            if(jtfProductoFarmaceutico.getText().equals(Lista_Medicamento.get(i).getNombre())){                
+                jlblFormaFarmaceutica.setText(Lista_Medicamento.get(i).getForma_farmaceutica());
+                jlblConcentracion.setText(Lista_Medicamento.get(i).getConcentracion());
+            break;
+            }
+            jlblFormaFarmaceutica.setText("");
+            jlblConcentracion.setText("");
+            
+        }
+    }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel base;
-    private javax.swing.JPanel body3;
     private javax.swing.JPanel bodyCard;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
-    private javax.swing.JPanel headListaInventarioVoF;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private rojeru_san.componentes.RSDateChooser jcbFechaVencimiento;
-    private javax.swing.JTable jtblInventarioOperaciones;
-    private javax.swing.JTable jtblLotesDetalle;
-    private javax.swing.JTextField jtfCantidad;
-    private javax.swing.JTextField jtfLote;
-    private javax.swing.JTextField jtfMedicamento;
-    private javax.swing.JTextField jtfPrecioUnitarioVenta;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane4;
+    private rojeru_san.componentes.RSDateChooser jcbFechaVencimiento1;
+    private javax.swing.JLabel jlblConcentracion;
+    private javax.swing.JLabel jlblFormaFarmaceutica;
+    private javax.swing.JTable jtblLoteDetalle;
+    private javax.swing.JTextField jtfCantidad2;
+    private javax.swing.JTextField jtfLote3;
+    private javax.swing.JTextField jtfPrecioUnitarioVenta1;
     private javax.swing.JTextField jtfProductoFarmaceutico;
-    private javax.swing.JPanel vista1;
-    private javax.swing.JPanel vista2;
-    private javax.swing.JPanel vista3;
+    private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables
 
-   
-    public void llenar_tabla_de_inventarioOperaciones(List<Inventario> listaInventario){
-        DefaultTableModel modelo;
-        Object[] fila_actividad;
-             //.....................................TABLA......................................
-             String [] lista={"Código","Nombre","Cantidad","Precio Unitario"}; 
-             boolean[] canEdit = new boolean [] {false, false, false, false};
-             modelo=new DefaultTableModel(null,lista){
-                 boolean[] canEdit = new boolean [] {
-                     false, false, false, false
-                         };
-                 public boolean isCellEditable(int rowIndex, int columnIndex) {
-                     return canEdit [columnIndex];
-                     }
-                 };
-             //.....................................TABLA...........Fin......................
-            
-             fila_actividad=new Object[modelo.getColumnCount()];  
-             for (int i = 0; i < listaInventario.size(); i++){
-                 fila_actividad[0]=listaInventario.get(i).getId_Inventario();
-                 fila_actividad[1]=listaInventario.get(i).getId_Medicamento().getNombre();             
-                 fila_actividad[2]=listaInventario.get(i).getCantidad();  
-                 fila_actividad[3]=listaInventario.get(i).getId_Medicamento().getPrecio_Unitario();   
-                 
-                 modelo.addRow(fila_actividad);//agregando filas
-                 }
-             
-            jtblInventarioOperaciones.setModel(modelo); 
-            jtblInventarioOperaciones.setGridColor(Color.black);
-            //jTable1.setBackground(Color.red);
-            //jTable1.setForeground(Color.blue);
-            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-            tcr.setHorizontalAlignment(SwingConstants.CENTER);
-            jtblInventarioOperaciones.getColumnModel().getColumn(0).setCellRenderer(tcr);
-            jtblInventarioOperaciones.getColumnModel().getColumn(1).setCellRenderer(tcr);
-            jtblInventarioOperaciones.getColumnModel().getColumn(2).setCellRenderer(tcr);
-            jtblInventarioOperaciones.getColumnModel().getColumn(3).setCellRenderer(tcr);
-        
-   
-            jtblInventarioOperaciones.setFont(new java.awt.Font("Tahoma", 0, 15));
-            jtblInventarioOperaciones.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
-            jtblInventarioOperaciones.getTableHeader().setBackground(Color.BLUE);
-            jtblInventarioOperaciones.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblInventarioOperaciones.getColumnModel().getColumn(0).setPreferredWidth(154);
-            jtblInventarioOperaciones.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblInventarioOperaciones.getColumnModel().getColumn(2).setPreferredWidth(75);
-            jtblInventarioOperaciones.getColumnModel().getColumn(3).setPreferredWidth(125);            
-            ((DefaultTableCellRenderer)jtblInventarioOperaciones.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-            //864-550=64                  
-    }
     
     
     

@@ -351,9 +351,9 @@ public class Ver_inventario extends javax.swing.JPanel {
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código","Cantidad","Fecha de Vencimiento"}; 
+             String [] lista={"Código","Cantidad","P.V.R","Fecha de Vencimiento"}; 
              modelo=new DefaultTableModel(null,lista){
-                 boolean[] canEdit = new boolean [] {false, false, false};
+                 boolean[] canEdit = new boolean [] {false, false,false, false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
                      }
@@ -363,7 +363,8 @@ public class Ver_inventario extends javax.swing.JPanel {
              for (int i = 0; i < listaLote.size(); i++){
                  fila_actividad[0]=listaLote.get(i).getCodigo();
                  fila_actividad[1]=listaLote.get(i).getCantidad();             
-                 fila_actividad[2]=listaLote.get(i).getFecha_vencimiento();    
+                 fila_actividad[2]=listaLote.get(i).getPrecio_Venta_Redondeado();
+                 fila_actividad[3]=listaLote.get(i).getFecha_vencimiento();             
                  modelo.addRow(fila_actividad);//agregando filas
                  }
              
@@ -376,14 +377,16 @@ public class Ver_inventario extends javax.swing.JPanel {
             jtblLoteDetalle.getColumnModel().getColumn(0).setCellRenderer(tcr);
             jtblLoteDetalle.getColumnModel().getColumn(1).setCellRenderer(tcr);
             jtblLoteDetalle.getColumnModel().getColumn(2).setCellRenderer(tcr);
+            jtblLoteDetalle.getColumnModel().getColumn(3).setCellRenderer(tcr);
    
             jtblLoteDetalle.setFont(new java.awt.Font("Tahoma", 0, 15));
             jtblLoteDetalle.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblLoteDetalle.getTableHeader().setBackground(Color.BLUE);
             jtblLoteDetalle.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
             jtblLoteDetalle.getColumnModel().getColumn(0).setPreferredWidth(154);
-            jtblLoteDetalle.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblLoteDetalle.getColumnModel().getColumn(2).setPreferredWidth(75);           
+            jtblLoteDetalle.getColumnModel().getColumn(1).setPreferredWidth(150);
+            jtblLoteDetalle.getColumnModel().getColumn(2).setPreferredWidth(100);    
+            jtblLoteDetalle.getColumnModel().getColumn(3).setPreferredWidth(100);
             ((DefaultTableCellRenderer)jtblLoteDetalle.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  
     }
@@ -392,7 +395,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código","Nombre","Cantidad","Precio Unitario"}; 
+             String [] lista={"Código","Nombre","Cantidad"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
                      false, false, false, false
@@ -408,7 +411,7 @@ public class Ver_inventario extends javax.swing.JPanel {
                  fila_actividad[0]=listaInventario.get(i).getId_Inventario();
                  fila_actividad[1]=listaInventario.get(i).getId_Medicamento().getNombre();             
                  fila_actividad[2]=listaInventario.get(i).getCantidad();  
-                 fila_actividad[3]=listaInventario.get(i).getId_Medicamento().getPrecio_Unitario();   
+              
                  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
@@ -422,7 +425,7 @@ public class Ver_inventario extends javax.swing.JPanel {
             jtblInventarioOperaciones.getColumnModel().getColumn(0).setCellRenderer(tcr);
             jtblInventarioOperaciones.getColumnModel().getColumn(1).setCellRenderer(tcr);
             jtblInventarioOperaciones.getColumnModel().getColumn(2).setCellRenderer(tcr);
-            jtblInventarioOperaciones.getColumnModel().getColumn(3).setCellRenderer(tcr);
+        
         
    
             jtblInventarioOperaciones.setFont(new java.awt.Font("Tahoma", 0, 15));
@@ -431,8 +434,7 @@ public class Ver_inventario extends javax.swing.JPanel {
             jtblInventarioOperaciones.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
             jtblInventarioOperaciones.getColumnModel().getColumn(0).setPreferredWidth(154);
             jtblInventarioOperaciones.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblInventarioOperaciones.getColumnModel().getColumn(2).setPreferredWidth(75);
-            jtblInventarioOperaciones.getColumnModel().getColumn(3).setPreferredWidth(125);            
+            jtblInventarioOperaciones.getColumnModel().getColumn(2).setPreferredWidth(75);              
             ((DefaultTableCellRenderer)jtblInventarioOperaciones.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  
     }
