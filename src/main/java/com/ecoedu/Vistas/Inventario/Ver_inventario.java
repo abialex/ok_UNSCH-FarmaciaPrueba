@@ -116,6 +116,8 @@ public class Ver_inventario extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jlblNombreMedicamento = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -288,6 +290,16 @@ public class Ver_inventario extends javax.swing.JPanel {
 
         jPanel6.add(jPanel7, java.awt.BorderLayout.PAGE_START);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("Si el medicamento no aparece es porque no le llenaron  el inventario");
+        jPanel2.add(jLabel16);
+
+        jPanel6.add(jPanel2, java.awt.BorderLayout.PAGE_END);
+
         body3.add(jPanel6, java.awt.BorderLayout.CENTER);
 
         vista2.add(body3);
@@ -328,6 +340,7 @@ public class Ver_inventario extends javax.swing.JPanel {
     private javax.swing.JPanel headListaInventarioVoF;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -335,6 +348,7 @@ public class Ver_inventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -392,6 +406,7 @@ public class Ver_inventario extends javax.swing.JPanel {
     }
    
     public void llenar_tabla_de_inventarioOperaciones(List<Inventario> listaInventario){
+        System.out.println(listaInventario.size()+"----------------------------");
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................

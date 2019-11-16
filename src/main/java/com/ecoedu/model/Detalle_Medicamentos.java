@@ -41,7 +41,7 @@ public class Detalle_Medicamentos {
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
    
-    @Column(name="precio_Total",nullable = false)
+    @Column(name="precio_Total",nullable = true)
     private float  precio_Total;
     
     @Column(name="cantidad",nullable = false)
@@ -61,8 +61,6 @@ public class Detalle_Medicamentos {
         this.lote_detalle = lote_detalle;
     }
     
-    
-
     public Date getFecha() {
         return fecha;
     }

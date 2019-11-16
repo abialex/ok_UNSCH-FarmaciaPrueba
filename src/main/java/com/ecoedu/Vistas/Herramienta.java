@@ -23,6 +23,14 @@ public class Herramienta {
         System.out.println(formato1.format(a));
         return formato1.format(a);        
     }
+    public static String unDecimales(float a){
+        System.out.println(a+"s");
+        DecimalFormatSymbols separador = new DecimalFormatSymbols();
+        separador.setDecimalSeparator('.');
+        DecimalFormat formato1 = new DecimalFormat("#0.0", separador);
+        System.out.println(formato1.format(a));
+        return formato1.format(a);        
+    }
     public static String formatoFecha(Date fecha){
         return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth())+"-"+conOsin0(fecha.getDate());
     }

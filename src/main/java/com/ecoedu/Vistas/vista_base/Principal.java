@@ -9,6 +9,7 @@ import com.ecoedu.Vistas.Consultas.Consultas;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
 import com.ecoedu.Vistas.Inventario.LlenarInventario;
 import com.ecoedu.Vistas.Inventario.Ver_inventario;
+import com.ecoedu.Vistas.Medicamento.OperacionesMedicamento;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
@@ -30,6 +31,7 @@ public class Principal extends javax.swing.JFrame {
    private Detalle_Inventario objDetalle_Inventario;
    private LlenarInventario objLlenarInventario;
    private Ver_inventario objVer_inventario;
+   private OperacionesMedicamento objOperacionesMedicamento;
    
    
    private Color colorMoved=new Color(4,20,25);
@@ -39,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.jpa=OBJjpa;
         this.user=OBJuser;
+        this.objOperacionesMedicamento=new OperacionesMedicamento(OBJjpa, this);
         this.objServicioFarmacia=new ServicioFarmacia(jpa,this,user);
         this.objBusquedaVentas=new Consultas(jpa);
         this.objLlenarInventario=new LlenarInventario(jpa, this);
@@ -57,6 +60,8 @@ public class Principal extends javax.swing.JFrame {
         bodyContenedor.add(objLlenarInventario);
         bodyContenedor.validate();
         bodyContenedor.add(objVer_inventario);
+        bodyContenedor.validate();
+        bodyContenedor.add(objOperacionesMedicamento);
         bodyContenedor.validate();
         
      
@@ -435,6 +440,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jleftMedicina_CrearModificarMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftMedicina_CrearModificarMedicamentoMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jleftMedicina_CrearModificarMedicamentoMouseExited(evt);
             }
@@ -536,7 +544,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Crear/Modificar Estudiante");
+        jLabel18.setText("Datos Estudiante");
         jLabel18.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftEstudiante_CrearModificarEstudiante.add(jLabel18, java.awt.BorderLayout.CENTER);
 
@@ -742,7 +750,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel25.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel25.setText("Administrar Rol");
+        jLabel25.setText("Modificar Usuario");
         jLabel25.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftUsuario_AdministrarRol.add(jLabel25, java.awt.BorderLayout.CENTER);
 
@@ -768,10 +776,10 @@ public class Principal extends javax.swing.JFrame {
         jlefProveedorYfabrecante.setLayout(new java.awt.BorderLayout());
 
         jLabel26.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel26.setText("Usuario");
+        jLabel26.setText("Proveedor y Fabricante");
         jLabel26.setPreferredSize(new java.awt.Dimension(200, 50));
         jlefProveedorYfabrecante.add(jLabel26, java.awt.BorderLayout.CENTER);
 
@@ -809,7 +817,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel28.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setText("Crear Usuario");
+        jLabel28.setText("Crear/Modicar Proveedor");
         jLabel28.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftUsuario_CrearModificarUser1.add(jLabel28, java.awt.BorderLayout.CENTER);
 
@@ -833,7 +841,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setText("Administrar Rol");
+        jLabel29.setText("Crear/Modicar Fabricante");
         jLabel29.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftUsuario_AdministrarRol1.add(jLabel29, java.awt.BorderLayout.CENTER);
 
@@ -905,6 +913,7 @@ public class Principal extends javax.swing.JFrame {
         objBusquedaVentas.setVisible(false);
         objLlenarInventario.setVisible(false);
         objServicioFarmacia.setVisible(true);       
+        objOperacionesMedicamento.setVisible(false);
        
         
                 
@@ -948,9 +957,11 @@ public class Principal extends javax.swing.JFrame {
         
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
-        objAgregarMedi.setVisible(false);
+        objAgregarMedi.setVisible(false);        
         objBusquedaVentas.setVisible(true);
-        objServicioFarmacia.setVisible(false);
+        objLlenarInventario.setVisible(false);
+        objServicioFarmacia.setVisible(true); 
+        objOperacionesMedicamento.setVisible(false);
         
         if(jtfsub_Consultas.isShowing()){
       jlblConsultasFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
@@ -1024,6 +1035,7 @@ public class Principal extends javax.swing.JFrame {
       objAgregarMedi.setVisible(false);        
       objBusquedaVentas.setVisible(false);
       objServicioFarmacia.setVisible(false);
+      objOperacionesMedicamento.setVisible(false);
     }//GEN-LAST:event_jleftInventario_llenarInventarioMouseClicked
 
     private void jleftInventario_detalleInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_detalleInventarioMouseClicked
@@ -1035,6 +1047,7 @@ public class Principal extends javax.swing.JFrame {
       objAgregarMedi.setVisible(false);        
       objBusquedaVentas.setVisible(false);
       objServicioFarmacia.setVisible(false);
+      objOperacionesMedicamento.setVisible(false);
     }//GEN-LAST:event_jleftInventario_detalleInventarioMouseClicked
 
     private void jleftEstudiante_CrearModificarEstudianteMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_CrearModificarEstudianteMouseMoved
@@ -1082,6 +1095,7 @@ public class Principal extends javax.swing.JFrame {
         objBusquedaVentas.setVisible(false);
         objLlenarInventario.setVisible(false);
         objServicioFarmacia.setVisible(false); 
+        objOperacionesMedicamento.setVisible(false);
     }//GEN-LAST:event_jleftInventario_verInventarioMouseClicked
 
     private void jleftInventario_verInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseExited
@@ -1152,9 +1166,20 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jleftUsuario_AdministrarRol1MouseExited
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jleftMedicina_CrearModificarMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_CrearModificarMedicamentoMouseClicked
+        bodyContenedor.setVisible(true);        
+        objVer_inventario.setVisible(false);
+        objDetalle_Inventario.setVisible(false);
+        objAgregarMedi.setVisible(false);        
+        objBusquedaVentas.setVisible(false);
+        objLlenarInventario.setVisible(false);
+        objServicioFarmacia.setVisible(false);
+        objOperacionesMedicamento.setVisible(true);
+    }//GEN-LAST:event_jleftMedicina_CrearModificarMedicamentoMouseClicked
+
+    public Usuario getUsuario(){
+        return user;
+    } 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
