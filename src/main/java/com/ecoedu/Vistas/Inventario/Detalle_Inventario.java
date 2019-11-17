@@ -1,6 +1,7 @@
 package com.ecoedu.Vistas.Inventario;
 
 
+import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Detalle_llenado;
 import java.awt.Color;
@@ -369,9 +370,9 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Fecha de Registro","Química(o)","Medicamento","Código Lote","Cantidad","Fecha Vencimiento"}; 
+             String [] lista={"Fecha de Registro","Química(o)","Producto Farmaceutico","Cantidad","P.U","P.V.R","Código"}; 
              modelo=new DefaultTableModel(null,lista){
-                 boolean[] canEdit = new boolean [] {false, false, false, false,false,false};
+                 boolean[] canEdit = new boolean [] {false, false, false, false,false,false,false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
                      }
@@ -380,12 +381,14 @@ public class Detalle_Inventario extends javax.swing.JPanel {
             
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = 0; i < listaDetalleLlenado.size(); i++){
-                 fila_actividad[0]=listaDetalleLlenado.get(i).getFecha_de_registro();
+                 fila_actividad[0]=Herramienta.formatoFecha(listaDetalleLlenado.get(i).getFecha_de_registro());
                  fila_actividad[1]=listaDetalleLlenado.get(i).getUsuario().getPersona().getInfoPersona();
-                 fila_actividad[2]=listaDetalleLlenado.get(i).getMedicamento().getNombre();             
-                 fila_actividad[3]=listaDetalleLlenado.get(i).getLote_detalle().getCodigo();  
-                 fila_actividad[4]=listaDetalleLlenado.get(i).getLote_detalle().getCantidad();   
-                 fila_actividad[5]=listaDetalleLlenado.get(i).getLote_detalle().getFecha_vencimiento(); 
+                 fila_actividad[2]=listaDetalleLlenado.get(i).getMedicamento().getNombre(); 
+                 fila_actividad[3]=listaDetalleLlenado.get(i).getCantidad(); 
+                 fila_actividad[4]=listaDetalleLlenado.get(i).getPrecio_unitario();
+                 fila_actividad[5]=listaDetalleLlenado.get(i).getLote_detalle().getPrecio_Venta_Redondeado();
+                 fila_actividad[6]=listaDetalleLlenado.get(i).getLote_detalle().getCodigo();  
+
                  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
@@ -402,6 +405,8 @@ public class Detalle_Inventario extends javax.swing.JPanel {
             jtblDetalle_Llenado.getColumnModel().getColumn(3).setCellRenderer(tcr);
             jtblDetalle_Llenado.getColumnModel().getColumn(4).setCellRenderer(tcr);
             jtblDetalle_Llenado.getColumnModel().getColumn(5).setCellRenderer(tcr);
+            jtblDetalle_Llenado.getColumnModel().getColumn(6).setCellRenderer(tcr);
+   
         
    
             jtblDetalle_Llenado.setFont(new java.awt.Font("Tahoma", 0, 15));
@@ -414,6 +419,8 @@ public class Detalle_Inventario extends javax.swing.JPanel {
             jtblDetalle_Llenado.getColumnModel().getColumn(3).setPreferredWidth(125);  
             jtblDetalle_Llenado.getColumnModel().getColumn(4).setPreferredWidth(125);  
             jtblDetalle_Llenado.getColumnModel().getColumn(5).setPreferredWidth(125);  
+            jtblDetalle_Llenado.getColumnModel().getColumn(6).setPreferredWidth(50);
+            
             ((DefaultTableCellRenderer)jtblDetalle_Llenado.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  
     }

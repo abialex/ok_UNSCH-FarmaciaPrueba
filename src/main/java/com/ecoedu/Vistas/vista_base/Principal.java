@@ -1027,15 +1027,16 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftMedicamentoMouseExited
 
     private void jleftInventario_llenarInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_llenarInventarioMouseClicked
-      bodyContenedor.setVisible(true); 
-            
+      bodyContenedor.setVisible(true);             
       objVer_inventario.setVisible(false);
-      objLlenarInventario.setVisible(true);
       objDetalle_Inventario.setVisible(false);
       objAgregarMedi.setVisible(false);        
       objBusquedaVentas.setVisible(false);
       objServicioFarmacia.setVisible(false);
       objOperacionesMedicamento.setVisible(false);
+      objLlenarInventario.ConsultaBD();
+      objLlenarInventario.principalEjecucion();
+      objLlenarInventario.setVisible(true);
     }//GEN-LAST:event_jleftInventario_llenarInventarioMouseClicked
 
     private void jleftInventario_detalleInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_detalleInventarioMouseClicked
@@ -1089,13 +1090,15 @@ public class Principal extends javax.swing.JFrame {
     private void jleftInventario_verInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseClicked
         bodyContenedor.setVisible(true);
         
-        objVer_inventario.setVisible(true);
         objDetalle_Inventario.setVisible(false);
         objAgregarMedi.setVisible(false);        
         objBusquedaVentas.setVisible(false);
         objLlenarInventario.setVisible(false);
         objServicioFarmacia.setVisible(false); 
         objOperacionesMedicamento.setVisible(false);
+        objVer_inventario.ConsultaBD();
+        objVer_inventario.principalEjecucion();
+        objVer_inventario.setVisible(true);
     }//GEN-LAST:event_jleftInventario_verInventarioMouseClicked
 
     private void jleftInventario_verInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseExited

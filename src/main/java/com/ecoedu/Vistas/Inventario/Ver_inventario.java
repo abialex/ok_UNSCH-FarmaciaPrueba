@@ -33,9 +33,6 @@ public class Ver_inventario extends javax.swing.JPanel {
         initComponents();
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
-        ConsultaBD();
-        principalEjecucion(); 
-           
     }
     public void ConsultaBD(){
         Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
@@ -45,8 +42,6 @@ public class Ver_inventario extends javax.swing.JPanel {
          desglozarDatos();
         llenar_tabla_de_inventarioOperaciones(getMedicamentosParecidos(""));
         llenar_tabla_LoteDetalle(new ArrayList<Lote_detalle>());
-        
-        
     }
     public void desglozarDatos(){
          //Lista_Inventario

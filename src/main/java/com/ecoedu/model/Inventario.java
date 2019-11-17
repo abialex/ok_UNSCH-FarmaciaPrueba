@@ -54,6 +54,11 @@ public class Inventario {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+    public Inventario agregarCantidad(int cant){
+        this.cantidad=cantidad+cant;
+        return this;
+    }
+            
     
     
     

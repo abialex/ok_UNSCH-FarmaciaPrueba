@@ -196,7 +196,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane4.setPreferredSize(new java.awt.Dimension(452, 100));
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(452, 200));
 
         jtblMedicamento.setBorder(new javax.swing.border.MatteBorder(null));
         jtblMedicamento.setModel(new javax.swing.table.DefaultTableModel(
@@ -227,9 +227,8 @@ public class OperacionesMedicamento extends javax.swing.JPanel {
             }
         ));
         jtblMedicamento.setGridColor(new java.awt.Color(0, 0, 0));
+        jtblMedicamento.setMaximumSize(new java.awt.Dimension(2147483647, 32312310));
         jtblMedicamento.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblMedicamento.setPreferredSize(new java.awt.Dimension(200, 100));
-        jtblMedicamento.setRequestFocusEnabled(false);
         jScrollPane4.setViewportView(jtblMedicamento);
 
         jPanel10.add(jScrollPane4, java.awt.BorderLayout.CENTER);
@@ -294,8 +293,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel {
         jpa.persist(objMedicamento);
         jpa.refresh(objMedicamento);
         objInventario.setId_Medicamento(objMedicamento);
-        jpa.persist(objInventario);
-        
+        jpa.persist(objInventario);        
         jpa.getTransaction().commit();
         ConsultaBD();
         jtfConcentracion.setText("");
