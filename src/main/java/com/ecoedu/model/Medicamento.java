@@ -13,14 +13,14 @@ public class Medicamento{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Medicamento;  
     
-    @Column(name="nombre",length = 100,nullable = false)
+    @Column(name="nombre",unique = true,length = 100,nullable = false)
     private String  nombre;
     
     
-    @Column(name="forma_farmaceutica",nullable = true)
+    @Column(name="forma_farmaceutica",nullable = false)
     private String forma_farmaceutica;
     
-    @Column(name="concentracion",nullable = true)
+    @Column(name="concentracion",nullable = false)
     private String concentracion;
 
     public String getConcentracion() {
@@ -31,8 +31,6 @@ public class Medicamento{
         this.concentracion = concentracion;
     }
     
-    
-
     public String getForma_farmaceutica() {
         return forma_farmaceutica;
     }

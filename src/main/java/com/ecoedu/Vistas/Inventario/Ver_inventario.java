@@ -360,7 +360,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código","Cantidad","P.V.R","Fecha de Vencimiento"}; 
+             String [] lista={"Código Lote","Cantidad","P.V.R","Fecha de Vencimiento"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {false, false,false, false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -21,9 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-
-
 /*
 1-agregar registrar un medicamento nuevo,cantidad,precio;
 2-agregar cantidad a un medicamento ya existente;
@@ -45,9 +42,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     TextAutoCompleter autoCompleterProductoFarmaceutico;
     TextAutoCompleter autoCompleterFabricante;
     TextAutoCompleter autoCompleterProveedor;
-    //--
-    Inventario objInventario_final=new Inventario();    
-    
+    Inventario objInventario_final=new Inventario();        
     public LlenarInventario(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.autoCompleterProductoFarmaceutico=new TextAutoCompleter(jtfProductoFarmaceutico, new AutoCompleterCallback(){
@@ -109,7 +104,6 @@ public class LlenarInventario extends javax.swing.JPanel {
         }  
         jlblFechaHoy.setText(Herramienta.formatoFechaMas1(new Date()));
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -480,8 +474,7 @@ public class LlenarInventario extends javax.swing.JPanel {
             jlblFormaFarmaceutica.setText("");
             jlblConcentracion.setText("");  
         }        
-    }  
-    
+    }      
     private void jtfProductoFarmaceuticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProductoFarmaceuticoKeyReleased
         encontrarMedicamento("");       
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
@@ -594,7 +587,6 @@ public class LlenarInventario extends javax.swing.JPanel {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
          Factura objFactura=new Factura();
-         Inventario objInventario_abd=new Inventario();
          //factura
          Proveedor objProveedor = new Proveedor();
          //codigo_factura

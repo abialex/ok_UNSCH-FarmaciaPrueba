@@ -134,7 +134,7 @@ public class Login extends javax.swing.JPanel {
 
         jtfUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtfUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfUsuario.setText("azul_13");
+        jtfUsuario.setText("farmacia01");
         jtfUsuario.setPreferredSize(new java.awt.Dimension(300, 30));
         jtfUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -32,28 +31,24 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     EntityManager jpa;
     CuadroCarritoMedicinas objCuadroCarritoMedicinas;
     List<Inventario> list_Inventario=new ArrayList<>();
-    List<Lote_detalle> list_Lote_detalle=new ArrayList<>();
+    List<Lote_detalle> list_Lote_detalle;
     Detalle_Medicamentos objDetalle_Medicamento_Final=new Detalle_Medicamentos();
     ServicioFarmacia objServicioFarmacia;
-    public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia){     
+    public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia){
         initComponents();
         this.jpa=objJpa;
         this.objServicioFarmacia=OBJServicioFarmacia;
         this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
-        ConsultaBD();
-        principalEjecucion();
-        
-    }   
-    
-    public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
-         list_Lote_detalle=query1.getResultList();          
-    }
+        principalEjecucion();        
+    }       
+  
     public void principalEjecucion(){
+        list_Lote_detalle=objServicioFarmacia.getListaInventario();
         desglozarDatos(); 
-        llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));    
-         
-     } 
+        llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));
+        
+     }
+    
     public void desglozarDatos(){
          //lista_Inventario
          for (int i = 1; i < list_Lote_detalle.size(); i++){
@@ -73,8 +68,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         List<Inventario> listaInventario=new ArrayList<>();
         for (int n = 0; n < list_Inventario.size(); n++) {
             boolean aux=true;
-            for (int i = 0; i<palabra.length(); i++) {
-               
+            for (int i = 0; i<palabra.length(); i++) {               
                 if(palabra.charAt(i)!=list_Inventario.get(n).getId_Medicamento().getNombre().charAt(i)){
                     aux=false;
                     break;                   
@@ -380,9 +374,10 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         id_Medicamento
         id_Lote_Detalle
         fecha
-        (no va "cantidad" )
-        (no va "precio total" )
-        precio_total
+        ( va "cantidad" en botton guardar)
+        ( va "precio total" en botton guardar)
+        (no va "id_receta")
+        (na va "id usuario")
         precio_unitario
         */
     }//GEN-LAST:event_jtlblInventarioMouseClicked
@@ -390,11 +385,10 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     private void jtfMedicamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMedicamentoKeyReleased
         llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(jtfMedicamento.getText())); 
     }//GEN-LAST:event_jtfMedicamentoKeyReleased
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(!jtfCantidad.getText().equals("")){
         objDetalle_Medicamento_Final.setCantidad(Integer.parseInt(jtfCantidad.getText()));
-        objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));
+        objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));        
         objServicioFarmacia.getListaCarritos(objDetalle_Medicamento_Final);  
         objCuadroCarritoMedicinas.setVisible(false);
         }

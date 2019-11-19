@@ -33,7 +33,7 @@ public class Estudiante{
     @ManyToOne(cascade = CascadeType.ALL)
     private Escuela escuela;
     
-    @Column(name="codigo",length = 8,nullable = false)
+    @Column(name="codigo",unique = true,length = 8,nullable = false)
     private String codigo;
     
     @Column(name="serie",length = 3,nullable = false)

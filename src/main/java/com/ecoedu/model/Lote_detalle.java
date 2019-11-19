@@ -29,15 +29,15 @@ public class Lote_detalle{
     @ManyToOne(cascade = CascadeType.ALL)
     private Inventario inventario;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Fabricante",nullable = true)
+    @JoinColumn(insertable = true,updatable = false,name="id_Fabricante",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Fabricante fabricante;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Factura",nullable = true)
+    @JoinColumn(insertable = true,updatable = false,name="id_Factura",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Factura factura;
     
-    @Column(name = "Precio_Venta_Redondeado",nullable = true)
+    @Column(name = "Precio_Venta_Redondeado",nullable = false)
     private float precio_Venta_Redondeado;
     
     @Column(name="fecha_vencimiento",nullable = false)
@@ -111,6 +111,10 @@ public class Lote_detalle{
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+    public Lote_detalle quitarCantidad(int cant){
+        this.cantidad=cantidad-cant;
+        return this;
     }
 
 

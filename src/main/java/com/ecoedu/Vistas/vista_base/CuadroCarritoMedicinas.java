@@ -7,6 +7,8 @@ package com.ecoedu.Vistas.vista_base;
 
 import com.ecoedu.Vistas.ServicioFarmacia.Cantidad_Medicinas;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
+import com.ecoedu.model.Lote_detalle;
+import java.util.List;
 import javax.persistence.EntityManager;
 /**
  *
@@ -16,7 +18,8 @@ public class CuadroCarritoMedicinas extends javax.swing.JFrame {
     Cantidad_Medicinas objCantMedicinas;
     EntityManager jpa;    
     
-    public CuadroCarritoMedicinas(EntityManager objJPA,ServicioFarmacia objServicioFarmacia){            
+    public CuadroCarritoMedicinas(EntityManager objJPA,ServicioFarmacia objServicioFarmacia){ 
+        
         initComponents();
         this.objCantMedicinas=new Cantidad_Medicinas(objJPA, this, objServicioFarmacia);
         contenedor.add(objCantMedicinas);     

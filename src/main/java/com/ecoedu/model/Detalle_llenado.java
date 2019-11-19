@@ -33,7 +33,7 @@ public class Detalle_llenado {
     @ManyToOne(cascade = CascadeType.ALL)
     private Medicamento medicamento;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,unique = true,name="id_Lote_detalle",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Lote_detalle lote_detalle;
     

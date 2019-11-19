@@ -31,18 +31,31 @@ public class Receta{
     private Control_paciente control_Paciente;    
     
     @Column(name="diagnostico",length = 300,nullable = false)
-    private String  diagnostico;
+    private String  detalles_diagnostico;
     
     @JoinColumn(insertable = true,updatable = false,name="id_procedencia",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Procedencia  procedencia;
     
+    @JoinColumn(insertable = true,updatable = false,name="id_DiagnosticoCodigo",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Diagnostico  diagnostico;
+        
     @Column(name="fecha_creada",nullable = false)
     private Date  fecha_creada;
     
     @Column(name="total_costo_medicinas",nullable = false)
     private float  total_costo_medicinas;   
+    
+    
 
+    public Diagnostico getDiagnosito(){
+        return diagnostico;
+    }
+    public void setDiagnostico(Diagnostico diag){
+        this.diagnostico=diag;
+    }
+    
     public Control_paciente getControl_Paciente() {
         return control_Paciente;
     }
@@ -57,11 +70,7 @@ public class Receta{
 
     public void setProcedencia(Procedencia procedencia) {
         this.procedencia = procedencia;
-    }
-
-
-    
-    
+    }  
 
     public float getTotal_costo_medicinas() {
         return total_costo_medicinas;
@@ -69,9 +78,7 @@ public class Receta{
 
     public void setTotal_costo_medicinas(float total_costo_medicinas) {
         this.total_costo_medicinas = total_costo_medicinas;
-    }
-    
-        
+    }     
 
     public int getId_Diagnostico() {
         return id_Diagnostico;
@@ -82,11 +89,11 @@ public class Receta{
     }
 
     public String getDiagnostico() {
-        return diagnostico;
+        return detalles_diagnostico;
     }
 
     public void setDiagnostico(String diagnostico) {
-        this.diagnostico = diagnostico;
+        this.detalles_diagnostico = diagnostico;
     }
 
     public Date getFecha_creada() {

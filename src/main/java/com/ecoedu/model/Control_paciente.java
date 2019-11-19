@@ -31,6 +31,19 @@ public class Control_paciente{
     @Column(name="monto_Total",nullable = false)
     private float  monto_Total;
 
+    @Column(name="iSactivo",nullable = false)
+    private boolean  iSactivo;
+
+    public boolean isiSactivo(){
+        return iSactivo;
+    }
+
+    public void setiSactivo(boolean iSactivo) {
+        this.iSactivo = iSactivo;
+    }
+    
+    
+    
     public int getId_Control_paciente() {
         return id_Control_paciente;
     }
@@ -53,6 +66,10 @@ public class Control_paciente{
 
     public void setMonto_Total(float monto_Total) {
         this.monto_Total = monto_Total;
+    }
+    public Control_paciente agregarPrecioTotal(float precio_total){
+        this.monto_Total=monto_Total+precio_total;
+        return this;
     }
     
     

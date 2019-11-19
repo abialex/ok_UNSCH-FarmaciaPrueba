@@ -41,7 +41,7 @@ public class Detalle_Medicamentos {
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
    
-    @Column(name="precio_Total",nullable = true)
+    @Column(name="precio_Total",nullable = false)
     private float  precio_Total;
     
     @Column(name="cantidad",nullable = false)

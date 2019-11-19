@@ -58,6 +58,10 @@ public class Inventario {
         this.cantidad=cantidad+cant;
         return this;
     }
+    public Inventario quitarCantidad(int cant){
+        this.cantidad=cantidad-cant;
+        return this;
+    }
             
     
     

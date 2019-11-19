@@ -56,7 +56,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel {
                  };
              //.....................................TABLA...........Fin......................          
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (int i = listaMedicamento.size()-1; 0 < i; i--){
+             for (int i = listaMedicamento.size()-1; 0 <= i; i--){
                  fila_actividad[0]=listaMedicamento.get(i).getNombre();
                  fila_actividad[1]=listaMedicamento.get(i).getConcentracion();             
                  fila_actividad[2]=listaMedicamento.get(i).getForma_farmaceutica();             

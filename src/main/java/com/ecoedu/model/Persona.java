@@ -32,7 +32,7 @@ public class Persona{
     private String  apellido_Materno;
     
     
-    @Column(name="dni",length = 8,nullable = false)
+    @Column(name="dni",length = 8,unique = true,nullable = false)
     private String  dni;
 
     public int getId_Persona() {
