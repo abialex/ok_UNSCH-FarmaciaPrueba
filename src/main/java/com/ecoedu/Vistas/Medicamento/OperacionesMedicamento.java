@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.Medicamento;
 
 
 
+import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Inventario;
 import java.util.List;
@@ -22,15 +23,17 @@ import javax.swing.table.DefaultTableModel;
 2-agregar cantidad a un medicamento ya existente;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
-public class OperacionesMedicamento extends javax.swing.JPanel {   
+public class OperacionesMedicamento extends javax.swing.JPanel{   
     List<Medicamento> Lista_Medicamento;
     EntityManager jpa;
     Principal objPrincipal;
+
     
     public OperacionesMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
+        
         ConsultaBD();
         principalEjecucion(); 
            
@@ -41,6 +44,9 @@ public class OperacionesMedicamento extends javax.swing.JPanel {
     }   
     public void principalEjecucion(){  
         llenar_tabla_Medicamento(Lista_Medicamento);
+        jtfProductoFarmaceutico.setDocument(new soloMayusculas());
+        jtfFormaFarmaceutica.setDocument(new soloMayusculas());
+        jtfConcentracion.setDocument(new soloMayusculas());
     }
 
     public void llenar_tabla_Medicamento(List<Medicamento> listaMedicamento){

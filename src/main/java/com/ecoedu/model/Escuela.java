@@ -22,7 +22,7 @@ public class Escuela {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Escuela;
     
-    @Column(name="nombre",length = 100,nullable = false)
+    @Column(name="nombre",unique = true,length = 100,nullable = false)
     private String nombre;
 
     public int getId_Escuela() {

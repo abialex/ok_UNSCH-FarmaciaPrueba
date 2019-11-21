@@ -7,9 +7,9 @@
     <class>com.ecoedu.model.Detalle_servicio_social</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://34.67.179.220:1433;databaseName=boticaPrueba"/>
-      <property name="javax.persistence.jdbc.user" value="sqlserver"/>
-      <property name="javax.persistence.jdbc.password" value="metileno300"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=boticaPruba"/>
+      <property name="javax.persistence.jdbc.user" value="AlexRecordatorio"/>
+      <property name="javax.persistence.jdbc.password" value="12345"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="none"/>
     </properties>

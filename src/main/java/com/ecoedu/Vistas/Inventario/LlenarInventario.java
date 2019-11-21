@@ -29,12 +29,9 @@ import javax.swing.table.DefaultTableModel;
 public class LlenarInventario extends javax.swing.JPanel {   
     String MensajeProductoFarmaceutico="";
     String MensajeFabricante="";
-    List<Lote_detalle> Lista_Lote_detlle;
-    List<Inventario> Lista_Inventario;
-    
+    List<Inventario> Lista_Inventario;    
     List<Lote_detalle> Lista_Lote_detalle_final=new ArrayList<>();
-    List<Detalle_llenado> Lista_Detalle_Llenado_final=new ArrayList<>();
-    
+    List<Detalle_llenado> Lista_Detalle_Llenado_final=new ArrayList<>();    
     List<Proveedor> Lista_Proveedor=new ArrayList<>();//lo uso mucho
     List<Fabricante> Lista_Fabricante=new ArrayList<>();//lo uso mucho 
     EntityManager jpa;
@@ -58,38 +55,17 @@ public class LlenarInventario extends javax.swing.JPanel {
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;     
     }
-    public void desglozarDatos(){       
-        for (int i = 0; i < Lista_Lote_detlle.size();i++){
-            boolean auxProveedor=true;
-            boolean auxFabricante=true;
-            for (int j = 0; j < Lista_Proveedor.size(); j++){
-                if(Lista_Proveedor.get(j)==Lista_Lote_detlle.get(i).getFactura().getProveedor()){
-                    auxProveedor=false;		
-                    break;
-                    }
-                }
-            for (int j = 0; j < Lista_Fabricante.size(); j++){
-                if(Lista_Fabricante.get(j)==Lista_Lote_detlle.get(i).getFabricante()){
-                    auxFabricante=false;	
-                    break;
-                    }
-                }
-            if(auxProveedor){
-                Lista_Proveedor.add(Lista_Lote_detlle.get(i).getFactura().getProveedor());
-                }
-            if(auxFabricante){
-                Lista_Fabricante.add(Lista_Lote_detlle.get(i).getFabricante());
-                }
-            }//fin for
-        }            
+              
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
-        Lista_Lote_detlle=query1.getResultList();
         Query query2=jpa.createQuery("SELECT p FROM Inventario p");
         Lista_Inventario=query2.getResultList();
+        Query query3=jpa.createQuery("SELECT p FROM Fabricante p");
+        Lista_Fabricante=query3.getResultList();        
+        Query query4=jpa.createQuery("SELECT p FROM Proveedor p");
+        Lista_Proveedor=query4.getResultList();
     }   
     public void principalEjecucion(){
-        desglozarDatos();
+        llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
         autoCompleterFabricante.removeAllItems();
         autoCompleterProductoFarmaceutico.removeAllItems();
         autoCompleterProveedor.removeAllItems();
@@ -240,6 +216,9 @@ public class LlenarInventario extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfPrecioUnitarioCompraKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfPrecioUnitarioCompraKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfPrecioUnitarioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 90, 50, 25));
 
@@ -266,6 +245,11 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jtfCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCantidadKeyTyped(evt);
+            }
+        });
         jPanel7.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, 50, 25));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -313,6 +297,11 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jtfFabricante.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfFabricante.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfFabricante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfFabricanteKeyTyped(evt);
+            }
+        });
         jPanel7.add(jtfFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 120, 25));
 
         jButton3.setBackground(new java.awt.Color(0, 0, 0));
@@ -402,6 +391,11 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfProveedor.setMinimumSize(new java.awt.Dimension(100, 21));
         jtfProveedor.setPreferredSize(new java.awt.Dimension(150, 21));
+        jtfProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfProveedorKeyTyped(evt);
+            }
+        });
         jPanel12.add(jtfProveedor);
 
         jLabel2.setPreferredSize(new java.awt.Dimension(50, 25));
@@ -536,7 +530,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código Lote","Producto Farmaceutico","Cantidad","P.U","P.V.R","Fecha Vencimiento"}; 
+             String [] lista={"Lote","Producto Farmaceutico","Cantidad","P.U","P.V.R","Fecha Vencimiento"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {false, false,false, false,false,false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -610,6 +604,38 @@ public class LlenarInventario extends javax.swing.JPanel {
         jpa.getTransaction().commit();
         //nunca poner un 2persist antes de 1 refresh
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jtfPrecioUnitarioCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPrecioUnitarioCompraKeyTyped
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfPrecioUnitarioCompraKeyTyped
+
+    private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfCantidadKeyTyped
+
+    private void jtfFabricanteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFabricanteKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfFabricanteKeyTyped
+
+    private void jtfProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProveedorKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfProveedorKeyTyped
       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -29,10 +29,7 @@ public class Receta{
     @JoinColumn(insertable = true,updatable = false,name="id_Control_paciente",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Control_paciente control_Paciente;    
-    
-    @Column(name="diagnostico",length = 300,nullable = false)
-    private String  detalles_diagnostico;
-    
+        
     @JoinColumn(insertable = true,updatable = false,name="id_procedencia",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Procedencia  procedencia;
@@ -86,14 +83,6 @@ public class Receta{
 
     public void setId_Diagnostico(int id_Diagnostico) {
         this.id_Diagnostico = id_Diagnostico;
-    }
-
-    public String getDiagnostico() {
-        return detalles_diagnostico;
-    }
-
-    public void setDiagnostico(String diagnostico) {
-        this.detalles_diagnostico = diagnostico;
     }
 
     public Date getFecha_creada() {

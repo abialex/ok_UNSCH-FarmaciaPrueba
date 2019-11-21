@@ -1,10 +1,13 @@
 package com.ecoedu.Vistas.ServicioFarmacia;
 
+import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Detalle_servicio_social;
+import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Procedencia;
@@ -20,30 +23,33 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 
+
 public class ServicioFarmacia extends javax.swing.JPanel {
     private Principal objPrincipal;
+    private List<Diagnostico> Lista_diagnostico;
     private Control_paciente objControl_paciente_Final;
     private Usuario objUsuario;
     private EntityManager jpa;   
     private List<Procedencia> lista_procedencia;
     
     private List<Lote_detalle> Lista_lote_detalle;
-    private List<Detalle_servicio_social> Lista_detalle_servicio_social=new ArrayList<>();   
+    private List<Detalle_servicio_social> Lista_detalle_servicio_social;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
-    private List<Control_paciente> Lista_control_paciente=new ArrayList<>();//
+    private List<Control_paciente> Lista_control_paciente;//
     private List<Estudiante> Lista_Estudiantes=new ArrayList<>();//
-    private List<Detalle_Medicamentos> Lista_detalle_medicamento=new ArrayList<>();//
+    private List<Detalle_Medicamentos> Lista_detalle_medicamento;//
     private List<Receta> Lista_Recetas=new ArrayList<>();//
     private TextAutoCompleter TextAutoCompleterProcedencia;
+    private TextAutoCompleter TextAutoCOmpleterCodigoDiagnostico;
     public void llenar_Detalle_de_Recetas(List<Detalle_Medicamentos> listaDetallesMedicamentos){
         //updateSaldoDisponible();
-        System.out.println("ejecutandod");
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
@@ -95,74 +101,40 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }    
     public ServicioFarmacia(EntityManager jpa2,Principal OBJPrincipal,Usuario OBJUsuario){
         initComponents();
+        
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;
         this.objUsuario=OBJUsuario;
-        this.TextAutoCompleterProcedencia=new TextAutoCompleter(jtfProcedencia, new AutoCompleterCallback(){
+        
+                     
+    }
+     public void ConsultaBD(){
+         Query query=jpa.createQuery("select p from Control_paciente p where iSactivo=1");
+         Lista_control_paciente=query.getResultList();             
+
+         Query query3=jpa.createQuery("SELECT p FROM Procedencia p");
+         lista_procedencia=query3.getResultList();              
+     }
+    
+     public void principalEjecucion(){ 
+         jtfCodigoDiagnostico.setDocument(new soloMayusculas());
+         jtfProcedencia.setDocument(new soloMayusculas());
+         this.TextAutoCompleterProcedencia=new TextAutoCompleter(jtfProcedencia, new AutoCompleterCallback(){
             @Override
             public void callback(Object o){
                 }});
-        ConsultaBD();  
-        principalEjecucion();              
-    }
-     public void ConsultaBD(){
-         Query query1=jpa.createQuery("SELECT p FROM Detalle_Medicamentos p");
-         Lista_detalle_medicamento=query1.getResultList();              
-         //depender el código
-         Query query2=jpa.createQuery("SELECT p FROM Detalle_servicio_social p");
-         Lista_detalle_servicio_social=query2.getResultList();  
-         
-         Query query3=jpa.createQuery("SELECT p FROM Procedencia p");
-         lista_procedencia=query3.getResultList();                    
-     }
-     public void desglozarDatos(){
-         //lista_Estudiantes
-         //lista_control_paciente
-         //lista_recetas
-         for (int i = 1; i < Lista_detalle_medicamento.size(); i++){
-            boolean auxEstudiante=true;
-            boolean auxControl_paciente=true;
-            boolean auxReceta=true;
-            for (int j = 0; j < Lista_Estudiantes.size(); j++){
-                if(Lista_Estudiantes.get(j)==Lista_detalle_medicamento.get(i).getReceta().getControl_Paciente().getEstudiante()){
-                    auxEstudiante=false;		
-                    break;
-                    }
-                }
-            for (int j = 0; j < Lista_control_paciente.size(); j++){
-                if(Lista_control_paciente.get(j)==Lista_detalle_medicamento.get(i).getReceta().getControl_Paciente()){
-                    auxControl_paciente=false;	
-                    break;
-                    }
-                }
-            for (int j = 0; j < Lista_Recetas.size(); j++){
-                if(Lista_Recetas.get(j)==Lista_detalle_medicamento.get(i).getReceta()){
-                    auxReceta=false;	
-                    break;
-                    }
-                }
-            if(auxEstudiante){
-                Lista_Estudiantes.add(Lista_detalle_medicamento.get(i).getReceta().getControl_Paciente().getEstudiante());
-                }
-            if(auxControl_paciente){
-                Lista_control_paciente.add(Lista_detalle_medicamento.get(i).getReceta().getControl_Paciente());
-                }
-            if(auxReceta){
-                Lista_Recetas.add(Lista_detalle_medicamento.get(i).getReceta());
-                }
-            }      
-}
-    
-     public void principalEjecucion(){
+        this.TextAutoCOmpleterCodigoDiagnostico=new TextAutoCompleter(jtfCodigoDiagnostico, new AutoCompleterCallback(){
+            @Override
+            public void callback(Object o){
+                }});         
          
          jbtnCrearReceta.setEnabled(false);
          llenar_Tabla_de_Recetas(Lista_Recetas);
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
-         jtaDiagnostico.setEditable(false);
          for (int i = 0; i < lista_procedencia.size(); i++) {
              TextAutoCompleterProcedencia.addItem(lista_procedencia.get(i).getNombre());              
          }         
-         desglozarDatos();
+         
      }  
      public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
          Lista_carrito_medicamentos.add(objDetalleMedicamento);
@@ -248,16 +220,16 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jlblMontoTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jbtnCrearReceta = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jlblAdvertencia = new javax.swing.JLabel();
         cuerp2CrearRecetas = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jtxtDiagnosticoNuevo = new javax.swing.JTextArea();
         jtfCodigoDiagnostico = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jtfProcedencia = new javax.swing.JTextField();
+        jlblDescripcion = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         cabeza = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
@@ -279,9 +251,12 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jtaDiagnostico = new javax.swing.JTextArea();
-        jLabel24 = new javax.swing.JLabel();
+        jlblDescripcionDia = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jlblProcedencia = new javax.swing.JLabel();
+        jlblCodigoDiagnostico = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel37 = new javax.swing.JLabel();
@@ -495,13 +470,26 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
         cuerpo1ListaRecetas.add(jPanel10);
 
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel11.setPreferredSize(new java.awt.Dimension(900, 40));
+
+        jlblAdvertencia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAdvertencia.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAdvertencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAdvertencia.setMaximumSize(new java.awt.Dimension(500, 0));
+        jlblAdvertencia.setMinimumSize(new java.awt.Dimension(100, 0));
+        jlblAdvertencia.setPreferredSize(new java.awt.Dimension(500, 30));
+        jPanel11.add(jlblAdvertencia);
+
+        cuerpo1ListaRecetas.add(jPanel11);
+
         body2.add(cuerpo1ListaRecetas, "card2");
 
         cuerp2CrearRecetas.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setMinimumSize(new java.awt.Dimension(860, 20));
-        jPanel14.setPreferredSize(new java.awt.Dimension(900, 130));
+        jPanel14.setPreferredSize(new java.awt.Dimension(900, 100));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
@@ -509,41 +497,46 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel16.setPreferredSize(new java.awt.Dimension(1000, 30));
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel23.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel23.setText("DIAGNÓSTICO :");
-        jPanel16.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-
-        jtxtDiagnosticoNuevo.setColumns(20);
-        jtxtDiagnosticoNuevo.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        jtxtDiagnosticoNuevo.setRows(5);
-        jScrollPane4.setViewportView(jtxtDiagnosticoNuevo);
-
-        jPanel16.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 730, 70));
-
+        jtfCodigoDiagnostico.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigoDiagnostico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfCodigoDiagnostico.setMinimumSize(new java.awt.Dimension(6, 30));
-        jPanel16.add(jtfCodigoDiagnostico, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 130, 25));
+        jtfCodigoDiagnostico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoDiagnosticoKeyReleased(evt);
+            }
+        });
+        jPanel16.add(jtfCodigoDiagnostico, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 130, 25));
 
         jLabel33.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel33.setText("Código diagnóstico:");
-        jPanel16.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
+        jLabel33.setText("CÓDIGO DIAGNÓSTICO");
+        jPanel16.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, -1, -1));
 
         jLabel34.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel34.setText("PROCEDENCIA:");
-        jPanel16.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        jPanel16.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
+        jtfProcedencia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfProcedencia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfProcedencia.setMinimumSize(new java.awt.Dimension(6, 30));
-        jPanel16.add(jtfProcedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 130, 25));
+        jtfProcedencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfProcedenciaKeyTyped(evt);
+            }
+        });
+        jPanel16.add(jtfProcedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 130, 25));
+
+        jlblDescripcion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel16.add(jlblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 720, 25));
 
         jPanel14.add(jPanel16, java.awt.BorderLayout.CENTER);
 
         cuerp2CrearRecetas.add(jPanel14);
 
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel17.setPreferredSize(new java.awt.Dimension(900, 160));
+        jPanel17.setPreferredSize(new java.awt.Dimension(900, 200));
         jPanel17.setLayout(new java.awt.BorderLayout());
 
         cabeza.setBackground(new java.awt.Color(255, 255, 255));
@@ -659,7 +652,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         cuerpo4VerDetallesDeLaReceta.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel20.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel20.setPreferredSize(new java.awt.Dimension(900, 140));
+        jPanel20.setPreferredSize(new java.awt.Dimension(900, 100));
         jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel35.setBackground(new java.awt.Color(255, 255, 255));
@@ -669,22 +662,34 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel36.setPreferredSize(new java.awt.Dimension(10, 15));
         jPanel20.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(398, 10, -1, -1));
 
-        jtaDiagnostico.setBackground(new java.awt.Color(255, 255, 0));
-        jtaDiagnostico.setColumns(20);
-        jtaDiagnostico.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        jtaDiagnostico.setRows(5);
-        jScrollPane7.setViewportView(jtaDiagnostico);
+        jlblDescripcionDia.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 14)); // NOI18N
+        jlblDescripcionDia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel20.add(jlblDescripcionDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 680, 30));
 
-        jPanel20.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 700, 110));
+        jLabel40.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel40.setText("CÓDIGO DIAGNÓSTICO:");
+        jPanel20.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 210, 30));
 
-        jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel24.setText("DIAGNÓSTICO :");
-        jPanel20.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel43.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel43.setText("DIAGNÓSTICO:");
+        jPanel20.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, 30));
+
+        jLabel44.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel44.setText("PROCEDENCIA:");
+        jPanel20.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, 30));
+
+        jlblProcedencia.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 14)); // NOI18N
+        jlblProcedencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel20.add(jlblProcedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 160, 30));
+
+        jlblCodigoDiagnostico.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 14)); // NOI18N
+        jlblCodigoDiagnostico.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel20.add(jlblCodigoDiagnostico, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, 150, 30));
 
         cuerpo4VerDetallesDeLaReceta.add(jPanel20);
 
         jPanel22.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel22.setPreferredSize(new java.awt.Dimension(900, 140));
+        jPanel22.setPreferredSize(new java.awt.Dimension(900, 200));
         jPanel22.setLayout(new java.awt.BorderLayout());
 
         jPanel23.setBackground(new java.awt.Color(255, 255, 255));
@@ -759,6 +764,11 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jbtnFinalizar2.setForeground(new java.awt.Color(255, 255, 255));
         jbtnFinalizar2.setText("AGREGAR MEDICAMENTOS");
         jbtnFinalizar2.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnFinalizar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnFinalizar2ActionPerformed(evt);
+            }
+        });
         jPanel24.add(jbtnFinalizar2);
 
         cuerpo4VerDetallesDeLaReceta.add(jPanel24);
@@ -771,26 +781,23 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
    
     
-    public void llenarControlAlumno(){
-        List<Receta> lista_de_Recetas=new ArrayList<>();    
+    public void llenarControlAlumno(){//usando acceso BD   
         for (int i = 0; i < Lista_control_paciente.size(); i++){
-            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){
+            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){                
                 objControl_paciente_Final=Lista_control_paciente.get(i);
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
                 jlblMontoTotal.setText(Float.toString(Lista_control_paciente.get(i).getMonto_Total()));       
-                for (int j = 0; j <Lista_Recetas.size(); j++){   
-                    if (Lista_Recetas.get(j).getControl_Paciente()==Lista_control_paciente.get(i)){
-                        lista_de_Recetas.add(Lista_Recetas.get(j));                        
-                    }                   
-                }
+                Lista_Recetas=Herramienta.findbyWhere(Receta.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearReceta.setEnabled(true);
+                if(Lista_Recetas.isEmpty()){
+                jlblAdvertencia.setText("NO CONTIENE NI UNA RECETA");
+                }
                 break;
             }            
         }
-       llenar_Tabla_de_Recetas(lista_de_Recetas);
-        
+       llenar_Tabla_de_Recetas(Lista_Recetas);        
     }
     private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
         Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
@@ -803,16 +810,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         int valor =Integer.parseInt(jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0).toString());
         for (int i = 0; i < Lista_Recetas.size(); i++){
             if(Lista_Recetas.get(i).getId_Diagnostico()==valor){ 
-                List<Detalle_Medicamentos> auxListaDetalleMedicamentos=new ArrayList<>();
-                for (int j = 0; j < Lista_detalle_medicamento.size(); j++){
-                    if(Lista_Recetas.get(i)==Lista_detalle_medicamento.get(j).getReceta()){
-                        auxListaDetalleMedicamentos.add(Lista_detalle_medicamento.get(j));
-                    }                    
-                }
-                llenar_Detalle_de_Recetas(auxListaDetalleMedicamentos);
+                Lista_detalle_medicamento=Herramienta.findbyWhere(Detalle_Medicamentos.class,"id_Receta", valor, jpa);
+                llenar_Detalle_de_Recetas(Lista_detalle_medicamento);
                 cuerpo1ListaRecetas.setVisible(false);
                 cuerpo4VerDetallesDeLaReceta.setVisible(true);
-                jtaDiagnostico.setText(Lista_Recetas.get(i).getDiagnostico());
+                jlblCodigoDiagnostico.setText(Lista_Recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo());
+                jlblDescripcionDia.setText(Lista_Recetas.get(i).getDiagnosito().getDescripcion_Diagnostico());
+                jlblProcedencia.setText(Lista_Recetas.get(i).getProcedencia().getNombre());
                 break;
             }        
         }
@@ -843,13 +847,20 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
         Receta objReceta_Final=new Receta();
-        objReceta_Final.setDiagnostico(jtxtDiagnosticoNuevo.getText());
+        //objReceta_Final.setDiagnostico(jtxtDiagnosticoNuevo.getText());
         for (int i = 0; i < lista_procedencia.size(); i++){
             if(jtfProcedencia.getText().equals(lista_procedencia.get(i).getNombre())){
                 objReceta_Final.setProcedencia(lista_procedencia.get(i));
                 break;
             }            
         }
+        for (Diagnostico diagnostico : Lista_diagnostico) {
+            if(jtfCodigoDiagnostico.getText().equals(diagnostico.getId_DiagnosticoCodigo())){
+                objReceta_Final.setDiagnostico(diagnostico);
+                break;
+            } 
+        }
+        
         objReceta_Final.setFecha_creada(new Date());
         float precio_total_receta=0;
         for (int i = 0; i < Lista_carrito_medicamentos.size(); i++) {
@@ -873,11 +884,50 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             //Lista_Lote_detalle_final.get(i).getInventario().agregarCantidad(Lista_Detalle_Llenado_final.get(i).getCantidad());
             //jpa.persist(Lista_Lote_detalle_final.get(i).getInventario());
         }
+        Limpiarcuerp2CrearRecetas();
         jpa.getTransaction().commit();
         ConsultaBD();
-        desglozarDatos();
         llenarControlAlumno();
     }//GEN-LAST:event_jbtnGuardarActionPerformed
+
+    public void Limpiarcuerp2CrearRecetas(){
+        jtfProcedencia.setText("");
+        jtfCodigoDiagnostico.setText("");
+        Lista_carrito_medicamentos.clear();
+        llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
+        cuerp2CrearRecetas.setVisible(false);
+        cuerpo1ListaRecetas.setVisible(true);
+    }
+    private void jtfCodigoDiagnosticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoDiagnosticoKeyReleased
+
+        if(!jtfCodigoDiagnostico.getText().equals("")){
+            TextAutoCOmpleterCodigoDiagnostico.removeAllItems();        
+            Lista_diagnostico=Herramienta.findbyLike(Diagnostico.class, "id_CondicionCodigo",jtfCodigoDiagnostico.getText(),jpa);
+            for (Diagnostico diagnostico : Lista_diagnostico){
+                      TextAutoCOmpleterCodigoDiagnostico.addItem(diagnostico.getId_DiagnosticoCodigo()); 
+                      if(jtfCodigoDiagnostico.getText().equals(diagnostico.getId_DiagnosticoCodigo())){
+                          jlblDescripcion.setText(diagnostico.getDescripcion_Diagnostico());
+                      }
+            }
+          
+            }
+        
+        
+    }//GEN-LAST:event_jtfCodigoDiagnosticoKeyReleased
+
+    private void jbtnFinalizar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFinalizar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnFinalizar2ActionPerformed
+
+    private void jtfProcedenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProcedenciaKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+        //cuando borras, suena verificar
+            
+    }//GEN-LAST:event_jtfProcedenciaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -896,8 +946,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
@@ -915,13 +963,17 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -934,29 +986,30 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JButton jbtnADDmedicamentos;
     private javax.swing.JButton jbtnCancelarCrearDiagnostico;
     private javax.swing.JButton jbtnCrearReceta;
     private javax.swing.JButton jbtnFinalizar2;
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JButton jbtnVolver2;
+    private javax.swing.JLabel jlblAdvertencia;
+    private javax.swing.JLabel jlblCodigoDiagnostico;
+    private javax.swing.JLabel jlblDescripcion;
+    private javax.swing.JLabel jlblDescripcionDia;
     private javax.swing.JLabel jlblEscuela;
     private javax.swing.JLabel jlblMontoTotal;
     private javax.swing.JLabel jlblNombres;
+    private javax.swing.JLabel jlblProcedencia;
     private javax.swing.JLabel jlblSaldoDisponible1;
     private javax.swing.JLabel jlblSerie;
-    private javax.swing.JTextArea jtaDiagnostico;
     private javax.swing.JTable jtbCarritoLista;
     private javax.swing.JTable jtblMedicinasEntregada;
     private javax.swing.JTable jtblRecetas;
     private javax.swing.JTextField jtfCodigoDiagnostico;
     private javax.swing.JTextField jtfLookCodigo;
     private javax.swing.JTextField jtfProcedencia;
-    private javax.swing.JTextArea jtxtDiagnosticoNuevo;
     // End of variables declaration//GEN-END:variables
 public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
     
@@ -980,7 +1033,7 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
                  fila_actividad[1]=lista_de_recetas.get(i).getFecha_creada();             
                  fila_actividad[2]=lista_de_recetas.get(i).getTotal_costo_medicinas();  
                  fila_actividad[3]=lista_de_recetas.get(i).getProcedencia().getNombre();   
-                 fila_actividad[4]=lista_de_recetas.get(i).getDiagnostico();  
+                 fila_actividad[4]=lista_de_recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo();  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
             jtblRecetas.setModel(modelo); 
@@ -998,11 +1051,11 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
             jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblRecetas.getTableHeader().setBackground(Color.BLUE);
             jtblRecetas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(85);
-            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(90);
-            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(125);
-            jtblRecetas.getColumnModel().getColumn(4).setPreferredWidth(365);
+            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(270);
+            jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(150);
+            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(250);
+            jtblRecetas.getColumnModel().getColumn(4).setPreferredWidth(100);
             
             ((DefaultTableCellRenderer)jtblRecetas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64  

@@ -1,6 +1,7 @@
 package com.ecoedu.Vistas.Inventario;
 
 
+import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import java.awt.Color;
 import java.util.List;
@@ -23,11 +24,9 @@ import java.util.ArrayList;
 */
 public class Ver_inventario extends javax.swing.JPanel {   
     List<Inventario> Lista_Inventario=new ArrayList<>();
-    List<Lote_detalle> Lista_LotesDetalle;
-    
+    List<Lote_detalle> Lista_LotesDetalle;    
     EntityManager jpa;
-    Principal objPrincipal;
-    
+    Principal objPrincipal;    
     
     public Ver_inventario(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
@@ -45,8 +44,7 @@ public class Ver_inventario extends javax.swing.JPanel {
     }
     public void desglozarDatos(){
          //Lista_Inventario
-         for (int i = 1; i < Lista_LotesDetalle.size(); i++){
-
+         for (int i = 0; i < Lista_LotesDetalle.size(); i++){
             boolean auxInventario=true;
             for (int j = 0; j < Lista_Inventario.size(); j++){
                 if(Lista_Inventario.get(j)==Lista_LotesDetalle.get(i).getInventario()){
@@ -55,6 +53,7 @@ public class Ver_inventario extends javax.swing.JPanel {
                     }
                 }
             if(auxInventario){
+                System.out.println("agrega");
                 Lista_Inventario.add(Lista_LotesDetalle.get(i).getInventario());
                 }
             }      
@@ -63,8 +62,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         List<Inventario> listaInventario=new ArrayList<>();
         for (int n = 0; n < Lista_Inventario.size(); n++) {
             boolean aux=true;
-            for (int i = 0; i<palabra.length(); i++) {
-               
+            for (int i = 0; i<palabra.length(); i++){               
                 if(palabra.charAt(i)!=Lista_Inventario.get(n).getId_Medicamento().getNombre().charAt(i)){
                     aux=false;
                     break;                   
@@ -373,7 +371,7 @@ public class Ver_inventario extends javax.swing.JPanel {
                  fila_actividad[0]=listaLote.get(i).getCodigo();
                  fila_actividad[1]=listaLote.get(i).getCantidad();             
                  fila_actividad[2]=listaLote.get(i).getPrecio_Venta_Redondeado();
-                 fila_actividad[3]=listaLote.get(i).getFecha_vencimiento();             
+                 fila_actividad[3]=Herramienta.formatoFecha(listaLote.get(i).getFecha_vencimiento());             
                  modelo.addRow(fila_actividad);//agregando filas
                  }
              

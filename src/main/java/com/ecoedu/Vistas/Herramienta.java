@@ -5,17 +5,23 @@
  */
 package com.ecoedu.Vistas;
 
+import com.ecoedu.app.JPAUtil;
+import com.ecoedu.model.Diagnostico;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.swing.text.PlainDocument;
 /**
  *
  * @author yrma
  */
-public class Herramienta {
+public class Herramienta { 
     
-   
+  
     public static String dosDecimales(float a){
         DecimalFormatSymbols separador = new DecimalFormatSymbols();
         separador.setDecimalSeparator('.');
@@ -56,5 +62,24 @@ public class Herramienta {
         }
         return cadenota;
     }
+    public static <T> List<T> findbyLike(Class<T> generico,String Columna,String palabra,EntityManager jpa){
+        List<T> listGenericos = new ArrayList<T>();
+        //System.out.println("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna +"LIKE "+"'"+palabra+"%"+"'");
+        Query query=jpa.createQuery
+        ("SELECT p FROM "+generico.getSimpleName()+" p where id_DiagnosticoCodigo LIKE "+"'"+palabra+"%'");
+        listGenericos=query.getResultList(); 
+        return listGenericos; 
+    }
+    public static <T> List<T> findbyWhere(Class<T> generico,String Columna,int idFK,EntityManager jpa){
+        List<T> listGenericos;
+        //System.out.println("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna +"LIKE "+"'"+palabra+"%"+"'");
+        Query query=jpa.createQuery             
+        ("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);
+        listGenericos=query.getResultList(); 
+         
+        return listGenericos; 
+    }
+    
+            
     
 }

@@ -7,8 +7,6 @@ package com.ecoedu.Vistas.vista_base;
 
 import com.ecoedu.Vistas.ServicioFarmacia.Cantidad_Medicinas;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
-import com.ecoedu.model.Lote_detalle;
-import java.util.List;
 import javax.persistence.EntityManager;
 /**
  *

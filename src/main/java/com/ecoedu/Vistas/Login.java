@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.swing.Timer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,13 +23,14 @@ import javax.swing.Timer;
  * @author yrma
  */
 public class Login extends javax.swing.JPanel {
-    EntityManager jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
+    EntityManager jpa;
     Usuario usuario;
     CuadroLogin loginframe;
      
     
     public Login(CuadroLogin loginFrame) {     
         initComponents();
+        this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
         this.loginframe=loginFrame;
         TextPrompt txr=new TextPrompt("Nombre de usuario",jtfUsuario);
          txr=new TextPrompt("Contraseña",jtfContraseña);

@@ -46,6 +46,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         list_Lote_detalle=objServicioFarmacia.getListaInventario();
         desglozarDatos(); 
         llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));
+        jtfCantidad.setEditable(false);
         
      }
     
@@ -251,10 +252,15 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jLabel5.setPreferredSize(new java.awt.Dimension(130, 20));
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 80, -1));
 
+        jtfCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfCantidad.setPreferredSize(new java.awt.Dimension(100, 25));
         jtfCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCantidadKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCantidadKeyTyped(evt);
             }
         });
         jPanel1.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, -1));
@@ -339,6 +345,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtfCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyReleased
+        
         if(!jtfCantidad.getText().equals("")){
            jlblPrecioTotal.setText(Herramienta.dosDecimales(Float.parseFloat(jlblPrecioUnitario.getText())*Float.parseFloat(jtfCantidad.getText())));
         }
@@ -348,6 +355,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     }//GEN-LAST:event_jtfCantidadKeyReleased
 
     private void jtlblInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtlblInventarioMouseClicked
+        jtfCantidad.setEditable(true);
         int valor =Integer.parseInt(jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),0).toString());
         List<Lote_detalle> auxlista_Lote_detalle=new ArrayList<>();
         for (int i = 0; i <list_Lote_detalle.size(); i++){
@@ -397,6 +405,14 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         objCuadroCarritoMedicinas.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfCantidadKeyTyped
 
     public Lote_detalle fechaVencimientoCercano(List<Lote_detalle> listaLoteDetalle){
         

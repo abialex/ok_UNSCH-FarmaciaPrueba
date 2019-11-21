@@ -12,8 +12,7 @@ import com.ecoedu.Vistas.Login;
  * @author yrma
  */
 public class CuadroLogin extends javax.swing.JFrame {
-    Login objLogin; 
-    
+    Login objLogin;     
     
     public CuadroLogin() {            
         initComponents();

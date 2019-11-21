@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @Entity
 public class Diagnostico{
     @Id
-    @Column(unique = true, length = 5, nullable = false)
+    @Column(unique = true, length = 6, nullable = false)
     private String id_DiagnosticoCodigo;
     
     @Column(name = "descripcion_Diagnostico",nullable = false)
@@ -38,4 +38,10 @@ public class Diagnostico{
     public void setDescripcion_Diagnostico(String descripcion_Diagnostico) {
         this.descripcion_Diagnostico = descripcion_Diagnostico;
     }
+
+    @Override
+    public String toString() {
+        return "Diagnostico asdasd";
+    }
+    
 }
