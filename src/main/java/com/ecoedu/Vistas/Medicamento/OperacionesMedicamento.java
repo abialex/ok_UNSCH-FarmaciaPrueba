@@ -298,7 +298,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
         jpa.getTransaction().begin();
         jpa.persist(objMedicamento);
         jpa.refresh(objMedicamento);
-        objInventario.setId_Medicamento(objMedicamento);
+        objInventario.setMedicamento(objMedicamento);
         jpa.persist(objInventario);        
         jpa.getTransaction().commit();
         ConsultaBD();

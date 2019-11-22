@@ -13,7 +13,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.Lote_detalle;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -63,7 +74,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         for (int n = 0; n < Lista_Inventario.size(); n++) {
             boolean aux=true;
             for (int i = 0; i<palabra.length(); i++){               
-                if(palabra.charAt(i)!=Lista_Inventario.get(n).getId_Medicamento().getNombre().charAt(i)){
+                if(palabra.charAt(i)!=Lista_Inventario.get(n).getMedicamento().getNombre().charAt(i)){
                     aux=false;
                     break;                   
                 }            
@@ -111,6 +122,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         jlblNombreMedicamento = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -297,6 +309,14 @@ public class Ver_inventario extends javax.swing.JPanel {
 
         vista2.add(body3);
 
+        jButton1.setText("IMPRIMIR INVENTARIO");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        vista2.add(jButton1);
+
         bodyCard.add(vista2, "card3");
 
         add(bodyCard, java.awt.BorderLayout.CENTER);
@@ -307,9 +327,9 @@ public class Ver_inventario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfMedicamentoKeyReleased
 
     private void jtblInventarioOperacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblInventarioOperacionesMouseClicked
-        int valor =Integer.parseInt(jtblInventarioOperaciones.getValueAt(jtblInventarioOperaciones.getSelectedRow(),0).toString());
+        Inventario objInventario =(Inventario)jtblInventarioOperaciones.getValueAt(jtblInventarioOperaciones.getSelectedRow(),0);
         for (int i = 0; i < Lista_Inventario.size(); i++){
-            if(Lista_Inventario.get(i).getId_Inventario()==valor){ 
+            if(Lista_Inventario.get(i)==objInventario){ 
                 List<Lote_detalle> auxLista_LoteDetalle=new ArrayList<>();
                 for (int j = 0; j < Lista_LotesDetalle.size(); j++){
                     if(Lista_Inventario.get(i)==Lista_LotesDetalle.get(j).getInventario()){
@@ -317,12 +337,88 @@ public class Ver_inventario extends javax.swing.JPanel {
                     }                    
                 }
                 llenar_tabla_LoteDetalle(auxLista_LoteDetalle);
-                jlblNombreMedicamento.setText(Lista_Inventario.get(i).getId_Medicamento().getNombre());
+                jlblNombreMedicamento.setText(Lista_Inventario.get(i).getMedicamento().getNombre());
                 break;
             }        
         }
     }//GEN-LAST:event_jtblInventarioOperacionesMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            imprimir();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ver_inventario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(Ver_inventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void imprimir() throws FileNotFoundException, DocumentException{
+        FileOutputStream archivo=new FileOutputStream("nuevo.pdf");
+        Document document = new Document();
+        PdfWriter.getInstance(document, archivo);
+        document.open();
+        float[] mediaCeldas={4f,3,3,3};
+        PdfPTable table = new PdfPTable(4);
+        table.setWidths(mediaCeldas);
+        PdfPCell cellTitle = new PdfPCell(new Phrase("Inventario"));
+        cellTitle.setPadding(5);
+        cellTitle.setColspan(4);
+        cellTitle.setUseAscender(true);
+        cellTitle.setUseDescender(true);
+        cellTitle.setHorizontalAlignment(Element.ALIGN_CENTER);        
+        table.addCell(cellTitle);               
+        /*
+        table.addCell("Cell 1.1");
+        cell = new PdfPCell();
+        cell.addElement(new Phrase("Cell 1.2"));
+        table.addCell(cell);
+        */
+        PdfPCell cellcelda=new PdfPCell(new Phrase("Producto Farmacéutico"));
+        cellcelda.setPadding(5);
+        cellcelda.setUseAscender(true);
+        cellcelda.setUseDescender(true);
+        cellcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cellcelda);        
+        cellcelda.setPhrase(new Phrase("Cantidad"));
+        table.addCell(cellcelda);
+        cellcelda.setPhrase(new Phrase("F.F"));
+        table.addCell(cellcelda);
+        cellcelda.setPhrase(new Phrase("Concentración"));
+        table.addCell(cellcelda);
+        
+        for (Inventario inventario : Lista_Inventario){
+            cellcelda.setPhrase(new Phrase(inventario.getMedicamento().getNombre()));
+            table.addCell(cellcelda);
+            cellcelda.setPhrase(new Phrase(Integer.toString(inventario.getCantidad())));
+            table.addCell(cellcelda);
+            cellcelda.setPhrase(new Phrase(inventario.getMedicamento().getForma_farmaceutica()));
+            table.addCell(cellcelda);
+            cellcelda.setPhrase(new Phrase(inventario.getMedicamento().getConcentracion()));
+            table.addCell(cellcelda);
+        }
+        /*
+        cell.setPadding(5);
+        cell.setUseAscender(true);
+        cell.setUseDescender(true);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);*/
+        
+        
+        for (Inventario inventario : Lista_Inventario){
+            
+        }
+        /*
+        cell = new PdfPCell();
+        cell.setPadding(5);
+        cell.setUseAscender(true);
+        cell.setUseDescender(true);
+        Paragraph p = new Paragraph("Cell 2.2");
+        p.setAlignment(Element.ALIGN_CENTER);
+        cell.addElement(p);
+        table.addCell(cell);*/
+        document.add(table);
+        document.close();              
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body3;
@@ -331,6 +427,7 @@ public class Ver_inventario extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
     private javax.swing.JPanel headListaInventarioVoF;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -399,14 +496,13 @@ public class Ver_inventario extends javax.swing.JPanel {
     }
    
     public void llenar_tabla_de_inventarioOperaciones(List<Inventario> listaInventario){
-        System.out.println(listaInventario.size()+"----------------------------");
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código","Nombre","Cantidad"}; 
+             String [] lista={"Producto Farmacéutico","Cantidad"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
-                     false, false, false, false
+                       false, false
                          };
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
@@ -416,11 +512,8 @@ public class Ver_inventario extends javax.swing.JPanel {
             
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = 0; i < listaInventario.size(); i++){
-                 fila_actividad[0]=listaInventario.get(i).getId_Inventario();
-                 fila_actividad[1]=listaInventario.get(i).getId_Medicamento().getNombre();             
-                 fila_actividad[2]=listaInventario.get(i).getCantidad();  
-              
-                 
+                 fila_actividad[0]=listaInventario.get(i);             
+                 fila_actividad[1]=listaInventario.get(i).getCantidad();                  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
              
@@ -431,18 +524,15 @@ public class Ver_inventario extends javax.swing.JPanel {
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
             tcr.setHorizontalAlignment(SwingConstants.CENTER);
             jtblInventarioOperaciones.getColumnModel().getColumn(0).setCellRenderer(tcr);
-            jtblInventarioOperaciones.getColumnModel().getColumn(1).setCellRenderer(tcr);
-            jtblInventarioOperaciones.getColumnModel().getColumn(2).setCellRenderer(tcr);
-        
-        
+            jtblInventarioOperaciones.getColumnModel().getColumn(1).setCellRenderer(tcr);       
    
             jtblInventarioOperaciones.setFont(new java.awt.Font("Tahoma", 0, 15));
             jtblInventarioOperaciones.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblInventarioOperaciones.getTableHeader().setBackground(Color.BLUE);
             jtblInventarioOperaciones.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblInventarioOperaciones.getColumnModel().getColumn(0).setPreferredWidth(154);
-            jtblInventarioOperaciones.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblInventarioOperaciones.getColumnModel().getColumn(2).setPreferredWidth(75);              
+            jtblInventarioOperaciones.getColumnModel().getColumn(0).setPreferredWidth(200);
+            jtblInventarioOperaciones.getColumnModel().getColumn(1).setPreferredWidth(150);
+                   
             ((DefaultTableCellRenderer)jtblInventarioOperaciones.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  
     }

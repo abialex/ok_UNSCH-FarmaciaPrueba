@@ -6,6 +6,7 @@ import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.Medicamento;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         for (int n = 0; n < list_Inventario.size(); n++) {
             boolean aux=true;
             for (int i = 0; i<palabra.length(); i++) {               
-                if(palabra.charAt(i)!=list_Inventario.get(n).getId_Medicamento().getNombre().charAt(i)){
+                if(palabra.charAt(i)!=list_Inventario.get(n).getMedicamento().getNombre().charAt(i)){
                     aux=false;
                     break;                   
                 }            
@@ -85,9 +86,9 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
          DefaultTableModel modelo;
          Object[] fila_actividad;
          //.....................................TABLA......................................
-         String [] lista={"Código","Medicamento","Cantidad"}; 
+         String [] lista={"Medicamento","Cantidad"}; 
          modelo=new DefaultTableModel(null,lista){
-             boolean[] canEdit = new boolean [] {false, false, false};
+             boolean[] canEdit = new boolean [] { false, false};
              @Override
              public boolean isCellEditable(int rowIndex, int columnIndex){
                  return canEdit [columnIndex];
@@ -95,26 +96,23 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
              };
          //.....................................TABLA...........Fin......................
          fila_actividad=new Object[modelo.getColumnCount()];  
-         for (int i = 0; i < listaInventario.size(); i++){
-             fila_actividad[0]=listaInventario.get(i).getId_Inventario();
-             fila_actividad[1]=listaInventario.get(i).getId_Medicamento().getNombre();             
-             fila_actividad[2]=listaInventario.get(i).getCantidad();     
+         for (int i = 0; i < listaInventario.size(); i++){            
+             fila_actividad[0]=listaInventario.get(i);             
+             fila_actividad[1]=listaInventario.get(i).getCantidad();     
              modelo.addRow(fila_actividad);//agregando filas
              }
          jtlblInventario.setModel(modelo);
          DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
          tcr.setHorizontalAlignment(SwingConstants.CENTER);
          jtlblInventario.getColumnModel().getColumn(0).setCellRenderer(tcr);
-         jtlblInventario.getColumnModel().getColumn(1).setCellRenderer(tcr);
-         jtlblInventario.getColumnModel().getColumn(2).setCellRenderer(tcr);     
+         jtlblInventario.getColumnModel().getColumn(1).setCellRenderer(tcr);    
          
          jtlblInventario.setFont(new java.awt.Font("Tahoma", 0, 15));
          jtlblInventario.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
          jtlblInventario.getTableHeader().setBackground(Color.BLUE);
          jtlblInventario.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-         jtlblInventario.getColumnModel().getColumn(0).setPreferredWidth(119);
-         jtlblInventario.getColumnModel().getColumn(1).setPreferredWidth(273);
-         jtlblInventario.getColumnModel().getColumn(2).setPreferredWidth(75);
+         jtlblInventario.getColumnModel().getColumn(0).setPreferredWidth(300);
+         jtlblInventario.getColumnModel().getColumn(1).setPreferredWidth(100);
          ((DefaultTableCellRenderer)jtlblInventario.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);         
     }
     
@@ -356,25 +354,20 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
 
     private void jtlblInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtlblInventarioMouseClicked
         jtfCantidad.setEditable(true);
-        int valor =Integer.parseInt(jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),0).toString());
+        Inventario objInventario =(Inventario)jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),0);       
         List<Lote_detalle> auxlista_Lote_detalle=new ArrayList<>();
         for (int i = 0; i <list_Lote_detalle.size(); i++){
-            if(valor==list_Lote_detalle.get(i).getInventario().getId_Inventario()){
+            if(objInventario==list_Lote_detalle.get(i).getInventario()){
                 auxlista_Lote_detalle.add(list_Lote_detalle.get(i));
             }//if fin            
         }//for fin
-        for (int i = 0; i < list_Inventario.size(); i++){
-            if(valor==list_Inventario.get(i).getId_Inventario()){
-                objDetalle_Medicamento_Final.setId_Medicamento(list_Inventario.get(i).getId_Medicamento());
-                break;
-            }
-        }//reutilizando el medicamento que ya me dio para luego guardarlo
         Lote_detalle objLoteDetalle=fechaVencimientoCercano(auxlista_Lote_detalle);
         jlblFechaVencimiento.setText(Herramienta.formatoFecha(objLoteDetalle.getFecha_vencimiento()));
         jlblLoteNombre.setText(objLoteDetalle.getCodigo());        
-        jlblProductoFarmaceutico.setText(jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),1).toString());
+        jlblProductoFarmaceutico.setText(objInventario.getMedicamento().getNombre());
         jlblPrecioUnitario.setText(Float.toString(objLoteDetalle.getPrecio_Venta_Redondeado()));
         //
+        objDetalle_Medicamento_Final.setId_Medicamento(objInventario.getMedicamento());
         objDetalle_Medicamento_Final.setLote_detalle(objLoteDetalle);
         objDetalle_Medicamento_Final.setFecha(new Date());        
         objDetalle_Medicamento_Final.setPrecio_Unitario(Float.parseFloat(jlblPrecioUnitario.getText()));
@@ -412,11 +405,13 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
             getToolkit().beep();
             evt.consume();
         }
+        if (jtfCantidad.getText().length()>=3){ 
+         evt.consume(); 
+         }
+    
     }//GEN-LAST:event_jtfCantidadKeyTyped
 
     public Lote_detalle fechaVencimientoCercano(List<Lote_detalle> listaLoteDetalle){
-        
-        Date hoy = new Date();
         Lote_detalle LDprimero=listaLoteDetalle.get(0);
         for(int i = 1; i < listaLoteDetalle.size(); i++){
             if(LDprimero.getFecha_vencimiento().getTime()>listaLoteDetalle.get(i).getFecha_vencimiento().getTime()){

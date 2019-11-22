@@ -26,7 +26,7 @@ public class Inventario {
     
     @JoinColumn(insertable = true,updatable = false,unique = true,name="id_Medicamento",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Medicamento id_Medicamento;
+    private Medicamento Medicamento;
     
     @Column(name="cantidad",nullable = false)
     private int  cantidad;
@@ -39,12 +39,12 @@ public class Inventario {
         this.id_Inventario = id_Inventario;
     }
 
-    public Medicamento getId_Medicamento() {
-        return id_Medicamento;
+    public Medicamento getMedicamento() {
+        return Medicamento;
     }
 
-    public void setId_Medicamento(Medicamento id_Medicamento) {
-        this.id_Medicamento = id_Medicamento;
+    public void setMedicamento(Medicamento id_Medicamento) {
+        this.Medicamento = id_Medicamento;
     }
 
     public int getCantidad() {
@@ -61,6 +61,11 @@ public class Inventario {
     public Inventario quitarCantidad(int cant){
         this.cantidad=cantidad-cant;
         return this;
+    }
+    
+    @Override
+    public String toString(){
+        return Medicamento.getNombre();
     }
             
     

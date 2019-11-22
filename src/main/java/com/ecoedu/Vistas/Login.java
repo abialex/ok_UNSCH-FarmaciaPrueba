@@ -34,7 +34,7 @@ public class Login extends javax.swing.JPanel {
         this.loginframe=loginFrame;
         TextPrompt txr=new TextPrompt("Nombre de usuario",jtfUsuario);
          txr=new TextPrompt("Contraseña",jtfContraseña);
-         
+
     }
 
     

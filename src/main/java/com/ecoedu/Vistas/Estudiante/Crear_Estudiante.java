@@ -80,14 +80,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jtfApellidoMaterno = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jtfCodigo = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
-        jtfSerie = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jtfEscuela = new javax.swing.JTextField();
+        jcbSerie = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -215,9 +214,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         });
         jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 500, 25));
 
-        jLabel1.setText("Su NICK es farmacia420: y Su Contraseña es:Su DNI");
-        jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 360, 330, -1));
-
         jLabel23.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel23.setText("Còdigo:");
@@ -241,20 +237,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel32.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
         jPanel7.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 900, 10));
-
-        jtfSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfSerie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfSerie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfSerieActionPerformed(evt);
-            }
-        });
-        jtfSerie.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfSerieKeyReleased(evt);
-            }
-        });
-        jPanel7.add(jtfSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 160, 25));
 
         jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -281,6 +263,10 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             }
         });
         jPanel7.add(jtfEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 160, 25));
+
+        jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
+        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 160, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -309,7 +295,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setDni(jtfDNI.getText());
         objEstudiante.setCodigo(jtfCodigo.getText());
-        objEstudiante.setSerie(jtfSerie.getText());
+        objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
         for (Escuela Escuela : Lista_Escuela) {
             if(Escuela.getNombre().equals(jtfEscuela.getText())){
                 objEstudiante.setEscuela(Escuela);
@@ -342,7 +328,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jtfNombres.setText("");
         jtfDNI.setText("");
         jtfCodigo.setText("");
-        jtfSerie.setText("");
         jtfEscuela.setText("");
     }
     private void jtfNombresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyReleased
@@ -373,14 +358,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfCodigoKeyReleased
 
-    private void jtfSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfSerieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfSerieActionPerformed
-
-    private void jtfSerieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSerieKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfSerieKeyReleased
-
     private void jtfEscuelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEscuelaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfEscuelaActionPerformed
@@ -396,7 +373,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
@@ -412,13 +388,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JComboBox<String> jcbSerie;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfDNI;
     private javax.swing.JTextField jtfEscuela;
     private javax.swing.JTextField jtfNombres;
-    private javax.swing.JTextField jtfSerie;
     private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables
 

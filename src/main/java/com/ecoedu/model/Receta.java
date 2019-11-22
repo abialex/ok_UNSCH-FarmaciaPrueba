@@ -77,11 +77,11 @@ public class Receta{
         this.total_costo_medicinas = total_costo_medicinas;
     }     
 
-    public int getId_Diagnostico() {
+    public int getId_Receta() {
         return id_Diagnostico;
     }
 
-    public void setId_Diagnostico(int id_Diagnostico) {
+    public void setId_Receta(int id_Diagnostico) {
         this.id_Diagnostico = id_Diagnostico;
     }
 
@@ -91,6 +91,10 @@ public class Receta{
 
     public void setFecha_creada(Date fecha_creada) {
         this.fecha_creada = fecha_creada;
+    }
+    @Override
+    public String toString(){
+        return fecha_creada.toString();
     }
     
     

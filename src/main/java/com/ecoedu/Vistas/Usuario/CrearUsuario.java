@@ -9,8 +9,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.ecoedu.model.Medicamento;
+import com.ecoedu.model.Persona;
 import com.ecoedu.model.Rol;
+import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -43,7 +47,7 @@ public class CrearUsuario extends javax.swing.JPanel {
     }   
     public void principalEjecucion(){  
         for (Rol objRol : Lista_Rol){
-            jcbRol.addItem(objRol.getNombre_rol());
+            jcbRol.addItem(objRol);
         }
         
     }
@@ -70,13 +74,13 @@ public class CrearUsuario extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         jtfNombres1 = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jtfApellidoMaterno = new javax.swing.JTextField();
+        jtfDni = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jtfApellidoMaterno1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jtfApellidoMaterno = new javax.swing.JTextField();
+        jlblMensaje = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -168,19 +172,19 @@ public class CrearUsuario extends javax.swing.JPanel {
         jLabel21.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 130, 25));
 
-        jtfApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfApellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
+        jtfDni.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfDni.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfApellidoMaternoActionPerformed(evt);
+                jtfDniActionPerformed(evt);
             }
         });
-        jtfApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfDni.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfApellidoMaternoKeyReleased(evt);
+                jtfDniKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 160, 25));
+        jPanel7.add(jtfDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 160, 25));
 
         jLabel29.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel29.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -200,22 +204,24 @@ public class CrearUsuario extends javax.swing.JPanel {
         jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 90, 25));
 
-        jtfApellidoMaterno1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfApellidoMaterno1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfApellidoMaterno1.addActionListener(new java.awt.event.ActionListener() {
+        jtfApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfApellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfApellidoMaterno1ActionPerformed(evt);
+                jtfApellidoMaternoActionPerformed(evt);
             }
         });
-        jtfApellidoMaterno1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfApellidoMaterno1KeyReleased(evt);
+                jtfApellidoMaternoKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfApellidoMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 500, 25));
+        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 500, 25));
 
-        jLabel1.setText("Su NICK es farmacia420: y Su Contraseña es:Su DNI");
-        jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, 330, -1));
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, 500, 20));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -232,28 +238,46 @@ public class CrearUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-   
+
+        Persona objPersona=new Persona();
+        objPersona.setNombre(jtfNombres1.getText());
+        objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
+        objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
+        objPersona.setDni(jtfDni.getText());
+        Usuario objUsuario=new Usuario();
+        objUsuario.setRol((Rol)jcbRol.getSelectedItem());
+        objUsuario.setContraseña(jtfDni.getText());
+        jpa.getTransaction().begin();
+        jpa.persist(objPersona);
+        jpa.refresh(objPersona);
+        objUsuario.setPersona(objPersona);
+        objUsuario.setNickname("farmacia"+objPersona.getId_Persona());
+        jpa.persist(objUsuario);
+        jpa.refresh(objUsuario);
+        jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI");
+        jpa.getTransaction().commit();
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jtfNombres1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombres1KeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNombres1KeyReleased
 
-    private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
+    private void jtfDniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
+    }//GEN-LAST:event_jtfDniKeyReleased
+
+    private void jtfDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfDniActionPerformed
 
     private void jtfApellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfApellidoMaternoActionPerformed
 
-    private void jtfApellidoMaterno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfApellidoMaterno1ActionPerformed
+    private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaterno1ActionPerformed
-
-    private void jtfApellidoMaterno1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaterno1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaterno1KeyReleased
+    }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,7 +286,6 @@ public class CrearUsuario extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
@@ -275,10 +298,11 @@ public class CrearUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JComboBox<String> jcbRol;
+    private javax.swing.JComboBox<Rol> jcbRol;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTextField jtfApellidoMaterno;
-    private javax.swing.JTextField jtfApellidoMaterno1;
     private javax.swing.JTextField jtfApellidoPaterno;
+    private javax.swing.JTextField jtfDni;
     private javax.swing.JTextField jtfNombres1;
     private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables

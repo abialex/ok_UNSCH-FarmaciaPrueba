@@ -70,7 +70,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         autoCompleterProductoFarmaceutico.removeAllItems();
         autoCompleterProveedor.removeAllItems();
         for (int i = 0; i < Lista_Inventario.size(); i++) {
-            autoCompleterProductoFarmaceutico.addItem(Lista_Inventario.get(i).getId_Medicamento().getNombre());
+            autoCompleterProductoFarmaceutico.addItem(Lista_Inventario.get(i).getMedicamento().getNombre());
         }   
         for (int i = 0; i < Lista_Fabricante.size(); i++) {
             autoCompleterFabricante.addItem(Lista_Fabricante.get(i).getNombre());
@@ -220,7 +220,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jtfPrecioUnitarioCompraKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfPrecioUnitarioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 90, 50, 25));
+        jPanel7.add(jtfPrecioUnitarioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 90, 70, 25));
 
         jLabel16.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -250,7 +250,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jtfCantidadKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, 50, 25));
+        jPanel7.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, 60, 25));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -441,7 +441,7 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jtfCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigoLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel7.add(jtfCodigoLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 120, 25));
+        jPanel7.add(jtfCodigoLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 140, 25));
 
         jLabel32.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -457,9 +457,9 @@ public class LlenarInventario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     public void encontrarMedicamento(String objeto){        
          for (int i = 0; i < Lista_Inventario.size(); i++){
-            if(jtfProductoFarmaceutico.getText().equals(Lista_Inventario.get(i).getId_Medicamento().getNombre())|| objeto.equals(Lista_Inventario.get(i).getId_Medicamento().getNombre())){                
-                jlblFormaFarmaceutica.setText(Lista_Inventario.get(i).getId_Medicamento().getForma_farmaceutica());
-                jlblConcentracion.setText(Lista_Inventario.get(i).getId_Medicamento().getConcentracion());
+            if(jtfProductoFarmaceutico.getText().equals(Lista_Inventario.get(i).getMedicamento().getNombre())|| objeto.equals(Lista_Inventario.get(i).getMedicamento().getNombre())){                
+                jlblFormaFarmaceutica.setText(Lista_Inventario.get(i).getMedicamento().getForma_farmaceutica());
+                jlblConcentracion.setText(Lista_Inventario.get(i).getMedicamento().getConcentracion());
                 objInventario_final=Lista_Inventario.get(i);
                 MensajeProductoFarmaceutico="";                               
             break;
@@ -500,7 +500,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         //Detalle_Llenado
         //P.u,id_medicamento,user,fecha_registro----id_lote_detalle
         objDetalle_llenado.setPrecio_unitario(Float.parseFloat(jtfPrecioUnitarioCompra.getText()));
-        objDetalle_llenado.setMedicamento(objInventario_final.getId_Medicamento());
+        objDetalle_llenado.setMedicamento(objInventario_final.getMedicamento());
         objDetalle_llenado.setUsuario(objPrincipal.getUsuario());
         objDetalle_llenado.setFecha_de_registro(new Date());
         objDetalle_llenado.setCantidad(Integer.parseInt(jtfCantidad.getText()));
@@ -542,7 +542,7 @@ public class LlenarInventario extends javax.swing.JPanel {
              if(listaLote.size()==listaLlenado.size()){
              for (int i = 0; i < listaLote.size(); i++){
                  fila_actividad[0]=listaLote.get(i).getCodigo();
-                 fila_actividad[1]=listaLote.get(i).getInventario().getId_Medicamento().getNombre();
+                 fila_actividad[1]=listaLote.get(i).getInventario().getMedicamento().getNombre();
                  fila_actividad[2]=listaLote.get(i).getCantidad();             
                  fila_actividad[3]=listaLlenado.get(i).getPrecio_unitario();
                  fila_actividad[4]=listaLote.get(i).getPrecio_Venta_Redondeado();
@@ -611,6 +611,9 @@ public class LlenarInventario extends javax.swing.JPanel {
             getToolkit().beep();
             evt.consume();
         }
+        if (jtfPrecioUnitarioCompra.getText().length()>=6){ 
+         evt.consume(); 
+         }
     }//GEN-LAST:event_jtfPrecioUnitarioCompraKeyTyped
 
     private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped
@@ -635,6 +638,9 @@ public class LlenarInventario extends javax.swing.JPanel {
             getToolkit().beep();
             evt.consume();
         }
+        if (jtfCantidad.getText().length()>=4){ 
+         evt.consume(); 
+         }
     }//GEN-LAST:event_jtfProveedorKeyTyped
       
 

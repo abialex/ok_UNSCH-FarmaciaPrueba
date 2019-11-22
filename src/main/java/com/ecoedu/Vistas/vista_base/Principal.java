@@ -15,6 +15,7 @@ import com.ecoedu.Vistas.Usuario.CrearUsuario;
 import com.ecoedu.Vistas.Usuario.ModificarUsuario;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.persistence.EntityManager;
 
 
@@ -82,6 +83,10 @@ public class Principal extends javax.swing.JFrame {
             jleftConsultas.setVisible(false);
             jleftUsuario.setVisible(false);
             jleftProveedorYfabricante.setVisible(false);
+            jleftInventario_llenarInventario.setVisible(false);
+            jleftInventario_detalleInventario.setVisible(false);            
+            jtfsub_inventario.setPreferredSize(new Dimension(300, 41));
+         
             
         }
      

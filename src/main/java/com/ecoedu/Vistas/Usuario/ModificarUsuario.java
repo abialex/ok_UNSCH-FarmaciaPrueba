@@ -5,6 +5,7 @@ package com.ecoedu.Vistas.Usuario;
 
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Medicamento;
+import com.ecoedu.model.Persona;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -26,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
 public class ModificarUsuario extends javax.swing.JPanel {   
+    Usuario objUsuario;
     EntityManager jpa;
     Principal objPrincipal;
     List<Rol> Lista_Rol;
@@ -48,7 +50,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
     }   
     public void principalEjecucion(){  
         for (Rol objRol : Lista_Rol){
-            jcbRol.addItem(objRol.getNombre_rol());
+            jcbRol.addItem(objRol);
         } 
         llenar_tabla_Medicamento(Lista_Usuario);
     }
@@ -68,7 +70,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = 0; i <listUsuario.size(); i++){
                  fila_actividad[0]=listUsuario.get(i).getRol().getNombre_rol();
-                 fila_actividad[1]=listUsuario.get(i).getPersona().getInfoPersona();             
+                 fila_actividad[1]=listUsuario.get(i);             
                  fila_actividad[2]=listUsuario.get(i).getNickname();             
                  modelo.addRow(fila_actividad);//agregando filas
                  }        
@@ -111,14 +113,14 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jcbRol = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
-        jtfNombres1 = new javax.swing.JTextField();
+        jtfNombres = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jtfApellidoMaterno = new javax.swing.JTextField();
+        jtfDNI = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jtfApellidoMaterno1 = new javax.swing.JTextField();
+        jtfApellidoMaterno = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jtblMedicamento = new javax.swing.JTable();
@@ -204,14 +206,14 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel20.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 90, 25));
 
-        jtfNombres1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfNombres1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfNombres1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfNombres.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfNombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfNombres.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfNombres1KeyReleased(evt);
+                jtfNombresKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfNombres1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 500, 25));
+        jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 500, 25));
 
         jLabel21.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -219,19 +221,19 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel21.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 130, 25));
 
-        jtfApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfApellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
+        jtfDNI.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfDNI.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfDNI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfApellidoMaternoActionPerformed(evt);
+                jtfDNIActionPerformed(evt);
             }
         });
-        jtfApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfDNI.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfApellidoMaternoKeyReleased(evt);
+                jtfDNIKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 160, 25));
+        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 160, 25));
 
         jLabel29.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel29.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -251,19 +253,19 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 380, 90, 25));
 
-        jtfApellidoMaterno1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfApellidoMaterno1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfApellidoMaterno1.addActionListener(new java.awt.event.ActionListener() {
+        jtfApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfApellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfApellidoMaterno1ActionPerformed(evt);
+                jtfApellidoMaternoActionPerformed(evt);
             }
         });
-        jtfApellidoMaterno1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfApellidoMaterno1KeyReleased(evt);
+                jtfApellidoMaternoKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfApellidoMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 500, 25));
+        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 500, 25));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new java.awt.BorderLayout());
@@ -301,6 +303,11 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jtblMedicamento.setGridColor(new java.awt.Color(0, 0, 0));
         jtblMedicamento.setMaximumSize(new java.awt.Dimension(2147483647, 32312310));
         jtblMedicamento.setMinimumSize(new java.awt.Dimension(500, 100));
+        jtblMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblMedicamentoMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jtblMedicamento);
 
         jPanel10.add(jScrollPane4, java.awt.BorderLayout.CENTER);
@@ -349,28 +356,57 @@ public class ModificarUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-   
+        Persona objPersona=objUsuario.getPersona();
+        objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
+        objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
+        objPersona.setDni(jtfDNI.getText());
+        objPersona.setNombre(jtfNombres.getText());
+        objUsuario.setRol((Rol)jcbRol.getSelectedItem());        
+        jpa.getTransaction().begin();
+        jpa.persist(objPersona);
+        jpa.persist(objUsuario);
+        limpiar();
+        jpa.getTransaction().commit();
+        ConsultaBD();
+        llenar_tabla_Medicamento(Lista_Usuario);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jtfNombres1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombres1KeyReleased
+    public void limpiar(){
+        jtfApellidoMaterno.setText("");
+        jtfApellidoPaterno.setText("");
+        jtfDNI.setText("");
+        jtfNombres.setText("");
+    }
+    private void jtfNombresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfNombres1KeyReleased
+    }//GEN-LAST:event_jtfNombresKeyReleased
 
-    private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
+    private void jtfDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
+    }//GEN-LAST:event_jtfDNIKeyReleased
+
+    private void jtfDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfDNIActionPerformed
 
     private void jtfApellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfApellidoMaternoActionPerformed
 
-    private void jtfApellidoMaterno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfApellidoMaterno1ActionPerformed
+    private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaterno1ActionPerformed
+    }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
 
-    private void jtfApellidoMaterno1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaterno1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaterno1KeyReleased
+    private void jtblMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblMedicamentoMouseClicked
+        objUsuario=(Usuario)jtblMedicamento.getValueAt(jtblMedicamento.getSelectedRow(),1);
+        jtfNombres.setText(objUsuario.getPersona().getNombre());
+        jtfApellidoPaterno.setText(objUsuario.getPersona().getApellido_Paterno());
+        jtfApellidoMaterno.setText(objUsuario.getPersona().getApellido_Materno());
+        jtfDNI.setText(objUsuario.getPersona().getDni());
+        jcbRol.setSelectedItem(objUsuario.getRol());
+        
+        
+    }//GEN-LAST:event_jtblMedicamentoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -399,12 +435,12 @@ public class ModificarUsuario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JComboBox<String> jcbRol;
+    private javax.swing.JComboBox<Rol> jcbRol;
     private javax.swing.JTable jtblMedicamento;
     private javax.swing.JTextField jtfApellidoMaterno;
-    private javax.swing.JTextField jtfApellidoMaterno1;
     private javax.swing.JTextField jtfApellidoPaterno;
-    private javax.swing.JTextField jtfNombres1;
+    private javax.swing.JTextField jtfDNI;
+    private javax.swing.JTextField jtfNombres;
     private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables
 

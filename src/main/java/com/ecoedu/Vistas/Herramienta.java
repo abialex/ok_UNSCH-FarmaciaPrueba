@@ -71,11 +71,17 @@ public class Herramienta {
         return listGenericos; 
     }
     public static <T> List<T> findbyWhere(Class<T> generico,String Columna,int idFK,EntityManager jpa){
-        List<T> listGenericos;
-        //System.out.println("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna +"LIKE "+"'"+palabra+"%"+"'");
-        Query query=jpa.createQuery             
+        List<T> listGenericos=new ArrayList<>();
+        System.out.println("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);
+        try {
+            Query query=jpa.createQuery             
         ("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);
         listGenericos=query.getResultList(); 
+            
+        } catch (Exception e) {
+            System.out.println(e.toString()+" rrr");
+        }
+        
          
         return listGenericos; 
     }

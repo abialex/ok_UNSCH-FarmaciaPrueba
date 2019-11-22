@@ -23,7 +23,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -53,7 +52,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-                String [] lista={"Cantidad","Nombre","Precio Unitario","Precio Total","Fecha","Lote","Química(o)"}; 
+                String [] lista={"Cantidad","Nombre","P.U.","P.T.","Fecha","Lote","Química(o)"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {false, false, false, false, false, false, false};
                  @Override
@@ -88,13 +87,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             jtblMedicinasEntregada.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblMedicinasEntregada.getTableHeader().setBackground(Color.BLUE);
             jtblMedicinasEntregada.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblMedicinasEntregada.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jtblMedicinasEntregada.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jtblMedicinasEntregada.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jtblMedicinasEntregada.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jtblMedicinasEntregada.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jtblMedicinasEntregada.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jtblMedicinasEntregada.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jtblMedicinasEntregada.getColumnModel().getColumn(3).setPreferredWidth(40);
             jtblMedicinasEntregada.getColumnModel().getColumn(4).setPreferredWidth(180);
-            jtblMedicinasEntregada.getColumnModel().getColumn(5).setPreferredWidth(100);
-            jtblMedicinasEntregada.getColumnModel().getColumn(6).setPreferredWidth(200);                     
+            jtblMedicinasEntregada.getColumnModel().getColumn(5).setPreferredWidth(80);
+            jtblMedicinasEntregada.getColumnModel().getColumn(6).setPreferredWidth(220);                     
             //880
             ((DefaultTableCellRenderer)jtblMedicinasEntregada.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             
@@ -110,31 +109,24 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }
      public void ConsultaBD(){
          Query query=jpa.createQuery("select p from Control_paciente p where iSactivo=1");
-         Lista_control_paciente=query.getResultList();             
-
+         Lista_control_paciente=query.getResultList();           
          Query query3=jpa.createQuery("SELECT p FROM Procedencia p");
          lista_procedencia=query3.getResultList();              
      }
     
      public void principalEjecucion(){ 
-         jtfCodigoDiagnostico.setDocument(new soloMayusculas());
-         jtfProcedencia.setDocument(new soloMayusculas());
-         this.TextAutoCompleterProcedencia=new TextAutoCompleter(jtfProcedencia, new AutoCompleterCallback(){
+         jtfCodigoDiagnostico.setDocument(new soloMayusculas());        
+   this.TextAutoCOmpleterCodigoDiagnostico=new TextAutoCompleter(jtfCodigoDiagnostico, new AutoCompleterCallback(){
             @Override
             public void callback(Object o){
-                }});
-        this.TextAutoCOmpleterCodigoDiagnostico=new TextAutoCompleter(jtfCodigoDiagnostico, new AutoCompleterCallback(){
-            @Override
-            public void callback(Object o){
-                }});         
-         
+                }});          
          jbtnCrearReceta.setEnabled(false);
          llenar_Tabla_de_Recetas(Lista_Recetas);
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
-         for (int i = 0; i < lista_procedencia.size(); i++) {
-             TextAutoCompleterProcedencia.addItem(lista_procedencia.get(i).getNombre());              
-         }         
-         
+        
+        for (Procedencia procedencia : lista_procedencia){
+            jcbProcedencia.addItem(procedencia);
+        }             
      }  
      public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
          Lista_carrito_medicamentos.add(objDetalleMedicamento);
@@ -228,8 +220,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jtfCodigoDiagnostico = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
-        jtfProcedencia = new javax.swing.JTextField();
         jlblDescripcion = new javax.swing.JLabel();
+        jcbProcedencia = new javax.swing.JComboBox<>();
         jPanel17 = new javax.swing.JPanel();
         cabeza = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
@@ -348,11 +340,17 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jtfLookCodigo.setBackground(new java.awt.Color(240, 200, 20));
         jtfLookCodigo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtfLookCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfLookCodigo.setText("27150506");
+        jtfLookCodigo.setText("2715050");
         jtfLookCodigo.setPreferredSize(new java.awt.Dimension(85, 30));
         jtfLookCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtfLookCodigoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfLookCodigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfLookCodigoKeyTyped(evt);
             }
         });
         jPanel7.add(jtfLookCodigo);
@@ -374,7 +372,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         cuerpo1ListaRecetas.setPreferredSize(new java.awt.Dimension(900, 350));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setPreferredSize(new java.awt.Dimension(900, 290));
+        jPanel9.setPreferredSize(new java.awt.Dimension(900, 305));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         jtblRecetas.setBorder(new javax.swing.border.MatteBorder(null));
@@ -517,19 +515,11 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel34.setText("PROCEDENCIA:");
         jPanel16.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
-        jtfProcedencia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfProcedencia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfProcedencia.setMinimumSize(new java.awt.Dimension(6, 30));
-        jtfProcedencia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtfProcedenciaKeyTyped(evt);
-            }
-        });
-        jPanel16.add(jtfProcedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 130, 25));
-
         jlblDescripcion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel16.add(jlblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 720, 25));
+
+        jPanel16.add(jcbProcedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 150, 25));
 
         jPanel14.add(jPanel16, java.awt.BorderLayout.CENTER);
 
@@ -794,6 +784,12 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 if(Lista_Recetas.isEmpty()){
                 jlblAdvertencia.setText("NO CONTIENE NI UNA RECETA");
                 }
+                else{
+                    for (Receta Lista_Receta : Lista_Recetas) {
+                        System.out.println(Lista_Receta.getTotal_costo_medicinas());
+                        
+                    }
+                }
                 break;
             }            
         }
@@ -803,20 +799,22 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
         Lista_lote_detalle=query1.getResultList();
         cuerpo1ListaRecetas.setVisible(false);
-        cuerp2CrearRecetas.setVisible(true);                
+        cuerp2CrearRecetas.setVisible(true);      
+        jtfLookCodigo.setEditable(false);
     }//GEN-LAST:event_jbtnCrearRecetaActionPerformed
 
     private void jtblRecetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetasMouseClicked
-        int valor =Integer.parseInt(jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0).toString());
+        Receta objReceta=(Receta)jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0);
         for (int i = 0; i < Lista_Recetas.size(); i++){
-            if(Lista_Recetas.get(i).getId_Diagnostico()==valor){ 
-                Lista_detalle_medicamento=Herramienta.findbyWhere(Detalle_Medicamentos.class,"id_Receta", valor, jpa);
+            if(Lista_Recetas.get(i)==objReceta){ 
+                Lista_detalle_medicamento=Herramienta.findbyWhere(Detalle_Medicamentos.class,"id_Receta", objReceta.getId_Receta(), jpa);
                 llenar_Detalle_de_Recetas(Lista_detalle_medicamento);
                 cuerpo1ListaRecetas.setVisible(false);
                 cuerpo4VerDetallesDeLaReceta.setVisible(true);
                 jlblCodigoDiagnostico.setText(Lista_Recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo());
                 jlblDescripcionDia.setText(Lista_Recetas.get(i).getDiagnosito().getDescripcion_Diagnostico());
                 jlblProcedencia.setText(Lista_Recetas.get(i).getProcedencia().getNombre());
+                jtfLookCodigo.setEditable(false);
                 break;
             }        
         }
@@ -825,6 +823,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jbtnVolver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVolver2ActionPerformed
         cuerpo4VerDetallesDeLaReceta.setVisible(false);
         cuerpo1ListaRecetas.setVisible(true);
+        jtfLookCodigo.setEditable(true);
     }//GEN-LAST:event_jbtnVolver2ActionPerformed
 
     private void jbtnADDmedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnADDmedicamentosActionPerformed
@@ -836,6 +835,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jbtnCancelarCrearDiagnosticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarCrearDiagnosticoActionPerformed
         cuerp2CrearRecetas.setVisible(false);
         cuerpo1ListaRecetas.setVisible(true);
+        jtfLookCodigo.setEditable(false);
     }//GEN-LAST:event_jbtnCancelarCrearDiagnosticoActionPerformed
 
     private void jtfLookCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyPressed
@@ -848,12 +848,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
         Receta objReceta_Final=new Receta();
         //objReceta_Final.setDiagnostico(jtxtDiagnosticoNuevo.getText());
-        for (int i = 0; i < lista_procedencia.size(); i++){
-            if(jtfProcedencia.getText().equals(lista_procedencia.get(i).getNombre())){
-                objReceta_Final.setProcedencia(lista_procedencia.get(i));
-                break;
-            }            
-        }
+        objReceta_Final.setProcedencia((Procedencia)jcbProcedencia.getSelectedItem());        
         for (Diagnostico diagnostico : Lista_diagnostico) {
             if(jtfCodigoDiagnostico.getText().equals(diagnostico.getId_DiagnosticoCodigo())){
                 objReceta_Final.setDiagnostico(diagnostico);
@@ -891,7 +886,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }//GEN-LAST:event_jbtnGuardarActionPerformed
 
     public void Limpiarcuerp2CrearRecetas(){
-        jtfProcedencia.setText("");
         jtfCodigoDiagnostico.setText("");
         Lista_carrito_medicamentos.clear();
         llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
@@ -919,16 +913,35 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnFinalizar2ActionPerformed
 
-    private void jtfProcedenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProcedenciaKeyTyped
+    private void jtfLookCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyTyped
+        if (jtfLookCodigo.getText().length()>=9){ 
+            
+         evt.consume(); 
+         }
+        
+        
         char validar=evt.getKeyChar();
-        if(!Character.isLetter(validar)){
+        if(Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
-        //cuando borras, suena verificar
-            
-    }//GEN-LAST:event_jtfProcedenciaKeyTyped
+    }//GEN-LAST:event_jtfLookCodigoKeyTyped
 
+    private void jtfLookCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyReleased
+        if(jtfLookCodigo.getText().length()==8){
+                llenarControlAlumno();
+            }
+        else{
+            limpiarVista1();
+        }
+    }//GEN-LAST:event_jtfLookCodigoKeyReleased
+     public void limpiarVista1(){
+         jlblNombres.setText("");
+         jlblEscuela.setText("");
+         jlblSerie.setText("");
+         Lista_Recetas.clear();
+         llenarControlAlumno();
+     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
@@ -994,6 +1007,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JButton jbtnFinalizar2;
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JButton jbtnVolver2;
+    private javax.swing.JComboBox<Procedencia> jcbProcedencia;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblCodigoDiagnostico;
     private javax.swing.JLabel jlblDescripcion;
@@ -1009,17 +1023,15 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JTable jtblRecetas;
     private javax.swing.JTextField jtfCodigoDiagnostico;
     private javax.swing.JTextField jtfLookCodigo;
-    private javax.swing.JTextField jtfProcedencia;
     // End of variables declaration//GEN-END:variables
 public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
-    
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código","Fecha","Total costo","Procedencia","Diagnostico"}; 
+             String [] lista={"Fecha","Total costo","Procedencia","Diagnostico"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
-                     false, false, false, false, false, false
+                       false, false, false, false
                          };
                  @Override
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1028,12 +1040,11 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
                  };
              //.....................................TABLA...........Fin......................           
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (int i = 0; i < lista_de_recetas.size(); i++){
-                 fila_actividad[0]=lista_de_recetas.get(i).getId_Diagnostico();
-                 fila_actividad[1]=lista_de_recetas.get(i).getFecha_creada();             
-                 fila_actividad[2]=lista_de_recetas.get(i).getTotal_costo_medicinas();  
-                 fila_actividad[3]=lista_de_recetas.get(i).getProcedencia().getNombre();   
-                 fila_actividad[4]=lista_de_recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo();  
+             for (int i = lista_de_recetas.size()-1; i>=0 ; i--){
+                 fila_actividad[0]=lista_de_recetas.get(i);             
+                 fila_actividad[1]=lista_de_recetas.get(i).getTotal_costo_medicinas();  
+                 fila_actividad[2]=lista_de_recetas.get(i).getProcedencia().getNombre();   
+                 fila_actividad[3]=lista_de_recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo();  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
             jtblRecetas.setModel(modelo); 
@@ -1044,19 +1055,17 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
             jtblRecetas.getColumnModel().getColumn(1).setCellRenderer(tcr);
             jtblRecetas.getColumnModel().getColumn(2).setCellRenderer(tcr);
             jtblRecetas.getColumnModel().getColumn(3).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(4).setCellRenderer(tcr);
+
      
             
             jtblRecetas.setFont(new java.awt.Font("Tahoma", 0, 15));
             jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblRecetas.getTableHeader().setBackground(Color.BLUE);
             jtblRecetas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(270);
+            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(250);
+            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(150);
             jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(250);
-            jtblRecetas.getColumnModel().getColumn(4).setPreferredWidth(100);
-            
+            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(150);     
             ((DefaultTableCellRenderer)jtblRecetas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64  
     }   

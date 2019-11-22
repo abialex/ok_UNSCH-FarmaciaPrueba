@@ -7,6 +7,10 @@ package com.ecoedu.Vistas.vista_base;
 
 
 import com.ecoedu.Vistas.Login;
+import com.itextpdf.text.DocumentException;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author yrma
@@ -14,7 +18,7 @@ import com.ecoedu.Vistas.Login;
 public class CuadroLogin extends javax.swing.JFrame {
     Login objLogin;     
     
-    public CuadroLogin() {            
+    public CuadroLogin() throws FileNotFoundException, DocumentException {            
         initComponents();
         this.objLogin=new Login(this);
         contenedor.add(objLogin);
@@ -75,7 +79,13 @@ public class CuadroLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CuadroLogin().setVisible(true);
+                try {
+                    new CuadroLogin().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(CuadroLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(CuadroLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

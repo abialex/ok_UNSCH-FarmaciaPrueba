@@ -56,6 +56,7 @@ public class Medicamento{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
 
     
 }

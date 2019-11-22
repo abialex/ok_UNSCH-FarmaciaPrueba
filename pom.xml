@@ -45,6 +45,12 @@
       <artifactId>AutoCompleter</artifactId>
       <version>SNAPSHOT</version>
     </dependency>
+    
+    <dependency>
+      <groupId>unknown.binary</groupId>
+      <artifactId>Itextpdf</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
    
   </dependencies>
   <build> 
