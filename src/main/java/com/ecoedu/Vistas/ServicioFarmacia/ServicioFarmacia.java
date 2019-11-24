@@ -115,18 +115,19 @@ public class ServicioFarmacia extends javax.swing.JPanel {
      }
     
      public void principalEjecucion(){ 
-         jtfCodigoDiagnostico.setDocument(new soloMayusculas());        
-   this.TextAutoCOmpleterCodigoDiagnostico=new TextAutoCompleter(jtfCodigoDiagnostico, new AutoCompleterCallback(){
-            @Override
-            public void callback(Object o){
-                }});          
+         jtfCodigoDiagnostico.setDocument(new soloMayusculas()); 
+         this.TextAutoCOmpleterCodigoDiagnostico=new TextAutoCompleter(jtfCodigoDiagnostico, new AutoCompleterCallback(){
+         @Override
+         public void callback(Object o){
+                }});      
          jbtnCrearReceta.setEnabled(false);
          llenar_Tabla_de_Recetas(Lista_Recetas);
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
         
+         jcbProcedencia.removeAllItems();
         for (Procedencia procedencia : lista_procedencia){
             jcbProcedencia.addItem(procedencia);
-        }             
+            }             
      }  
      public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
          Lista_carrito_medicamentos.add(objDetalleMedicamento);

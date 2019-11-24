@@ -12,6 +12,8 @@ import javax.persistence.Query;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -144,7 +146,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Modificar Usuario");
+        jLabel12.setText("MODIFICAR USUARIO");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -356,17 +358,20 @@ public class ModificarUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Persona objPersona=objUsuario.getPersona();
+        Persona objPersona=objUsuario.getPersona();  
+        objUsuario.setRol((Rol)jcbRol.getSelectedItem());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setDni(jtfDNI.getText());
-        objPersona.setNombre(jtfNombres.getText());
-        objUsuario.setRol((Rol)jcbRol.getSelectedItem());        
+        objPersona.setNombre(jtfNombres.getText()); 
         jpa.getTransaction().begin();
-        jpa.persist(objPersona);
+        jpa.persist(objPersona);  
         jpa.persist(objUsuario);
-        limpiar();
+        jpa.createNativeQuery("update Usuario set id_Rol="+((Rol)jcbRol.getSelectedItem()).getId_Rol()+" where id_Usuario="+objUsuario.getId_Usuario()).executeUpdate();
+        jpa.flush();
         jpa.getTransaction().commit();
+        limpiar();
+        
         ConsultaBD();
         llenar_tabla_Medicamento(Lista_Usuario);
         

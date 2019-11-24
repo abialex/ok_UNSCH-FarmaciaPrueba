@@ -156,7 +156,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Llenar Inventario");
+        jLabel12.setText("LLENAR INVENTARIO");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -484,7 +484,7 @@ public class LlenarInventario extends javax.swing.JPanel {
          //cantidad,codigo,fecha_Vencimiento,id_inventario,id_fabricante,id_factura,PVR----id_factura
          objLote_Detalle.setCantidad(Integer.parseInt(jtfCantidad.getText()));
          objLote_Detalle.setCodigo(jtfCodigoLote.getText());
-         jcbFechaVencimiento.getDatoFecha().setMonth(jcbFechaVencimiento.getDatoFecha().getMonth()+1);
+         jcbFechaVencimiento.getDatoFecha().setMonth(jcbFechaVencimiento.getDatoFecha().getMonth());
          objLote_Detalle.setFecha_vencimiento(jcbFechaVencimiento.getDatoFecha());
          objLote_Detalle.setInventario(objInventario_final);
          MensajeFabricante="Ingrese un Fabricante Existente";

@@ -2,8 +2,12 @@ package com.ecoedu.Vistas.Consultas;
 
 
 
+import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.model.Detalle_Medicamentos;
+import com.ecoedu.model.Lote_detalle;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -23,9 +27,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author yrma
  */
-public class Consultas extends javax.swing.JPanel {  
+public class Entrega_del_dia extends javax.swing.JPanel {  
     EntityManager jpa;
-    public Consultas(EntityManager objJPA) {
+    List<Detalle_Medicamentos> Lista_Detalle_Medicamento;
+    public Entrega_del_dia(EntityManager objJPA) {
         initComponents();
         this.jpa=objJPA;
         //principalEjecucion();
@@ -34,19 +39,18 @@ public class Consultas extends javax.swing.JPanel {
    
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Detalle_control_paciente p");
-        //lista_Detalles_control_paciente=query1.getResultList();
+        Query query1=jpa.createQuery("SELECT p FROM Detalle_Medicamentos p");
+        Lista_Detalle_Medicamento=query1.getResultList();
         
     }
     public void principalEjecucion(){
-        jcbYearDesde.setVisible(false);
-        jlblDesde.setVisible(false);
-        jlblHasta.setVisible(false);
-        jcbYearHasta.setVisible(false);
-        jcbMeses.setVisible(false);
-        jcbYear.setVisible(false);
-        jlblMes.setVisible(false);
-        
+        List<Detalle_Medicamentos> listaDetalleMedicamentos=new ArrayList<>();
+        for (Detalle_Medicamentos Detalle_Medicamento : Lista_Detalle_Medicamento) {
+            if(Herramienta.iSigualFechas(new Date(), Detalle_Medicamento.getFecha())){
+                listaDetalleMedicamentos.add(Detalle_Medicamento);
+            }
+        }
+        llenarTabla(listaDetalleMedicamentos);
     }
 
     /**
@@ -65,19 +69,8 @@ public class Consultas extends javax.swing.JPanel {
         head2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jrbEspecifica1 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jrbMesayo1 = new javax.swing.JRadioButton();
         jPanel11 = new javax.swing.JPanel();
-        jlblDesde = new javax.swing.JLabel();
-        jcbYearDesde = new rojeru_san.componentes.RSDateChooser();
-        jlblHasta = new javax.swing.JLabel();
-        jcbYearHasta = new rojeru_san.componentes.RSDateChooser();
-        jlblMes = new javax.swing.JLabel();
-        jcbMeses = new javax.swing.JComboBox<>();
-        jcbYear = new rojeru_san.componentes.RSYearDate();
         body2 = new javax.swing.JPanel();
         cuerpo1 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -102,7 +95,7 @@ public class Consultas extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("CONSULTAS");
+        jLabel12.setText("ENTREGA DEL DÍA");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -121,82 +114,13 @@ public class Consultas extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(880, 30));
         jPanel4.setRequestFocusEnabled(false);
 
-        jLabel16.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("BÚSQUEDA ESPECÍFICA");
-        jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel16.setPreferredSize(new java.awt.Dimension(162, 30));
-        jPanel4.add(jLabel16);
-
-        jrbEspecifica1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrbEspecifica1);
-        jrbEspecifica1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jrbEspecifica1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jrbEspecifica1.setPreferredSize(new java.awt.Dimension(15, 30));
-        jrbEspecifica1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jrbEspecifica1MouseClicked(evt);
-            }
-        });
-        jPanel4.add(jrbEspecifica1);
-
         jLabel2.setPreferredSize(new java.awt.Dimension(150, 30));
         jPanel4.add(jLabel2);
-
-        jLabel19.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel19.setText("BÚSQUEDA POR MES Y/O AÑO");
-        jLabel19.setPreferredSize(new java.awt.Dimension(210, 30));
-        jPanel4.add(jLabel19);
-
-        jrbMesayo1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrbMesayo1);
-        jrbMesayo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jrbMesayo1.setPreferredSize(new java.awt.Dimension(15, 30));
-        jrbMesayo1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jrbMesayo1MouseClicked(evt);
-            }
-        });
-        jPanel4.add(jrbMesayo1);
 
         jPanel7.add(jPanel4);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setPreferredSize(new java.awt.Dimension(880, 40));
-
-        jlblDesde.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jlblDesde.setText("Desde :");
-        jPanel11.add(jlblDesde);
-
-        jcbYearDesde.setFormatoFecha("dd/MM/yyyy ");
-        jcbYearDesde.setPlaceholder("Desde ");
-        jcbYearDesde.setPreferredSize(new java.awt.Dimension(170, 30));
-        jPanel11.add(jcbYearDesde);
-
-        jlblHasta.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jlblHasta.setText("Hasta :");
-        jPanel11.add(jlblHasta);
-
-        jcbYearHasta.setFormatoFecha("dd/MM/yyyy\n");
-        jcbYearHasta.setPlaceholder("Hasta");
-        jcbYearHasta.setPreferredSize(new java.awt.Dimension(170, 30));
-        jPanel11.add(jcbYearHasta);
-
-        jlblMes.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jlblMes.setText("Mes :");
-        jPanel11.add(jlblMes);
-
-        jcbMeses.setBackground(new java.awt.Color(0, 112, 192));
-        jcbMeses.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jcbMeses.setForeground(new java.awt.Color(67, 150, 209));
-        jcbMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre" }));
-        jcbMeses.setPreferredSize(new java.awt.Dimension(100, 30));
-        jPanel11.add(jcbMeses);
-
-        jcbYear.setPreferredSize(new java.awt.Dimension(150, 30));
-        jPanel11.add(jcbYear);
-
         jPanel7.add(jPanel11);
 
         head2.add(jPanel7);
@@ -283,33 +207,11 @@ public class Consultas extends javax.swing.JPanel {
         add(body, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jrbEspecifica1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrbEspecifica1MouseClicked
-        jcbMeses.setVisible(false);
-        jcbYear.setVisible(false);
-        jlblMes.setVisible(false);
-
-        jcbYearDesde.setVisible(true);
-        jlblDesde.setVisible(true);
-        jlblHasta.setVisible(true);
-        jcbYearHasta.setVisible(true);
-    }//GEN-LAST:event_jrbEspecifica1MouseClicked
-
-    private void jrbMesayo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrbMesayo1MouseClicked
-        jcbYearDesde.setVisible(false);
-        jlblDesde.setVisible(false);
-        jlblHasta.setVisible(false);
-        jcbYearHasta.setVisible(false);
-
-        jcbMeses.setVisible(true);
-        jcbYear.setVisible(true);
-        jlblMes.setVisible(true);
-    }//GEN-LAST:event_jrbMesayo1MouseClicked
-
-    public void llenarTabla(List<Detalle_Medicamentos> listaDetalleControl){ 
+    public void llenarTabla(List<Detalle_Medicamentos> listadetalleMedicamento){ 
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Fecha","Producto Farmacéutico","Cantidad","Precio Unidad","Código Estudiante","Química(o) Farmacéutica(o)"};
+             String [] lista={"Cantidad","Producto Farmacéutico.","Conc.","F.F","Laboratorio.","Fecha Venc.","P.U","P.T"};
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
                      false, false, false, false, false, false
@@ -322,14 +224,15 @@ public class Consultas extends javax.swing.JPanel {
              //.....................................TABLA...........Fin......................
             
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (int i = 0; i < listaDetalleControl.size(); i++){
-                 System.out.println("entro");
-                 fila_actividad[0]=listaDetalleControl.get(i).getFecha();
-                 fila_actividad[1]=listaDetalleControl.get(i).getId_Medicamento().getNombre();             
-                 fila_actividad[2]=listaDetalleControl.get(i).getCantidad();  
-                 fila_actividad[3]=listaDetalleControl.get(i).getPrecio_Unitario();   
-                // fila_actividad[4]=listaDetalleControl.get(i).getControl_Paciente().getPersona().getCodigo();   
-                 fila_actividad[5]=listaDetalleControl.get(i).getUsuario().getPersona().getInfoPersona();  
+             for (int i = 0; i < listadetalleMedicamento.size(); i++){                 
+                 fila_actividad[0]=listadetalleMedicamento.get(i).getCantidad(); 
+                 fila_actividad[1]=listadetalleMedicamento.get(i).getId_Medicamento().getNombre();
+                 fila_actividad[2]=listadetalleMedicamento.get(i).getId_Medicamento().getConcentracion();             
+                 fila_actividad[3]=listadetalleMedicamento.get(i).getId_Medicamento().getForma_farmaceutica();  
+                 fila_actividad[4]=listadetalleMedicamento.get(i).getLote_detalle().getFabricante().getNombre();   
+                 fila_actividad[5]=Herramienta.formatoFecha(listadetalleMedicamento.get(i).getLote_detalle().getFecha_vencimiento());   
+                 fila_actividad[6]=listadetalleMedicamento.get(i).getPrecio_Unitario();
+                 fila_actividad[7]=listadetalleMedicamento.get(i).getPrecio_Total();
                  modelo.addRow(fila_actividad);//agregando filas
                  }
             jtblVentas.setModel(modelo); 
@@ -344,23 +247,21 @@ public class Consultas extends javax.swing.JPanel {
             jtblVentas.getColumnModel().getColumn(3).setCellRenderer(tcr);
             jtblVentas.getColumnModel().getColumn(4).setCellRenderer(tcr);
             jtblVentas.getColumnModel().getColumn(5).setCellRenderer(tcr);
+            jtblVentas.getColumnModel().getColumn(6).setCellRenderer(tcr);
+            jtblVentas.getColumnModel().getColumn(7).setCellRenderer(tcr);
             
-            jtblVentas.getColumnModel().getColumn(5).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(4).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(3).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(2).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(1).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(0).setPreferredWidth(40);
             jtblVentas.setFont(new java.awt.Font("Tahoma", 0, 15));
             jtblVentas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblVentas.getTableHeader().setBackground(Color.BLUE);
             jtblVentas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblVentas.getColumnModel().getColumn(0).setPreferredWidth(154);
+            jtblVentas.getColumnModel().getColumn(0).setPreferredWidth(75);
             jtblVentas.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblVentas.getColumnModel().getColumn(2).setPreferredWidth(75);
-            jtblVentas.getColumnModel().getColumn(3).setPreferredWidth(125);
-            jtblVentas.getColumnModel().getColumn(4).setPreferredWidth(90);
-            jtblVentas.getColumnModel().getColumn(5).setPreferredWidth(220);
+            jtblVentas.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jtblVentas.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jtblVentas.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jtblVentas.getColumnModel().getColumn(5).setPreferredWidth(80);
+            jtblVentas.getColumnModel().getColumn(6).setPreferredWidth(50);
+            jtblVentas.getColumnModel().getColumn(7).setPreferredWidth(50);
             
             ((DefaultTableCellRenderer)jtblVentas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64
@@ -381,9 +282,7 @@ public class Consultas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel10;
@@ -392,15 +291,6 @@ public class Consultas extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> jcbMeses;
-    private rojeru_san.componentes.RSYearDate jcbYear;
-    private rojeru_san.componentes.RSDateChooser jcbYearDesde;
-    private rojeru_san.componentes.RSDateChooser jcbYearHasta;
-    private javax.swing.JLabel jlblDesde;
-    private javax.swing.JLabel jlblHasta;
-    private javax.swing.JLabel jlblMes;
-    private javax.swing.JRadioButton jrbEspecifica1;
-    private javax.swing.JRadioButton jrbMesayo1;
     private javax.swing.JTable jtblVentas;
     // End of variables declaration//GEN-END:variables
 

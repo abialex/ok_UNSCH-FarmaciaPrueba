@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.swing.text.PlainDocument;
+
 /**
  *
  * @author yrma
@@ -38,7 +38,13 @@ public class Herramienta {
     public static String formatoFecha(Date fecha){
         return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth())+"-"+conOsin0(fecha.getDate());
     }
-        public static String formatoFechaMas1(Date fecha){
+    public static String formatoFechaHora(Date fecha){
+        return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth())+"-"+conOsin0(fecha.getDate())
+                +" "+conOsin0(fecha.getHours())+":"+conOsin0(fecha.getMinutes())+":"+conOsin0(fecha.getSeconds());
+    }
+    
+    
+    public static String formatoFechaMas1(Date fecha){
         return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth()+1)+"-"+conOsin0(fecha.getDate());
     }
     public static String conOsin0(int numero){
@@ -80,10 +86,18 @@ public class Herramienta {
             
         } catch (Exception e) {
             System.out.println(e.toString()+" rrr");
-        }
-        
-         
+        }               
         return listGenericos; 
+    }
+    public static boolean iSigualFechas(Date fecha1,Date fecha2){        
+        if(fecha1.getYear()==fecha2.getYear()){
+            if(fecha1.getMonth()==fecha2.getMonth()){
+                if(fecha1.getDate()==fecha2.getDate()){
+                    return true;
+                }
+            }
+        }        
+        return false;
     }
     
             

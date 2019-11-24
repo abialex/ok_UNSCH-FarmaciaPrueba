@@ -13,18 +13,30 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.Lote_detalle;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+
+import com.itextpdf.layout.property.TextAlignment;
+import com.sun.org.apache.xerces.internal.impl.xs.ElementPSVImpl;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.text.StyleConstants;
+import org.dom4j.DocumentException;
 
 
 
@@ -137,7 +149,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Inventario");
+        jLabel12.setText("INVENTARIO");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -344,79 +356,59 @@ public class Ver_inventario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtblInventarioOperacionesMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         try {
             imprimir();
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(Ver_inventario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DocumentException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Ver_inventario.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void imprimir() throws FileNotFoundException, DocumentException{
-        FileOutputStream archivo=new FileOutputStream("nuevo.pdf");
-        Document document = new Document();
-        PdfWriter.getInstance(document, archivo);
-        document.open();
-        float[] mediaCeldas={4f,3,3,3};
-        PdfPTable table = new PdfPTable(4);
-        table.setWidths(mediaCeldas);
-        PdfPCell cellTitle = new PdfPCell(new Phrase("Inventario"));
-        cellTitle.setPadding(5);
-        cellTitle.setColspan(4);
-        cellTitle.setUseAscender(true);
-        cellTitle.setUseDescender(true);
-        cellTitle.setHorizontalAlignment(Element.ALIGN_CENTER);        
-        table.addCell(cellTitle);               
-        /*
-        table.addCell("Cell 1.1");
-        cell = new PdfPCell();
-        cell.addElement(new Phrase("Cell 1.2"));
-        table.addCell(cell);
-        */
-        PdfPCell cellcelda=new PdfPCell(new Phrase("Producto Farmacéutico"));
-        cellcelda.setPadding(5);
-        cellcelda.setUseAscender(true);
-        cellcelda.setUseDescender(true);
-        cellcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cellcelda);        
-        cellcelda.setPhrase(new Phrase("Cantidad"));
-        table.addCell(cellcelda);
-        cellcelda.setPhrase(new Phrase("F.F"));
-        table.addCell(cellcelda);
-        cellcelda.setPhrase(new Phrase("Concentración"));
-        table.addCell(cellcelda);
+    public void imprimir() throws FileNotFoundException, DocumentException, IOException{
+        String ol="C:\\Users\\yrma\\eclipse-workspace\\com.ecodap.pruebaBotica\\src\\main\\resources\\images\\unsch.png";
+        Image unsch=new Image(ImageDataFactory.create(ol));
+        PdfWriter writer=new PdfWriter("tomalocal.pdf");
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document=new Document(pdf,PageSize.A4);
         
-        for (Inventario inventario : Lista_Inventario){
-            cellcelda.setPhrase(new Phrase(inventario.getMedicamento().getNombre()));
-            table.addCell(cellcelda);
-            cellcelda.setPhrase(new Phrase(Integer.toString(inventario.getCantidad())));
-            table.addCell(cellcelda);
-            cellcelda.setPhrase(new Phrase(inventario.getMedicamento().getForma_farmaceutica()));
-            table.addCell(cellcelda);
-            cellcelda.setPhrase(new Phrase(inventario.getMedicamento().getConcentracion()));
-            table.addCell(cellcelda);
-        }
-        /*
-        cell.setPadding(5);
-        cell.setUseAscender(true);
-        cell.setUseDescender(true);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);*/
-        
-        
-        for (Inventario inventario : Lista_Inventario){
-            
-        }
-        /*
-        cell = new PdfPCell();
-        cell.setPadding(5);
-        cell.setUseAscender(true);
-        cell.setUseDescender(true);
-        Paragraph p = new Paragraph("Cell 2.2");
-        p.setAlignment(Element.ALIGN_CENTER);
-        cell.addElement(p);
-        table.addCell(cell);*/
-        document.add(table);
+        PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
+        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
+        Table table = new Table(new float[]{18,12,4,10,10,5});
+        table.setWidthPercent(100);
+        //Paragraph parag=new Paragraph("KARDEX DIARIO MEDICAMENTOS").setFontSize(16).setFont(bold);
+        Paragraph paragIma=new Paragraph("     ").add(unsch).add("                    KARDEX DIARIO MEDICAMENTOS").setFontSize(16).setFont(bold);  
+   
+        document.add(paragIma);
+
+        Paragraph parag=new Paragraph("SEMESTRE 2019-II").setTextAlignment(TextAlignment.CENTER);
+        document.add(parag);      
+        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                             "+Herramienta.formatoFechaHora(new Date()));         
+        document.add(parag2);
+        document.add(new Paragraph(" "));    
+        table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        table.addHeaderCell(new Cell().add(new Paragraph("Concentración").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        table.addHeaderCell(new Cell().add(new Paragraph("F.F").setFont(bold)).setTextAlignment(TextAlignment.CENTER));        
+        table.addHeaderCell(new Cell().add(new Paragraph("Laboratorio").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Fecha Venc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Saldo").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+                 
+        for (Lote_detalle Lote_detalle : Lista_LotesDetalle){
+            table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            table.addCell(new Paragraph(Lote_detalle.getFabricante().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            if(Lote_detalle.getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){                
+            table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.WHITE));
+            }
+            else{
+                table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED));
+            }
+            table.addCell(new Paragraph(Integer.toString(Lote_detalle.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));
+    
+        }       
+        document.add(table);        
         document.close();              
     }
 
