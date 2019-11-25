@@ -283,8 +283,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        System.out.println("de nuevo");
-        Escuela objEscuela;
+
         Persona objPersona=new Persona();
         Estudiante objEstudiante=new Estudiante();
         Control_paciente objControl_paciente=new Control_paciente();
@@ -300,8 +299,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             if(Escuela.getNombre().equals(jtfEscuela.getText())){
                 objEstudiante.setEscuela(Escuela);
             }
-        } 
-                     
+        }                      
         try {
             jpa.getTransaction().begin();
             jpa.persist(objPersona);

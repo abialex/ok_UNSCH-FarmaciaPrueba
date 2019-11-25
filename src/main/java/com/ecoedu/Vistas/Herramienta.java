@@ -5,8 +5,6 @@
  */
 package com.ecoedu.Vistas;
 
-import com.ecoedu.app.JPAUtil;
-import com.ecoedu.model.Diagnostico;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -26,7 +24,6 @@ public class Herramienta {
         DecimalFormatSymbols separador = new DecimalFormatSymbols();
         separador.setDecimalSeparator('.');
         DecimalFormat formato1 = new DecimalFormat("#0.00", separador);
-        System.out.println(formato1.format(a));
         return formato1.format(a);        
     }
     public static String unDecimales(float a){
@@ -78,7 +75,6 @@ public class Herramienta {
     }
     public static <T> List<T> findbyWhere(Class<T> generico,String Columna,int idFK,EntityManager jpa){
         List<T> listGenericos=new ArrayList<>();
-        System.out.println("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);
         try {
             Query query=jpa.createQuery             
         ("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);

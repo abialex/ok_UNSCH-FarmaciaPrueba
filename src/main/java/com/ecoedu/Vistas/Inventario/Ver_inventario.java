@@ -32,6 +32,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -394,6 +397,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         table.addHeaderCell(new Cell().add(new Paragraph("Fecha Venc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
         table.addHeaderCell(new Cell().add(new Paragraph("Saldo").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
                  
+      Collections.sort(Lista_LotesDetalle);//ordenando A-Z (método como Override)
         for (Lote_detalle Lote_detalle : Lista_LotesDetalle){
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER));

@@ -1271,6 +1271,8 @@ public class Principal extends javax.swing.JFrame {
         objCrearUsuario.setVisible(false);
         objServicioFarmacia.setVisible(false);       
         objOperacionesMedicamento.setVisible(false);
+        objModificarUsuario.ConsultaBD();
+        objModificarUsuario.principalEjecucion();
         objModificarUsuario.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);

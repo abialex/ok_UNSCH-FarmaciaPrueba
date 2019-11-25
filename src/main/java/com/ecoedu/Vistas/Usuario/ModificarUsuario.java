@@ -38,8 +38,6 @@ public class ModificarUsuario extends javax.swing.JPanel {
         initComponents();
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
-        ConsultaBD();
-        principalEjecucion(); 
            
     }
     public void ConsultaBD(){

@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.ecoedu.model;
-
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +19,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Lote_detalle{
+public class Lote_detalle implements Comparable<Lote_detalle>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Lote_detalle;
@@ -116,6 +115,12 @@ public class Lote_detalle{
         this.cantidad=cantidad-cant;
         return this;
     }
+
+    @Override
+    public int compareTo(Lote_detalle o) {
+        return this.getInventario().getMedicamento().getNombre().compareTo(o.getInventario().getMedicamento().getNombre());
+    }
+    
 
 
     }

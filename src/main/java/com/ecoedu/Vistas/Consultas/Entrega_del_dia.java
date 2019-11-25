@@ -192,6 +192,7 @@ public class Entrega_del_dia extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(900, 40));
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Pie");
         jLabel4.setMaximumSize(new java.awt.Dimension(500, 0));
         jLabel4.setMinimumSize(new java.awt.Dimension(100, 0));

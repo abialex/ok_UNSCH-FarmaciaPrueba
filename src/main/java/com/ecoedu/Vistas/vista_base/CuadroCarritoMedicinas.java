@@ -32,6 +32,7 @@ public class CuadroCarritoMedicinas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 300));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(700, 350));
         setResizable(false);
 
         contenedor.setBackground(new java.awt.Color(0, 255, 204));
