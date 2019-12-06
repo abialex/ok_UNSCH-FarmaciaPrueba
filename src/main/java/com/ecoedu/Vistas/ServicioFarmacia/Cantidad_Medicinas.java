@@ -1,7 +1,7 @@
 package com.ecoedu.Vistas.ServicioFarmacia;
 
 
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Inventario;

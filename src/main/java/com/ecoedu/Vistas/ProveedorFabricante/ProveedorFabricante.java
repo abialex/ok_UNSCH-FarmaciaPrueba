@@ -3,7 +3,7 @@ package com.ecoedu.Vistas.ProveedorFabricante;
 
 
 
-import com.ecoedu.Vistas.soloMayusculas;
+import com.ecoedu.app.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Fabricante;
 import com.ecoedu.model.Inventario;

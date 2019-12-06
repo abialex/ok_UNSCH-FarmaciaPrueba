@@ -1,6 +1,6 @@
 package com.ecoedu.Vistas.ServicioFarmacia;
-import com.ecoedu.Vistas.Herramienta;
-import com.ecoedu.Vistas.soloMayusculas;
+import com.ecoedu.app.Herramienta;
+import com.ecoedu.app.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;

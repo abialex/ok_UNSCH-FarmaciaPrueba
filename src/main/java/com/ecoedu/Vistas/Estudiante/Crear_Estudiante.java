@@ -4,7 +4,7 @@ package com.ecoedu.Vistas.Estudiante;
 
 
 
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.app.JPAUtil;
 import com.ecoedu.model.Condicion;

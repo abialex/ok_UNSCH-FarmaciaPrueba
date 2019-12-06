@@ -5,7 +5,7 @@
  */
 package com.ecoedu.model;
 
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

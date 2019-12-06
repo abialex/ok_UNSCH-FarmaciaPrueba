@@ -1,5 +1,5 @@
 package com.ecoedu.Vistas.Consultas;
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;

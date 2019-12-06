@@ -5,7 +5,7 @@
   <artifactId>hibernate-jpa</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>hibernate-jpa Maven Webapp</name>
+  <name>ProyectoFarmaciaBienestar</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
