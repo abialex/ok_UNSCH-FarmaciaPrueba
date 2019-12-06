@@ -33,6 +33,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     List<Lote_detalle> list_Lote_detalle;
     Detalle_Medicamentos objDetalle_Medicamento_Final=new Detalle_Medicamentos();
     ServicioFarmacia objServicioFarmacia;
+    Lote_detalle objLoteDetalleFinal;
     public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia){
         initComponents();
         this.jpa=objJpa;
@@ -354,14 +355,23 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         
         if(!jtfCantidad.getText().equals("")){
            jlblPrecioTotal.setText(Herramienta.dosDecimales(Float.parseFloat(jlblPrecioUnitario.getText())*Float.parseFloat(jtfCantidad.getText())));
-           if(objServicioFarmacia.getPrecio_delControlEstudiante()+Float.parseFloat(jlblPrecioTotal.getText())>=90){
-               jlblAviso.setText("Se supero el limite de 90");
+           
+           if(objLoteDetalleFinal.getCantidad()-Integer.parseInt(jtfCantidad.getText())>=0){
+               if(objServicioFarmacia.getPrecio_delControlEstudiante()+Float.parseFloat(jlblPrecioTotal.getText())>=90){
+                   jlblAviso.setText("Se supero el limite de 90");
+                   jbtnAgregar.setEnabled(false);
+                   }
+               else{
+                   jlblAviso.setText("");
+                   jbtnAgregar.setEnabled(true);                   
+                   }
+               }
+           else{
+               jlblAviso.setText("solo queda "+objLoteDetalleFinal.getCantidad()+" en el lote");
                jbtnAgregar.setEnabled(false);
            }
-           else{
-               jlblAviso.setText("");
-               jbtnAgregar.setEnabled(true);
-           }
+           
+           
         }
         else{
            jlblPrecioTotal.setText(Herramienta.dosDecimales(0));
@@ -375,22 +385,22 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         Inventario objInventario =(Inventario)jtlblInventario.getValueAt(jtlblInventario.getSelectedRow(),0);       
         List<Lote_detalle> auxlista_Lote_detalle=new ArrayList<>();
         for (int i = 0; i <list_Lote_detalle.size(); i++){
-            if(objInventario==list_Lote_detalle.get(i).getInventario()){
+            if(objInventario==list_Lote_detalle.get(i).getInventario() && list_Lote_detalle.get(i).getCantidad()!=0){
                 auxlista_Lote_detalle.add(list_Lote_detalle.get(i));
             }//if fin            
         }//for fin
-        Lote_detalle objLoteDetalle=fechaVencimientoCercano(auxlista_Lote_detalle);
-        jlblFechaVencimiento.setText(Herramienta.formatoFecha(objLoteDetalle.getFecha_vencimiento()));
-        jlblLoteNombre.setText(objLoteDetalle.getCodigo());        
+        objLoteDetalleFinal=fechaVencimientoCercano(auxlista_Lote_detalle);
+        jlblFechaVencimiento.setText(Herramienta.formatoFecha(objLoteDetalleFinal.getFecha_vencimiento()));
+        jlblLoteNombre.setText(objLoteDetalleFinal.getCodigo());        
         jlblProductoFarmaceutico.setText(objInventario.getMedicamento().getNombre());
-        jlblPrecioUnitario.setText(Float.toString(objLoteDetalle.getPrecio_Venta_Redondeado()));
+        jlblPrecioUnitario.setText(Float.toString(objLoteDetalleFinal.getPrecio_Venta_Redondeado()));
         jlblPrecioTotal.setText("0.00");
         jbtnAgregar.setEnabled(true);
         jlblAviso.setText("");
         jtfCantidad.setText("");
         //
         objDetalle_Medicamento_Final.setId_Medicamento(objInventario.getMedicamento());
-        objDetalle_Medicamento_Final.setLote_detalle(objLoteDetalle);
+        objDetalle_Medicamento_Final.setLote_detalle(objLoteDetalleFinal);
         objDetalle_Medicamento_Final.setFecha(new Date());        
         objDetalle_Medicamento_Final.setPrecio_Unitario(Float.parseFloat(jlblPrecioUnitario.getText()));
         /*
@@ -439,9 +449,10 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         Lote_detalle LDprimero=listaLoteDetalle.get(0);
         for(int i = 1; i < listaLoteDetalle.size(); i++){
             if(LDprimero.getFecha_vencimiento().getTime()>listaLoteDetalle.get(i).getFecha_vencimiento().getTime()){
+                System.out.println(listaLoteDetalle.get(i).getCantidad()+" ioioi");
                 LDprimero=listaLoteDetalle.get(i);
-            }                        
-        }
+                }
+            }
         return LDprimero;
     }
     

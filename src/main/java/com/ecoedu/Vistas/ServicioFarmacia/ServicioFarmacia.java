@@ -154,7 +154,17 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          saldo_totalControlEstudiante=saldo_totalControlEstudiante-a;
      }
      public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
+         JOptionPane.showMessageDialog(jlblNombres, "corre");
          Lista_carrito_medicamentos.add(objDetalleMedicamento);
+         for (Lote_detalle lote_detalle : Lista_lote_detalle){
+             if(lote_detalle==objDetalleMedicamento.getLote_detalle()){
+                 lote_detalle.setCantidad(lote_detalle.getCantidad()-objDetalleMedicamento.getCantidad());
+                 lote_detalle.getInventario().setCantidad(lote_detalle.getInventario().getCantidad()-objDetalleMedicamento.getCantidad());
+                 break;
+                 }
+                          
+         }
+         
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
          jlblTotalCarrito.setText("S/"+Herramienta.dosDecimales(Monto_totalControlEstudiante-objControl_paciente_Final.getMonto_Total()));
          jlblSaldo.setText(Herramienta.dosDecimales(saldo_totalControlEstudiante));
@@ -935,8 +945,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 Lista_carrito_medicamentos.get(i).setUsuario(objUsuario);
                 Lista_carrito_medicamentos.get(i).setReceta(objReceta_Final); 
                 jpa.persist(Lista_carrito_medicamentos.get(i));       
-                jpa.persist(Lista_carrito_medicamentos.get(i).getLote_detalle().quitarCantidad(Lista_carrito_medicamentos.get(i).getCantidad()));
-                jpa.persist(Lista_carrito_medicamentos.get(i).getLote_detalle().getInventario().quitarCantidad(Lista_carrito_medicamentos.get(i).getCantidad()));
+                jpa.persist(Lista_carrito_medicamentos.get(i).getLote_detalle());//agrgando Lote_Detalle
+                jpa.persist(Lista_carrito_medicamentos.get(i).getLote_detalle().getInventario());//agregando Inventario
             //Lista_Detalle_Llenado_final.get(i).setLote_detalle(Lista_Lote_detalle_final.get(i));
             //Lista_Lote_detalle_final.get(i).getInventario().agregarCantidad(Lista_Detalle_Llenado_final.get(i).getCantidad());
             //jpa.persist(Lista_Lote_detalle_final.get(i).getInventario());
