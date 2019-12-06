@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-/*
+/*asdasdadsd
 1-agregar registrar un medicamento nuevo,cantidad,precio;
 2-agregar cantidad a un medicamento ya existente;
 3-Modificar precio Unitario de un Medicamento ya existente;
