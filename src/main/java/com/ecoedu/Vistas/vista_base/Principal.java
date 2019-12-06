@@ -5,19 +5,28 @@
  */
 package com.ecoedu.Vistas.vista_base;
 import com.ecoedu.Vistas.Consultas.Entrega_del_dia;
+import com.ecoedu.Vistas.Consultas.Reporte_Diagnostico;
 import com.ecoedu.Vistas.Estudiante.Crear_Estudiante;
 import com.ecoedu.Vistas.Estudiante.Modificar_Estudiante;
+import com.ecoedu.Vistas.Estudiante.Reporte_Por_Escuela;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
 import com.ecoedu.Vistas.Inventario.LlenarInventario;
 import com.ecoedu.Vistas.Inventario.Ver_inventario;
 import com.ecoedu.Vistas.Medicamento.OperacionesMedicamento;
+import com.ecoedu.Vistas.ProveedorFabricante.ProveedorFabricante;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
 import com.ecoedu.Vistas.Usuario.CrearUsuario;
 import com.ecoedu.Vistas.Usuario.ModificarUsuario;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
+import org.dom4j.DocumentException;
 
 
 /**
@@ -41,74 +50,91 @@ public class Principal extends javax.swing.JFrame {
    private Crear_Estudiante objCrear_Estudiante;
    private Entrega_del_dia objEntragEntrega_del_dia;
    private Modificar_Estudiante objModificar_Estudiante;
+   private Reporte_Por_Escuela objReporte_Por_Escuela;
+   private Reporte_Diagnostico objReporte_Diagnostico;
+   private ProveedorFabricante objProveedorFabricante;
    
    
    private Color colorMoved=new Color(4,20,25);
    private Color colorExitSub=new Color(73,20,100);
    private Color colorExit=new Color(73,25,119);
-    public Principal(EntityManager OBJjpa,Usuario OBJuser){
-        initComponents();
-        this.jpa=OBJjpa;
-        this.user=OBJuser;
-        this.objEntragEntrega_del_dia=new Entrega_del_dia(OBJjpa);
-        this.objOperacionesMedicamento=new OperacionesMedicamento(OBJjpa, this);
-        this.objServicioFarmacia=new ServicioFarmacia(jpa,this,user);
-        this.objBusquedaVentas=new Entrega_del_dia(jpa);
-        this.objLlenarInventario=new LlenarInventario(jpa, this);
-        this.objDetalle_Inventario=new Detalle_Inventario(jpa,this);
-        this.objVer_inventario=new Ver_inventario(OBJjpa, this);
-        this.objCrearUsuario=new CrearUsuario(OBJjpa, this);
-        this.objModificarUsuario=new ModificarUsuario(OBJjpa, this);
-        this.objCrear_Estudiante=new Crear_Estudiante(OBJjpa, this);
-        this.objModificar_Estudiante=new Modificar_Estudiante(OBJjpa, this);
-        this.setLocationRelativeTo(null);
-        jlblUsuario.setText(user.getPersona().getInfoPersona());
-        bodyContenedor.add(objBusquedaVentas);  
-        bodyContenedor.validate();
-        bodyContenedor.add(objServicioFarmacia);   
-        bodyContenedor.validate();
-        bodyContenedor.add(objCrear_Estudiante);
-        bodyContenedor.validate();
-        bodyContenedor.add(objDetalle_Inventario);
-        bodyContenedor.validate();
-        bodyContenedor.add(objLlenarInventario);
-        bodyContenedor.validate();
-        bodyContenedor.add(objVer_inventario);
-        bodyContenedor.validate();
-        bodyContenedor.add(objOperacionesMedicamento);
-        bodyContenedor.validate();
-        bodyContenedor.add(objCrearUsuario);
-        bodyContenedor.validate();
-        bodyContenedor.add(objModificarUsuario);
-        bodyContenedor.validate();
-        bodyContenedor.add(objEntragEntrega_del_dia);
-        bodyContenedor.validate();
-        bodyContenedor.add(objModificar_Estudiante);
-        bodyContenedor.validate();
-        
-        if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR")){
-            jleftMedicamento.setVisible(false);
-            jleftEstudiante.setVisible(false);
-            jleftConsultas.setVisible(false);
-            jleftUsuario.setVisible(false);
-            jleftProveedorYfabricante.setVisible(false);
-            jleftInventario_llenarInventario.setVisible(false);
-            jleftInventario_detalleInventario.setVisible(false);            
-            jtfsub_inventario.setPreferredSize(new Dimension(300, 41));
-         
-            
+   public Principal(EntityManager OBJjpa,Usuario OBJuser){
+       initComponents();
+       File objFile=new File("Carpeta_de_Archivos");
+        if (!objFile.exists()){
+            if (objFile.mkdirs()) {
+                JOptionPane.showMessageDialog(jLabel12, "Parece que borraron la Carpeta, Volviendo a Crear, Pero no se Recuperará los Archivos");
+            } else {
+                JOptionPane.showMessageDialog(jLabel12, "Error al crear Directorio");
+            }
         }
-     
-        bodyContenedor.setVisible(false);
-        jtfsub_ProveedorYfabricante.setVisible(false);
-        jtfsub_Usuario.setVisible(false);
-        jtfsub_inventario.setVisible(false);
-        jtfsub_Consultas.setVisible(false);    
-        jtfsub_Medicina.setVisible(false);
-        jtfsub_Estudiante.setVisible(false);
         
-    }
-    @SuppressWarnings("unchecked")
+        
+       this.jpa=OBJjpa;
+       this.user=OBJuser;
+       this.objProveedorFabricante=new ProveedorFabricante(OBJjpa, this);
+       this.objReporte_Diagnostico=new Reporte_Diagnostico(OBJjpa, this);
+       this.objEntragEntrega_del_dia=new Entrega_del_dia(OBJjpa);
+       this.objOperacionesMedicamento=new OperacionesMedicamento(OBJjpa, this);
+       this.objServicioFarmacia=new ServicioFarmacia(OBJjpa,this,user);
+       this.objBusquedaVentas=new Entrega_del_dia(OBJjpa);
+       this.objLlenarInventario=new LlenarInventario(OBJjpa, this);
+       this.objDetalle_Inventario=new Detalle_Inventario(OBJjpa,this);
+       this.objVer_inventario=new Ver_inventario(OBJjpa, this);
+       this.objCrearUsuario=new CrearUsuario(OBJjpa, this);
+       this.objModificarUsuario=new ModificarUsuario(OBJjpa, this);
+       this.objCrear_Estudiante=new Crear_Estudiante(OBJjpa, this);
+       this.objModificar_Estudiante=new Modificar_Estudiante(OBJjpa, this);
+       this.objReporte_Por_Escuela=new Reporte_Por_Escuela(OBJjpa, this);
+       this.setLocationRelativeTo(null);
+       jlblUsuario.setText(user.getPersona().getInfoPersona());
+       bodyContenedor.add(objBusquedaVentas);//1  
+       bodyContenedor.validate();
+       bodyContenedor.add(objServicioFarmacia);//2  
+       bodyContenedor.validate();
+       bodyContenedor.add(objCrear_Estudiante);//3
+       bodyContenedor.validate();
+       bodyContenedor.add(objDetalle_Inventario);//4
+       bodyContenedor.validate();
+       bodyContenedor.add(objLlenarInventario);//5
+       bodyContenedor.validate();
+       bodyContenedor.add(objVer_inventario);//6
+       bodyContenedor.validate();
+       bodyContenedor.add(objOperacionesMedicamento);//7
+       bodyContenedor.validate();
+       bodyContenedor.add(objCrearUsuario);//8
+       bodyContenedor.validate();
+       bodyContenedor.add(objModificarUsuario);//9
+       bodyContenedor.validate();
+       bodyContenedor.add(objEntragEntrega_del_dia);//10
+       bodyContenedor.validate();
+       bodyContenedor.add(objModificar_Estudiante);//11
+       bodyContenedor.validate();
+       bodyContenedor.add(objReporte_Por_Escuela);//12
+       bodyContenedor.validate();
+       bodyContenedor.add(objReporte_Diagnostico);//13
+       bodyContenedor.validate();
+       bodyContenedor.add(objProveedorFabricante);//14
+       bodyContenedor.validate();
+       
+       if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR")){
+           jleftMedicamento.setVisible(false);
+           jleftEstudiante.setVisible(false);
+           jleftConsultas.setVisible(false);
+           jleftUsuario.setVisible(false);
+           jleftProveedorYfabricante.setVisible(false);
+           jleftInventario_llenarInventario.setVisible(false);
+           jleftInventario_detalleInventario.setVisible(false);   
+           jtfsub_inventario.setPreferredSize(new Dimension(300, 41)); 
+           }
+       bodyContenedor.setVisible(false);
+       jtfsub_Usuario.setVisible(false);
+       jtfsub_inventario.setVisible(false);
+       jtfsub_Consultas.setVisible(false);    
+       jtfsub_Medicina.setVisible(false);
+       jtfsub_Estudiante.setVisible(false);
+       }
+   @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -139,15 +165,15 @@ public class Principal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jleftInventario_detalleInventario = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jleftMedicamento = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jlblConsultasFlecha1 = new javax.swing.JLabel();
         jtfsub_Medicina = new javax.swing.JPanel();
         jleftMedicina_CrearModificarMedicamento = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jleftConsultas_MedicamentoUsado = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
+        jleftMedicamento = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jlblConsultasFlecha1 = new javax.swing.JLabel();
         jleftEstudiante = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -157,6 +183,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jleftEstudiante_Modificar = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
+        jleftMedicina_ReportePorEscuela = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
         jleftConsultas = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -178,12 +206,6 @@ public class Principal extends javax.swing.JFrame {
         jleftProveedorYfabricante = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        jlblConsultasFlecha3 = new javax.swing.JLabel();
-        jtfsub_ProveedorYfabricante = new javax.swing.JPanel();
-        jleftUsuario_CrearModificarUser1 = new javax.swing.JPanel();
-        jLabel28 = new javax.swing.JLabel();
-        jleftUsuario_AdministrarRol1 = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
         bodyContenedor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -427,46 +449,9 @@ public class Principal extends javax.swing.JFrame {
 
         left.add(jtfsub_inventario);
 
-        jleftMedicamento.setBackground(new java.awt.Color(73, 20, 119));
-        jleftMedicamento.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftMedicamento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftMedicamentoMouseMoved(evt);
-            }
-        });
-        jleftMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftMedicamentoMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftMedicamentoMouseExited(evt);
-            }
-        });
-        jleftMedicamento.setLayout(new java.awt.BorderLayout());
-
-        jLabel15.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel15.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel15.setText("Medicamento");
-        jLabel15.setPreferredSize(new java.awt.Dimension(200, 50));
-        jleftMedicamento.add(jLabel15, java.awt.BorderLayout.CENTER);
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/002-medicine.png"))); // NOI18N
-        jLabel8.setPreferredSize(new java.awt.Dimension(100, 14));
-        jleftMedicamento.add(jLabel8, java.awt.BorderLayout.LINE_START);
-
-        jlblConsultasFlecha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
-        jlblConsultasFlecha1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha1.setPreferredSize(new java.awt.Dimension(50, 32));
-        jleftMedicamento.add(jlblConsultasFlecha1, java.awt.BorderLayout.LINE_END);
-
-        left.add(jleftMedicamento);
-
         jtfsub_Medicina.setBackground(new java.awt.Color(73, 20, 100));
         jtfsub_Medicina.setPreferredSize(new java.awt.Dimension(300, 80));
+        jtfsub_Medicina.setRequestFocusEnabled(false);
 
         jleftMedicina_CrearModificarMedicamento.setBackground(new java.awt.Color(73, 20, 100));
         jleftMedicina_CrearModificarMedicamento.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -521,6 +506,44 @@ public class Principal extends javax.swing.JFrame {
 
         left.add(jtfsub_Medicina);
 
+        jleftMedicamento.setBackground(new java.awt.Color(73, 20, 119));
+        jleftMedicamento.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftMedicamento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftMedicamentoMouseMoved(evt);
+            }
+        });
+        jleftMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftMedicamentoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftMedicamentoMouseExited(evt);
+            }
+        });
+        jleftMedicamento.setLayout(new java.awt.BorderLayout());
+
+        jLabel15.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel15.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("Medicamento");
+        jLabel15.setPreferredSize(new java.awt.Dimension(200, 50));
+        jleftMedicamento.add(jLabel15, java.awt.BorderLayout.CENTER);
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/002-medicine.png"))); // NOI18N
+        jLabel8.setPreferredSize(new java.awt.Dimension(100, 14));
+        jleftMedicamento.add(jLabel8, java.awt.BorderLayout.LINE_START);
+
+        jlblConsultasFlecha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
+        jlblConsultasFlecha1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblConsultasFlecha1.setPreferredSize(new java.awt.Dimension(50, 32));
+        jleftMedicamento.add(jlblConsultasFlecha1, java.awt.BorderLayout.LINE_END);
+
+        left.add(jleftMedicamento);
+
         jleftEstudiante.setBackground(new java.awt.Color(73, 20, 119));
         jleftEstudiante.setPreferredSize(new java.awt.Dimension(300, 32));
         jleftEstudiante.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -560,7 +583,7 @@ public class Principal extends javax.swing.JFrame {
         left.add(jleftEstudiante);
 
         jtfsub_Estudiante.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_Estudiante.setPreferredSize(new java.awt.Dimension(300, 80));
+        jtfsub_Estudiante.setPreferredSize(new java.awt.Dimension(300, 120));
 
         jleftEstudiante_CrearModificarEstudiante.setBackground(new java.awt.Color(73, 20, 100));
         jleftEstudiante_CrearModificarEstudiante.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -615,6 +638,33 @@ public class Principal extends javax.swing.JFrame {
         jleftEstudiante_Modificar.add(jLabel19, java.awt.BorderLayout.CENTER);
 
         jtfsub_Estudiante.add(jleftEstudiante_Modificar);
+
+        jleftMedicina_ReportePorEscuela.setBackground(new java.awt.Color(73, 20, 100));
+        jleftMedicina_ReportePorEscuela.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftMedicina_ReportePorEscuela.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftMedicina_ReportePorEscuelaMouseMoved(evt);
+            }
+        });
+        jleftMedicina_ReportePorEscuela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftMedicina_ReportePorEscuelaMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftMedicina_ReportePorEscuelaMouseExited(evt);
+            }
+        });
+        jleftMedicina_ReportePorEscuela.setLayout(new java.awt.BorderLayout());
+
+        jLabel30.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel30.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setText("Reporte por Escuela");
+        jLabel30.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftMedicina_ReportePorEscuela.add(jLabel30, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Estudiante.add(jleftMedicina_ReportePorEscuela);
 
         left.add(jtfsub_Estudiante);
 
@@ -694,6 +744,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jleftConsultas_ReportedelMes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportedelMesMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jleftConsultas_ReportedelMesMouseExited(evt);
             }
@@ -704,7 +757,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("Reporte del Mes");
+        jLabel17.setText("Reportes_Diagnostico/Procedencia");
         jLabel17.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftConsultas_ReportedelMes.add(jLabel17, java.awt.BorderLayout.CENTER);
 
@@ -839,66 +892,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel27.setPreferredSize(new java.awt.Dimension(100, 14));
         jleftProveedorYfabricante.add(jLabel27, java.awt.BorderLayout.LINE_START);
 
-        jlblConsultasFlecha3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
-        jlblConsultasFlecha3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha3.setPreferredSize(new java.awt.Dimension(50, 32));
-        jleftProveedorYfabricante.add(jlblConsultasFlecha3, java.awt.BorderLayout.LINE_END);
-
         left.add(jleftProveedorYfabricante);
-
-        jtfsub_ProveedorYfabricante.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_ProveedorYfabricante.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        jleftUsuario_CrearModificarUser1.setBackground(new java.awt.Color(73, 20, 100));
-        jleftUsuario_CrearModificarUser1.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftUsuario_CrearModificarUser1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftUsuario_CrearModificarUser1MouseMoved(evt);
-            }
-        });
-        jleftUsuario_CrearModificarUser1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftUsuario_CrearModificarUser1MouseExited(evt);
-            }
-        });
-        jleftUsuario_CrearModificarUser1.setLayout(new java.awt.BorderLayout());
-
-        jLabel28.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel28.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setText("Crear/Modicar Proveedor");
-        jLabel28.setPreferredSize(new java.awt.Dimension(300, 50));
-        jleftUsuario_CrearModificarUser1.add(jLabel28, java.awt.BorderLayout.CENTER);
-
-        jtfsub_ProveedorYfabricante.add(jleftUsuario_CrearModificarUser1);
-
-        jleftUsuario_AdministrarRol1.setBackground(new java.awt.Color(73, 20, 100));
-        jleftUsuario_AdministrarRol1.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftUsuario_AdministrarRol1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftUsuario_AdministrarRol1MouseMoved(evt);
-            }
-        });
-        jleftUsuario_AdministrarRol1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftUsuario_AdministrarRol1MouseExited(evt);
-            }
-        });
-        jleftUsuario_AdministrarRol1.setLayout(new java.awt.BorderLayout());
-
-        jLabel29.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setText("Crear/Modicar Fabricante");
-        jLabel29.setPreferredSize(new java.awt.Dimension(300, 50));
-        jleftUsuario_AdministrarRol1.add(jLabel29, java.awt.BorderLayout.CENTER);
-
-        jtfsub_ProveedorYfabricante.add(jleftUsuario_AdministrarRol1);
-
-        left.add(jtfsub_ProveedorYfabricante);
 
         contenedorPrincipal.add(left, java.awt.BorderLayout.LINE_START);
 
@@ -958,20 +952,22 @@ public class Principal extends javax.swing.JFrame {
     private void jleftServicioFarmaciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftServicioFarmaciaMouseClicked
         bodyContenedor.setVisible(true);
         
-        objVer_inventario.setVisible(false);
-        objDetalle_Inventario.setVisible(false);
-        objCrear_Estudiante.setVisible(false);        
-        objBusquedaVentas.setVisible(false);
-        objLlenarInventario.setVisible(false);
-        objCrearUsuario.setVisible(false);
-        objModificarUsuario.setVisible(false);           
-        objOperacionesMedicamento.setVisible(false);       
-        objServicioFarmacia.ConsultaBD();
+        objVer_inventario.setVisible(false);//1
+        objDetalle_Inventario.setVisible(false);//2
+        objCrear_Estudiante.setVisible(false);//3   
+        objBusquedaVentas.setVisible(false);//4
+        objLlenarInventario.setVisible(false);//5
+        objCrearUsuario.setVisible(false);//6
+        objModificarUsuario.setVisible(false);//7           
+        objOperacionesMedicamento.setVisible(false);//8        
+        objEntragEntrega_del_dia.setVisible(false);//10
+        objModificar_Estudiante.setVisible(false);//11
+        objReporte_Por_Escuela.setVisible(false);//12
+        objReporte_Diagnostico.setVisible(false);//13 
+        objProveedorFabricante.setVisible(false);//14
+         objServicioFarmacia.ConsultaBD();
         objServicioFarmacia.principalEjecucion();
-        objServicioFarmacia.setVisible(true);    
-        objEntragEntrega_del_dia.setVisible(false);
-        objModificar_Estudiante.setVisible(false);
-        
+        objServicioFarmacia.setVisible(true);//9 
                 
     }//GEN-LAST:event_jleftServicioFarmaciaMouseClicked
 
@@ -1073,7 +1069,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftMedicamentoMouseExited
 
     private void jleftInventario_llenarInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_llenarInventarioMouseClicked
-      bodyContenedor.setVisible(true);             
+      bodyContenedor.setVisible(true);   
+      objProveedorFabricante.setVisible(false);//14
       objVer_inventario.setVisible(false);
       objDetalle_Inventario.setVisible(false);
       objCrear_Estudiante.setVisible(false);        
@@ -1087,11 +1084,14 @@ public class Principal extends javax.swing.JFrame {
       objLlenarInventario.setVisible(true);
       objEntragEntrega_del_dia.setVisible(false);
       objModificar_Estudiante.setVisible(false);
+      objReporte_Por_Escuela.setVisible(false);
+      objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftInventario_llenarInventarioMouseClicked
 
     private void jleftInventario_detalleInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_detalleInventarioMouseClicked
       bodyContenedor.setVisible(true); 
             
+      objProveedorFabricante.setVisible(false);//14
       objVer_inventario.setVisible(false);
       objLlenarInventario.setVisible(false);
       objCrearUsuario.setVisible(false);
@@ -1103,6 +1103,8 @@ public class Principal extends javax.swing.JFrame {
       objModificarUsuario.setVisible(false);
       objEntragEntrega_del_dia.setVisible(false);
       objModificar_Estudiante.setVisible(false);
+      objReporte_Por_Escuela.setVisible(false);
+      objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftInventario_detalleInventarioMouseClicked
 
     private void jleftEstudiante_CrearModificarEstudianteMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_CrearModificarEstudianteMouseMoved
@@ -1144,6 +1146,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftInventario_verInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseClicked
         bodyContenedor.setVisible(true);
         
+        objProveedorFabricante.setVisible(false);//14        
         objDetalle_Inventario.setVisible(false);
         objCrear_Estudiante.setVisible(false);        
         objBusquedaVentas.setVisible(false);
@@ -1157,6 +1160,8 @@ public class Principal extends javax.swing.JFrame {
         objVer_inventario.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftInventario_verInventarioMouseClicked
 
     private void jleftInventario_verInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseExited
@@ -1200,36 +1205,39 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftUsuario_AdministrarRolMouseExited
 
     private void jleftProveedorYfabricanteMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftProveedorYfabricanteMouseMoved
-        // TODO add your handling code here:
+        jleftProveedorYfabricante.setBackground(colorMoved);
     }//GEN-LAST:event_jleftProveedorYfabricanteMouseMoved
 
     private void jleftProveedorYfabricanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftProveedorYfabricanteMouseClicked
-        // TODO add your handling code here:
+        bodyContenedor.setVisible(true);
+        
+        
+        objVer_inventario.setVisible(false);//1
+        objDetalle_Inventario.setVisible(false);//2
+        objCrear_Estudiante.setVisible(false);//3   
+        objBusquedaVentas.setVisible(false);//4
+        objLlenarInventario.setVisible(false);//5
+        objCrearUsuario.setVisible(false);//6
+        objModificarUsuario.setVisible(false);//7           
+        objOperacionesMedicamento.setVisible(false);//8        
+        objEntragEntrega_del_dia.setVisible(false);//10
+        objModificar_Estudiante.setVisible(false);//11
+        objReporte_Por_Escuela.setVisible(false);//12
+        objReporte_Diagnostico.setVisible(false);//13 
+        objServicioFarmacia.setVisible(false);//9
+        objProveedorFabricante.ConsultaBD();
+        objProveedorFabricante.principalEjecucion();
+        objProveedorFabricante.setVisible(true);//14
     }//GEN-LAST:event_jleftProveedorYfabricanteMouseClicked
 
     private void jleftProveedorYfabricanteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftProveedorYfabricanteMouseExited
-        // TODO add your handling code here:
+        jleftProveedorYfabricante.setBackground(colorExit);
     }//GEN-LAST:event_jleftProveedorYfabricanteMouseExited
-
-    private void jleftUsuario_CrearModificarUser1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_CrearModificarUser1MouseMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jleftUsuario_CrearModificarUser1MouseMoved
-
-    private void jleftUsuario_CrearModificarUser1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_CrearModificarUser1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jleftUsuario_CrearModificarUser1MouseExited
-
-    private void jleftUsuario_AdministrarRol1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRol1MouseMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jleftUsuario_AdministrarRol1MouseMoved
-
-    private void jleftUsuario_AdministrarRol1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRol1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jleftUsuario_AdministrarRol1MouseExited
 
     private void jleftMedicina_CrearModificarMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_CrearModificarMedicamentoMouseClicked
         bodyContenedor.setVisible(true);  
         
+        objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
         objCrear_Estudiante.setVisible(false);        
@@ -1241,12 +1249,15 @@ public class Principal extends javax.swing.JFrame {
         objOperacionesMedicamento.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
         
     }//GEN-LAST:event_jleftMedicina_CrearModificarMedicamentoMouseClicked
 
     private void jleftUsuario_CrearModificarUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_CrearModificarUserMouseClicked
         bodyContenedor.setVisible(true);
         
+        objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
         objCrear_Estudiante.setVisible(false);        
@@ -1258,11 +1269,18 @@ public class Principal extends javax.swing.JFrame {
         objCrearUsuario.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftUsuario_CrearModificarUserMouseClicked
 
     private void jleftUsuario_AdministrarRolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRolMouseClicked
         bodyContenedor.setVisible(true);
         
+        objEntragEntrega_del_dia.setVisible(false);
+        objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
+        objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
         objCrear_Estudiante.setVisible(false);        
@@ -1274,12 +1292,13 @@ public class Principal extends javax.swing.JFrame {
         objModificarUsuario.ConsultaBD();
         objModificarUsuario.principalEjecucion();
         objModificarUsuario.setVisible(true);
-        objEntragEntrega_del_dia.setVisible(false);
-        objModificar_Estudiante.setVisible(false);
+        
     }//GEN-LAST:event_jleftUsuario_AdministrarRolMouseClicked
 
     private void jleftEstudiante_CrearModificarEstudianteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_CrearModificarEstudianteMouseClicked
         bodyContenedor.setVisible(true);
+        
+        objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);             
         objBusquedaVentas.setVisible(false);
@@ -1288,14 +1307,20 @@ public class Principal extends javax.swing.JFrame {
         objServicioFarmacia.setVisible(false);       
         objOperacionesMedicamento.setVisible(false);
         objModificarUsuario.setVisible(false);
-        objCrear_Estudiante.setVisible(true);  
+        
+        objCrear_Estudiante.setVisible(true); 
+        objCrear_Estudiante.ConsultaBD();
+        objCrear_Estudiante.principalEjecucion();
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftEstudiante_CrearModificarEstudianteMouseClicked
 
     private void jleftConsultas_EntregadeldiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_EntregadeldiaMouseClicked
         bodyContenedor.setVisible(true);
         
+        objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
         objCrear_Estudiante.setVisible(false);        
@@ -1308,11 +1333,14 @@ public class Principal extends javax.swing.JFrame {
         objEntragEntrega_del_dia.ConsultaBD();
         objEntragEntrega_del_dia.principalEjecucion();
         objEntragEntrega_del_dia.setVisible(true);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftConsultas_EntregadeldiaMouseClicked
 
     private void jleftEstudiante_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_ModificarMouseClicked
         bodyContenedor.setVisible(true);
         
+        objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
         objCrear_Estudiante.setVisible(false);        
@@ -1326,7 +1354,71 @@ public class Principal extends javax.swing.JFrame {
         objModificar_Estudiante.ConsultaBD();
         objModificar_Estudiante.principalEjecucion();
         objModificar_Estudiante.setVisible(true);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftEstudiante_ModificarMouseClicked
+
+    private void jleftMedicina_ReportePorEscuelaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ReportePorEscuelaMouseMoved
+        jleftMedicina_ReportePorEscuela.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftMedicina_ReportePorEscuelaMouseMoved
+
+    private void jleftMedicina_ReportePorEscuelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ReportePorEscuelaMouseClicked
+        bodyContenedor.setVisible(true);
+        
+        objProveedorFabricante.setVisible(false);//14
+        objVer_inventario.setVisible(false);
+        objDetalle_Inventario.setVisible(false);
+        objCrear_Estudiante.setVisible(false);        
+        objBusquedaVentas.setVisible(false);
+        objLlenarInventario.setVisible(false);
+        objCrearUsuario.setVisible(false);
+        objModificarUsuario.setVisible(false);           
+        objOperacionesMedicamento.setVisible(false);       
+        objServicioFarmacia.setVisible(false); 
+        objEntragEntrega_del_dia.setVisible(false);
+        objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.ConsultaBD();
+       try {
+           objReporte_Por_Escuela.principalEjecucion();
+       } catch (DocumentException | IOException ex) {
+           Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       objReporte_Diagnostico.setVisible(false);
+        objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(true);
+    }//GEN-LAST:event_jleftMedicina_ReportePorEscuelaMouseClicked
+
+    private void jleftMedicina_ReportePorEscuelaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ReportePorEscuelaMouseExited
+       
+        jleftMedicina_ReportePorEscuela.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftMedicina_ReportePorEscuelaMouseExited
+
+    private void jleftConsultas_ReportedelMesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportedelMesMouseClicked
+
+        bodyContenedor.setVisible(true);
+        
+        objProveedorFabricante.setVisible(false);//14
+        objVer_inventario.setVisible(false);
+        objDetalle_Inventario.setVisible(false);
+        objCrear_Estudiante.setVisible(false);        
+        objBusquedaVentas.setVisible(false);
+        objLlenarInventario.setVisible(false);
+        objCrearUsuario.setVisible(false);
+        objModificarUsuario.setVisible(false);           
+        objOperacionesMedicamento.setVisible(false);       
+        objServicioFarmacia.setVisible(false); 
+        objEntragEntrega_del_dia.setVisible(false);
+        objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(true);
+        
+ 
+//Poner por acumulado, Diagnostico y con rango de fechas();
+        
+        
+        
+        
+    }//GEN-LAST:event_jleftConsultas_ReportedelMesMouseClicked
 
     public Usuario getUsuario(){
         return user;
@@ -1357,9 +1449,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1373,7 +1464,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jlblConsultasFlecha;
     private javax.swing.JLabel jlblConsultasFlecha1;
     private javax.swing.JLabel jlblConsultasFlecha2;
-    private javax.swing.JLabel jlblConsultasFlecha3;
     private javax.swing.JLabel jlblEstudianteFlecha1;
     private javax.swing.JLabel jlblInventarioFlecha;
     private javax.swing.JLabel jlblMinimizar;
@@ -1393,17 +1483,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftInventario_verInventario;
     private javax.swing.JPanel jleftMedicamento;
     private javax.swing.JPanel jleftMedicina_CrearModificarMedicamento;
+    private javax.swing.JPanel jleftMedicina_ReportePorEscuela;
     private javax.swing.JPanel jleftProveedorYfabricante;
     private javax.swing.JPanel jleftServicioFarmacia;
     private javax.swing.JPanel jleftUsuario;
     private javax.swing.JPanel jleftUsuario_AdministrarRol;
-    private javax.swing.JPanel jleftUsuario_AdministrarRol1;
     private javax.swing.JPanel jleftUsuario_CrearModificarUser;
-    private javax.swing.JPanel jleftUsuario_CrearModificarUser1;
     private javax.swing.JPanel jtfsub_Consultas;
     private javax.swing.JPanel jtfsub_Estudiante;
     private javax.swing.JPanel jtfsub_Medicina;
-    private javax.swing.JPanel jtfsub_ProveedorYfabricante;
     private javax.swing.JPanel jtfsub_Usuario;
     private javax.swing.JPanel jtfsub_inventario;
     private javax.swing.JPanel left;

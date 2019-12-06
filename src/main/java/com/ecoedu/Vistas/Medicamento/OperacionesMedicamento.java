@@ -2,7 +2,7 @@ package com.ecoedu.Vistas.Medicamento;
 
 
 
-import com.ecoedu.app.soloMayusculas;
+import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Inventario;
 import java.util.List;
@@ -32,8 +32,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
     public OperacionesMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
-        this.objPrincipal=OBJPrincipal;
-        
+        this.objPrincipal=OBJPrincipal;        
         ConsultaBD();
         principalEjecucion(); 
            

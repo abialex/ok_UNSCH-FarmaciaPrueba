@@ -22,6 +22,12 @@ public class Diagnostico{
     
     @Column(name = "descripcion_Diagnostico",nullable = false)
     private String descripcion_Diagnostico;
+    
+    
+    //usado solo para guardar cuanta cantidad del tipo de diagnostico(Requisito del negocio)
+   
+    
+    
 
     public String getId_DiagnosticoCodigo(){
         return id_DiagnosticoCodigo;
@@ -43,5 +49,9 @@ public class Diagnostico{
     public String toString() {
         return "Diagnostico asdasd";
     }
+
+    
+
+    
     
 }

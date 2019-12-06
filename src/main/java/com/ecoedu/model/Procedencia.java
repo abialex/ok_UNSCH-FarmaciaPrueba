@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author yrma
  */
 @Entity
-public class Procedencia {
+public class Procedencia{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Procedencia {
     public int getId_Procedencia() {
         return id_Procedencia;
     }
-
+    
     public void setId_Procedencia(int id_Procedencia) {
         this.id_Procedencia = id_Procedencia;
     }
@@ -46,8 +46,5 @@ public class Procedencia {
     public String toString() {
         return nombre;
     }
-    
-    
-    
     
 }

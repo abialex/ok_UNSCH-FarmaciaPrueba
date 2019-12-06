@@ -4,7 +4,6 @@ package com.ecoedu.Vistas.Usuario;
 
 
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Medicamento;
 import com.ecoedu.model.Persona;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,8 +11,6 @@ import javax.persistence.Query;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -361,7 +358,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setDni(jtfDNI.getText());
-        objPersona.setNombre(jtfNombres.getText()); 
+        objPersona.setNombres(jtfNombres.getText()); 
         jpa.getTransaction().begin();
         jpa.persist(objPersona);  
         jpa.persist(objUsuario);
@@ -402,7 +399,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
 
     private void jtblMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblMedicamentoMouseClicked
         objUsuario=(Usuario)jtblMedicamento.getValueAt(jtblMedicamento.getSelectedRow(),1);
-        jtfNombres.setText(objUsuario.getPersona().getNombre());
+        jtfNombres.setText(objUsuario.getPersona().getNombres());
         jtfApellidoPaterno.setText(objUsuario.getPersona().getApellido_Paterno());
         jtfApellidoMaterno.setText(objUsuario.getPersona().getApellido_Materno());
         jtfDNI.setText(objUsuario.getPersona().getDni());

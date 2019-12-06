@@ -1,9 +1,4 @@
 package com.ecoedu.Vistas.Estudiante;
-
-
-
-
-
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Escuela;
@@ -11,14 +6,8 @@ import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Persona;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
-
 import java.util.List;
 import javax.persistence.EntityManager;
-
-
-
-
-
 /*
 1-agregar registrar un medicamento nuevo,cantidad,precio;
 2-agregar cantidad a un medicamento ya existente;
@@ -61,7 +50,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
     public void encontrarEstudiante(String codigo){
         for (Estudiante Estudiante : Lista_Estudiantes){
             if(Estudiante.getCodigo().equals(codigo)){
-                jtfNombres.setText(Estudiante.getPersona().getNombre());
+                jtfNombres.setText(Estudiante.getPersona().getNombres());
                 jtfApellidoPaterno.setText(Estudiante.getPersona().getApellido_Paterno());
                 jtfApellidoMaterno1.setText(Estudiante.getPersona().getApellido_Materno());
                 jtfCodigo.setText(Estudiante.getCodigo());
@@ -259,7 +248,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
         Control_paciente objControl_paciente=new Control_paciente();
         objControl_paciente.setMonto_Total(0);  
         objControl_paciente.setiSactivo(true);
-        objPersona.setNombre(jtfNombres.getText());
+        objPersona.setNombres(jtfNombres.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfEscuela.getText());
         objPersona.setDni(jtfDNI.getText());

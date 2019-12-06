@@ -38,6 +38,20 @@ public class Estudiante{
     
     @Column(name="serie",length = 3,nullable = false)
     private String serie;
+    
+    @JoinColumn(insertable = true,updatable = false,name="id_Condicion",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Condicion condicion;
+
+    public Condicion getCondicion() {
+        return condicion;
+    }
+
+    public void setCondicion(Condicion condicion) {
+        this.condicion = condicion;
+    }
+    
+        
 
     public String getSerie() {
         return serie;

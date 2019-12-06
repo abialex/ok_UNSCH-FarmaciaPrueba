@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Detalle_Medicamentos {
+public class Detalle_Medicamentos  implements Comparable<Detalle_Medicamentos>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Detalle_control_paciente;
@@ -124,7 +124,10 @@ public class Detalle_Medicamentos {
     public void setReceta(Receta receta) {
         this.receta = receta;
     }
-    
+    @Override
+    public int compareTo(Detalle_Medicamentos o){
+        return this.getFecha().compareTo(o.getFecha());
+    }
     
     
     

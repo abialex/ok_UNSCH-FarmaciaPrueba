@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ecoedu.app;
+package com.ecoedu.Vistas;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -20,6 +20,7 @@ import javax.persistence.Query;
 public class Herramienta { 
     
   
+    
     public static String dosDecimales(float a){
         DecimalFormatSymbols separador = new DecimalFormatSymbols();
         separador.setDecimalSeparator('.');
@@ -33,12 +34,16 @@ public class Herramienta {
         return formato1.format(a);        
     }
     public static String formatoFecha(Date fecha){
-        return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth())+"-"+conOsin0(fecha.getDate());
+        return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth()+1)+"-"+conOsin0(fecha.getDate());
     }
     public static String formatoFechaHora(Date fecha){
         return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth())+"-"+conOsin0(fecha.getDate())
                 +" "+conOsin0(fecha.getHours())+":"+conOsin0(fecha.getMinutes())+":"+conOsin0(fecha.getSeconds());
     }
+    public static String formatoFechaHoraMas1(Date fecha){
+        return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth()+1)+"-"+conOsin0(fecha.getDate())
+                +" "+conOsin0(fecha.getHours())+":"+conOsin0(fecha.getMinutes())+":"+conOsin0(fecha.getSeconds());
+    }    
     
     
     public static String formatoFechaMas1(Date fecha){
@@ -73,6 +78,45 @@ public class Herramienta {
         listGenericos=query.getResultList(); 
         return listGenericos; 
     }
+    public static int getAñosFrom(Date fechaNac){
+        int dias=(int)(((new Date()).getTime()-fechaNac.getTime())/86400000);         
+        return (int)(dias/365);
+    }
+    
+    /*
+    public static T findByPropiedad(T generico,String Column,int idFk,EntityManager jpa){
+        return null;
+        
+    }*/
+    public static <T> List<T> findbyBeetWeen(Class<T> generico,String Columna,Date FechaInicio,Date FechaFin,EntityManager jpa){
+        List<T> listGenericos=new ArrayList<>();
+        try {
+            Query query=jpa.createQuery("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" BETWEEN "+"'"+
+            (FechaInicio.getYear()+1900)+(Herramienta.conOsin0(FechaInicio.getMonth()+1))+(Herramienta.conOsin0(FechaInicio.getDate())+" 00:00:00 ")+"'"
+            +" and "+"'"+
+            (FechaFin.getYear()+1900)+(Herramienta.conOsin0(FechaFin.getMonth()+1))+(Herramienta.conOsin0(FechaFin.getDate()))+" 23:59:59 "+"'");
+        listGenericos=query.getResultList();  
+            
+        } catch (Exception e) {
+            System.out.println(e.toString()+" HUBO ERROR DE CONSULTA");
+        }               
+        return listGenericos; 
+    }
+    public static <T> List<T> findbyBeetWeen(Class<T> generico,String Columna,Date FechaInicio,Date FechaFin,int idControl,EntityManager jpa){
+        List<T> listGenericos=new ArrayList<>();
+        try {
+            Query query=jpa.createQuery("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" BETWEEN "+"'"+
+            (FechaInicio.getYear()+1900)+(Herramienta.conOsin0(FechaInicio.getMonth()+1))+(Herramienta.conOsin0(FechaInicio.getDate())+" 00:00:00 ")+"'"
+            +" and "+"'"+
+            (FechaFin.getYear()+1900)+(Herramienta.conOsin0(FechaFin.getMonth()+1))+(Herramienta.conOsin0(FechaFin.getDate()))+" 23:59:59 "+"'"
+            +" and id_Control_paciente = "+idControl);
+        listGenericos=query.getResultList();  
+            
+        } catch (Exception e) {
+            System.out.println(e.toString()+" HUBO ERROR DE CONSULTA");
+        }               
+        return listGenericos; 
+    }
     public static <T> List<T> findbyWhere(Class<T> generico,String Columna,int idFK,EntityManager jpa){
         List<T> listGenericos=new ArrayList<>();
         try {
@@ -85,6 +129,13 @@ public class Herramienta {
         }               
         return listGenericos; 
     }
+    public static boolean BettwenFechas(Date fechaDesde,Date fechaConsulta,Date fechaHasta){
+                   if(fechaDesde.getTime()<=fechaConsulta.getTime() && fechaConsulta.getTime()<=fechaHasta.getTime()+86399999){
+                       return true;
+                   }                  
+        return false;
+    }
+    
     public static boolean iSigualFechas(Date fecha1,Date fecha2){        
         if(fecha1.getYear()==fecha2.getYear()){
             if(fecha1.getMonth()==fecha2.getMonth()){
