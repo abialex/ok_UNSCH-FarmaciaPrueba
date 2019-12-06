@@ -1,7 +1,7 @@
 package com.ecoedu.Vistas.Inventario;
 
 
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import java.awt.Color;
 import java.util.List;

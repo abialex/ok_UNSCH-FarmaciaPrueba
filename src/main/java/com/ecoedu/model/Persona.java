@@ -5,7 +5,7 @@
  */
 package com.ecoedu.model;
 
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

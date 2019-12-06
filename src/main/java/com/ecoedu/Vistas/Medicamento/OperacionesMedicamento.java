@@ -2,7 +2,7 @@ package com.ecoedu.Vistas.Medicamento;
 
 
 
-import com.ecoedu.Vistas.soloMayusculas;
+import com.ecoedu.app.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Inventario;
 import java.util.List;

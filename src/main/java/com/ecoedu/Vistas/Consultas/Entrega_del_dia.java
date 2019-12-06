@@ -2,7 +2,7 @@ package com.ecoedu.Vistas.Consultas;
 
 
 
-import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.app.Herramienta;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Lote_detalle;
 import java.awt.Color;
