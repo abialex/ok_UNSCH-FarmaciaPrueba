@@ -4,7 +4,6 @@ package com.ecoedu.Vistas.Consultas;
 
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.model.Detalle_Medicamentos;
-import com.ecoedu.model.Lote_detalle;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,9 +32,6 @@ public class Entrega_del_dia extends javax.swing.JPanel {
     public Entrega_del_dia(EntityManager objJPA) {
         initComponents();
         this.jpa=objJPA;
-        //principalEjecucion();
-        //ConsultaBD();    
-        //llenarTabla(lista_Detalles_control_paciente);
    
     }
     public void ConsultaBD(){
@@ -49,6 +45,9 @@ public class Entrega_del_dia extends javax.swing.JPanel {
             if(Herramienta.iSigualFechas(new Date(), Detalle_Medicamento.getFecha())){
                 listaDetalleMedicamentos.add(Detalle_Medicamento);
             }
+        }
+        if(listaDetalleMedicamentos.isEmpty()){
+            jlblAviso.setText("No se entregó ningún medicamento el día de hoy");
         }
         llenarTabla(listaDetalleMedicamentos);
     }
@@ -68,9 +67,8 @@ public class Entrega_del_dia extends javax.swing.JPanel {
         body = new javax.swing.JPanel();
         head2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
+        jlblAviso = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
         cuerpo1 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -110,17 +108,15 @@ public class Entrega_del_dia extends javax.swing.JPanel {
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel7.setPreferredSize(new java.awt.Dimension(890, 100));
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setPreferredSize(new java.awt.Dimension(880, 30));
-        jPanel4.setRequestFocusEnabled(false);
-
-        jLabel2.setPreferredSize(new java.awt.Dimension(150, 30));
-        jPanel4.add(jLabel2);
-
-        jPanel7.add(jPanel4);
-
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel11.setPreferredSize(new java.awt.Dimension(880, 40));
+        jPanel11.setPreferredSize(new java.awt.Dimension(880, 90));
+
+        jlblAviso.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jlblAviso.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAviso.setPreferredSize(new java.awt.Dimension(900, 70));
+        jPanel11.add(jlblAviso);
+
         jPanel7.add(jPanel11);
 
         head2.add(jPanel7);
@@ -284,14 +280,13 @@ public class Entrega_del_dia extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlblAviso;
     private javax.swing.JTable jtblVentas;
     // End of variables declaration//GEN-END:variables
 

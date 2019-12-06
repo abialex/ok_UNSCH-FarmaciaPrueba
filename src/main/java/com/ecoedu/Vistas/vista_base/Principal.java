@@ -165,15 +165,15 @@ public class Principal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jleftInventario_detalleInventario = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        jleftMedicamento = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jlblConsultasFlecha1 = new javax.swing.JLabel();
         jtfsub_Medicina = new javax.swing.JPanel();
         jleftMedicina_CrearModificarMedicamento = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jleftConsultas_MedicamentoUsado = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        jleftMedicamento = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jlblConsultasFlecha1 = new javax.swing.JLabel();
         jleftEstudiante = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -449,6 +449,44 @@ public class Principal extends javax.swing.JFrame {
 
         left.add(jtfsub_inventario);
 
+        jleftMedicamento.setBackground(new java.awt.Color(73, 20, 119));
+        jleftMedicamento.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftMedicamento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftMedicamentoMouseMoved(evt);
+            }
+        });
+        jleftMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftMedicamentoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftMedicamentoMouseExited(evt);
+            }
+        });
+        jleftMedicamento.setLayout(new java.awt.BorderLayout());
+
+        jLabel15.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel15.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("Medicamento");
+        jLabel15.setPreferredSize(new java.awt.Dimension(200, 50));
+        jleftMedicamento.add(jLabel15, java.awt.BorderLayout.CENTER);
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/002-medicine.png"))); // NOI18N
+        jLabel8.setPreferredSize(new java.awt.Dimension(100, 14));
+        jleftMedicamento.add(jLabel8, java.awt.BorderLayout.LINE_START);
+
+        jlblConsultasFlecha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
+        jlblConsultasFlecha1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblConsultasFlecha1.setPreferredSize(new java.awt.Dimension(50, 32));
+        jleftMedicamento.add(jlblConsultasFlecha1, java.awt.BorderLayout.LINE_END);
+
+        left.add(jleftMedicamento);
+
         jtfsub_Medicina.setBackground(new java.awt.Color(73, 20, 100));
         jtfsub_Medicina.setPreferredSize(new java.awt.Dimension(300, 80));
         jtfsub_Medicina.setRequestFocusEnabled(false);
@@ -505,44 +543,6 @@ public class Principal extends javax.swing.JFrame {
         jtfsub_Medicina.add(jleftConsultas_MedicamentoUsado);
 
         left.add(jtfsub_Medicina);
-
-        jleftMedicamento.setBackground(new java.awt.Color(73, 20, 119));
-        jleftMedicamento.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftMedicamento.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftMedicamentoMouseMoved(evt);
-            }
-        });
-        jleftMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftMedicamentoMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftMedicamentoMouseExited(evt);
-            }
-        });
-        jleftMedicamento.setLayout(new java.awt.BorderLayout());
-
-        jLabel15.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel15.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel15.setText("Medicamento");
-        jLabel15.setPreferredSize(new java.awt.Dimension(200, 50));
-        jleftMedicamento.add(jLabel15, java.awt.BorderLayout.CENTER);
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/002-medicine.png"))); // NOI18N
-        jLabel8.setPreferredSize(new java.awt.Dimension(100, 14));
-        jleftMedicamento.add(jLabel8, java.awt.BorderLayout.LINE_START);
-
-        jlblConsultasFlecha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
-        jlblConsultasFlecha1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha1.setPreferredSize(new java.awt.Dimension(50, 32));
-        jleftMedicamento.add(jlblConsultasFlecha1, java.awt.BorderLayout.LINE_END);
-
-        left.add(jleftMedicamento);
 
         jleftEstudiante.setBackground(new java.awt.Color(73, 20, 119));
         jleftEstudiante.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -1330,11 +1330,12 @@ public class Principal extends javax.swing.JFrame {
         objModificarUsuario.setVisible(false);           
         objOperacionesMedicamento.setVisible(false);       
         objServicioFarmacia.setVisible(false); 
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
         objEntragEntrega_del_dia.ConsultaBD();
         objEntragEntrega_del_dia.principalEjecucion();
         objEntragEntrega_del_dia.setVisible(true);
-        objReporte_Por_Escuela.setVisible(false);
-        objReporte_Diagnostico.setVisible(false);
+       
     }//GEN-LAST:event_jleftConsultas_EntregadeldiaMouseClicked
 
     private void jleftEstudiante_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_ModificarMouseClicked
