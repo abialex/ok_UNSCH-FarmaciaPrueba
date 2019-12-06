@@ -1155,13 +1155,14 @@ public class Principal extends javax.swing.JFrame {
         objOperacionesMedicamento.setVisible(false);
         objCrearUsuario.setVisible(false);
         objModificarUsuario.setVisible(false);
-        objVer_inventario.ConsultaBD();
-        objVer_inventario.principalEjecucion();        
-        objVer_inventario.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
         objReporte_Diagnostico.setVisible(false);
+        objVer_inventario.ConsultaBD();
+        objVer_inventario.principalEjecucion();        
+        objVer_inventario.setVisible(true);
+        
     }//GEN-LAST:event_jleftInventario_verInventarioMouseClicked
 
     private void jleftInventario_verInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseExited
@@ -1225,9 +1226,10 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Por_Escuela.setVisible(false);//12
         objReporte_Diagnostico.setVisible(false);//13 
         objServicioFarmacia.setVisible(false);//9
+        objProveedorFabricante.setVisible(true);//14
         objProveedorFabricante.ConsultaBD();
         objProveedorFabricante.principalEjecucion();
-        objProveedorFabricante.setVisible(true);//14
+        
     }//GEN-LAST:event_jleftProveedorYfabricanteMouseClicked
 
     private void jleftProveedorYfabricanteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftProveedorYfabricanteMouseExited
@@ -1246,11 +1248,12 @@ public class Principal extends javax.swing.JFrame {
         objServicioFarmacia.setVisible(false);
         objCrearUsuario.setVisible(false);
         objModificarUsuario.setVisible(false);
-        objOperacionesMedicamento.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
         objReporte_Diagnostico.setVisible(false);
+        objOperacionesMedicamento.setVisible(true);
+        
         
     }//GEN-LAST:event_jleftMedicina_CrearModificarMedicamentoMouseClicked
 
@@ -1266,11 +1269,12 @@ public class Principal extends javax.swing.JFrame {
         objServicioFarmacia.setVisible(false);       
         objOperacionesMedicamento.setVisible(false);
         objModificarUsuario.setVisible(false);
-        objCrearUsuario.setVisible(true);
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
         objReporte_Diagnostico.setVisible(false);
+        objCrearUsuario.setVisible(true);
+        
     }//GEN-LAST:event_jleftUsuario_CrearModificarUserMouseClicked
 
     private void jleftUsuario_AdministrarRolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRolMouseClicked
@@ -1289,9 +1293,10 @@ public class Principal extends javax.swing.JFrame {
         objCrearUsuario.setVisible(false);
         objServicioFarmacia.setVisible(false);       
         objOperacionesMedicamento.setVisible(false);
+        objModificarUsuario.setVisible(true);
         objModificarUsuario.ConsultaBD();
         objModificarUsuario.principalEjecucion();
-        objModificarUsuario.setVisible(true);
+        
         
     }//GEN-LAST:event_jleftUsuario_AdministrarRolMouseClicked
 
@@ -1307,14 +1312,14 @@ public class Principal extends javax.swing.JFrame {
         objServicioFarmacia.setVisible(false);       
         objOperacionesMedicamento.setVisible(false);
         objModificarUsuario.setVisible(false);
-        
-        objCrear_Estudiante.setVisible(true); 
-        objCrear_Estudiante.ConsultaBD();
-        objCrear_Estudiante.principalEjecucion();
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
         objReporte_Diagnostico.setVisible(false);
+        objCrear_Estudiante.setVisible(true); 
+        objCrear_Estudiante.ConsultaBD();
+        objCrear_Estudiante.principalEjecucion();
+        
     }//GEN-LAST:event_jleftEstudiante_CrearModificarEstudianteMouseClicked
 
     private void jleftConsultas_EntregadeldiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_EntregadeldiaMouseClicked
