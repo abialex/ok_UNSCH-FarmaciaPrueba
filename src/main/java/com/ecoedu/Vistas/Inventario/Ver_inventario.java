@@ -27,22 +27,13 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 
 import com.itextpdf.layout.property.TextAlignment;
-import com.sun.org.apache.xerces.internal.impl.xs.ElementPSVImpl;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.text.StyleConstants;
+import javax.swing.JOptionPane;
 import org.dom4j.DocumentException;
-
-
-
 /*
 1-agregar registrar un medicamento nuevo,cantidad,precio;
 2-agregar cantidad a un medicamento ya existente;
@@ -78,8 +69,7 @@ public class Ver_inventario extends javax.swing.JPanel {
                     break;
                     }
                 }
-            if(auxInventario){
-                System.out.println("agrega");
+            if(auxInventario){               
                 Lista_Inventario.add(Lista_LotesDetalle.get(i).getInventario());
                 }
             }      
@@ -343,39 +333,49 @@ public class Ver_inventario extends javax.swing.JPanel {
 
     private void jtblInventarioOperacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblInventarioOperacionesMouseClicked
         Inventario objInventario =(Inventario)jtblInventarioOperaciones.getValueAt(jtblInventarioOperaciones.getSelectedRow(),0);
-        for (int i = 0; i < Lista_Inventario.size(); i++){
-            if(Lista_Inventario.get(i)==objInventario){ 
+        for (Inventario inventario : Lista_Inventario){
+            if(inventario==objInventario){ 
                 List<Lote_detalle> auxLista_LoteDetalle=new ArrayList<>();
-                for (int j = 0; j < Lista_LotesDetalle.size(); j++){
-                    if(Lista_Inventario.get(i)==Lista_LotesDetalle.get(j).getInventario()){
-                        auxLista_LoteDetalle.add(Lista_LotesDetalle.get(j));
+                for (Lote_detalle lotedetalle : Lista_LotesDetalle){
+                    if(inventario==lotedetalle.getInventario() && !lotedetalle.isIsVencido()){
+                        auxLista_LoteDetalle.add(lotedetalle);
                     }                    
                 }
                 llenar_tabla_LoteDetalle(auxLista_LoteDetalle);
-                jlblNombreMedicamento.setText(Lista_Inventario.get(i).getMedicamento().getNombre());
+                jlblNombreMedicamento.setText(inventario.getMedicamento().getNombre());
                 break;
             }        
         }
     }//GEN-LAST:event_jtblInventarioOperacionesMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+     
         try {
-            imprimir();
+            Date Fe=new Date();
+            imprimir(Fe);            
+            String url="Carpeta_de_Archivos\\Inventario_"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
+            ProcessBuilder p=new ProcessBuilder();
+            p.command("cmd.exe","/c",url);
+            p.start();                          
         } catch (FileNotFoundException | DocumentException ex) {
-            Logger.getLogger(Ver_inventario.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(jtfMedicamento, ex.toString());
         } catch (IOException ex) {
-            Logger.getLogger(Ver_inventario.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(jtfMedicamento, ex.toString());
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void imprimir() throws FileNotFoundException, DocumentException, IOException{
-        String ol="C:\\Users\\yrma\\eclipse-workspace\\com.ecodap.pruebaBotica\\src\\main\\resources\\images\\unsch.png";
+    public void imprimir(Date Fe) throws FileNotFoundException, DocumentException, IOException{
+        String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
-        PdfWriter writer=new PdfWriter("tomalocal.pdf");
+        PdfWriter writer=null;
+        try {
+             writer=new PdfWriter
+                ("Carpeta_de_Archivos\\Inventario_"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf");           
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(jLabel12, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso");
+        }  
         PdfDocument pdf = new PdfDocument(writer);
-        Document document=new Document(pdf,PageSize.A4);
-        
+        Document document=new Document(pdf,PageSize.A4);        
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
         PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
         Table table = new Table(new float[]{18,12,4,10,10,5});
@@ -387,7 +387,7 @@ public class Ver_inventario extends javax.swing.JPanel {
 
         Paragraph parag=new Paragraph("SEMESTRE 2019-II").setTextAlignment(TextAlignment.CENTER);
         document.add(parag);      
-        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                             "+Herramienta.formatoFechaHora(new Date()));         
+        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                             "+Herramienta.formatoFechaHoraMas1(new Date()));         
         document.add(parag2);
         document.add(new Paragraph(" "));    
         table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
@@ -403,12 +403,18 @@ public class Ver_inventario extends javax.swing.JPanel {
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Paragraph(Lote_detalle.getFabricante().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));
-            if(Lote_detalle.getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){                
-            table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.WHITE));
+            if(Lote_detalle.getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){
+                if((Lote_detalle.getFecha_vencimiento().getTime()-(new Date()).getTime())/86400000 <=6*30){
+                    System.out.println("volar");
+                    table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.YELLOW));
+                    }
+                else{
+                    table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.WHITE));
+                    }
             }
             else{
                 table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED));
-            }
+                }
             table.addCell(new Paragraph(Integer.toString(Lote_detalle.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));
     
         }       

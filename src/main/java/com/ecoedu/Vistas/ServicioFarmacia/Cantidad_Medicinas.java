@@ -15,8 +15,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -47,13 +45,12 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         list_Lote_detalle=objServicioFarmacia.getListaInventario();
         desglozarDatos(); 
         llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));
-        jtfCantidad.setEditable(false);
-        
+        jtfCantidad.setEditable(false);        
      }
     
     public void desglozarDatos(){
          //lista_Inventario
-         for (int i = 1; i < list_Lote_detalle.size(); i++){
+         for (int i = 0; i < list_Lote_detalle.size(); i++){
             boolean auxInventario=true;
             for (int j = 0; j < list_Inventario.size(); j++){
                 if(list_Inventario.get(j)==list_Lote_detalle.get(i).getInventario()){
@@ -68,7 +65,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
          }
      public List<Inventario> getMedicamentosParecidos(String palabra){
         List<Inventario> listaInventario=new ArrayList<>();
-        for (int n = 0; n < list_Inventario.size(); n++) {
+        for (int n = 0; n <list_Inventario.size(); n++) {
             boolean aux=true;
             for (int i = 0; i<palabra.length(); i++) {               
                 if(palabra.charAt(i)!=list_Inventario.get(n).getMedicamento().getNombre().charAt(i)){
@@ -96,7 +93,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
              };
          //.....................................TABLA...........Fin......................
          fila_actividad=new Object[modelo.getColumnCount()];  
-         for (int i = 0; i < listaInventario.size(); i++){            
+         for (int i = 0; i<listaInventario.size(); i++){            
              fila_actividad[0]=listaInventario.get(i);             
              fila_actividad[1]=listaInventario.get(i).getCantidad();     
              modelo.addRow(fila_actividad);//agregando filas

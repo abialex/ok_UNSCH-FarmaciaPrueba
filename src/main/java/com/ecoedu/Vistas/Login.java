@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,11 +27,18 @@ public class Login extends javax.swing.JPanel {
     EntityManager jpa;
     Usuario usuario;
     CuadroLogin loginframe;
+    boolean auxOpera=true;
      
     
     public Login(CuadroLogin loginFrame) {     
         initComponents();
-        this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(barraProgreso,"la base de datos no está disponible "+e.toString());
+                auxOpera=false;                        
+        }
+        
         this.loginframe=loginFrame;
         TextPrompt txr=new TextPrompt("Nombre de usuario",jtfUsuario);
          txr=new TextPrompt("Contraseña",jtfContraseña);
@@ -201,6 +209,7 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciarSesion(){
+        if(auxOpera){
         Query query=jpa.createQuery("SELECT e FROM Usuario e where nickname="+"'"+jtfUsuario.getText()+"'"+" and "+
             "contraseña="+"'"+ jtfContraseña.getText()+"'");
         List<Usuario> listaUsuario=query.getResultList();
@@ -208,7 +217,10 @@ public class Login extends javax.swing.JPanel {
         loginframe.setVisible(false);
         
         Principal objPrincipal=new Principal(jpa,usuario);
-        objPrincipal.setVisible(true);
+        objPrincipal.setVisible(true);}
+        else{
+            JOptionPane.showMessageDialog(barraProgreso, "la base de datos no está disponible");
+        }
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        iniciarSesion();  

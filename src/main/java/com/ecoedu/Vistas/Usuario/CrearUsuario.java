@@ -4,21 +4,12 @@ package com.ecoedu.Vistas.Usuario;
 
 
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Inventario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import com.ecoedu.model.Medicamento;
 import com.ecoedu.model.Persona;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 
 
@@ -240,7 +231,7 @@ public class CrearUsuario extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         Persona objPersona=new Persona();
-        objPersona.setNombre(jtfNombres1.getText());
+        objPersona.setNombres(jtfNombres1.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setDni(jtfDni.getText());

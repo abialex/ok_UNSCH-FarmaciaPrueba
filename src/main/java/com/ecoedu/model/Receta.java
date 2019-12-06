@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Receta{
+public class Receta implements Comparable<Receta>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Diagnostico;
@@ -95,6 +95,11 @@ public class Receta{
     @Override
     public String toString(){
         return fecha_creada.toString();
+    }
+
+    @Override
+    public int compareTo(Receta o) {
+        return this.getFecha_creada().compareTo(o.getFecha_creada());
     }
     
     

@@ -601,6 +601,10 @@ public class LlenarInventario extends javax.swing.JPanel {
             Lista_Lote_detalle_final.get(i).getInventario().agregarCantidad(Lista_Detalle_Llenado_final.get(i).getCantidad());
             jpa.persist(Lista_Lote_detalle_final.get(i).getInventario());
         }       
+        jtfCodigoFactura.setText("");
+        jtfProveedor.setText("");
+        Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
+        llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
         jpa.getTransaction().commit();
         //nunca poner un 2persist antes de 1 refresh
     }//GEN-LAST:event_jButton2ActionPerformed

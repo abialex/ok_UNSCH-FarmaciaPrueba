@@ -4,18 +4,22 @@ package com.ecoedu.Vistas.Estudiante;
 
 
 
+import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.app.JPAUtil;
+import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Escuela;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Persona;
+import com.ecoedu.model.Sexo;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 
 
@@ -30,6 +34,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     EntityManager jpa;
     Principal objPrincipal;
     TextAutoCompleter TextAutoCompleterEscuela;
+    List<Sexo> lista_sexo;
     List<Escuela> Lista_Escuela;
     public Crear_Estudiante(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
@@ -38,20 +43,26 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         this.TextAutoCompleterEscuela=new TextAutoCompleter(jtfEscuela, new AutoCompleterCallback(){
             @Override
             public void callback(Object o){
-                }});
-        ConsultaBD();
-        principalEjecucion(); 
-           
+                }});           
     }
     public void ConsultaBD(){
         Query query1=jpa.createQuery("SELECT p FROM Escuela p");
-        Lista_Escuela=query1.getResultList(); 
+        Lista_Escuela=query1.getResultList();
+        
+        Query query2=jpa.createQuery("SELECT p FROM Sexo p");
+        lista_sexo=query2.getResultList();
+        
       
     }   
     public void principalEjecucion(){
+        TextAutoCompleterEscuela.removeAllItems();
         for (Escuela Escuela : Lista_Escuela) {
             TextAutoCompleterEscuela.addItem(Escuela.getNombre());
-        }        
+        } 
+        jcbSexo.removeAll();
+        for (Sexo sexo : lista_sexo) {
+            jcbSexo.addItem(sexo);
+        }
     }
 
     
@@ -87,6 +98,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel25 = new javax.swing.JLabel();
         jtfEscuela = new javax.swing.JTextField();
         jcbSerie = new javax.swing.JComboBox<>();
+        jcbYear = new rojeru_san.componentes.RSDateChooser();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jcbSexo = new javax.swing.JComboBox<>();
+        jtfCodigo1 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -125,7 +141,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jtfApellidoPaternoKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 500, 25));
+        jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 500, 25));
 
         jLabel19.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -151,13 +167,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 410, -1, -1));
+        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 440, -1, -1));
 
         jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel20.setText("DNI:");
+        jLabel20.setText("Sexo:");
         jLabel20.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 130, 25));
+        jPanel7.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 130, 25));
 
         jtfNombres.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfNombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -166,7 +182,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jtfNombresKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 500, 25));
+        jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 500, 25));
 
         jLabel21.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -186,7 +202,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jtfDNIKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 160, 25));
+        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 160, 25));
 
         jLabel29.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel29.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -212,13 +228,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jtfApellidoMaternoKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 500, 25));
+        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 500, 25));
 
         jLabel23.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel23.setText("Còdigo:");
+        jLabel23.setText("Fecha Nacimiento:");
         jLabel23.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 80, 25));
+        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 130, 25));
 
         jtfCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -232,7 +248,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jtfCodigoKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 160, 25));
+        jPanel7.add(jtfCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 160, 25));
 
         jLabel32.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -242,13 +258,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel24.setText("Serie:");
         jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 130, 25));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 330, 90, 25));
 
         jLabel25.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel25.setText("Escuela:");
         jLabel25.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 80, 25));
+        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 270, 80, 25));
 
         jtfEscuela.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfEscuela.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -266,7 +282,37 @@ public class Crear_Estudiante extends javax.swing.JPanel {
 
         jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
-        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 160, 25));
+        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 160, 25));
+        jPanel7.add(jcbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 160, 25));
+
+        jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel26.setText("Còdigo:");
+        jLabel26.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, 80, 25));
+
+        jLabel22.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel22.setText("DNI:");
+        jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, 80, 25));
+
+        jcbSexo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel7.add(jcbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 160, 25));
+
+        jtfCodigo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfCodigo1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigo1ActionPerformed(evt);
+            }
+        });
+        jtfCodigo1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigo1KeyReleased(evt);
+            }
+        });
+        jPanel7.add(jtfCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 160, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -283,18 +329,22 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        
+        Condicion objCondicion=(Condicion)jpa.createQuery("select p from Condicion p").getResultList().get(0);
         Persona objPersona=new Persona();
         Estudiante objEstudiante=new Estudiante();
         Control_paciente objControl_paciente=new Control_paciente();
         objControl_paciente.setMonto_Total(0);  
         objControl_paciente.setiSactivo(true);
-        objPersona.setNombre(jtfNombres.getText());
+        objPersona.setNombres(jtfNombres.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
+        objPersona.setSexo((Sexo)jcbSexo.getSelectedItem());
         objPersona.setDni(jtfDNI.getText());
+        objPersona.setFecha_nacimiento(jcbYear.getDatoFecha());
         objEstudiante.setCodigo(jtfCodigo.getText());
         objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
+        objEstudiante.setCondicion(objCondicion);
         for (Escuela Escuela : Lista_Escuela) {
             if(Escuela.getNombre().equals(jtfEscuela.getText())){
                 objEstudiante.setEscuela(Escuela);
@@ -313,7 +363,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             jpa.getTransaction().commit();
         }
         catch (Exception e) {
-            System.out.println(e.toString()+"ERROR");             
+            JOptionPane.showMessageDialog(jcbSexo, e.toString());
             jpa.getTransaction().rollback();   
             ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
         }
@@ -364,6 +414,14 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfEscuelaKeyReleased
 
+    private void jtfCodigo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigo1ActionPerformed
+
+    private void jtfCodigo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigo1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigo1KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyCard;
@@ -375,9 +433,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
@@ -387,9 +447,12 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JComboBox<String> jcbSerie;
+    private javax.swing.JComboBox<Sexo> jcbSexo;
+    private rojeru_san.componentes.RSDateChooser jcbYear;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfCodigo;
+    private javax.swing.JTextField jtfCodigo1;
     private javax.swing.JTextField jtfDNI;
     private javax.swing.JTextField jtfEscuela;
     private javax.swing.JTextField jtfNombres;

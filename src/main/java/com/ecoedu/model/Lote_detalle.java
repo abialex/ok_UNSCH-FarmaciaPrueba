@@ -48,9 +48,20 @@ public class Lote_detalle implements Comparable<Lote_detalle>{
     @Column(name="codigo",length = 40,nullable = false)
     private String  codigo;
 
+    @Column(name="isVencido",nullable = false)
+    private boolean  isVencido;
     public float getPrecio_Venta_Redondeado() {
         return precio_Venta_Redondeado;
     }
+
+    public boolean isIsVencido() {
+        return isVencido;
+    }
+
+    public void setIsVencido(boolean isVencido) {
+        this.isVencido = isVencido;
+    }
+    
 
     public void setPrecio_Venta_Redondeado(float precio_Venta_Redondeado) {
         this.precio_Venta_Redondeado = precio_Venta_Redondeado;
@@ -117,7 +128,7 @@ public class Lote_detalle implements Comparable<Lote_detalle>{
     }
 
     @Override
-    public int compareTo(Lote_detalle o) {
+    public int compareTo(Lote_detalle o) {        
         return this.getInventario().getMedicamento().getNombre().compareTo(o.getInventario().getMedicamento().getNombre());
     }
     

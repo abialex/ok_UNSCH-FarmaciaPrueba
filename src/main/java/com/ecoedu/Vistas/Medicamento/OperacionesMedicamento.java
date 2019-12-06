@@ -32,8 +32,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
     public OperacionesMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
-        this.objPrincipal=OBJPrincipal;
-        
+        this.objPrincipal=OBJPrincipal;        
         ConsultaBD();
         principalEjecucion(); 
            
