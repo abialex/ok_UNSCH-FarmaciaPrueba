@@ -23,13 +23,13 @@ import javax.swing.table.DefaultTableModel;
 2-agregar cantidad a un medicamento ya existente;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
-public class OperacionesMedicamento extends javax.swing.JPanel{   
+public class CrearMedicamento extends javax.swing.JPanel{   
     List<Medicamento> Lista_Medicamento;
     EntityManager jpa;
     Principal objPrincipal;
 
     
-    public OperacionesMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
+    public CrearMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;        
@@ -54,7 +54,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
              //.....................................TABLA......................................
                 String [] lista={"Producto Farmaceutico","Concentraciòn","Forma Farmaceutica"}; 
              modelo=new DefaultTableModel(null,lista){
-                 boolean[] canEdit = new boolean [] {true, true,true};
+                 boolean[] canEdit = new boolean [] {false, false,false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
                      }
@@ -130,7 +130,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("CREAR O MODIFICAR MEDICAMENTOS");
+        jLabel12.setText("CREAR MEDICAMENTOS");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -188,7 +188,7 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
 
         jButton3.setBackground(new java.awt.Color(0, 0, 0));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Agregar MEDICAMENTO");
+        jButton3.setText("AGREGAR MEDICAMENTO");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -259,7 +259,6 @@ public class OperacionesMedicamento extends javax.swing.JPanel{
 
         jLabel7.setFont(new java.awt.Font("Tw Cen MT", 0, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Doble click para Modificar");
         jLabel7.setPreferredSize(new java.awt.Dimension(330, 25));
         jPanel12.add(jLabel7);
 

@@ -424,12 +424,16 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
                 objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));  
                 objServicioFarmacia.addPrecio_delControlEstudiante(Float.parseFloat(jlblPrecioTotal.getText()));
                 objServicioFarmacia.getListaCarritos(objDetalle_Medicamento_Final);                  
+                objServicioFarmacia.getPrincipal().setEnabled(true);
                 objCuadroCarritoMedicinas.setVisible(false);  
                 }
     }//GEN-LAST:event_jbtnAgregarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        objServicioFarmacia.getPrincipal().setEnabled(true);
         objCuadroCarritoMedicinas.setVisible(false);
+        
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped

@@ -173,6 +173,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
      public List<Lote_detalle> getListaInventario(){
          return Lista_lote_detalle;
      } 
+     public Principal getPrincipal(){
+         return objPrincipal;
+     }
     public void llenar_Tabla_de_carrito_medicina(List<Detalle_Medicamentos> lista_carrito_medi){
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -839,9 +842,11 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
    
     
-    public void llenarControlAlumno(){//usando acceso BD   
+    public void llenarControlAlumno(){//usando acceso BD  
+        boolean aux=true;
         for (int i = 0; i < Lista_control_paciente.size(); i++){
-            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){                
+            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){ 
+                aux=false;
                 objControl_paciente_Final=Lista_control_paciente.get(i);
                 Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
                 saldo_totalControlEstudiante=90-objControl_paciente_Final.getMonto_Total();
@@ -853,14 +858,20 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 jbtnCrearReceta.setEnabled(true);
                 jbtnImprimir.setEnabled(true);
                 if(Lista_Recetas.isEmpty()){
-                jlblAdvertencia.setText("NO CONTIENE NI UNA RECETA");
-                jbtnImprimir.setEnabled(false);
-                }               
+                    jlblAdvertencia.setText("NO CONTIENE NI UNA RECETA");
+                    jbtnImprimir.setEnabled(false);
+                }
+                else{
+                    jlblAdvertencia.setText("");
+                }
                 break;
             }
             jbtnCrearReceta.setEnabled(false);
             jbtnImprimir.setEnabled(false);
             jlblAdvertencia.setText("");
+        }
+        if(aux){
+            jlblAdvertencia.setText("NO SE ENCONTRÓ ALUMNO CON EL CÓDIGO: "+jtfLookCodigo.getText());
         }
        llenar_Tabla_de_Recetas(Lista_Recetas);        
     }
@@ -901,6 +912,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jbtnADDmedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnADDmedicamentosActionPerformed
        CuadroCarritoMedicinas objCuadroCarritoMedicinas=new CuadroCarritoMedicinas(jpa,this);
        objCuadroCarritoMedicinas.setVisible(true);
+       objPrincipal.setEnabled(false);
        
     }//GEN-LAST:event_jbtnADDmedicamentosActionPerformed
 
@@ -919,6 +931,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jtfLookCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyPressed
 
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){  
+            System.out.println("aqui");
             llenarControlAlumno();            
         }
     }//GEN-LAST:event_jtfLookCodigoKeyPressed
@@ -1015,9 +1028,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jtfLookCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyTyped
         if (jtfLookCodigo.getText().length()>=8){             
          evt.consume(); 
-         }
-        
-        
+         }     
         char validar=evt.getKeyChar();
         if(Character.isLetter(validar)){
             getToolkit().beep();
@@ -1027,6 +1038,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
     private void jtfLookCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyReleased
         if(jtfLookCodigo.getText().length()>=8){
+            System.out.println("dasdasdasdasda");
                 llenarControlAlumno();
             }
         else{
@@ -1121,8 +1133,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          jlblNombres.setText("");
          jlblEscuela.setText("");
          jlblSerie.setText("");
+         jlblAdvertencia.setText("");
          Lista_Recetas.clear();
-         llenarControlAlumno();
+         llenar_Tabla_de_Recetas(Lista_Recetas);
      }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
