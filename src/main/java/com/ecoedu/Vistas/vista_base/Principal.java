@@ -190,8 +190,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jleftEstudiante_Modificar = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        jleftMedicina_ReportePorEscuela = new javax.swing.JPanel();
-        jLabel30 = new javax.swing.JLabel();
         jleftConsultas = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -199,8 +197,12 @@ public class Principal extends javax.swing.JFrame {
         jtfsub_Consultas = new javax.swing.JPanel();
         jleftConsultas_Entregadeldia = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
+        jleftConsultas_ReportePorEscuela = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
         jleftConsultas_ReportedelMes = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
+        jleftConsultas_Reporte_Condicion = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
         jleftUsuario = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -627,7 +629,7 @@ public class Principal extends javax.swing.JFrame {
         left.add(jleftEstudiante);
 
         jtfsub_Estudiante.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_Estudiante.setPreferredSize(new java.awt.Dimension(300, 120));
+        jtfsub_Estudiante.setPreferredSize(new java.awt.Dimension(300, 80));
 
         jleftEstudiante_CrearModificarEstudiante.setBackground(new java.awt.Color(73, 20, 100));
         jleftEstudiante_CrearModificarEstudiante.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -683,33 +685,6 @@ public class Principal extends javax.swing.JFrame {
 
         jtfsub_Estudiante.add(jleftEstudiante_Modificar);
 
-        jleftMedicina_ReportePorEscuela.setBackground(new java.awt.Color(73, 20, 100));
-        jleftMedicina_ReportePorEscuela.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftMedicina_ReportePorEscuela.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftMedicina_ReportePorEscuelaMouseMoved(evt);
-            }
-        });
-        jleftMedicina_ReportePorEscuela.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftMedicina_ReportePorEscuelaMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftMedicina_ReportePorEscuelaMouseExited(evt);
-            }
-        });
-        jleftMedicina_ReportePorEscuela.setLayout(new java.awt.BorderLayout());
-
-        jLabel30.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel30.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel30.setText("Reporte por Escuela");
-        jLabel30.setPreferredSize(new java.awt.Dimension(300, 50));
-        jleftMedicina_ReportePorEscuela.add(jLabel30, java.awt.BorderLayout.CENTER);
-
-        jtfsub_Estudiante.add(jleftMedicina_ReportePorEscuela);
-
         left.add(jtfsub_Estudiante);
 
         jleftConsultas.setBackground(new java.awt.Color(73, 20, 119));
@@ -751,7 +726,7 @@ public class Principal extends javax.swing.JFrame {
         left.add(jleftConsultas);
 
         jtfsub_Consultas.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_Consultas.setPreferredSize(new java.awt.Dimension(300, 80));
+        jtfsub_Consultas.setPreferredSize(new java.awt.Dimension(300, 160));
 
         jleftConsultas_Entregadeldia.setBackground(new java.awt.Color(73, 20, 100));
         jleftConsultas_Entregadeldia.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -780,6 +755,33 @@ public class Principal extends javax.swing.JFrame {
 
         jtfsub_Consultas.add(jleftConsultas_Entregadeldia);
 
+        jleftConsultas_ReportePorEscuela.setBackground(new java.awt.Color(73, 20, 100));
+        jleftConsultas_ReportePorEscuela.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftConsultas_ReportePorEscuela.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportePorEscuelaMouseMoved(evt);
+            }
+        });
+        jleftConsultas_ReportePorEscuela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportePorEscuelaMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportePorEscuelaMouseExited(evt);
+            }
+        });
+        jleftConsultas_ReportePorEscuela.setLayout(new java.awt.BorderLayout());
+
+        jLabel30.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel30.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setText("Reporte por Escuela");
+        jLabel30.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftConsultas_ReportePorEscuela.add(jLabel30, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Consultas.add(jleftConsultas_ReportePorEscuela);
+
         jleftConsultas_ReportedelMes.setBackground(new java.awt.Color(73, 20, 100));
         jleftConsultas_ReportedelMes.setPreferredSize(new java.awt.Dimension(300, 32));
         jleftConsultas_ReportedelMes.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -806,6 +808,33 @@ public class Principal extends javax.swing.JFrame {
         jleftConsultas_ReportedelMes.add(jLabel17, java.awt.BorderLayout.CENTER);
 
         jtfsub_Consultas.add(jleftConsultas_ReportedelMes);
+
+        jleftConsultas_Reporte_Condicion.setBackground(new java.awt.Color(73, 20, 100));
+        jleftConsultas_Reporte_Condicion.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftConsultas_Reporte_Condicion.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftConsultas_Reporte_CondicionMouseMoved(evt);
+            }
+        });
+        jleftConsultas_Reporte_Condicion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftConsultas_Reporte_CondicionMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftConsultas_Reporte_CondicionMouseExited(evt);
+            }
+        });
+        jleftConsultas_Reporte_Condicion.setLayout(new java.awt.BorderLayout());
+
+        jLabel31.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel31.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel31.setText("Reporte por Condicion");
+        jLabel31.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftConsultas_Reporte_Condicion.add(jLabel31, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Consultas.add(jleftConsultas_Reporte_Condicion);
 
         left.add(jtfsub_Consultas);
 
@@ -1418,11 +1447,11 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);
     }//GEN-LAST:event_jleftEstudiante_ModificarMouseClicked
 
-    private void jleftMedicina_ReportePorEscuelaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ReportePorEscuelaMouseMoved
-        jleftMedicina_ReportePorEscuela.setBackground(colorMoved);
-    }//GEN-LAST:event_jleftMedicina_ReportePorEscuelaMouseMoved
+    private void jleftConsultas_ReportePorEscuelaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaMouseMoved
+        jleftConsultas_ReportePorEscuela.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaMouseMoved
 
-    private void jleftMedicina_ReportePorEscuelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ReportePorEscuelaMouseClicked
+    private void jleftConsultas_ReportePorEscuelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaMouseClicked
         bodyContenedor.setVisible(true);
         
         objModificarMedicamento.setVisible(false);//15
@@ -1447,12 +1476,12 @@ public class Principal extends javax.swing.JFrame {
        objReporte_Diagnostico.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(true);
-    }//GEN-LAST:event_jleftMedicina_ReportePorEscuelaMouseClicked
+    }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaMouseClicked
 
-    private void jleftMedicina_ReportePorEscuelaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ReportePorEscuelaMouseExited
+    private void jleftConsultas_ReportePorEscuelaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaMouseExited
        
-        jleftMedicina_ReportePorEscuela.setBackground(colorExitSub);
-    }//GEN-LAST:event_jleftMedicina_ReportePorEscuelaMouseExited
+        jleftConsultas_ReportePorEscuela.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaMouseExited
 
     private void jleftConsultas_ReportedelMesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportedelMesMouseClicked
 
@@ -1519,6 +1548,18 @@ public class Principal extends javax.swing.JFrame {
         jleftMedicina_ModificarMedicamento.setBackground(colorExitSub);
     }//GEN-LAST:event_jleftMedicina_ModificarMedicamentoMouseExited
 
+    private void jleftConsultas_Reporte_CondicionMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_CondicionMouseMoved
+        jleftConsultas_Reporte_Condicion.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftConsultas_Reporte_CondicionMouseMoved
+
+    private void jleftConsultas_Reporte_CondicionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_CondicionMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftConsultas_Reporte_CondicionMouseClicked
+
+    private void jleftConsultas_Reporte_CondicionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_CondicionMouseExited
+        jleftConsultas_Reporte_Condicion.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftConsultas_Reporte_CondicionMouseExited
+
     public Usuario getUsuario(){
         return user;
     } 
@@ -1551,6 +1592,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1573,6 +1615,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftConsultas;
     private javax.swing.JPanel jleftConsultas_Entregadeldia;
     private javax.swing.JPanel jleftConsultas_MedicamentoUsado;
+    private javax.swing.JPanel jleftConsultas_ReportePorEscuela;
+    private javax.swing.JPanel jleftConsultas_Reporte_Condicion;
     private javax.swing.JPanel jleftConsultas_ReportedelMes;
     private javax.swing.JPanel jleftEstudiante;
     private javax.swing.JPanel jleftEstudiante_CrearModificarEstudiante;
@@ -1584,7 +1628,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftMedicamento;
     private javax.swing.JPanel jleftMedicina_CrearMedicamento;
     private javax.swing.JPanel jleftMedicina_ModificarMedicamento;
-    private javax.swing.JPanel jleftMedicina_ReportePorEscuela;
     private javax.swing.JPanel jleftProveedorYfabricante;
     private javax.swing.JPanel jleftServicioFarmacia;
     private javax.swing.JPanel jleftUsuario;

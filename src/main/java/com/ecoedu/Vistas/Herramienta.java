@@ -43,7 +43,20 @@ public class Herramienta {
     public static String formatoFechaHoraMas1(Date fecha){
         return (1900+fecha.getYear())+"-"+conOsin0(fecha.getMonth()+1)+"-"+conOsin0(fecha.getDate())
                 +" "+conOsin0(fecha.getHours())+":"+conOsin0(fecha.getMinutes())+":"+conOsin0(fecha.getSeconds());
-    }    
+    }
+    public static boolean fechaMenor(Date fechamenor,Date fechaMayor){
+        System.out.println("usansdasdasd");
+        if(fechamenor.getTime()<=fechaMayor.getTime()){
+            System.out.println("osdaaaaaaaaaaaaasdassssssssdasdasdasdasd-------------------------------ls");
+            return true;
+        }
+        else{
+            System.out.println("asddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+            return false;
+        }
+        
+    }
+     
     
     
     public static String formatoFechaMas1(Date fecha){

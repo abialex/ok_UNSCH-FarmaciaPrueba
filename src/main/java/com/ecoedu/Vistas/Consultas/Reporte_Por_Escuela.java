@@ -99,7 +99,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Reporte por Escuela");
+        jLabel12.setText("Reporte por Escuelasss");
         jLabel12.setPreferredSize(new java.awt.Dimension(351, 70));
         head.add(jLabel12);
 
@@ -235,8 +235,15 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
+        System.out.println("ni ideaasdasdasd");
         try {
-            imprimir((Escuela)jcbEscuela.getSelectedItem());
+            System.out.println("no se q pasa");
+            if(Herramienta.fechaMenor(jcbYearDesde.getDatoFecha(),jcbYearHasta.getDatoFecha())){
+                imprimir((Escuela)jcbEscuela.getSelectedItem());
+                }
+            else{
+                JOptionPane.showMessageDialog(jPanel5, "La fecha (Desde) no debe ser mayor que (Hasta)");
+            }
         } catch (DocumentException | IOException ex) {
             Logger.getLogger(Reporte_Diagnostico.class.getName()).log(Level.SEVERE, null, ex);
         }

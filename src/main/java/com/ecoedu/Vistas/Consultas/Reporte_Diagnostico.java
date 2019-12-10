@@ -97,7 +97,7 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Reporte por Diagnostico/Procedencia");
+        jLabel12.setText("Reportes por Diagnostico/Procedenciassss");
         jLabel12.setPreferredSize(new java.awt.Dimension(351, 70));
         head.add(jLabel12);
 
@@ -235,16 +235,20 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
 
     private void jbtnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVerActionPerformed
         try {
-            if("POR DIAGNÓSTICO".equals((String)jcbTipoBusqueda.getSelectedItem())){
-                imprimir(1);                
-            }
+            if(Herramienta.fechaMenor(jcbYearDesde.getDatoFecha(), jcbYearHasta.getDatoFecha())){
+                if("POR DIAGNÓSTICO".equals((String)jcbTipoBusqueda.getSelectedItem())){
+                    imprimir(1);    
+                    }
+                else{
+                    imprimirProcedencia(1);
+                    }
+                }
             else{
-                imprimirProcedencia(1);                
+                JOptionPane.showMessageDialog(jPanel5, "La fecha (Desde) no debe ser mayor que (Hasta)");
             }
-            
-        } catch (DocumentException | IOException ex) {
-            Logger.getLogger(Reporte_Diagnostico.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            } catch (DocumentException | IOException ex) {
+                Logger.getLogger(Reporte_Diagnostico.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }//GEN-LAST:event_jbtnVerActionPerformed
 
     private void jbtnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirActionPerformed
@@ -334,7 +338,7 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
             Document document=new Document(pdf,PageSize.A4);
             PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
             PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD); 
-            Table table = new Table(new float[]{10,10,10});
+            Table table = new Table(new float[]{5,20,5});
             table.setWidthPercent(100); 
             Paragraph paragIma=new Paragraph("").add(unsch).add(
                 new Text("                         REPORTE DE DIAGNÓSTICOS").setFontSize(16).setFont(bold).setTextAlignment(TextAlignment.CENTER));  
