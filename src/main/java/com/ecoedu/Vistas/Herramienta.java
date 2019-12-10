@@ -45,15 +45,7 @@ public class Herramienta {
                 +" "+conOsin0(fecha.getHours())+":"+conOsin0(fecha.getMinutes())+":"+conOsin0(fecha.getSeconds());
     }
     public static boolean fechaMenor(Date fechamenor,Date fechaMayor){
-        System.out.println("usansdasdasd");
-        if(fechamenor.getTime()<=fechaMayor.getTime()){
-            System.out.println("osdaaaaaaaaaaaaasdassssssssdasdasdasdasd-------------------------------ls");
-            return true;
-        }
-        else{
-            System.out.println("asddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-            return false;
-        }
+        return fechamenor.getTime()<=fechaMayor.getTime();
         
     }
      

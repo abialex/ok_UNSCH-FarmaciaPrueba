@@ -235,9 +235,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
-        System.out.println("ni ideaasdasdasd");
         try {
-            System.out.println("no se q pasa");
             if(Herramienta.fechaMenor(jcbYearDesde.getDatoFecha(),jcbYearHasta.getDatoFecha())){
                 imprimir((Escuela)jcbEscuela.getSelectedItem());
                 }
@@ -303,7 +301,9 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
             document.add(paragIma);   
             Paragraph paraEscCodSerie=new Paragraph(new Text("AÑO: ").setFont(bold)).add(Integer.toString((new Date().getYear()+1900)))
                 .add(new Text("     SEMESTRE: ").setFont(bold)).add("2019-II")
-                .add(new Text("     ESCUELA: ").setFont(bold)).add(objEscuela.getNombre()); 
+                .add(new Text("     ESCUELA: ").setFont(bold)).add(objEscuela.getNombre())
+                .add(new Text("     DESDE: ").setFont(bold)).add(Herramienta.formatoFecha(jcbYearDesde.getDatoFecha()))
+                .add(new Text("     HASTA: ").setFont(bold)).add(Herramienta.formatoFecha(jcbYearHasta.getDatoFecha())); 
             document.add(paraEscCodSerie);
             document.add(new Paragraph(" "));
             table.addHeaderCell(new Cell().add(new Paragraph("Código Diagnóstico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
@@ -440,15 +440,7 @@ public void llenar_Tabla_de_Recetas(DefaultTableModel modelo){
             tcr.setHorizontalAlignment(SwingConstants.CENTER);
             jtblRecetas.getColumnModel().getColumn(0).setCellRenderer(tcr);
             jtblRecetas.getColumnModel().getColumn(1).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(2).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(3).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(4).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(5).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(6).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(7).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(8).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(9).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(10).setCellRenderer(tcr);  
+            jtblRecetas.getColumnModel().getColumn(2).setCellRenderer(tcr);         
             jtblRecetas.setFont(new java.awt.Font("Tahoma", 0, 13));
             jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 16));
             jtblRecetas.getTableHeader().setBackground(Color.BLUE);
@@ -456,14 +448,7 @@ public void llenar_Tabla_de_Recetas(DefaultTableModel modelo){
             jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(90);//queda
             jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(220);
             jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(50);//queda
-            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(50);//queda   
-            jtblRecetas.getColumnModel().getColumn(4).setPreferredWidth(50);//queda 
-            jtblRecetas.getColumnModel().getColumn(5).setPreferredWidth(120); 
-            jtblRecetas.getColumnModel().getColumn(6).setPreferredWidth(150); 
-            jtblRecetas.getColumnModel().getColumn(7).setPreferredWidth(50);//quedo 
-            jtblRecetas.getColumnModel().getColumn(8).setPreferredWidth(45); 
-            jtblRecetas.getColumnModel().getColumn(9).setPreferredWidth(45); 
-            jtblRecetas.getColumnModel().getColumn(10).setPreferredWidth(190); 
+          
             ((DefaultTableCellRenderer)jtblRecetas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64  
     }   

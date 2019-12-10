@@ -8,7 +8,7 @@ import com.ecoedu.Vistas.Consultas.Entrega_del_dia;
 import com.ecoedu.Vistas.Consultas.Reporte_Diagnostico;
 import com.ecoedu.Vistas.Estudiante.Crear_Estudiante;
 import com.ecoedu.Vistas.Estudiante.Modificar_Estudiante;
-import com.ecoedu.Vistas.Estudiante.Reporte_Por_Escuela;
+import com.ecoedu.Vistas.Consultas.Reporte_Por_Escuela;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
 import com.ecoedu.Vistas.Inventario.LlenarInventario;
 import com.ecoedu.Vistas.Inventario.Ver_inventario;
