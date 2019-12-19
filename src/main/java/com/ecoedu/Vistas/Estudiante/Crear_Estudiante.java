@@ -330,7 +330,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        Condicion objCondicion=(Condicion)jpa.createQuery("select p from Condicion p").getResultList().get(0);
+        Condicion objCondicion=(Condicion)jpa.createQuery("select p from Condicion p").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
         Estudiante objEstudiante=new Estudiante();
         Control_paciente objControl_paciente=new Control_paciente();

@@ -18,6 +18,12 @@ import javax.persistence.Query;
  * @author yrma
  */
 public class Herramienta { 
+    public  static void main(String asdasd[]){
+       
+        System.out.println(new Date().getTime()/86400000);
+//Herramienta.Prueba();
+        
+    }
     
   
     
@@ -93,6 +99,25 @@ public class Herramienta {
         return null;
         
     }*/
+    public static void Prueba(){
+        String fechaInicio="2019-08-29";
+        String año="";
+        String mes="";
+        String dia="";
+        for (int i = 0; i < fechaInicio.length(); i++){
+            if(i<=3){
+                año=año+fechaInicio.charAt(i);                
+            }
+            if(i==5||i==6){
+                mes=mes+fechaInicio.charAt(i);                
+            }
+            if(i==8||i==9){
+                dia=dia+fechaInicio.charAt(i);                
+            }           
+        }
+        System.out.println("select ¨*from Cologiado where fecheInscripcion between"+"'"+año+"-"+mes+"-"+dia+"'"+
+                "and"+"'"+año+"-"+mes+"-"+dia+"'");
+    }
     public static <T> List<T> findbyBeetWeen(Class<T> generico,String Columna,Date FechaInicio,Date FechaFin,EntityManager jpa){
         List<T> listGenericos=new ArrayList<>();
         try {

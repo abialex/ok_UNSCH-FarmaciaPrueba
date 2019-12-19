@@ -3,10 +3,12 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Detalle_servicio_social;
 import com.ecoedu.model.Diagnostico;
+import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Procedencia;
 import com.ecoedu.model.Receta;
@@ -28,6 +30,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,6 +58,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private Usuario objUsuario;
     private EntityManager jpa;   
     private List<Procedencia> lista_procedencia;    
+    private List<Condicion> lista_condicion;
     private List<Lote_detalle> Lista_lote_detalle;
     private List<Detalle_servicio_social> Lista_detalle_servicio_social;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
@@ -121,10 +125,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }
      public void ConsultaBD(){
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
-                   
-        
-         Query query3=jpa.createQuery("SELECT p FROM Procedencia p");
-         lista_procedencia=query3.getResultList();            
+         lista_procedencia =jpa.createQuery("SELECT p FROM Procedencia p").getResultList();
+         lista_condicion=jpa.createQuery("SELECT p FROM Condicion p").getResultList();
+         
      }
     
      public void principalEjecucion(){ 
@@ -936,7 +939,20 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jtfLookCodigoKeyPressed
 
+    public Receta fechadeUltimaReceta(List<Receta> listaRecetas){
+        Receta LDprimero=listaRecetas.get(0);
+        for(int i = 1; i < listaRecetas.size(); i++){
+            if(LDprimero.getFecha_creada().getTime()<listaRecetas.get(i).getFecha_creada().getTime()){
+                LDprimero=listaRecetas.get(i);
+                }
+            }
+        return LDprimero;
+    }
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
+        //Lista_Recetas
+        Estudiante objEstudiante=objControl_paciente_Final.getEstudiante();
+        Receta objReceta;
+        
         Receta objReceta_Final=new Receta();
         objReceta_Final.setProcedencia((Procedencia)jcbProcedencia.getSelectedItem()); 
         try {            
@@ -968,7 +984,18 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             jlblTotalCarrito.setText("S/0.00");
             jlblAdvertencia.setText("");
             Limpiarcuerp2CrearRecetas();
-            jpa.getTransaction().commit();
+            if(!Lista_Recetas.isEmpty()){
+                objReceta=fechadeUltimaReceta(Lista_Recetas);
+                if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){
+                    objEstudiante.setCondicion(lista_condicion.get(1));//Concurrente
+                    }
+                else{
+                    objEstudiante.setCondicion(lista_condicion.get(2));//Reingresante
+                    }
+                }
+            jpa.persist(objEstudiante);
+            JOptionPane.showMessageDialog(jlblNombres, "¿Desea Imprimir La receta?");//agregar la lógica de imprimir receta
+            jpa.getTransaction().commit();//finnnnnnnnnnnnnnnnnnnnnnnnn transact
             ConsultaBD();
             llenarControlAlumno();                
                 }
@@ -981,7 +1008,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             }
             
             } 
-        catch (Exception e) {
+        catch (HeadlessException e) {
             JOptionPane.showMessageDialog(jlblNombres, e.toString());
         }
         
