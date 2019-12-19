@@ -13,13 +13,13 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
     
     private Procedencia objProcedencia;
     private Diagnostico objDiagnostico;
-    private String cantidad;
+    private int cantidad;
 
-    public ZObjetoProDiag(Procedencia objProcedencia, String cantidad) {
+    public ZObjetoProDiag(Procedencia objProcedencia, int cantidad) {
         this.objProcedencia = objProcedencia;
         this.cantidad = cantidad;
     }
-    public ZObjetoProDiag(Diagnostico objDiagnostico, String cantidad) {
+    public ZObjetoProDiag(Diagnostico objDiagnostico, int cantidad) {
         this.objDiagnostico = objDiagnostico;
         this.cantidad = cantidad;
     }
@@ -40,17 +40,23 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
         this.objProcedencia = objProcedencia;
     }
 
-    public String getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
     @Override
     public int compareTo(ZObjetoProDiag o) {
-        return this.getCantidad().compareTo(o.getCantidad());
+         if (cantidad < o.getCantidad()) {
+             return -1;
+             }
+         if (cantidad > o.getCantidad()) {
+             return 1;
+             }
+         return 0;
     }
     
     
