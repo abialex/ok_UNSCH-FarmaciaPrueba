@@ -13,6 +13,7 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
     
     private Procedencia objProcedencia;
     private Diagnostico objDiagnostico;
+    private Condicion objCondicion;
     private int cantidad;
 
     public ZObjetoProDiag(Procedencia objProcedencia, int cantidad) {
@@ -23,9 +24,22 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
         this.objDiagnostico = objDiagnostico;
         this.cantidad = cantidad;
     }
+    public ZObjetoProDiag(Condicion objCondicion, int cantidad) {
+        this.objCondicion = objCondicion;
+        this.cantidad = cantidad;
+    }
     public Procedencia getObjProcedencia() {
         return objProcedencia;
     }
+
+    public Condicion getObjCondicion() {
+        return objCondicion;
+    }
+
+    public void setObjCondicion(Condicion objCondicion) {
+        this.objCondicion = objCondicion;
+    }
+    
 
     public Diagnostico getObjDiagnostico() {
         return objDiagnostico;

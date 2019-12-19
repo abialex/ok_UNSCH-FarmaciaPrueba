@@ -5,6 +5,7 @@
  */
 package com.ecoedu.Vistas.vista_base;
 import com.ecoedu.Vistas.Consultas.Entrega_del_dia;
+import com.ecoedu.Vistas.Consultas.Reporte_Condicion;
 import com.ecoedu.Vistas.Consultas.Reporte_Diagnostico;
 import com.ecoedu.Vistas.Estudiante.Crear_Estudiante;
 import com.ecoedu.Vistas.Estudiante.Modificar_Estudiante;
@@ -55,6 +56,7 @@ public class Principal extends javax.swing.JFrame {
    private Reporte_Diagnostico objReporte_Diagnostico;
    private ProveedorFabricante objProveedorFabricante;
    private ModificarMedicamento objModificarMedicamento;
+   private Reporte_Condicion objReporte_Condicion;
    
    
    private Color colorMoved=new Color(4,20,25);
@@ -89,6 +91,7 @@ public class Principal extends javax.swing.JFrame {
        this.objModificar_Estudiante=new Modificar_Estudiante(OBJjpa, this);
        this.objReporte_Por_Escuela=new Reporte_Por_Escuela(OBJjpa, this);
        this.objModificarMedicamento=new ModificarMedicamento(OBJjpa, this);
+       this.objReporte_Condicion=new Reporte_Condicion(jpa, this);
        this.setLocationRelativeTo(null);
        jlblUsuario.setText(user.getPersona().getInfoPersona());
        bodyContenedor.add(objBusquedaVentas);//1  
@@ -121,6 +124,9 @@ public class Principal extends javax.swing.JFrame {
        bodyContenedor.validate();
        bodyContenedor.add(objModificarMedicamento);//15
        bodyContenedor.validate();
+       bodyContenedor.add(objReporte_Condicion);
+       bodyContenedor.validate();
+       
        
        if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR")){
            jleftMedicamento.setVisible(false);
@@ -1039,6 +1045,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);//13 
         objProveedorFabricante.setVisible(false);//14
         objModificarMedicamento.setVisible(false);//15
+        objReporte_Condicion.setVisible(false);//16
          objServicioFarmacia.ConsultaBD();
         objServicioFarmacia.principalEjecucion();
         objServicioFarmacia.setVisible(true);//9 
@@ -1154,18 +1161,22 @@ public class Principal extends javax.swing.JFrame {
       objCrearMedicamento.setVisible(false);
       objCrearUsuario.setVisible(false);
       objModificarUsuario.setVisible(false);
-      objLlenarInventario.ConsultaBD();
-      objLlenarInventario.principalEjecucion();
-      objLlenarInventario.setVisible(true);
       objEntragEntrega_del_dia.setVisible(false);
       objModificar_Estudiante.setVisible(false);
       objReporte_Por_Escuela.setVisible(false);
       objReporte_Diagnostico.setVisible(false);
+      
+      objReporte_Condicion.setVisible(false);//16
+      objLlenarInventario.ConsultaBD();
+      objLlenarInventario.principalEjecucion();
+      objLlenarInventario.setVisible(true);
+      
     }//GEN-LAST:event_jleftInventario_llenarInventarioMouseClicked
 
     private void jleftInventario_detalleInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_detalleInventarioMouseClicked
-      bodyContenedor.setVisible(true); 
-            
+      bodyContenedor.setVisible(true);
+      
+      objReporte_Condicion.setVisible(false);//16
       objModificarMedicamento.setVisible(false);//15
       objProveedorFabricante.setVisible(false);//14
       objVer_inventario.setVisible(false);
@@ -1222,6 +1233,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftInventario_verInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_verInventarioMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14        
         objDetalle_Inventario.setVisible(false);
@@ -1288,7 +1300,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jleftProveedorYfabricanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftProveedorYfabricanteMouseClicked
         bodyContenedor.setVisible(true);
-        
+
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objVer_inventario.setVisible(false);//1
         objDetalle_Inventario.setVisible(false);//2
@@ -1316,6 +1329,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftMedicina_CrearMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_CrearMedicamentoMouseClicked
         bodyContenedor.setVisible(true);  
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1338,6 +1352,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftUsuario_CrearModificarUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_CrearModificarUserMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1359,6 +1374,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftUsuario_AdministrarRolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftUsuario_AdministrarRolMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
@@ -1383,6 +1399,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftEstudiante_CrearModificarEstudianteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_CrearModificarEstudianteMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1406,6 +1423,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftConsultas_EntregadeldiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_EntregadeldiaMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1428,6 +1446,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftEstudiante_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftEstudiante_ModificarMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1454,6 +1473,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftConsultas_ReportePorEscuelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaMouseClicked
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1487,6 +1507,7 @@ public class Principal extends javax.swing.JFrame {
 
         bodyContenedor.setVisible(true);
         
+        objReporte_Condicion.setVisible(false);//16
         objModificarMedicamento.setVisible(false);//15
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -1526,7 +1547,7 @@ public class Principal extends javax.swing.JFrame {
     private void jleftMedicina_ModificarMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftMedicina_ModificarMedicamentoMouseClicked
         bodyContenedor.setVisible(true);  
         
-        
+        objReporte_Condicion.setVisible(false);//16
         objProveedorFabricante.setVisible(false);//14
         objVer_inventario.setVisible(false);
         objDetalle_Inventario.setVisible(false);
@@ -1553,7 +1574,30 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftConsultas_Reporte_CondicionMouseMoved
 
     private void jleftConsultas_Reporte_CondicionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_CondicionMouseClicked
-        // TODO add your handling code here:
+       try {
+           bodyContenedor.setVisible(true);
+           
+           objProveedorFabricante.setVisible(false);//14
+           objVer_inventario.setVisible(false);
+           objDetalle_Inventario.setVisible(false);
+           objCrear_Estudiante.setVisible(false);
+           objBusquedaVentas.setVisible(false);
+           objLlenarInventario.setVisible(false);
+           objServicioFarmacia.setVisible(false);
+           objCrearUsuario.setVisible(false);
+           objModificarUsuario.setVisible(false);
+           objEntragEntrega_del_dia.setVisible(false);
+           objModificar_Estudiante.setVisible(false);
+           objReporte_Por_Escuela.setVisible(false);
+           objReporte_Diagnostico.setVisible(false);
+           objCrearMedicamento.setVisible(false);
+           objModificarMedicamento.setVisible(false);//15
+           objReporte_Condicion.ConsultaBD();
+           objReporte_Condicion.principalEjecucion();
+           objReporte_Condicion.setVisible(true);//16
+       } catch (DocumentException | IOException ex) {
+           Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }//GEN-LAST:event_jleftConsultas_Reporte_CondicionMouseClicked
 
     private void jleftConsultas_Reporte_CondicionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_CondicionMouseExited
