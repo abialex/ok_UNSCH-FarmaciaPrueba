@@ -234,14 +234,17 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jlblNombres = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jlblCondicion = new javax.swing.JLabel();
+        jlblespacio1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jlblEscuela = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jlblSerie = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        jlblespacio = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jtfLookCodigo = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jlblespacio2 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
         cuerpo1ListaRecetas = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -346,10 +349,28 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel3.setPreferredSize(new java.awt.Dimension(225, 30));
         jPanel5.add(jLabel3);
 
-        jlblNombres.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblNombres.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jlblNombres.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jlblNombres.setPreferredSize(new java.awt.Dimension(640, 30));
+        jlblNombres.setPreferredSize(new java.awt.Dimension(370, 30));
         jPanel5.add(jlblNombres);
+
+        jLabel9.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel9.setText("Condición:");
+        jLabel9.setPreferredSize(new java.awt.Dimension(95, 30));
+        jPanel5.add(jLabel9);
+
+        jlblCondicion.setBackground(new java.awt.Color(0, 0, 0));
+        jlblCondicion.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jlblCondicion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblCondicion.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jlblCondicion.setPreferredSize(new java.awt.Dimension(135, 30));
+        jPanel5.add(jlblCondicion);
+
+        jlblespacio1.setBackground(new java.awt.Color(0, 0, 0));
+        jlblespacio1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblespacio1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblespacio1.setPreferredSize(new java.awt.Dimension(25, 30));
+        jPanel5.add(jlblespacio1);
 
         jPanel7.add(jPanel5);
 
@@ -359,10 +380,10 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel7.add(jLabel7);
 
         jlblEscuela.setBackground(new java.awt.Color(0, 0, 0));
-        jlblEscuela.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblEscuela.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jlblEscuela.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jlblEscuela.setToolTipText("");
-        jlblEscuela.setPreferredSize(new java.awt.Dimension(320, 30));
+        jlblEscuela.setPreferredSize(new java.awt.Dimension(360, 30));
         jPanel7.add(jlblEscuela);
 
         jLabel5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
@@ -371,13 +392,16 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel7.add(jLabel5);
 
         jlblSerie.setBackground(new java.awt.Color(0, 0, 0));
-        jlblSerie.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblSerie.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jlblSerie.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblSerie.setPreferredSize(new java.awt.Dimension(39, 30));
         jPanel7.add(jlblSerie);
 
-        jLabel15.setPreferredSize(new java.awt.Dimension(135, 30));
-        jPanel7.add(jLabel15);
+        jlblespacio.setBackground(new java.awt.Color(0, 0, 0));
+        jlblespacio.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblespacio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblespacio.setPreferredSize(new java.awt.Dimension(35, 30));
+        jPanel7.add(jlblespacio);
 
         jLabel8.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel8.setText("Código:");
@@ -402,8 +426,11 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         });
         jPanel7.add(jtfLookCodigo);
 
-        jLabel6.setPreferredSize(new java.awt.Dimension(40, 30));
-        jPanel7.add(jLabel6);
+        jlblespacio2.setBackground(new java.awt.Color(0, 0, 0));
+        jlblespacio2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblespacio2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblespacio2.setPreferredSize(new java.awt.Dimension(100, 30));
+        jPanel7.add(jlblespacio2);
 
         head2.add(jPanel7);
 
@@ -851,12 +878,15 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){ 
                 aux=false;
                 objControl_paciente_Final=Lista_control_paciente.get(i);
+                System.out.println(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
+                jlblCondicion.setText(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
                 Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
                 saldo_totalControlEstudiante=90-objControl_paciente_Final.getMonto_Total();
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
+                jlblCondicion.setText(Lista_control_paciente.get(i).getEstudiante().getCondicion().getNombre_condicion());
                 Lista_Recetas=Herramienta.findbyWhere(Receta.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearReceta.setEnabled(true);
                 jbtnImprimir.setEnabled(true);
@@ -987,14 +1017,20 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             if(!Lista_Recetas.isEmpty()){
                 objReceta=fechadeUltimaReceta(Lista_Recetas);
                 if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){
-                    objEstudiante.setCondicion(lista_condicion.get(1));//Concurrente
+                    objEstudiante.setCondicion(lista_condicion.get(1));
+                    jpa.createNativeQuery("update Estudiante set id_Condicion="+2+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.persist(objEstudiante);
+
                     }
                 else{
-                    objEstudiante.setCondicion(lista_condicion.get(2));//Reingresante
+                    objEstudiante.setCondicion(lista_condicion.get(2));
+                    jpa.createNativeQuery("update Estudiante set id_Condicion="+3+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.persist(objEstudiante);//Reingresante
                     }
                 }
-            jpa.persist(objEstudiante);
+            
             JOptionPane.showMessageDialog(jlblNombres, "¿Desea Imprimir La receta?");//agregar la lógica de imprimir receta
+            jtfLookCodigo.setEditable(true);
             jpa.getTransaction().commit();//finnnnnnnnnnnnnnnnnnnnnnnnn transact
             ConsultaBD();
             llenarControlAlumno();                
@@ -1065,7 +1101,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
     private void jtfLookCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyReleased
         if(jtfLookCodigo.getText().length()>=8){
-            System.out.println("dasdasdasdasda");
                 llenarControlAlumno();
             }
         else{
@@ -1179,7 +1214,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel25;
@@ -1204,9 +1238,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel14;
@@ -1233,6 +1267,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JComboBox<Procedencia> jcbProcedencia;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblCodigoDiagnostico;
+    private javax.swing.JLabel jlblCondicion;
     private javax.swing.JLabel jlblDescripcion;
     private javax.swing.JLabel jlblDescripcionDia;
     private javax.swing.JLabel jlblEscuela;
@@ -1243,6 +1278,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JLabel jlblSaldo;
     private javax.swing.JLabel jlblSerie;
     private javax.swing.JLabel jlblTotalCarrito;
+    private javax.swing.JLabel jlblespacio;
+    private javax.swing.JLabel jlblespacio1;
+    private javax.swing.JLabel jlblespacio2;
     private javax.swing.JTable jtbCarritoLista;
     private javax.swing.JTable jtblMedicinasEntregada;
     private javax.swing.JTable jtblRecetas;
