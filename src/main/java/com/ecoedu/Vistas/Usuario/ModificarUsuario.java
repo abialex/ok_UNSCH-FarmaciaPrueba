@@ -164,6 +164,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoPaternoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfApellidoPaternoKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 500, 25));
 
@@ -229,6 +232,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfDNIKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDNIKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 160, 25));
 
@@ -260,6 +266,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jtfApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoMaternoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfApellidoMaternoKeyTyped(evt);
             }
         });
         jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 500, 25));
@@ -407,6 +416,39 @@ public class ModificarUsuario extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_jtblMedicamentoMouseClicked
+
+    private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
+        if (jtfDNI.getText().length()>=8){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfDNIKeyTyped
+
+    private void jtfApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyTyped
+        if (jtfApellidoMaterno.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfApellidoMaternoKeyTyped
+
+    private void jtfApellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoPaternoKeyTyped
+        if (jtfApellidoPaterno.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

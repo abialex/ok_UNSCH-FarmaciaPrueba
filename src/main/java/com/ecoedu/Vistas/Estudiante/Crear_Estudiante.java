@@ -140,6 +140,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoPaternoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfApellidoPaternoKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 500, 25));
 
@@ -181,6 +184,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfNombresKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfNombresKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 500, 25));
 
@@ -201,8 +207,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfDNIKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDNIKeyTyped(evt);
+            }
         });
-        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 160, 25));
+        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 190, 25));
 
         jLabel29.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel29.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -227,6 +236,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoMaternoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfApellidoMaternoKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 500, 25));
 
@@ -247,6 +259,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCodigoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCodigoKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 160, 25));
 
@@ -258,13 +273,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel24.setText("Serie:");
         jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 330, 90, 25));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 330, 90, 25));
 
         jLabel25.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel25.setText("Escuela:");
         jLabel25.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 270, 80, 25));
+        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 80, 25));
 
         jtfEscuela.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfEscuela.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -278,11 +293,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jtfEscuelaKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 160, 25));
+        jPanel7.add(jtfEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 270, 190, 25));
 
         jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
-        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 160, 25));
+        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 160, 25));
         jPanel7.add(jcbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 160, 25));
 
         jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -295,7 +310,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel22.setText("DNI:");
         jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, 80, 25));
+        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 210, 80, 25));
 
         jcbSexo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jPanel7.add(jcbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 160, 25));
@@ -421,6 +436,61 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private void jtfCodigo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigo1KeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfCodigo1KeyReleased
+
+    private void jtfCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyTyped
+        if (jtfCodigo.getText().length()>=8){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfCodigoKeyTyped
+
+    private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
+        if (jtfDNI.getText().length()>=8){
+            evt.consume(); 
+            }
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfDNIKeyTyped
+
+    private void jtfApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyTyped
+        if (jtfApellidoMaterno.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfApellidoMaternoKeyTyped
+
+    private void jtfApellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoPaternoKeyTyped
+        if (jtfApellidoPaterno.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
+
+    private void jtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyTyped
+        if (jtfNombres.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfNombresKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

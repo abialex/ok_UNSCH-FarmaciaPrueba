@@ -63,7 +63,7 @@ public class CrearUsuario extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jcbRol = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
-        jtfNombres1 = new javax.swing.JTextField();
+        jtfNombres = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jtfDni = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
@@ -109,6 +109,9 @@ public class CrearUsuario extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoPaternoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfApellidoPaternoKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 500, 25));
 
@@ -148,14 +151,17 @@ public class CrearUsuario extends javax.swing.JPanel {
         jLabel20.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 140, 25));
 
-        jtfNombres1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfNombres1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfNombres1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfNombres.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfNombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfNombres.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfNombres1KeyReleased(evt);
+                jtfNombresKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfNombresKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfNombres1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 500, 25));
+        jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 500, 25));
 
         jLabel21.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -173,6 +179,9 @@ public class CrearUsuario extends javax.swing.JPanel {
         jtfDni.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfDniKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDniKeyTyped(evt);
             }
         });
         jPanel7.add(jtfDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 160, 25));
@@ -206,6 +215,9 @@ public class CrearUsuario extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoMaternoKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfApellidoMaternoKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 500, 25));
 
@@ -231,7 +243,7 @@ public class CrearUsuario extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         Persona objPersona=new Persona();
-        objPersona.setNombres(jtfNombres1.getText());
+        objPersona.setNombres(jtfNombres.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setDni(jtfDni.getText());
@@ -250,9 +262,9 @@ public class CrearUsuario extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jtfNombres1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombres1KeyReleased
+    private void jtfNombresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfNombres1KeyReleased
+    }//GEN-LAST:event_jtfNombresKeyReleased
 
     private void jtfDniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniKeyReleased
         // TODO add your handling code here:
@@ -269,6 +281,50 @@ public class CrearUsuario extends javax.swing.JPanel {
     private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
+
+    private void jtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyTyped
+        if (jtfNombres.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfNombresKeyTyped
+
+    private void jtfDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDniKeyTyped
+        if (jtfDni.getText().length()>=8){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfDniKeyTyped
+
+    private void jtfApellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoPaternoKeyTyped
+        if (jtfApellidoPaterno.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
+
+    private void jtfApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyTyped
+        if (jtfApellidoMaterno.getText().length()>=20){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfApellidoMaternoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -294,7 +350,7 @@ public class CrearUsuario extends javax.swing.JPanel {
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfDni;
-    private javax.swing.JTextField jtfNombres1;
+    private javax.swing.JTextField jtfNombres;
     private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables
 

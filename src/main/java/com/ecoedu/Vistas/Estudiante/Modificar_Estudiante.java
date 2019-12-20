@@ -174,6 +174,11 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
 
         jtfDNI.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDNI.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfDNI.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDNIKeyTyped(evt);
+            }
+        });
         jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 160, 25));
 
         jLabel29.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -203,6 +208,9 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
         jtfCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCodigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCodigoKeyTyped(evt);
             }
         });
         jPanel7.add(jtfCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 160, 25));
@@ -291,6 +299,28 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
     private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
          encontrarEstudiante(jtfCodigo.getText());
     }//GEN-LAST:event_jtfCodigoKeyReleased
+
+    private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
+        if (jtfDNI.getText().length()>=8){
+            evt.consume(); 
+            }
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfDNIKeyTyped
+
+    private void jtfCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyTyped
+        if (jtfCodigo.getText().length()>=8){
+            evt.consume(); 
+            }
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfCodigoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

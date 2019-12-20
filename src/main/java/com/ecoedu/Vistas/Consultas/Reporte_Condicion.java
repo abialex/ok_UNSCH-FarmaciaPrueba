@@ -58,6 +58,7 @@ public class Reporte_Condicion extends javax.swing.JPanel {
      }    
      public void principalEjecucion() throws DocumentException, IOException{                   
             jbtnImprimir.setEnabled(false);
+            jlblMensaje.setText("Cantidad de Condiciones en lo que va del Año "+(new Date().getYear()+1900) );
             imprimirProcedencia();
             }
      @SuppressWarnings("unchecked")     
@@ -69,8 +70,8 @@ public class Reporte_Condicion extends javax.swing.JPanel {
         body = new javax.swing.JPanel();
         head2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jlblMensaje = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
         cuerpo1ListaRecetas = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -107,13 +108,14 @@ public class Reporte_Condicion extends javax.swing.JPanel {
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel7.setPreferredSize(new java.awt.Dimension(890, 100));
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setEnabled(false);
-        jPanel5.setPreferredSize(new java.awt.Dimension(880, 40));
-        jPanel7.add(jPanel5);
-
         jLabel6.setPreferredSize(new java.awt.Dimension(40, 30));
         jPanel7.add(jLabel6);
+
+        jlblMensaje.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblMensaje.setText("Reporte de Condición");
+        jlblMensaje.setPreferredSize(new java.awt.Dimension(700, 70));
+        jPanel7.add(jlblMensaje);
 
         head2.add(jPanel7);
 
@@ -257,7 +259,7 @@ public class Reporte_Condicion extends javax.swing.JPanel {
                 writer=new PdfWriter("Carpeta_de_Archivos\\Reporte_Condicion.pdf"); 
                 }
             catch (FileNotFoundException e) {
-                JOptionPane.showMessageDialog(jPanel5, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso procedencia");
+                JOptionPane.showMessageDialog(jPanel7, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso procedencia");
                 jbtnImprimir.setEnabled(false);
                 }
             PdfDocument pdf = new PdfDocument(writer);
@@ -295,7 +297,7 @@ public class Reporte_Condicion extends javax.swing.JPanel {
             }            
             llenar_Tabla_de_Recetas(modelo); 
             if(modelo.getRowCount()==0){
-                JOptionPane.showMessageDialog(jPanel5, "No se encontró Procedentes/Diagnostico en el Rango de la Fecha");
+                JOptionPane.showMessageDialog(jPanel7, "No se encontró Procedentes/Diagnostico en el Rango de la Fecha");
                 jbtnImprimir.setEnabled(false);
                 }
             document.add(table);  
@@ -304,7 +306,7 @@ public class Reporte_Condicion extends javax.swing.JPanel {
         else{
             jbtnImprimir.setEnabled(false);
             llenar_Tabla_de_Recetas(modelo);    
-            JOptionPane.showMessageDialog(jPanel5, "no se encontró recetas en este rango de Fecha");                     
+            JOptionPane.showMessageDialog(jPanel7, "no se encontró recetas en este rango de Fecha");                     
         }
     }
     public void limpiarVista1(){
@@ -321,11 +323,11 @@ public class Reporte_Condicion extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnImprimir;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTable jtblRecetas;
     // End of variables declaration//GEN-END:variables
 public void llenar_Tabla_de_Recetas(DefaultTableModel modelo){        
