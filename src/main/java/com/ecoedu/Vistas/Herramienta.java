@@ -19,9 +19,8 @@ import javax.persistence.Query;
  */
 public class Herramienta { 
     public  static void main(String asdasd[]){
-       
-        System.out.println(new Date().getTime()/86400000);
-//Herramienta.Prueba();
+        Date objFechaVencimiento=new Date();
+        //Herramienta.Prueba();
         
     }
     

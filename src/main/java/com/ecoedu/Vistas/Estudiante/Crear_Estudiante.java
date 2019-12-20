@@ -59,7 +59,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         for (Escuela Escuela : Lista_Escuela) {
             TextAutoCompleterEscuela.addItem(Escuela.getNombre());
         } 
-        jcbSexo.removeAll();
+        jcbSexo.removeAllItems();
         for (Sexo sexo : lista_sexo) {
             jcbSexo.addItem(sexo);
         }

@@ -3,6 +3,7 @@ package com.ecoedu.Vistas.Inventario;
 
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.app.TextPrompt;
 import com.ecoedu.model.Detalle_llenado;
 import com.ecoedu.model.Fabricante;
 import com.ecoedu.model.Factura;
@@ -81,6 +82,9 @@ public class LlenarInventario extends javax.swing.JPanel {
             autoCompleterProveedor.addItem(Lista_Proveedor.get(i).getNombre());
         }  
         jlblFechaHoy.setText(Herramienta.formatoFechaMas1(new Date()));
+        TextPrompt txr=new TextPrompt("AA",jtfAñovencimiento);
+         txr=new TextPrompt("MM",jtfMesVen);
+         txr=new TextPrompt("DD",jtfDiaVenc);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -104,13 +108,11 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblConcentracion = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jcbFechaVencimiento = new rojeru_san.componentes.RSDateChooser();
         jtfPrecioUnitarioCompra = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jtfProductoFarmaceutico = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jtfCantidad = new javax.swing.JTextField();
+        jtfDiaVenc = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jlblFechaHoy = new javax.swing.JLabel();
@@ -120,7 +122,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblFormaFarmaceutica = new javax.swing.JLabel();
         jlblMensaje = new javax.swing.JLabel();
         jtfFabricante = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jbtnAgregarLotes = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -144,6 +146,13 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel22 = new javax.swing.JLabel();
         jtfCodigoLote = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
+        jtfCantidad = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jtfAñovencimiento = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jtfMesVen = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -201,17 +210,6 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel11.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 110, 25));
 
-        jLabel13.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel13.setText("Fecha Vencimiento:");
-        jLabel13.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 140, 25));
-
-        jcbFechaVencimiento.setFormatoFecha("dd/MM/yyyy ");
-        jcbFechaVencimiento.setPlaceholder("Desde ");
-        jcbFechaVencimiento.setPreferredSize(new java.awt.Dimension(170, 30));
-        jPanel7.add(jcbFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 140, 25));
-
         jtfPrecioUnitarioCompra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfPrecioUnitarioCompra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfPrecioUnitarioCompra.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -245,14 +243,14 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel19.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 140, 25));
 
-        jtfCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfDiaVenc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfDiaVenc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfDiaVenc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtfCantidadKeyTyped(evt);
+                jtfDiaVencKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, 60, 25));
+        jPanel7.add(jtfDiaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 40, 25));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -306,15 +304,15 @@ public class LlenarInventario extends javax.swing.JPanel {
         });
         jPanel7.add(jtfFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 120, 25));
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("AGREGAR A LA LISTA DE LOTES");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jbtnAgregarLotes.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregarLotes.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregarLotes.setText("AGREGAR A LA LISTA DE LOTES");
+        jbtnAgregarLotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jbtnAgregarLotesActionPerformed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
+        jPanel7.add(jbtnAgregarLotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
 
         jPanel9.setLayout(new java.awt.BorderLayout());
 
@@ -436,10 +434,10 @@ public class LlenarInventario extends javax.swing.JPanel {
         jPanel7.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 900, 10));
 
         jLabel22.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel22.setText("Cantidad:");
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("/");
         jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, 70, 25));
+        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 130, 10, 25));
 
         jtfCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigoLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -448,6 +446,60 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel32.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
         jPanel7.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 900, 10));
+
+        jtfCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCantidadKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, 60, 25));
+
+        jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel24.setText("Cantidad:");
+        jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, 70, 25));
+
+        jtfAñovencimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfAñovencimiento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfAñovencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfAñovencimientoKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfAñovencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 40, 25));
+
+        jLabel27.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel27.setText("20");
+        jLabel27.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 20, 25));
+
+        jLabel28.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("/");
+        jLabel28.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 10, 25));
+
+        jtfMesVen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfMesVen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfMesVen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfMesVenKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfMesVenKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfMesVen, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 40, 25));
+
+        jLabel33.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel33.setText("Fecha Vencimiento:");
+        jLabel33.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 140, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -479,15 +531,21 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblPVR.setText(Herramienta.unDecimales(Float.parseFloat(jtfPrecioUnitarioCompra.getText())+(float)0.01));
     }//GEN-LAST:event_jtfPrecioUnitarioCompraKeyReleased
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jbtnAgregarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesActionPerformed
          Detalle_llenado objDetalle_llenado=new Detalle_llenado();
-         Lote_detalle objLote_Detalle=new Lote_detalle();                
+         Lote_detalle objLote_Detalle=new Lote_detalle();
+         Date objFechaVencimiento=new Date();
+         objFechaVencimiento.setYear(Integer.parseInt(jtfAñovencimiento.getText())+100);
+         objFechaVencimiento.setMonth(Integer.parseInt(jtfMesVen.getText())-1);
+         objFechaVencimiento.setDate(Integer.parseInt(jtfDiaVenc.getText()));
+         objFechaVencimiento.setHours(0);
+         objFechaVencimiento.setMinutes(0);
+         objFechaVencimiento.setSeconds(0);
          //Lote_detalle
          //cantidad,codigo,fecha_Vencimiento,id_inventario,id_fabricante,id_factura,PVR----id_factura
          objLote_Detalle.setCantidad(Integer.parseInt(jtfCantidad.getText()));
          objLote_Detalle.setCodigo(jtfCodigoLote.getText());
-         jcbFechaVencimiento.getDatoFecha().setMonth(jcbFechaVencimiento.getDatoFecha().getMonth());
-         objLote_Detalle.setFecha_vencimiento(jcbFechaVencimiento.getDatoFecha());
+         objLote_Detalle.setFecha_vencimiento(objFechaVencimiento);
          objLote_Detalle.setInventario(objInventario_final);
          MensajeFabricante="Ingrese un Fabricante Existente";
          for (int i = 0; i < Lista_Fabricante.size(); i++){
@@ -505,7 +563,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         objDetalle_llenado.setMedicamento(objInventario_final.getMedicamento());
         objDetalle_llenado.setUsuario(objPrincipal.getUsuario());
         objDetalle_llenado.setFecha_de_registro(new Date());
-        objDetalle_llenado.setCantidad(Integer.parseInt(jtfCantidad.getText()));
+        objDetalle_llenado.setCantidad(Integer.parseInt(jtfDiaVenc.getText()));
         //objDetalle_llenado.setLote_detalle(objLote_Detalle);     
         //objInventario_final.setCantidad(objInventario_final.getCantidad()+Integer.parseInt(jtfCantidad.getText()));
         if(MensajeProductoFarmaceutico.length()==0 && MensajeFabricante.length()==0){
@@ -518,7 +576,7 @@ public class LlenarInventario extends javax.swing.JPanel {
             jlblFormaFarmaceutica.setText("");
             jlblConcentracion.setText("");
             jtfCodigoLote.setText("");
-            jtfCantidad.setText("");
+            jtfDiaVenc.setText("");
             jtfPrecioUnitarioCompra.setText("");
             jlblPVR.setText("");
             jtfFabricante.setText("");
@@ -527,7 +585,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         else{
             jlblMensaje.setText(MensajeProductoFarmaceutico+" "+MensajeFabricante);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jbtnAgregarLotesActionPerformed
 
     public void llenar_tabla_LoteDetalle(List<Lote_detalle> listaLote,List<Detalle_llenado> listaLlenado){
         DefaultTableModel modelo;
@@ -609,6 +667,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
         llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
         JOptionPane.showMessageDialog(jbtnGuardarLotes, "Guardado con Éxito");
+        jbtnGuardarLotes.setEnabled(false);
         jpa.getTransaction().commit();
         //nunca poner un 2persist antes de 1 refresh
     }//GEN-LAST:event_jbtnGuardarLotesActionPerformed
@@ -629,16 +688,97 @@ public class LlenarInventario extends javax.swing.JPanel {
          }
     }//GEN-LAST:event_jtfPrecioUnitarioCompraKeyTyped
 
-    private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped
+    private void jtfDiaVencKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDiaVencKeyTyped
         char validar=evt.getKeyChar();
         if(!Character.isDigit(validar)){
             getToolkit().beep();
             evt.consume();  
+            }    
+        else{     
+            String mes=jtfMesVen.getText();
+            if(mes.equals("02")){
+                if(Integer.parseInt(jtfAñovencimiento.getText())%4!=0){                    
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)!='0'){
+                            if(validar=='9'){
+                                evt.consume();
+                                }
+                            }
+                        else{
+                            if(validar=='0'){
+                                evt.consume();
+                                }
+                            }
+                        }
+                    else{
+                        if(!(validar =='0'||validar =='2' || validar =='1')){
+                            evt.consume();
+                            }
+                        }//fin else
+                    }
+                else{
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)=='0'){
+                            if(validar=='0'){
+                                evt.consume();
+                                }
+                            }
+                        }
+                    else{
+                        if(!(validar =='0'||validar =='2' || validar =='1')){
+                            evt.consume();
+                            }
+                        }//fin else
+                }
+                
+                }
+            else{
+                if(mes.equals("04")||mes.equals("06")||mes.equals("09")||mes.equals("11")){
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)!='0'){
+                            if(jtfDiaVenc.getText().charAt(0)=='3'){
+                                jtfDiaVenc.setText("30");
+                                }
+                            }
+                        else{
+                            if(validar=='0'){
+                                evt.consume();
+                                }
+                            }
+                        }
+                    else{
+                        if(!(validar =='0'||validar =='3'||validar =='2' || validar =='1')){
+                            evt.consume();
+                            }
+                        }//fin else
+                    }
+                else{
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)!='0'){
+                            if(jtfDiaVenc.getText().charAt(0)=='3'){
+                                if(!(validar=='1' || validar=='0')){
+                                    evt.consume();
+                                    }
+                                }
+                            }
+                        else{
+                            if(validar=='0'){
+                                evt.consume();
+                                }
+                            }
+                        }
+                    else{
+                        if(!(validar =='0'||validar =='3'||validar =='2' || validar =='1')){
+                            evt.consume();
+                            }
+                        }//fin else
+                    }
+                }
             }
-        if (jtfCantidad.getText().length()>=5){ 
-         evt.consume(); 
+        if (jtfDiaVenc.getText().length()>=2){ 
+            evt.consume(); 
          }
-    }//GEN-LAST:event_jtfCantidadKeyTyped
+    }//GEN-LAST:event_jtfDiaVencKeyTyped
 
     private void jtfFabricanteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFabricanteKeyTyped
         char validar=evt.getKeyChar();
@@ -654,10 +794,61 @@ public class LlenarInventario extends javax.swing.JPanel {
             getToolkit().beep();
             evt.consume();
         }
-        if (jtfCantidad.getText().length()>=4){ 
+        if (jtfDiaVenc.getText().length()>=4){ 
          evt.consume(); 
          }
     }//GEN-LAST:event_jtfProveedorKeyTyped
+
+    private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCantidadKeyTyped
+
+    private void jtfAñovencimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfAñovencimientoKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+            getToolkit().beep();
+            evt.consume();  
+            }      
+        
+        if (jtfAñovencimiento.getText().length()>=2){ 
+         evt.consume(); 
+         }
+    }//GEN-LAST:event_jtfAñovencimientoKeyTyped
+
+    private void jtfMesVenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+            getToolkit().beep();
+            evt.consume();  
+            }    
+        else{            
+            if(jtfMesVen.getText().length()==1){
+                if(jtfMesVen.getText().charAt(0)!='0'){
+                    if(!(validar=='1' || validar =='2' || validar=='0')){
+                        evt.consume();
+                        }
+                    }
+                else{
+                    if(validar=='0'){
+                        evt.consume();
+                    }
+                }
+            }
+            else{
+                if(!(validar =='0' || validar =='1')){
+                    evt.consume();
+                    }
+                }//fin else
+            }
+        
+        if (jtfMesVen.getText().length()>=2){ 
+         evt.consume(); 
+         }
+    }//GEN-LAST:event_jtfMesVenKeyTyped
+
+    private void jtfMesVenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfMesVenKeyPressed
       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -665,11 +856,9 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -681,13 +870,17 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
@@ -698,18 +891,21 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton jbtnAgregarLotes;
     private javax.swing.JButton jbtnGuardarLotes;
-    private rojeru_san.componentes.RSDateChooser jcbFechaVencimiento;
     private javax.swing.JLabel jlblConcentracion;
     private javax.swing.JLabel jlblFechaHoy;
     private javax.swing.JLabel jlblFormaFarmaceutica;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblPVR;
     private javax.swing.JTable jtblLoteDetalle;
+    private javax.swing.JTextField jtfAñovencimiento;
     private javax.swing.JTextField jtfCantidad;
     private javax.swing.JTextField jtfCodigoFactura;
     private javax.swing.JTextField jtfCodigoLote;
+    private javax.swing.JTextField jtfDiaVenc;
     private javax.swing.JTextField jtfFabricante;
+    private javax.swing.JTextField jtfMesVen;
     private javax.swing.JTextField jtfPrecioUnitarioCompra;
     private javax.swing.JTextField jtfProductoFarmaceutico;
     private javax.swing.JTextField jtfProveedor;
