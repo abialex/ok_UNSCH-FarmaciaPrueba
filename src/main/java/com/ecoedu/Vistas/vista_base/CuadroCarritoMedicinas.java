@@ -16,10 +16,10 @@ public class CuadroCarritoMedicinas extends javax.swing.JFrame {
     Cantidad_Medicinas objCantMedicinas;
     EntityManager jpa;    
     
-    public CuadroCarritoMedicinas(EntityManager objJPA,ServicioFarmacia objServicioFarmacia){ 
+    public CuadroCarritoMedicinas(EntityManager objJPA,ServicioFarmacia objServicioFarmacia,int limite_seguro){ 
         
         initComponents();
-        this.objCantMedicinas=new Cantidad_Medicinas(objJPA, this, objServicioFarmacia);
+        this.objCantMedicinas=new Cantidad_Medicinas(objJPA, this, objServicioFarmacia,limite_seguro);
         contenedor.add(objCantMedicinas);     
         this.setLocationRelativeTo(null);
     }      

@@ -67,6 +67,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Detalle_Medicamentos> Lista_detalle_medicamento;//
     private List<Receta> Lista_Recetas=new ArrayList<>();//
     private TextAutoCompleter TextAutoCOmpleterCodigoDiagnostico;
+    private int limite_seguro;
     public void llenar_Detalle_de_Recetas(List<Detalle_Medicamentos> listaDetallesMedicamentos){
         //updateSaldoDisponible();
         DefaultTableModel modelo;
@@ -877,11 +878,12 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         for (int i = 0; i < Lista_control_paciente.size(); i++){
             if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){ 
                 aux=false;
+                limite_seguro=110;
                 objControl_paciente_Final=Lista_control_paciente.get(i);
                 System.out.println(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
                 jlblCondicion.setText(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
                 Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
-                saldo_totalControlEstudiante=90-objControl_paciente_Final.getMonto_Total();
+                saldo_totalControlEstudiante=limite_seguro-objControl_paciente_Final.getMonto_Total();
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
@@ -914,7 +916,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         cuerpo1ListaRecetas.setVisible(false);
         cuerp2CrearRecetas.setVisible(true);      
         jtfLookCodigo.setEditable(false);
-        jlblSaldo.setText("S/"+Herramienta.dosDecimales(90-objControl_paciente_Final.getMonto_Total()));
+        jlblSaldo.setText("S/"+Herramienta.dosDecimales(limite_seguro-objControl_paciente_Final.getMonto_Total()));
         jlblMontoTotalCrearReceta.setText("S/"+Herramienta.dosDecimales(objControl_paciente_Final.getMonto_Total()));
     }//GEN-LAST:event_jbtnCrearRecetaActionPerformed
 
@@ -943,7 +945,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }//GEN-LAST:event_jbtnVolver2ActionPerformed
 
     private void jbtnADDmedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnADDmedicamentosActionPerformed
-       CuadroCarritoMedicinas objCuadroCarritoMedicinas=new CuadroCarritoMedicinas(jpa,this);
+       CuadroCarritoMedicinas objCuadroCarritoMedicinas=new CuadroCarritoMedicinas(jpa,this,limite_seguro);
        objCuadroCarritoMedicinas.setVisible(true);
        objPrincipal.setEnabled(false);
        
@@ -956,7 +958,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jlblTotalCarrito.setText("0.00");
         jlblCodigoDiagnostico.setText("");
         Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
-        saldo_totalControlEstudiante=90-Monto_totalControlEstudiante;
+        saldo_totalControlEstudiante=limite_seguro-Monto_totalControlEstudiante;
         Limpiarcuerp2CrearRecetas();
         
     }//GEN-LAST:event_jbtnCancelarCrearDiagnosticoActionPerformed
