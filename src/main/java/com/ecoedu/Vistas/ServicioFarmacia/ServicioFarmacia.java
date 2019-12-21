@@ -57,6 +57,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Procedencia> lista_procedencia;    
     private List<Lote_detalle> Lista_lote_detalle;
     private List<Detalle_servicio_social> Lista_detalle_servicio_social;
+    private int limite_Seguro;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
@@ -129,8 +130,10 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     
      public void principalEjecucion(){ 
          if(!objUsuario.getRol().getNombre_rol().equals("ADMINISTRADOR")){
+             
              jbtnImprimir.setVisible(false);
          }
+         
          jbtnImprimir.setEnabled(false);
          jtfCodigoDiagnostico.setDocument(new soloMayusculas()); 
          this.TextAutoCOmpleterCodigoDiagnostico=new TextAutoCompleter(jtfCodigoDiagnostico, new AutoCompleterCallback(){
@@ -145,6 +148,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         for (Procedencia procedencia : lista_procedencia){
             jcbProcedencia.addItem(procedencia);
             }             
+        
+        
      }  
      public float getPrecio_delControlEstudiante(){
          return Monto_totalControlEstudiante;
@@ -831,10 +836,11 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     
     public void llenarControlAlumno(){//usando acceso BD   
         for (int i = 0; i < Lista_control_paciente.size(); i++){
-            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){                
+            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){
+                limite_Seguro=110;                
                 objControl_paciente_Final=Lista_control_paciente.get(i);
                 Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
-                saldo_totalControlEstudiante=90-objControl_paciente_Final.getMonto_Total();
+                saldo_totalControlEstudiante=limite_Seguro-objControl_paciente_Final.getMonto_Total();
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
@@ -860,7 +866,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         cuerpo1ListaRecetas.setVisible(false);
         cuerp2CrearRecetas.setVisible(true);      
         jtfLookCodigo.setEditable(false);
-        jlblSaldo.setText("S/"+Herramienta.dosDecimales(90-objControl_paciente_Final.getMonto_Total()));
+        jlblSaldo.setText("S/"+Herramienta.dosDecimales(limite_Seguro-objControl_paciente_Final.getMonto_Total()));
         jlblMontoTotalCrearReceta.setText("S/"+Herramienta.dosDecimales(objControl_paciente_Final.getMonto_Total()));
     }//GEN-LAST:event_jbtnCrearRecetaActionPerformed
 
@@ -889,7 +895,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }//GEN-LAST:event_jbtnVolver2ActionPerformed
 
     private void jbtnADDmedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnADDmedicamentosActionPerformed
-       CuadroCarritoMedicinas objCuadroCarritoMedicinas=new CuadroCarritoMedicinas(jpa,this);
+       CuadroCarritoMedicinas objCuadroCarritoMedicinas=new CuadroCarritoMedicinas(jpa,this,limite_Seguro);
        objCuadroCarritoMedicinas.setVisible(true);
        
     }//GEN-LAST:event_jbtnADDmedicamentosActionPerformed
@@ -901,7 +907,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jlblTotalCarrito.setText("0.00");
         jlblCodigoDiagnostico.setText("");
         Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
-        saldo_totalControlEstudiante=90-Monto_totalControlEstudiante;
+        saldo_totalControlEstudiante=limite_Seguro-Monto_totalControlEstudiante;
         Limpiarcuerp2CrearRecetas();
         
     }//GEN-LAST:event_jbtnCancelarCrearDiagnosticoActionPerformed

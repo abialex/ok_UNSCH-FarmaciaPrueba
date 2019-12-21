@@ -33,9 +33,11 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     List<Lote_detalle> list_Lote_detalle;
     Detalle_Medicamentos objDetalle_Medicamento_Final=new Detalle_Medicamentos();
     ServicioFarmacia objServicioFarmacia;
-    public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia){
+    private int limite_seguro;
+    public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia,int limite_seguro){
         initComponents();
         this.jpa=objJpa;
+        this.limite_seguro=limite_seguro;
         this.objServicioFarmacia=OBJServicioFarmacia;
         this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
         principalEjecucion();        
@@ -354,8 +356,8 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         
         if(!jtfCantidad.getText().equals("")){
            jlblPrecioTotal.setText(Herramienta.dosDecimales(Float.parseFloat(jlblPrecioUnitario.getText())*Float.parseFloat(jtfCantidad.getText())));
-           if(objServicioFarmacia.getPrecio_delControlEstudiante()+Float.parseFloat(jlblPrecioTotal.getText())>=90){
-               jlblAviso.setText("Se supero el limite de 90");
+           if(objServicioFarmacia.getPrecio_delControlEstudiante()+Float.parseFloat(jlblPrecioTotal.getText())>=limite_seguro){
+               jlblAviso.setText("Se supero el limite de "+limite_seguro);
                jbtnAgregar.setEnabled(false);
            }
            else{
