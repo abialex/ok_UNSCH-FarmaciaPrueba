@@ -30,6 +30,9 @@ public class Control_paciente{
     
     @Column(name="monto_Total",nullable = false)
     private float  monto_Total;
+    
+    @Column(name="limite_control",nullable = true)
+    private int limite_control;
 
     @Column(name="iSactivo",nullable = false)
     private boolean  iSactivo;
@@ -40,6 +43,14 @@ public class Control_paciente{
 
     public void setiSactivo(boolean iSactivo) {
         this.iSactivo = iSactivo;
+    }
+
+    public int getLimite_control() {
+        return limite_control;
+    }
+
+    public void setLimite_control(int limite_control) {
+        this.limite_control = limite_control;
     }
     
     

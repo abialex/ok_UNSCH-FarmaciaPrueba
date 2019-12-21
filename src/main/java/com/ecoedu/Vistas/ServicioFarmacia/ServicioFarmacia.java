@@ -878,8 +878,10 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         for (int i = 0; i < Lista_control_paciente.size(); i++){
             if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){ 
                 aux=false;
-                limite_seguro=110;
+                
+                
                 objControl_paciente_Final=Lista_control_paciente.get(i);
+                limite_seguro=objControl_paciente_Final.getLimite_control();
                 System.out.println(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
                 jlblCondicion.setText(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
                 Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();

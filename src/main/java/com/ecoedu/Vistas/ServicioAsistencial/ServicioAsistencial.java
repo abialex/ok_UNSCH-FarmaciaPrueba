@@ -63,8 +63,8 @@ public class ServicioAsistencial extends javax.swing.JPanel {
      }
     
      public void principalEjecucion(){ 
-         jbtnImprimir.setEnabled(false);     
-         jbtnCrearReceta.setEnabled(false);
+         jbtnImprimirServicios.setEnabled(false);     
+         jbtnCrearServicio.setEnabled(false);
          llenar_Tabla_de_Recetas(Lista_Recetas);
          
            
@@ -109,7 +109,26 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jtfLookCodigo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
-        cuerpo1ListaRecetas = new javax.swing.JPanel();
+        cuerpoListaCrearServicio = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jbtnCrearReceta2 = new javax.swing.JButton();
+        jLabel35 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblServiciosAsistenciales = new javax.swing.JTable();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jlblMontoTotal1 = new javax.swing.JLabel();
+        jbtnImprimir1 = new javax.swing.JButton();
+        jbtnCrearReceta1 = new javax.swing.JButton();
+        cuerpoListaServicios = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblRecetas = new javax.swing.JTable();
@@ -122,8 +141,8 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jlblMontoTotal = new javax.swing.JLabel();
-        jbtnImprimir = new javax.swing.JButton();
-        jbtnCrearReceta = new javax.swing.JButton();
+        jbtnImprimirServicios = new javax.swing.JButton();
+        jbtnCrearServicio = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setMaximumSize(new java.awt.Dimension(990, 650));
@@ -231,11 +250,129 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         body2.setPreferredSize(new java.awt.Dimension(9900, 520));
         body2.setLayout(new java.awt.CardLayout());
 
-        cuerpo1ListaRecetas.setBackground(new java.awt.Color(255, 255, 255));
-        cuerpo1ListaRecetas.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpoListaCrearServicio.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpoListaCrearServicio.setPreferredSize(new java.awt.Dimension(900, 350));
+
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setPreferredSize(new java.awt.Dimension(900, 320));
+        jPanel12.addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                jPanel12HierarchyChanged(evt);
+            }
+        });
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText(" SERVICIOS ASISTENCIALES DEL ESTUDIANTE (rugro s/110)");
+        jLabel16.setPreferredSize(new java.awt.Dimension(178, 30));
+        jPanel12.add(jLabel16, java.awt.BorderLayout.PAGE_START);
+
+        jLabel17.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel12.add(jLabel17, java.awt.BorderLayout.LINE_END);
+
+        jLabel19.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel12.add(jLabel19, java.awt.BorderLayout.LINE_START);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 30));
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel29.setText("8.90");
+        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, -1, -1));
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel32.setText("2019/06/04");
+        jPanel1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
+
+        jbtnCrearReceta2.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnCrearReceta2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnCrearReceta2.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCrearReceta2.setText("AGREGAR");
+        jbtnCrearReceta2.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnCrearReceta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCrearReceta2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbtnCrearReceta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 110, 30));
+
+        jLabel35.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel35.setText("Fecha Registro:");
+        jPanel1.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Especialidad", "Laboratorio", "Imagenes", "Otros" }));
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 160, 30));
+
+        jtblServiciosAsistenciales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tipo", "Descripción", "Costo"
+            }
+        ));
+        jScrollPane2.setViewportView(jtblServiciosAsistenciales);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 880, 180));
+
+        jPanel12.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        cuerpoListaCrearServicio.add(jPanel12);
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel14.setPreferredSize(new java.awt.Dimension(900, 40));
+
+        jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Monto Total :");
+        jLabel20.setPreferredSize(new java.awt.Dimension(130, 26));
+        jPanel14.add(jLabel20);
+
+        jlblMontoTotal1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblMontoTotal1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblMontoTotal1.setText("S/0.00");
+        jlblMontoTotal1.setPreferredSize(new java.awt.Dimension(280, 29));
+        jPanel14.add(jlblMontoTotal1);
+
+        jbtnImprimir1.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnImprimir1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnImprimir1.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnImprimir1.setText("IMPRIMIR");
+        jbtnImprimir1.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnImprimir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnImprimir1ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jbtnImprimir1);
+
+        jbtnCrearReceta1.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnCrearReceta1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnCrearReceta1.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCrearReceta1.setText("GUARDAR");
+        jbtnCrearReceta1.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnCrearReceta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCrearReceta1ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jbtnCrearReceta1);
+
+        cuerpoListaCrearServicio.add(jPanel14);
+
+        body2.add(cuerpoListaCrearServicio, "card2");
+
+        cuerpoListaServicios.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpoListaServicios.setPreferredSize(new java.awt.Dimension(900, 350));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setPreferredSize(new java.awt.Dimension(900, 150));
+        jPanel9.setPreferredSize(new java.awt.Dimension(900, 250));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         jtblRecetas.setBorder(new javax.swing.border.MatteBorder(null));
@@ -296,10 +433,10 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jLabel1.setText("Click en la tabla para ver Detalles de la Receta");
         jPanel9.add(jLabel1, java.awt.BorderLayout.PAGE_END);
 
-        cuerpo1ListaRecetas.add(jPanel9);
+        cuerpoListaServicios.add(jPanel9);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel11.setPreferredSize(new java.awt.Dimension(900, 170));
+        jPanel11.setPreferredSize(new java.awt.Dimension(900, 70));
 
         jlblAdvertencia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAdvertencia.setForeground(new java.awt.Color(255, 0, 0));
@@ -309,7 +446,7 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jlblAdvertencia.setPreferredSize(new java.awt.Dimension(500, 30));
         jPanel11.add(jlblAdvertencia);
 
-        cuerpo1ListaRecetas.add(jPanel11);
+        cuerpoListaServicios.add(jPanel11);
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(900, 40));
@@ -325,33 +462,33 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jlblMontoTotal.setPreferredSize(new java.awt.Dimension(280, 29));
         jPanel10.add(jlblMontoTotal);
 
-        jbtnImprimir.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnImprimir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnImprimir.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnImprimir.setText("IMPRIMIR");
-        jbtnImprimir.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnImprimir.addActionListener(new java.awt.event.ActionListener() {
+        jbtnImprimirServicios.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnImprimirServicios.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnImprimirServicios.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnImprimirServicios.setText("IMPRIMIR");
+        jbtnImprimirServicios.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnImprimirServicios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnImprimirActionPerformed(evt);
+                jbtnImprimirServiciosActionPerformed(evt);
             }
         });
-        jPanel10.add(jbtnImprimir);
+        jPanel10.add(jbtnImprimirServicios);
 
-        jbtnCrearReceta.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnCrearReceta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnCrearReceta.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnCrearReceta.setText("CREAR RECETA");
-        jbtnCrearReceta.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnCrearReceta.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCrearServicio.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnCrearServicio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnCrearServicio.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCrearServicio.setText("AÑADIR SERVICIO");
+        jbtnCrearServicio.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnCrearServicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCrearRecetaActionPerformed(evt);
+                jbtnCrearServicioActionPerformed(evt);
             }
         });
-        jPanel10.add(jbtnCrearReceta);
+        jPanel10.add(jbtnCrearServicio);
 
-        cuerpo1ListaRecetas.add(jPanel10);
+        cuerpoListaServicios.add(jPanel10);
 
-        body2.add(cuerpo1ListaRecetas, "card2");
+        body2.add(cuerpoListaServicios, "card2");
 
         body.add(body2, java.awt.BorderLayout.CENTER);
 
@@ -370,32 +507,32 @@ public class ServicioAsistencial extends javax.swing.JPanel {
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
                 Lista_Recetas=Herramienta.findbyWhere(Receta.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
-                jbtnCrearReceta.setEnabled(true);
-                jbtnImprimir.setEnabled(true);
+                jbtnCrearServicio.setEnabled(true);
+                jbtnImprimirServicios.setEnabled(true);
                 if(Lista_Recetas.isEmpty()){
                 jlblAdvertencia.setText("NO CONTIENE NI UNA RECETA");
-                jbtnImprimir.setEnabled(false);
+                jbtnImprimirServicios.setEnabled(false);
                 }               
                 break;
             }
-            jbtnCrearReceta.setEnabled(false);
-            jbtnImprimir.setEnabled(false);
+            jbtnCrearServicio.setEnabled(false);
+            jbtnImprimirServicios.setEnabled(false);
             jlblAdvertencia.setText("");
         }
        llenar_Tabla_de_Recetas(Lista_Recetas);        
     }
-    private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
+    private void jbtnCrearServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearServicioActionPerformed
         Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
         Lista_lote_detalle=query1.getResultList();
-        cuerpo1ListaRecetas.setVisible(false);  
+        cuerpoListaServicios.setVisible(false);  
         jtfLookCodigo.setEditable(false);
-    }//GEN-LAST:event_jbtnCrearRecetaActionPerformed
+    }//GEN-LAST:event_jbtnCrearServicioActionPerformed
 
     private void jtblRecetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetasMouseClicked
         Receta objReceta=(Receta)jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0);
         for (int i = 0; i < Lista_Recetas.size(); i++){
             if(Lista_Recetas.get(i)==objReceta){ 
-                cuerpo1ListaRecetas.setVisible(false);
+                cuerpoListaServicios.setVisible(false);
                 jtfLookCodigo.setEditable(false);
                 break;
             }        
@@ -410,7 +547,7 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfLookCodigoKeyPressed
 
     public void Limpiarcuerp2CrearRecetas(){
-        cuerpo1ListaRecetas.setVisible(true);
+        cuerpoListaServicios.setVisible(true);
     }
     private void jtfLookCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyTyped
         if (jtfLookCodigo.getText().length()>=8){             
@@ -434,7 +571,7 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jtfLookCodigoKeyReleased
 
-    private void jbtnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirActionPerformed
+    private void jbtnImprimirServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirServiciosActionPerformed
  
         try {
             imprimirEstudiante();
@@ -451,7 +588,23 @@ public class ServicioAsistencial extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(jLabel12,ex.toString());
 
         }
-    }//GEN-LAST:event_jbtnImprimirActionPerformed
+    }//GEN-LAST:event_jbtnImprimirServiciosActionPerformed
+
+    private void jbtnImprimir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimir1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnImprimir1ActionPerformed
+
+    private void jbtnCrearReceta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCrearReceta1ActionPerformed
+
+    private void jPanel12HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jPanel12HierarchyChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel12HierarchyChanged
+
+    private void jbtnCrearReceta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCrearReceta2ActionPerformed
     public void imprimirEstudiante() throws FileNotFoundException, DocumentException, IOException{
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
@@ -528,35 +681,54 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
     private javax.swing.JPanel body2;
-    private javax.swing.JPanel cuerpo1ListaRecetas;
+    private javax.swing.JPanel cuerpoListaCrearServicio;
+    private javax.swing.JPanel cuerpoListaServicios;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbtnCrearReceta;
-    private javax.swing.JButton jbtnImprimir;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton jbtnCrearReceta1;
+    private javax.swing.JButton jbtnCrearReceta2;
+    private javax.swing.JButton jbtnCrearServicio;
+    private javax.swing.JButton jbtnImprimir1;
+    private javax.swing.JButton jbtnImprimirServicios;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblEscuela;
     private javax.swing.JLabel jlblMontoTotal;
+    private javax.swing.JLabel jlblMontoTotal1;
     private javax.swing.JLabel jlblNombres;
     private javax.swing.JLabel jlblSerie;
     private javax.swing.JTable jtblRecetas;
+    private javax.swing.JTable jtblServiciosAsistenciales;
     private javax.swing.JTextField jtfLookCodigo;
     // End of variables declaration//GEN-END:variables
 public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
