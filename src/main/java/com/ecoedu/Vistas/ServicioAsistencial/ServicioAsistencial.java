@@ -3,7 +3,7 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
-import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Receta;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
@@ -25,7 +25,6 @@ import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -42,13 +41,12 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     private float Monto_totalControlEstudiante;
     private float saldo_totalControlEstudiante;
     private Control_paciente objControl_paciente_Final;
+    private List<Servicio_social> Lista_Detalle_servicio_social;
     private Usuario objUsuario;
-    private EntityManager jpa;     
-    private List<Lote_detalle> Lista_lote_detalle;
+    private EntityManager jpa;   
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
-    private List<Receta> Lista_Recetas=new ArrayList<>();//
       
     public ServicioAsistencial(EntityManager jpa2,Principal OBJPrincipal,Usuario OBJUsuario){
         initComponents();        
@@ -65,7 +63,7 @@ public class ServicioAsistencial extends javax.swing.JPanel {
      public void principalEjecucion(){ 
          jbtnImprimirServicios.setEnabled(false);     
          jbtnCrearServicio.setEnabled(false);
-         llenar_Tabla_de_Recetas(Lista_Recetas);
+         //llenar_Tabla_de_Recetas(Lista_Detalle_servicio_social);
          
            
      }  
@@ -79,14 +77,7 @@ public class ServicioAsistencial extends javax.swing.JPanel {
      public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
          JOptionPane.showMessageDialog(jlblNombres, "corre");
          Lista_carrito_medicamentos.add(objDetalleMedicamento);
-         for (Lote_detalle lote_detalle : Lista_lote_detalle){
-             if(lote_detalle==objDetalleMedicamento.getLote_detalle()){
-                 lote_detalle.setCantidad(lote_detalle.getCantidad()-objDetalleMedicamento.getCantidad());
-                 lote_detalle.getInventario().setCantidad(lote_detalle.getInventario().getCantidad()-objDetalleMedicamento.getCantidad());
-                 break;
-                 }
-                          
-         }          
+                  
      } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -506,11 +497,11 @@ public class ServicioAsistencial extends javax.swing.JPanel {
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
-                Lista_Recetas=Herramienta.findbyWhere(Receta.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
+                Lista_Detalle_servicio_social=Herramienta.findbyWhere(Servicio_social.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearServicio.setEnabled(true);
                 jbtnImprimirServicios.setEnabled(true);
-                if(Lista_Recetas.isEmpty()){
-                jlblAdvertencia.setText("NO CONTIENE NI UNA RECETA");
+                if(Lista_Detalle_servicio_social.isEmpty()){
+                jlblAdvertencia.setText("NO CONTIENE NI UN SERVICIO");
                 jbtnImprimirServicios.setEnabled(false);
                 }               
                 break;
@@ -519,23 +510,24 @@ public class ServicioAsistencial extends javax.swing.JPanel {
             jbtnImprimirServicios.setEnabled(false);
             jlblAdvertencia.setText("");
         }
-       llenar_Tabla_de_Recetas(Lista_Recetas);        
+        
+       //llenar_Tabla_de_Recetas(Lista_Detalle_servicio_social);        
     }
     private void jbtnCrearServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearServicioActionPerformed
-        Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
-        Lista_lote_detalle=query1.getResultList();
+        Lista_Detalle_servicio_social=jpa.createQuery("SELECT p FROM Detalle_servicio_social p").getResultList();
+
         cuerpoListaServicios.setVisible(false);  
         jtfLookCodigo.setEditable(false);
     }//GEN-LAST:event_jbtnCrearServicioActionPerformed
 
     private void jtblRecetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetasMouseClicked
         Receta objReceta=(Receta)jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0);
-        for (int i = 0; i < Lista_Recetas.size(); i++){
-            if(Lista_Recetas.get(i)==objReceta){ 
+        for (int i = 0; i < Lista_Detalle_servicio_social.size(); i++){
+          /*  if(Lista_Detalle_servicio_social.get(i)==objReceta){ 
                 cuerpoListaServicios.setVisible(false);
                 jtfLookCodigo.setEditable(false);
                 break;
-            }        
+            } */       
         }
     }//GEN-LAST:event_jtblRecetasMouseClicked
 
@@ -644,28 +636,14 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         table.addHeaderCell(new Cell().add(new Paragraph("Monto").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
         table.addHeaderCell(new Cell().add(new Paragraph("Químico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
                  
-      Collections.sort(Lista_Recetas);//ordenando A-Z (método como Override)
-        for(Receta receta : Lista_Recetas){
-            List<Detalle_Medicamentos> listMedi=Herramienta.findbyWhere(Detalle_Medicamentos.class,"id_Receta", receta.getId_Receta(), jpa);
-            Collections.sort(listMedi);//ordenando A-Z (método como Override)
-            Paragraph p = new Paragraph("Receta N°").setFont(bold).setFontSize(10)
-                    .add(new Text(""+receta.getId_Receta()).setFont(bold).setFontSize(10))
-                    .add(new Text("   Procedencia: ").setFont(bold).setFontSize(10))
-                    .add(new Text(receta.getProcedencia().getNombre()).setFont(font).setFontSize(10))
-                    .add(new Text("   Diagnóstico: ").setFont(bold).setFontSize(10))
-                    .add(new Text(receta.getDiagnosito().getId_DiagnosticoCodigo()).setFontSize(10));
+      //Collections.sort(Lista_Detalle_servicio_social);//ordenando A-Z (método como Override)
+        for(Servicio_social detalle_servicio_social : Lista_Detalle_servicio_social){
+           // table.addCell(new Paragraph(Herramienta.formatoFecha(Detalle_Medicamento.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            //table.addCell(new Paragraph(Detalle_Medicamento.getId_Medicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            //table.addCell(new Paragraph(Integer.toString(Detalle_Medicamento.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            //table.addCell(new Paragraph(Float.toString(Detalle_Medicamento.getPrecio_Total())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            //table.addCell(new Paragraph(Detalle_Medicamento.getUsuario().getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             
-            table.addCell(new Cell(1, 1).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño)
-                    .add(Herramienta.formatoFecha(receta.getFecha_creada())).setFont(bold) );
-            
-            table.addCell(new Cell(1, 4).add(p).setTextAlignment(TextAlignment.LEFT));
-            for (Detalle_Medicamentos Detalle_Medicamento : listMedi) {           
-            table.addCell(new Paragraph(Herramienta.formatoFecha(Detalle_Medicamento.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            table.addCell(new Paragraph(Detalle_Medicamento.getId_Medicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            table.addCell(new Paragraph(Integer.toString(Detalle_Medicamento.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            table.addCell(new Paragraph(Float.toString(Detalle_Medicamento.getPrecio_Total())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            table.addCell(new Paragraph(Detalle_Medicamento.getUsuario().getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            }
         }
         document.add(table);        
         document.close();       
@@ -674,7 +652,7 @@ public class ServicioAsistencial extends javax.swing.JPanel {
          jlblNombres.setText("");
          jlblEscuela.setText("");
          jlblSerie.setText("");
-         Lista_Recetas.clear();
+         Lista_Detalle_servicio_social.clear();
          llenarControlAlumno();
      }
 

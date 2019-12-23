@@ -6,7 +6,7 @@ import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
-import com.ecoedu.model.Detalle_servicio_social;
+import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
@@ -60,7 +60,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Procedencia> lista_procedencia;    
     private List<Condicion> lista_condicion;
     private List<Lote_detalle> Lista_lote_detalle;
-    private List<Detalle_servicio_social> Lista_detalle_servicio_social;
+    private List<Servicio_social> Lista_detalle_servicio_social;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
