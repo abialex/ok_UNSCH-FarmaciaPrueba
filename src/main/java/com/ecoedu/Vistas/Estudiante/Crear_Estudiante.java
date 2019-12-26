@@ -344,7 +344,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+  
         Condicion objCondicion=(Condicion)jpa.createQuery("select p from Condicion p").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
         Estudiante objEstudiante=new Estudiante();
@@ -354,9 +354,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         objPersona.setNombres(jtfNombres.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
-        objPersona.setSexo((Sexo)jcbSexo.getSelectedItem());
         objPersona.setDni(jtfDNI.getText());
-        objPersona.setFecha_nacimiento(jcbYear.getDatoFecha());
+        objEstudiante.setFecha_nacimiento(jcbYear.getDatoFecha());
+        objEstudiante.setSexo((Sexo)jcbSexo.getSelectedItem());
         objEstudiante.setCodigo(jtfCodigo.getText());
         objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
         objEstudiante.setCondicion(objCondicion);

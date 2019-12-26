@@ -5,6 +5,7 @@
  */
 package com.ecoedu.model;
 
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,6 +30,9 @@ public class Estudiante{
     @ManyToOne(cascade = CascadeType.ALL)
     private Persona persona;
     
+    @Column(name="fecha_nacimiento",nullable = true)
+    private Date  fecha_nacimiento;
+    
     @JoinColumn(insertable = true,updatable = false,name="id_Escuela",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Escuela escuela;
@@ -42,13 +46,34 @@ public class Estudiante{
     @JoinColumn(insertable = true,updatable = false,name="id_Condicion",nullable = true)
     @ManyToOne(cascade = CascadeType.ALL)
     private Condicion condicion;
+    
+    @JoinColumn(insertable = true,updatable =true,name="id_Sexo",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Sexo sexo; 
 
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
+    
     public Condicion getCondicion() {
         return condicion;
     }
 
     public void setCondicion(Condicion condicion) {
         this.condicion = condicion;
+    }
+
+    public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
+
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
     }
     
         

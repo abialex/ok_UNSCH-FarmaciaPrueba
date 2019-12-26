@@ -26,6 +26,8 @@ public class Servicio_social implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Detalle_servicio_social;
     
+    
+    
     @JoinColumn(insertable = true,updatable = false,name="id_Control_paciente",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Control_paciente control_Paciente;

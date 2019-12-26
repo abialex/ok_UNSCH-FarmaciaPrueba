@@ -5,6 +5,7 @@ import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Tipo_Asistencial;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -25,9 +26,9 @@ import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -36,7 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import org.dom4j.DocumentException;
 
 
-public class ServicioAsistencial extends javax.swing.JPanel {
+public class Servicio_Asistencial extends javax.swing.JPanel {
     private Principal objPrincipal;
     private float Monto_totalControlEstudiante;
     private float saldo_totalControlEstudiante;
@@ -44,23 +45,28 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     private List<Servicio_social> Lista_Detalle_servicio_social;
     private Usuario objUsuario;
     private EntityManager jpa;   
+    private List<Tipo_Asistencial> lista_tipo_asistencial; 
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
       
-    public ServicioAsistencial(EntityManager jpa2,Principal OBJPrincipal,Usuario OBJUsuario){
+    public Servicio_Asistencial(EntityManager jpa2,Principal OBJPrincipal,Usuario OBJUsuario){
         initComponents();        
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;
         this.objUsuario=OBJUsuario;        
     }
      public void ConsultaBD(){
-         Query query1=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1");
-         Lista_control_paciente=query1.getResultList();               
-          
+         Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
+         lista_tipo_asistencial=jpa.createQuery("SELECT p FROM Tipo_Asistencial p ").getResultList();     
      }
     
      public void principalEjecucion(){ 
+         jlblFecha.setText(Herramienta.formatoFecha(new Date()));
+         jcbTipoAsistencial.removeAllItems();
+         for (Tipo_Asistencial tipo_asistencial :lista_tipo_asistencial) {
+             jcbTipoAsistencial.addItem(tipo_asistencial);
+             }
          jbtnImprimirServicios.setEnabled(false);     
          jbtnCrearServicio.setEnabled(false);
          //llenar_Tabla_de_Recetas(Lista_Detalle_servicio_social);
@@ -106,12 +112,12 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        jtfDescripcion = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jbtnCrearReceta2 = new javax.swing.JButton();
+        jlblFecha = new javax.swing.JLabel();
+        jbtnAgregar = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbTipoAsistencial = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtblServiciosAsistenciales = new javax.swing.JTable();
         jPanel14 = new javax.swing.JPanel();
@@ -267,35 +273,34 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         jPanel12.add(jLabel19, java.awt.BorderLayout.LINE_START);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 30));
+        jPanel1.add(jtfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 30));
 
         jLabel29.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel29.setText("8.90");
-        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, -1, -1));
+        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, 40, -1));
 
-        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel32.setText("2019/06/04");
-        jPanel1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
+        jlblFecha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblFecha.setText("2019/06/04");
+        jPanel1.add(jlblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
-        jbtnCrearReceta2.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnCrearReceta2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnCrearReceta2.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnCrearReceta2.setText("AGREGAR");
-        jbtnCrearReceta2.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnCrearReceta2.addActionListener(new java.awt.event.ActionListener() {
+        jbtnAgregar.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregar.setText("AGREGAR");
+        jbtnAgregar.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCrearReceta2ActionPerformed(evt);
+                jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel1.add(jbtnCrearReceta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 110, 30));
+        jPanel1.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 140, 30));
 
         jLabel35.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel35.setText("Fecha Registro:");
         jPanel1.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Especialidad", "Laboratorio", "Imagenes", "Otros" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 160, 30));
+        jcbTipoAsistencial.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel1.add(jcbTipoAsistencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 160, 30));
 
         jtblServiciosAsistenciales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -515,7 +520,6 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     }
     private void jbtnCrearServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearServicioActionPerformed
         Lista_Detalle_servicio_social=jpa.createQuery("SELECT p FROM Detalle_servicio_social p").getResultList();
-
         cuerpoListaServicios.setVisible(false);  
         jtfLookCodigo.setEditable(false);
     }//GEN-LAST:event_jbtnCrearServicioActionPerformed
@@ -594,9 +598,9 @@ public class ServicioAsistencial extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel12HierarchyChanged
 
-    private void jbtnCrearReceta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta2ActionPerformed
+    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnCrearReceta2ActionPerformed
+    }//GEN-LAST:event_jbtnAgregarActionPerformed
     public void imprimirEstudiante() throws FileNotFoundException, DocumentException, IOException{
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
@@ -663,7 +667,6 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     private javax.swing.JPanel cuerpoListaServicios;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -677,7 +680,6 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -693,20 +695,22 @@ public class ServicioAsistencial extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton jbtnAgregar;
     private javax.swing.JButton jbtnCrearReceta1;
-    private javax.swing.JButton jbtnCrearReceta2;
     private javax.swing.JButton jbtnCrearServicio;
     private javax.swing.JButton jbtnImprimir1;
     private javax.swing.JButton jbtnImprimirServicios;
+    private javax.swing.JComboBox<Tipo_Asistencial> jcbTipoAsistencial;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblEscuela;
+    private javax.swing.JLabel jlblFecha;
     private javax.swing.JLabel jlblMontoTotal;
     private javax.swing.JLabel jlblMontoTotal1;
     private javax.swing.JLabel jlblNombres;
     private javax.swing.JLabel jlblSerie;
     private javax.swing.JTable jtblRecetas;
     private javax.swing.JTable jtblServiciosAsistenciales;
+    private javax.swing.JTextField jtfDescripcion;
     private javax.swing.JTextField jtfLookCodigo;
     // End of variables declaration//GEN-END:variables
 public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){

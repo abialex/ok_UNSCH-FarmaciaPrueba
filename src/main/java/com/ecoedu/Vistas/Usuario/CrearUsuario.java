@@ -254,14 +254,22 @@ public class CrearUsuario extends javax.swing.JPanel {
         jpa.persist(objPersona);
         jpa.refresh(objPersona);
         objUsuario.setPersona(objPersona);
-        objUsuario.setNickname("farmacia"+objPersona.getId_Persona());
+        objUsuario.setNickname(((Rol)jcbRol.getSelectedItem()).getNombre_rol()+objPersona.getId_Persona());
         jpa.persist(objUsuario);
         jpa.refresh(objUsuario);
         jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI");
+        limpiar();
         jpa.getTransaction().commit();
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public void limpiar(){
+        jtfApellidoMaterno.setText("");
+        jtfApellidoPaterno.setText("");
+        jtfDni.setText("");
+        jtfNombres.setText("");
+        
+    }
     private void jtfNombresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNombresKeyReleased
@@ -287,7 +295,7 @@ public class CrearUsuario extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
@@ -309,7 +317,7 @@ public class CrearUsuario extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
@@ -320,7 +328,7 @@ public class CrearUsuario extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }

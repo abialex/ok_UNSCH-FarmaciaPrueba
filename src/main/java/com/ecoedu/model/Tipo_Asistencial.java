@@ -44,6 +44,12 @@ public class Tipo_Asistencial implements Serializable {
         this.abre_Asistencil = abre_Asistencil;
     }
     
+    @Override
+    public String toString(){
+        return this.Nombre_Asistencil;
+        
+    }
+    
     
 
     public int getId() {

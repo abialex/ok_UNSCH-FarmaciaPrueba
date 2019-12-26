@@ -327,8 +327,8 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
             table.addCell(new Paragraph(estudiante.getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//codigo
             table.addCell(new Paragraph(estudiante.getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//inforpersona
             table.addCell(new Paragraph(estudiante.getSerie()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//Serie
-            table.addCell(new Paragraph(Integer.toString(Herramienta.getAñosFrom(estudiante.getPersona().getFecha_nacimiento()))).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//edad
-            table.addCell(new Paragraph(estudiante.getPersona().getSexo().getAbre_sexo()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
+            table.addCell(new Paragraph(Integer.toString(Herramienta.getAñosFrom(estudiante.getFecha_nacimiento()))).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//edad
+            table.addCell(new Paragraph(estudiante.getSexo().getAbre_sexo()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
             table.addCell(new Paragraph(estudiante.getCondicion().getAbre_nombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
             table.addCell(new Paragraph(receta.getProcedencia().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//Procedencia          
             table.addCell(new Paragraph(Detalle_Medicamento.getId_Medicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//P.F
@@ -339,8 +339,8 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
             fila_actividad[0]=estudiante.getCodigo();       
             fila_actividad[1]=estudiante.getPersona().getInfoPersona();  
             fila_actividad[2]=estudiante.getSerie();   
-            fila_actividad[3]=Herramienta.getAñosFrom(estudiante.getPersona().getFecha_nacimiento());  
-            fila_actividad[4]=estudiante.getPersona().getSexo().getAbre_sexo(); 
+            fila_actividad[3]=Herramienta.getAñosFrom(estudiante.getFecha_nacimiento());  
+            fila_actividad[4]=estudiante.getSexo().getAbre_sexo(); 
             fila_actividad[5]=estudiante.getCondicion().getAbre_nombre();             
             fila_actividad[6]=receta.getProcedencia().getNombre(); 
             fila_actividad[7]=Detalle_Medicamento.getId_Medicamento().getNombre(); 

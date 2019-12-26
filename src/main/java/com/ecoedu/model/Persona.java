@@ -36,15 +36,7 @@ public class Persona{
     private String  apellido_Materno;
     
     @Column(name="dni",length = 8,unique = true,nullable = false)
-    private String  dni;
-    
-    @Column(name="fecha_nacimiento",nullable = false)
-    private Date  fecha_nacimiento;
-    
-    
-    @JoinColumn(insertable = true,updatable =true,name="id_Sexo",nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Sexo sexo;   
+    private String  dni;      
 
     public String getNombres() {
         return nombres;
@@ -54,32 +46,13 @@ public class Persona{
         this.nombres = nombres;
     }
 
-    public Sexo getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
-    }
-
-    
     public int getId_Persona() {
         return id_Persona;
     }
 
     public void setId_Persona(int id_Persona) {
         this.id_Persona = id_Persona;
-    }
-
-    public Date getFecha_nacimiento() {
-        return fecha_nacimiento;
-    }
-
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-   
+    }   
 
     public String getApellido_Paterno() {
         return apellido_Paterno;
