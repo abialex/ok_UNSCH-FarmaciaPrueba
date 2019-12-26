@@ -48,7 +48,7 @@ public class LlenarInventario extends javax.swing.JPanel {
             @Override
             public void callback(Object o){
                 encontrarMedicamento((String)o);}});
-        this.autoCompleterFabricante=new TextAutoCompleter(jtfFabricante,new AutoCompleterCallback() {
+        this.autoCompleterFabricante=new TextAutoCompleter(jtfFabricante,new AutoCompleterCallback(){
             @Override
             public void callback(Object o) { /*  */}});
         this.autoCompleterProveedor=new TextAutoCompleter(jtfProveedor,new AutoCompleterCallback() {

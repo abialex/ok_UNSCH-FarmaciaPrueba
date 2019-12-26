@@ -5,6 +5,7 @@ import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Tarifario;
 import com.ecoedu.model.Tipo_Asistencial;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
@@ -21,6 +22,8 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
+import com.mxrck.autocompleter.AutoCompleterCallback;
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
@@ -47,18 +50,27 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private EntityManager jpa;   
     private List<Tipo_Asistencial> lista_tipo_asistencial; 
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
+    TextAutoCompleter autoCompleterServicio;
+    private List<Tarifario> Lista_tarifa;
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
       
     public Servicio_Asistencial(EntityManager jpa2,Principal OBJPrincipal,Usuario OBJUsuario){
-        initComponents();        
+        initComponents();
+        this.autoCompleterServicio=new TextAutoCompleter(jtfDescripcion, new AutoCompleterCallback(){
+            @Override
+            public void callback(Object o){
+                actualizarPrecio();}});        
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;
         this.objUsuario=OBJUsuario;        
     }
      public void ConsultaBD(){
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
-         lista_tipo_asistencial=jpa.createQuery("SELECT p FROM Tipo_Asistencial p ").getResultList();     
+         lista_tipo_asistencial=jpa.createQuery("SELECT p FROM Tipo_Asistencial p ").getResultList();  
+         Lista_tarifa=jpa.createQuery("SELECT p FROM Tarifario p ").getResultList();
+         
+         
      }
     
      public void principalEjecucion(){ 
@@ -67,6 +79,9 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
          for (Tipo_Asistencial tipo_asistencial :lista_tipo_asistencial) {
              jcbTipoAsistencial.addItem(tipo_asistencial);
              }
+         for (Tarifario tarifario : Lista_tarifa) {
+             autoCompleterServicio.addItem(tarifario.getDescripcion());
+         }
          jbtnImprimirServicios.setEnabled(false);     
          jbtnCrearServicio.setEnabled(false);
          //llenar_Tabla_de_Recetas(Lista_Detalle_servicio_social);
@@ -113,7 +128,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jtfDescripcion = new javax.swing.JTextField();
-        jLabel29 = new javax.swing.JLabel();
+        jlblPrecio = new javax.swing.JLabel();
         jlblFecha = new javax.swing.JLabel();
         jbtnAgregar = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
@@ -273,11 +288,17 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jPanel12.add(jLabel19, java.awt.BorderLayout.LINE_START);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jtfDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDescripcionKeyTyped(evt);
+            }
+        });
         jPanel1.add(jtfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 30));
 
-        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel29.setText("8.90");
-        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, 40, -1));
+        jlblPrecio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblPrecio.setText("|");
+        jPanel1.add(jlblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, 40, -1));
 
         jlblFecha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblFecha.setText("2019/06/04");
@@ -601,6 +622,18 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnAgregarActionPerformed
+
+    public void actualizarPrecio(){
+        for (Tarifario tarifario : Lista_tarifa){
+            if(tarifario.getDescripcion().equals(jtfDescripcion.getText())){
+                jlblPrecio.setText("S/"+tarifario.getPrecio());
+                break;
+            }            
+        }
+    }
+    private void jtfDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescripcionKeyTyped
+        actualizarPrecio();
+    }//GEN-LAST:event_jtfDescripcionKeyTyped
     public void imprimirEstudiante() throws FileNotFoundException, DocumentException, IOException{
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
@@ -678,7 +711,6 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel5;
@@ -707,6 +739,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JLabel jlblMontoTotal;
     private javax.swing.JLabel jlblMontoTotal1;
     private javax.swing.JLabel jlblNombres;
+    private javax.swing.JLabel jlblPrecio;
     private javax.swing.JLabel jlblSerie;
     private javax.swing.JTable jtblRecetas;
     private javax.swing.JTable jtblServiciosAsistenciales;

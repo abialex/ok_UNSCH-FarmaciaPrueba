@@ -49,9 +49,6 @@ public class Tipo_Asistencial implements Serializable {
         return this.Nombre_Asistencil;
         
     }
-    
-    
-
     public int getId() {
         return id_Tipo_asistencial;
     }
