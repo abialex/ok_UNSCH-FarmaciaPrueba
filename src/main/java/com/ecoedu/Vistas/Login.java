@@ -8,8 +8,11 @@ import com.ecoedu.app.TextPrompt;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
@@ -34,7 +37,7 @@ public class Login extends javax.swing.JPanel {
         initComponents();
         try {
             this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
-            } catch (Exception e) {
+            } catch(Exception e) {
                 JOptionPane.showMessageDialog(barraProgreso,"la base de datos no está disponible "+e.toString());
                 auxOpera=false;                        
         }
@@ -210,14 +213,18 @@ public class Login extends javax.swing.JPanel {
 
     private void iniciarSesion(){
         if(auxOpera){
+            try{
         Query query=jpa.createQuery("SELECT e FROM Usuario e where nickname="+"'"+jtfUsuario.getText()+"'"+" and "+
             "contraseña="+"'"+ jtfContraseña.getText()+"'");
         List<Usuario> listaUsuario=query.getResultList();
         usuario = listaUsuario.get(0);
-        loginframe.setVisible(false);
-        
+        loginframe.setVisible(false);        
         Principal objPrincipal=new Principal(jpa,usuario);
         objPrincipal.setVisible(true);}
+            catch(Exception e){
+                JOptionPane.showMessageDialog(barraProgreso, "error logueo"+e.toString());
+            }
+        }
         else{
             JOptionPane.showMessageDialog(barraProgreso, "la base de datos no está disponible");
         }

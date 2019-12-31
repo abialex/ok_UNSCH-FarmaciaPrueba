@@ -3,6 +3,7 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
+import com.ecoedu.model.Detalle_Servicio_Social;
 import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Receta;
 import com.ecoedu.model.Tarifario;
@@ -48,6 +49,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private List<Servicio_social> Lista_Detalle_servicio_social;
     private Usuario objUsuario;
     private EntityManager jpa;   
+    private List<Detalle_Servicio_Social> lista_DetalleServicioSocial=new ArrayList<>();
     private List<Tipo_Asistencial> lista_tipo_asistencial; 
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     TextAutoCompleter autoCompleterServicio;
@@ -75,10 +77,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     
      public void principalEjecucion(){ 
          jlblFecha.setText(Herramienta.formatoFecha(new Date()));
-         jcbTipoAsistencial.removeAllItems();
-         for (Tipo_Asistencial tipo_asistencial :lista_tipo_asistencial) {
-             jcbTipoAsistencial.addItem(tipo_asistencial);
-             }
+         
          for (Tarifario tarifario : Lista_tarifa) {
              autoCompleterServicio.addItem(tarifario.getDescripcion());
          }
@@ -132,9 +131,8 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jlblFecha = new javax.swing.JLabel();
         jbtnAgregar = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
-        jcbTipoAsistencial = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jtblServiciosAsistenciales = new javax.swing.JTable();
+        jtblRecetas = new javax.swing.JTable();
         jPanel14 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jlblMontoTotal1 = new javax.swing.JLabel();
@@ -143,7 +141,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         cuerpoListaServicios = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblRecetas = new javax.swing.JTable();
+        jtblRecetas4 = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -294,10 +292,9 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 jtfDescripcionKeyTyped(evt);
             }
         });
-        jPanel1.add(jtfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 420, 30));
+        jPanel1.add(jtfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 620, 30));
 
         jlblPrecio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlblPrecio.setText("|");
         jPanel1.add(jlblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, 40, -1));
 
         jlblFecha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -320,10 +317,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel35.setText("Fecha Registro:");
         jPanel1.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jcbTipoAsistencial.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(jcbTipoAsistencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 160, 30));
-
-        jtblServiciosAsistenciales.setModel(new javax.swing.table.DefaultTableModel(
+        jtblRecetas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -334,7 +328,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 "Tipo", "Descripción", "Costo"
             }
         ));
-        jScrollPane2.setViewportView(jtblServiciosAsistenciales);
+        jScrollPane2.setViewportView(jtblRecetas);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 880, 180));
 
@@ -392,8 +386,8 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jPanel9.setPreferredSize(new java.awt.Dimension(900, 250));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jtblRecetas.setBorder(new javax.swing.border.MatteBorder(null));
-        jtblRecetas.setModel(new javax.swing.table.DefaultTableModel(
+        jtblRecetas4.setBorder(new javax.swing.border.MatteBorder(null));
+        jtblRecetas4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -420,16 +414,16 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 "Código", "Fecha", "Total Costo", "Procedencia", "Diagnostico"
             }
         ));
-        jtblRecetas.setGridColor(new java.awt.Color(0, 0, 0));
-        jtblRecetas.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblRecetas.setPreferredSize(new java.awt.Dimension(200, 260));
-        jtblRecetas.setRequestFocusEnabled(false);
-        jtblRecetas.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtblRecetas4.setGridColor(new java.awt.Color(0, 0, 0));
+        jtblRecetas4.setMinimumSize(new java.awt.Dimension(500, 100));
+        jtblRecetas4.setPreferredSize(new java.awt.Dimension(200, 260));
+        jtblRecetas4.setRequestFocusEnabled(false);
+        jtblRecetas4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtblRecetasMouseClicked(evt);
+                jtblRecetas4MouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtblRecetas);
+        jScrollPane1.setViewportView(jtblRecetas4);
 
         jPanel9.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -537,7 +531,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
             jlblAdvertencia.setText("");
         }
         
-       //llenar_Tabla_de_Recetas(Lista_Detalle_servicio_social);        
+       //new ArrayList<>()(Lista_Detalle_servicio_social);        
     }
     private void jbtnCrearServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearServicioActionPerformed
         Lista_Detalle_servicio_social=jpa.createQuery("SELECT p FROM Detalle_servicio_social p").getResultList();
@@ -545,8 +539,8 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jtfLookCodigo.setEditable(false);
     }//GEN-LAST:event_jbtnCrearServicioActionPerformed
 
-    private void jtblRecetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetasMouseClicked
-        Receta objReceta=(Receta)jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0);
+    private void jtblRecetas4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetas4MouseClicked
+        Receta objReceta=(Receta)jtblRecetas4.getValueAt(jtblRecetas4.getSelectedRow(),0);
         for (int i = 0; i < Lista_Detalle_servicio_social.size(); i++){
           /*  if(Lista_Detalle_servicio_social.get(i)==objReceta){ 
                 cuerpoListaServicios.setVisible(false);
@@ -554,7 +548,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 break;
             } */       
         }
-    }//GEN-LAST:event_jtblRecetasMouseClicked
+    }//GEN-LAST:event_jtblRecetas4MouseClicked
 
     private void jtfLookCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyPressed
 
@@ -612,7 +606,11 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbtnImprimir1ActionPerformed
 
     private void jbtnCrearReceta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta1ActionPerformed
-        // TODO add your handling code here:
+       Servicio_social objServicioSocial=new Servicio_social();
+        objServicioSocial.setControl_Paciente(objControl_paciente_Final);
+        objServicioSocial.setFecha(new Date());
+        objServicioSocial.setMonto(0);
+        objServicioSocial.setUsuario(objUsuario);
     }//GEN-LAST:event_jbtnCrearReceta1ActionPerformed
 
     private void jPanel12HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jPanel12HierarchyChanged
@@ -620,13 +618,24 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel12HierarchyChanged
 
     private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
-        // TODO add your handling code here:
+        Detalle_Servicio_Social objDetalle_Servicio_Social=new Detalle_Servicio_Social();        
+        objDetalle_Servicio_Social.setPrecio_Total(Float.parseFloat(jlblPrecio.getText()));
+        for (Tarifario tarifario : Lista_tarifa) {
+            if(tarifario.getDescripcion().equals(jtfDescripcion.getText())){
+                objDetalle_Servicio_Social.setTarifario(tarifario);
+                break;
+            }            
+        }
+        objDetalle_Servicio_Social.setServicio_social(new Servicio_social());
+        objDetalle_Servicio_Social.setUsuario(objUsuario);
+        lista_DetalleServicioSocial.add(objDetalle_Servicio_Social);
+        llenar_Tabla_de_Recetas(lista_DetalleServicioSocial);
     }//GEN-LAST:event_jbtnAgregarActionPerformed
 
     public void actualizarPrecio(){
         for (Tarifario tarifario : Lista_tarifa){
             if(tarifario.getDescripcion().equals(jtfDescripcion.getText())){
-                jlblPrecio.setText("S/"+tarifario.getPrecio());
+                jlblPrecio.setText(Float.toString(tarifario.getPrecio()));
                 break;
             }            
         }
@@ -732,7 +741,6 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JButton jbtnCrearServicio;
     private javax.swing.JButton jbtnImprimir1;
     private javax.swing.JButton jbtnImprimirServicios;
-    private javax.swing.JComboBox<Tipo_Asistencial> jcbTipoAsistencial;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblEscuela;
     private javax.swing.JLabel jlblFecha;
@@ -742,18 +750,18 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JLabel jlblPrecio;
     private javax.swing.JLabel jlblSerie;
     private javax.swing.JTable jtblRecetas;
-    private javax.swing.JTable jtblServiciosAsistenciales;
+    private javax.swing.JTable jtblRecetas4;
     private javax.swing.JTextField jtfDescripcion;
     private javax.swing.JTextField jtfLookCodigo;
     // End of variables declaration//GEN-END:variables
-public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
+public void llenar_Tabla_de_Recetas(List<Detalle_Servicio_Social> lista_de_detalleServicioSocial){
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Fecha","Total costo","Procedencia","Diagnostico"}; 
+             String [] lista={"Tipo","Descripción","Precio","Asistenta"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
-                       false, false, false, false
+                       false, false, false
                          };
                  @Override
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -762,11 +770,11 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
                  };
              //.....................................TABLA...........Fin......................           
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (int i = lista_de_recetas.size()-1; i>=0 ; i--){
-                 fila_actividad[0]=lista_de_recetas.get(i);             
-                 fila_actividad[1]=lista_de_recetas.get(i).getTotal_costo_medicinas();  
-                 fila_actividad[2]=lista_de_recetas.get(i).getProcedencia().getNombre();   
-                 fila_actividad[3]=lista_de_recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo();  
+             for (int i = lista_de_detalleServicioSocial.size()-1; i>=0 ; i--){
+                 fila_actividad[0]=lista_de_detalleServicioSocial.get(i).getTarifario().getTipo_asistencial().getNombre_Asistencil();
+                 fila_actividad[1]=lista_de_detalleServicioSocial.get(i).getTarifario().getDescripcion();           
+                 fila_actividad[2]=lista_de_detalleServicioSocial.get(i).getTarifario().getPrecio();  
+                 fila_actividad[3]=lista_de_detalleServicioSocial.get(i).getUsuario().getPersona().getInfoPersona();   
                  modelo.addRow(fila_actividad);//agregando filas
                  }
             jtblRecetas.setModel(modelo); 
@@ -778,20 +786,16 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
             jtblRecetas.getColumnModel().getColumn(2).setCellRenderer(tcr);
             jtblRecetas.getColumnModel().getColumn(3).setCellRenderer(tcr);
 
-     
-            
             jtblRecetas.setFont(new java.awt.Font("Tahoma", 0, 15));
-            jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
+            jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18));
             jtblRecetas.getTableHeader().setBackground(Color.BLUE);
             jtblRecetas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(250);
-            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(150);     
+            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(130);
+           
             ((DefaultTableCellRenderer)jtblRecetas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64  
     }   
-    
-    
-
 }

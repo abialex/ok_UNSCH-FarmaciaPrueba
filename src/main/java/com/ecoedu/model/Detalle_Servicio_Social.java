@@ -6,7 +6,6 @@
 package com.ecoedu.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,39 +15,28 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-/**
- *
- * @author yrma
- */
 @Entity
-public class Servicio_social implements Serializable {
+public class Detalle_Servicio_Social implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Detalle_servicio_social;//cambiar xd
+    private int id_Detalle_servicio_social;
     
-    
-    
-    @JoinColumn(insertable = true,updatable = false,name="id_Control_paciente",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_Servicio_social",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Control_paciente control_Paciente;
-    
-    @Column(name="fecha",nullable = false)
-    private Date  fecha;
-
-    @Column(name="monto",nullable = false)
-    private float  monto;
+    private Servicio_social servicio_social;
     
     @JoinColumn(insertable = true,updatable = false,name="id_Usuario",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
-
-    public Control_paciente getControl_Paciente() {
-        return control_Paciente;
-    }
-
-    public void setControl_Paciente(Control_paciente control_Paciente) {
-        this.control_Paciente = control_Paciente;
-    } 
+    
+    
+    @JoinColumn(insertable = true,updatable = false,name="id_Tarifario",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Tarifario tarifario;
+   
+   
+    @Column(name="precio",nullable = false)
+    private float  precio_Total;
 
     public int getId_Detalle_servicio_social() {
         return id_Detalle_servicio_social;
@@ -58,20 +46,12 @@ public class Servicio_social implements Serializable {
         this.id_Detalle_servicio_social = id_Detalle_servicio_social;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Servicio_social getServicio_social() {
+        return servicio_social;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-    
-    public float getMonto() {
-        return monto;
-    }
-
-    public void setMonto(float monto) {
-        this.monto = monto;
+    public void setServicio_social(Servicio_social servicio_social) {
+        this.servicio_social = servicio_social;
     }
 
     public Usuario getUsuario() {
@@ -81,15 +61,28 @@ public class Servicio_social implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    public float getPrecio_Total() {
+        return precio_Total;
+    }
+
+    public void setPrecio_Total(float precio_Total) {
+        this.precio_Total = precio_Total;
+    }
+
+    public Tarifario getTarifario() {
+        return tarifario;
+    }
+
+    public void setTarifario(Tarifario tarifario) {
+        this.tarifario = tarifario;
+    }
     
     
-
-   
-
     
-
-   
-
- 
+    
+    
+    
+    
     
 }
