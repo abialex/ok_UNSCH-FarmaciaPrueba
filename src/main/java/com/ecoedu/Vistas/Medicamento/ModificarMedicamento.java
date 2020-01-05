@@ -294,7 +294,19 @@ public class ModificarMedicamento extends javax.swing.JPanel{
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
     private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
-        
+      objMedicamento=(Medicamento)jtblMedicamento.getValueAt(jtblMedicamento.getSelectedRow(),0);
+      jpa.getTransaction().begin();
+      objMedicamento.setForma_farmaceutica(jtfFormaFarmaceutica.getText());
+      objMedicamento.setNombre(jtfProductoFarmaceutico.getText());
+      objMedicamento.setConcentracion(jtfConcentracion.getText());
+      jpa.persist(objMedicamento);
+      jpa.getTransaction().commit();
+      ConsultaBD();
+      jtfConcentracion.setText("");
+      jtfFormaFarmaceutica.setText("");
+      jtfProductoFarmaceutico.setText("");
+      llenar_tabla_Medicamento(Lista_Medicamento);
+      
     }//GEN-LAST:event_jbtnModificarActionPerformed
 
     private void jtblMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblMedicamentoMouseClicked

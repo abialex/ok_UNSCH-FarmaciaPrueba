@@ -433,7 +433,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
@@ -444,7 +444,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }

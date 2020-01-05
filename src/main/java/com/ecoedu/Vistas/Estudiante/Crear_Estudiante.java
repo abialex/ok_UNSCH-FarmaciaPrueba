@@ -4,9 +4,7 @@ package com.ecoedu.Vistas.Estudiante;
 
 
 
-import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.app.JPAUtil;
 import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Escuela;
@@ -15,6 +13,7 @@ import com.ecoedu.model.Persona;
 import com.ecoedu.model.Sexo;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
+import java.util.Date;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -98,11 +97,15 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel25 = new javax.swing.JLabel();
         jtfEscuela = new javax.swing.JTextField();
         jcbSerie = new javax.swing.JComboBox<>();
-        jcbYear = new rojeru_san.componentes.RSDateChooser();
         jLabel26 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jcbSexo = new javax.swing.JComboBox<>();
         jtfCodigo1 = new javax.swing.JTextField();
+        jtfAño = new javax.swing.JTextField();
+        jtfMesVen = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        jtfDiaVenc = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -298,7 +301,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
         jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 160, 25));
-        jPanel7.add(jcbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 160, 25));
 
         jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -329,6 +331,48 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         });
         jPanel7.add(jtfCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 160, 25));
 
+        jtfAño.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfAño.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfAño.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfAñoKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 60, 25));
+
+        jtfMesVen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfMesVen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfMesVen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfMesVenKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfMesVenKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfMesVen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 40, 25));
+
+        jLabel33.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel33.setText("/");
+        jLabel33.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, 10, 25));
+
+        jtfDiaVenc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfDiaVenc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfDiaVenc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDiaVencKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfDiaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 40, 25));
+
+        jLabel27.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("/");
+        jLabel27.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 10, 25));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -347,15 +391,24 @@ public class Crear_Estudiante extends javax.swing.JPanel {
   
         Condicion objCondicion=(Condicion)jpa.createQuery("select p from Condicion p").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
+        Date FechaNacimiento=new Date();
+        FechaNacimiento.setYear(Integer.parseInt(jtfAño.getText())-1900);
+        FechaNacimiento.setMonth(Integer.parseInt(jtfMesVen.getText())-1);
+        FechaNacimiento.setDate(Integer.parseInt(jtfDiaVenc.getText()));
+        FechaNacimiento.setHours(0);
+        FechaNacimiento.setMinutes(0);
+        FechaNacimiento.setSeconds(0);
         Estudiante objEstudiante=new Estudiante();
         Control_paciente objControl_paciente=new Control_paciente();
-        objControl_paciente.setMonto_Total(0);  
+        objControl_paciente.setMonto_Total(0); 
+        objControl_paciente.setLimite_control(110);
         objControl_paciente.setiSactivo(true);
         objPersona.setNombres(jtfNombres.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setDni(jtfDNI.getText());
-        objEstudiante.setFecha_nacimiento(jcbYear.getDatoFecha());
+        objEstudiante.setFecha_nacimiento(FechaNacimiento);
+        
         objEstudiante.setSexo((Sexo)jcbSexo.getSelectedItem());
         objEstudiante.setCodigo(jtfCodigo.getText());
         objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
@@ -464,7 +517,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
@@ -475,7 +528,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
@@ -486,11 +539,150 @@ public class Crear_Estudiante extends javax.swing.JPanel {
          evt.consume(); 
          }     
         char validar=evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if(!Character.isLetter(validar)){
             getToolkit().beep();
             evt.consume();
         }
     }//GEN-LAST:event_jtfNombresKeyTyped
+
+    private void jtfAñoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfAñoKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+
+        if (jtfAño.getText().length()>=4){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfAñoKeyTyped
+
+    private void jtfMesVenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfMesVenKeyPressed
+
+    private void jtfMesVenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+        else{
+            if(jtfMesVen.getText().length()==1){
+                if(jtfMesVen.getText().charAt(0)!='0'){
+                    if(!(validar=='1' || validar =='2' || validar=='0')){
+                        evt.consume();
+                    }
+                }
+                else{
+                    if(validar=='0'){
+                        evt.consume();
+                    }
+                }
+            }
+            else{
+                if(!(validar =='0' || validar =='1')){
+                    evt.consume();
+                }
+            }//fin else
+        }
+
+        if (jtfMesVen.getText().length()>=2){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfMesVenKeyTyped
+
+    private void jtfDiaVencKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDiaVencKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+        else{
+            String mes=jtfMesVen.getText();
+            if(mes.equals("02")){
+                if(Integer.parseInt(jtfAño.getText())%4!=0){
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)!='0'){
+                            if(validar=='9'){
+                                evt.consume();
+                            }
+                        }
+                        else{
+                            if(validar=='0'){
+                                evt.consume();
+                            }
+                        }
+                    }
+                    else{
+                        if(!(validar =='0'||validar =='2' || validar =='1')){
+                            evt.consume();
+                        }
+                    }//fin else
+                }
+                else{
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)=='0'){
+                            if(validar=='0'){
+                                evt.consume();
+                            }
+                        }
+                    }
+                    else{
+                        if(!(validar =='0'||validar =='2' || validar =='1')){
+                            evt.consume();
+                        }
+                    }//fin else
+                }
+
+            }
+            else{
+                if(mes.equals("04")||mes.equals("06")||mes.equals("09")||mes.equals("11")){
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)!='0'){
+                            if(jtfDiaVenc.getText().charAt(0)=='3'){
+                                jtfDiaVenc.setText("30");
+                            }
+                        }
+                        else{
+                            if(validar=='0'){
+                                evt.consume();
+                            }
+                        }
+                    }
+                    else{
+                        if(!(validar =='0'||validar =='3'||validar =='2' || validar =='1')){
+                            evt.consume();
+                        }
+                    }//fin else
+                }
+                else{
+                    if(jtfDiaVenc.getText().length()==1){
+                        if(jtfDiaVenc.getText().charAt(0)!='0'){
+                            if(jtfDiaVenc.getText().charAt(0)=='3'){
+                                if(!(validar=='1' || validar=='0')){
+                                    evt.consume();
+                                }
+                            }
+                        }
+                        else{
+                            if(validar=='0'){
+                                evt.consume();
+                            }
+                        }
+                    }
+                    else{
+                        if(!(validar =='0'||validar =='3'||validar =='2' || validar =='1')){
+                            evt.consume();
+                        }
+                    }//fin else
+                }
+            }
+        }
+        if (jtfDiaVenc.getText().length()>=2){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfDiaVencKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -508,23 +700,27 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JComboBox<String> jcbSerie;
     private javax.swing.JComboBox<Sexo> jcbSexo;
-    private rojeru_san.componentes.RSDateChooser jcbYear;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
+    private javax.swing.JTextField jtfAño;
     private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfCodigo1;
     private javax.swing.JTextField jtfDNI;
+    private javax.swing.JTextField jtfDiaVenc;
     private javax.swing.JTextField jtfEscuela;
+    private javax.swing.JTextField jtfMesVen;
     private javax.swing.JTextField jtfNombres;
     private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables

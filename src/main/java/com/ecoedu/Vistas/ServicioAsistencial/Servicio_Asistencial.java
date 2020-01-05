@@ -232,7 +232,6 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jtfLookCodigo.setBackground(new java.awt.Color(240, 200, 20));
         jtfLookCodigo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jtfLookCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfLookCodigo.setText("2715050");
         jtfLookCodigo.setPreferredSize(new java.awt.Dimension(85, 30));
         jtfLookCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
