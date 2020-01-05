@@ -3,15 +3,14 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
-import com.ecoedu.model.Procedencia;
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -57,8 +56,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private Control_paciente objControl_paciente_Final;
     private Usuario objUsuario;
     private EntityManager jpa;   
-    private List<Procedencia> lista_procedencia;    
-    private List<Condicion> lista_condicion;
+    private List<Rol> Lista_Procedencia;    
+    private List<Rol> Lista_Condicion;
     private List<Lote_detalle> Lista_lote_detalle;
     private List<Servicio_social> Lista_detalle_servicio_social;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
@@ -126,8 +125,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     }
      public void ConsultaBD(){
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
-         lista_procedencia =jpa.createQuery("SELECT p FROM Procedencia p").getResultList();
-         lista_condicion=jpa.createQuery("SELECT p FROM Condicion p").getResultList();
+         Lista_Procedencia =jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=5").getResultList();
+         Lista_Condicion=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=8").getResultList();
          
      }
     
@@ -146,7 +145,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
         
          jcbProcedencia.removeAllItems();
-        for (Procedencia procedencia : lista_procedencia){
+        for (Rol procedencia : Lista_Procedencia){
             jcbProcedencia.addItem(procedencia);
             }             
      }  
@@ -881,15 +880,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 
                 objControl_paciente_Final=Lista_control_paciente.get(i);
                 limite_seguro=objControl_paciente_Final.getLimite_control();
-                System.out.println(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
-                jlblCondicion.setText(objControl_paciente_Final.getEstudiante().getCondicion().getNombre_condicion());
+                jlblCondicion.setText(objControl_paciente_Final.getEstudiante().getRolCondicion().getNombre_rol());
                 Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
                 saldo_totalControlEstudiante=limite_seguro-objControl_paciente_Final.getMonto_Total();
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
-                jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
+                jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getRolescuela().getNombre_rol());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
-                jlblCondicion.setText(Lista_control_paciente.get(i).getEstudiante().getCondicion().getNombre_condicion());
                 Lista_Recetas=Herramienta.findbyWhere(Receta.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearReceta.setEnabled(true);
                 jbtnImprimir.setEnabled(true);
@@ -931,7 +928,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 cuerpo4VerDetallesDeLaReceta.setVisible(true);
                 jlblCodigoDiagnostico.setText(Lista_Recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo());
                 jlblDescripcionDia.setText(Lista_Recetas.get(i).getDiagnosito().getDescripcion_Diagnostico());
-                jlblProcedencia.setText(Lista_Recetas.get(i).getProcedencia().getNombre());
+                jlblProcedencia.setText(Lista_Recetas.get(i).getRolProcedencia().getNombre_rol());
                 jtfLookCodigo.setEditable(false);
                 break;
             }        
@@ -987,7 +984,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         Receta objReceta;
         
         Receta objReceta_Final=new Receta();
-        objReceta_Final.setProcedencia((Procedencia)jcbProcedencia.getSelectedItem()); 
+        objReceta_Final.setRolProcedencia((Rol)jcbProcedencia.getSelectedItem()); 
         try {            
             if(jlblDescripcion.getText().length()!=0){
                 if(!Lista_carrito_medicamentos.isEmpty()){
@@ -1019,15 +1016,15 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             Limpiarcuerp2CrearRecetas();
             if(!Lista_Recetas.isEmpty()){
                 objReceta=fechadeUltimaReceta(Lista_Recetas);
-                if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){
-                    objEstudiante.setCondicion(lista_condicion.get(1));
-                    jpa.createNativeQuery("update Estudiante set id_Condicion="+2+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){//menor de 6 meses
+                    objEstudiante.setRolCondicion(Lista_Condicion.get(1));
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1004+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);
 
                     }
                 else{
-                    objEstudiante.setCondicion(lista_condicion.get(2));
-                    jpa.createNativeQuery("update Estudiante set id_Condicion="+3+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    objEstudiante.setRolCondicion(Lista_Condicion.get(2));
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1005+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);//Reingresante
                     }
                 }
@@ -1155,7 +1152,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         document.add(paraTitle);
         Paragraph parag=new Paragraph(new Text("APELLIDOS Y NOMBRES: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getPersona().getInfoPersona()).setTextAlignment(TextAlignment.LEFT);
         document.add(parag);      
-        Paragraph paraEscCodSerie=new Paragraph(new Text("ESCUELA: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getEscuela().getNombre())
+        Paragraph paraEscCodSerie=new Paragraph(new Text("ESCUELA: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getRolescuela().getNombre_rol())
                 .add(new Text("         SERIE: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getSerie()).setTextAlignment(TextAlignment.LEFT)
                 .add(new Text("         CÓDIGO: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getCodigo());
         document.add(paraEscCodSerie);
@@ -1175,7 +1172,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             Paragraph p = new Paragraph("Receta N°").setFont(bold).setFontSize(10)
                     .add(new Text(""+receta.getId_Receta()).setFont(bold).setFontSize(10))
                     .add(new Text("   Procedencia: ").setFont(bold).setFontSize(10))
-                    .add(new Text(receta.getProcedencia().getNombre()).setFont(font).setFontSize(10))
+                    .add(new Text(receta.getRolProcedencia().getNombre_rol()).setFont(font).setFontSize(10))
                     .add(new Text("   Diagnóstico: ").setFont(bold).setFontSize(10))
                     .add(new Text(receta.getDiagnosito().getId_DiagnosticoCodigo()).setFontSize(10));
             
@@ -1267,7 +1264,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JButton jbtnImprimir;
     private javax.swing.JButton jbtnVolver2;
-    private javax.swing.JComboBox<Procedencia> jcbProcedencia;
+    private javax.swing.JComboBox<Rol> jcbProcedencia;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblCodigoDiagnostico;
     private javax.swing.JLabel jlblCondicion;
@@ -1309,7 +1306,7 @@ public void llenar_Tabla_de_Recetas(List<Receta> lista_de_recetas){
              for (int i = lista_de_recetas.size()-1; i>=0 ; i--){
                  fila_actividad[0]=lista_de_recetas.get(i);             
                  fila_actividad[1]=lista_de_recetas.get(i).getTotal_costo_medicinas();  
-                 fila_actividad[2]=lista_de_recetas.get(i).getProcedencia().getNombre();   
+                 fila_actividad[2]=lista_de_recetas.get(i).getRolProcedencia().getNombre_rol();   
                  fila_actividad[3]=lista_de_recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo();  
                  modelo.addRow(fila_actividad);//agregando filas
                  }

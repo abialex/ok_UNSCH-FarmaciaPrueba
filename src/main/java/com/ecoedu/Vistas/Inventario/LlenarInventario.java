@@ -5,14 +5,13 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.app.TextPrompt;
 import com.ecoedu.model.Detalle_llenado;
-import com.ecoedu.model.Fabricante;
 import com.ecoedu.model.Factura;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.Lote_detalle;
-import com.ecoedu.model.Proveedor;
+import com.ecoedu.model.Rol;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
@@ -34,8 +33,8 @@ public class LlenarInventario extends javax.swing.JPanel {
     List<Inventario> Lista_Inventario;    
     List<Lote_detalle> Lista_Lote_detalle_final=new ArrayList<>();
     List<Detalle_llenado> Lista_Detalle_Llenado_final=new ArrayList<>();    
-    List<Proveedor> Lista_Proveedor=new ArrayList<>();//lo uso mucho
-    List<Fabricante> Lista_Fabricante=new ArrayList<>();//lo uso mucho 
+    List<Rol> Lista_Proveedor;
+    List<Rol> Lista_Fabricante;//lo uso mucho 
     EntityManager jpa;
     Principal objPrincipal;
     TextAutoCompleter autoCompleterProductoFarmaceutico;
@@ -61,9 +60,9 @@ public class LlenarInventario extends javax.swing.JPanel {
     public void ConsultaBD(){
         Query query2=jpa.createQuery("SELECT p FROM Inventario p");
         Lista_Inventario=query2.getResultList();
-        Query query3=jpa.createQuery("SELECT p FROM Fabricante p");
+        Query query3=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=2");
         Lista_Fabricante=query3.getResultList();        
-        Query query4=jpa.createQuery("SELECT p FROM Proveedor p");
+        Query query4=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3");
         Lista_Proveedor=query4.getResultList();
     }   
     public void principalEjecucion(){
@@ -76,10 +75,10 @@ public class LlenarInventario extends javax.swing.JPanel {
             autoCompleterProductoFarmaceutico.addItem(Lista_Inventario.get(i).getMedicamento().getNombre());
         }   
         for (int i = 0; i < Lista_Fabricante.size(); i++) {
-            autoCompleterFabricante.addItem(Lista_Fabricante.get(i).getNombre());
+            autoCompleterFabricante.addItem(Lista_Fabricante.get(i).getNombre_rol());
         }  
         for (int i = 0; i < Lista_Proveedor.size(); i++) {
-            autoCompleterProveedor.addItem(Lista_Proveedor.get(i).getNombre());
+            autoCompleterProveedor.addItem(Lista_Proveedor.get(i).getNombre_rol());
         }  
         jlblFechaHoy.setText(Herramienta.formatoFechaMas1(new Date()));
         TextPrompt txr=new TextPrompt("AA",jtfAñovencimiento);
@@ -549,8 +548,8 @@ public class LlenarInventario extends javax.swing.JPanel {
          objLote_Detalle.setInventario(objInventario_final);
          MensajeFabricante="Ingrese un Fabricante Existente";
          for (int i = 0; i < Lista_Fabricante.size(); i++){
-             if(Lista_Fabricante.get(i).getNombre().equals(jtfFabricante.getText())){
-                 objLote_Detalle.setFabricante(Lista_Fabricante.get(i));
+             if(Lista_Fabricante.get(i).getNombre_rol().equals(jtfFabricante.getText())){
+                 objLote_Detalle.setRolFabricante(Lista_Fabricante.get(i));
                  MensajeFabricante="";
              break;
              }             
@@ -643,15 +642,15 @@ public class LlenarInventario extends javax.swing.JPanel {
     private void jbtnGuardarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarLotesActionPerformed
          Factura objFactura=new Factura();
          //factura
-         Proveedor objProveedor = new Proveedor();
+         Rol objProveedor = new Rol();
          //codigo_factura
          objFactura.setCodigo_factura(jtfCodigoFactura.getText());
          for (int i = 0; i < Lista_Proveedor.size(); i++){
-             if(Lista_Proveedor.get(i).getNombre().equals(jtfProveedor.getText())){
+             if(Lista_Proveedor.get(i).getNombre_rol().equals(jtfProveedor.getText())){
                  objProveedor=Lista_Proveedor.get(i);
              }
         }
-        objFactura.setProveedor(objProveedor);
+        objFactura.setRolProveedor(objProveedor);
         jpa.getTransaction().begin();
         for (int i = 0; i < Lista_Lote_detalle_final.size(); i++){
             Lista_Lote_detalle_final.get(i).setFactura(objFactura);            

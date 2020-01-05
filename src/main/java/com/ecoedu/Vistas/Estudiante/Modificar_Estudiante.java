@@ -1,14 +1,12 @@
 package com.ecoedu.Vistas.Estudiante;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Escuela;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Persona;
-import com.ecoedu.model.Sexo;
+import com.ecoedu.model.Rol;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 /*
 1-agregar registrar un medicamento nuevo,cantidad,precio;
 2-agregar cantidad a un medicamento ya existente;
@@ -19,9 +17,9 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
     Principal objPrincipal;
     TextAutoCompleter TextAutoCompleterEscuela;
     TextAutoCompleter TextAutoCompleterCodigoEstudiante;
-    List<Escuela> Lista_Escuela;
+    List<Rol> Lista_Escuela;
     List<Estudiante> Lista_Estudiantes;
-    List<Sexo> Lista_sexo;
+    List<Rol> Lista_sexo;
     Estudiante objEstudianteM;
     public Modificar_Estudiante(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
@@ -37,22 +35,22 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
                 }});          
     }
     public void ConsultaBD(){
-        Lista_Escuela=jpa.createQuery("SELECT p FROM Escuela p").getResultList();
+        Lista_Escuela=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1").getResultList();        
+        Lista_sexo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=4").getResultList();
         Lista_Estudiantes=jpa.createQuery("Select p FROM Estudiante p").getResultList(); 
-        Lista_sexo=jpa.createQuery("SELECT p FROM Sexo p").getResultList();
     }   
     public void principalEjecucion(){
         TextAutoCompleterCodigoEstudiante.removeAllItems();
         TextAutoCompleterEscuela.removeAllItems();
-        for (Escuela Escuela : Lista_Escuela) {
-            TextAutoCompleterEscuela.addItem(Escuela.getNombre());
+        for (Rol RolEscuela : Lista_Escuela) {
+            TextAutoCompleterEscuela.addItem(RolEscuela.getNombre_rol());
         }    
         for (Estudiante Estudiante : Lista_Estudiantes) {
             TextAutoCompleterCodigoEstudiante.addItem(Estudiante.getCodigo());
         }
         jcbSexo.removeAllItems();
-        for (Sexo sexo : Lista_sexo) {
-            jcbSexo.addItem(sexo);
+        for (Rol Rolsexo : Lista_sexo) {
+            jcbSexo.addItem(Rolsexo);
         }
     }
     public void encontrarEstudiante(String codigo){
@@ -65,12 +63,12 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
                 jtfCodigo.setText(Estudiante.getCodigo());
                 jtfDNI.setText(Estudiante.getPersona().getDni());
                 jcbSerie.setSelectedItem(Estudiante.getSerie());
-                jtfEscuela.setText(Estudiante.getEscuela().getNombre());
+                jtfEscuela.setText(Estudiante.getEscuela().getNombre_rol());
                 jcbSexo.setSelectedItem((String) Estudiante.getSerie());
                 jtfAño.setText(Estudiante.getFecha_nacimiento().getYear()+1900+"");
                 jtfMesVen.setText(Estudiante.getFecha_nacimiento().getMonth()+1+"");
                 jtfDiaVenc.setText(Estudiante.getFecha_nacimiento().getDate()+"");
-                jcbSexo.setSelectedItem((Sexo) Estudiante.getSexo());
+                jcbSexo.setSelectedItem((Rol) Estudiante.getRolSexo());
                 break;
             }
         }
@@ -341,12 +339,13 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
         objEstudianteM.setSerie((String)jcbSerie.getSelectedItem());
         objEstudianteM.getFecha_nacimiento().setYear(Integer.parseInt(jtfAño.getText())-1900);
         objEstudianteM.getFecha_nacimiento().setMonth(Integer.parseInt(jtfMesVen.getText())-1);
-        objEstudianteM.getFecha_nacimiento().setDate(Integer.parseInt(jtfDiaVenc.getText()));            
+        objEstudianteM.getFecha_nacimiento().setDate(Integer.parseInt(jtfDiaVenc.getText()));  
+        objEstudianteM.setRolSexo((Rol)jcbSexo.getSelectedItem());
         
         //objEstudiante.setSerie(jtfSerie.getText());
-        for (Escuela Escuela : Lista_Escuela) {
-            if(Escuela.getNombre().equals(jtfEscuela.getText())){
-                objEstudianteM.setEscuela(Escuela);
+        for (Rol RolEscuela : Lista_Escuela) {
+            if(RolEscuela.getNombre_rol().equals(jtfEscuela.getText())){
+                objEstudianteM.setEscuela(RolEscuela);
             }
         }                      
         try {
@@ -354,7 +353,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
             jpa.persist(objPersona);
             objEstudianteM.setPersona(objPersona);
             jpa.persist(objEstudianteM);
-            jpa.createNativeQuery("update Estudiante set id_Escuela="+objEstudianteM.getEscuela().getId_Escuela()+" where id_Estudiante="+objEstudianteM.getId_Estudiante()).executeUpdate();
+            jpa.createNativeQuery("update Estudiante set id_Rolescuela="+objEstudianteM.getEscuela().getId_Rol()+" ,id_RolSexo="+objEstudianteM.getRolSexo().getId_Rol()+" where id_Estudiante="+objEstudianteM.getId_Estudiante()).executeUpdate();
             jpa.flush();
             jpa.getTransaction().commit();
             limpiar();
@@ -368,6 +367,9 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton3ActionPerformed
     public void limpiar(){
+        jtfDiaVenc.setText("");
+        jtfMesVen.setText("");
+        jtfAño.setText("");
         jtfEscuela.setText("");
         jtfApellidoPaterno.setText("");
         jtfApellidoMaterno.setText("");
@@ -569,7 +571,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JComboBox<String> jcbSerie;
-    private javax.swing.JComboBox<Sexo> jcbSexo;
+    private javax.swing.JComboBox<Rol> jcbSexo;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;

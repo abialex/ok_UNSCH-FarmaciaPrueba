@@ -3,9 +3,9 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
-import com.ecoedu.model.Escuela;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Rol;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +40,7 @@ import org.dom4j.DocumentException;
 public class Reporte_Por_Escuela extends javax.swing.JPanel {
     private Principal objPrincipal;
     private EntityManager jpa;   
-    private List<Escuela> Lista_Escuelas=new ArrayList<>();//
+    private List<Rol> Lista_Escuelas;
     //datos q se desglozan de la BD               
     private List<Receta> Lista_Recetas=new ArrayList<>();//    
     public Reporte_Por_Escuela(EntityManager jpa2,Principal OBJPrincipal ){
@@ -50,15 +49,15 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         this.objPrincipal=OBJPrincipal;             
     }
      public void ConsultaBD(){
-         Lista_Escuelas=jpa.createQuery("select p from Escuela p ").getResultList();             
+         Lista_Escuelas=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1").getResultList();             
      }    
      public void principalEjecucion() throws DocumentException, IOException{    
             jcbEscuela.removeAllItems();
-            for (Escuela Escuela : Lista_Escuelas){
-                jcbEscuela.addItem(Escuela);
+            for (Rol RolEscuela : Lista_Escuelas){
+                jcbEscuela.addItem(RolEscuela);
             }
-            Escuela objEscuela1=new Escuela();
-            objEscuela1.setId_Escuela(50);
+            Rol objEscuela1=new Rol();
+            objEscuela1.setId_Rol(450);
             imprimir(objEscuela1);
             jbtnImprimir.setEnabled(false);
             }
@@ -99,7 +98,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Reporte por Escuelasss");
+        jLabel12.setText("Reporte por Escuelas");
         jLabel12.setPreferredSize(new java.awt.Dimension(351, 70));
         head.add(jLabel12);
 
@@ -237,7 +236,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
     private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
         try {
             if(Herramienta.fechaMenor(jcbYearDesde.getDatoFecha(),jcbYearHasta.getDatoFecha())){
-                imprimir((Escuela)jcbEscuela.getSelectedItem());
+                imprimir((Rol)jcbEscuela.getSelectedItem());
                 }
             else{
                 JOptionPane.showMessageDialog(jPanel5, "La fecha (Desde) no debe ser mayor que (Hasta)");
@@ -259,8 +258,8 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jbtnImprimirActionPerformed
   
-    public void imprimir(Escuela objEscuela) throws FileNotFoundException, DocumentException, IOException{
-        List<Estudiante> listaE=Herramienta.findbyWhere(Estudiante.class,"id_Escuela", objEscuela.getId_Escuela(), jpa); 
+    public void imprimir(Rol objEscuela) throws FileNotFoundException, DocumentException, IOException{
+        List<Estudiante> listaE=Herramienta.findbyWhere(Estudiante.class,"id_Rolescuela", objEscuela.getId_Rol(), jpa); 
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
@@ -300,7 +299,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         document.add(paragIma);                  
         Paragraph paraEscCodSerie=new Paragraph(new Text("DESDE: ").setFont(bold)).add(Herramienta.formatoFecha(jcbYearDesde.getDatoFecha()))
                 .add(new Text("     HASTA: ").setFont(bold)).add(Herramienta.formatoFecha(jcbYearHasta.getDatoFecha()))
-                .add(new Text("     ESCUELA: ").setFont(bold)).add(objEscuela.getNombre());                
+                .add(new Text("     ESCUELA: ").setFont(bold)).add(objEscuela.getNombre_rol());                
         document.add(paraEscCodSerie);
         document.add(new Paragraph(" "));    
         table.addHeaderCell(new Cell().add(new Paragraph("Código").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
@@ -328,9 +327,9 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
             table.addCell(new Paragraph(estudiante.getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//inforpersona
             table.addCell(new Paragraph(estudiante.getSerie()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//Serie
             table.addCell(new Paragraph(Integer.toString(Herramienta.getAñosFrom(estudiante.getFecha_nacimiento()))).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//edad
-            table.addCell(new Paragraph(estudiante.getSexo().getAbre_sexo()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
-            table.addCell(new Paragraph(estudiante.getCondicion().getAbre_nombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
-            table.addCell(new Paragraph(receta.getProcedencia().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//Procedencia          
+            table.addCell(new Paragraph(estudiante.getRolSexo().getAbre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
+            table.addCell(new Paragraph(estudiante.getRolCondicion().getAbre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//sexo
+            table.addCell(new Paragraph(receta.getRolProcedencia().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//Procedencia          
             table.addCell(new Paragraph(Detalle_Medicamento.getId_Medicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//P.F
             table.addCell(new Paragraph(Integer.toString(Detalle_Medicamento.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//cantidad
             table.addCell(new Paragraph(Float.toString(Detalle_Medicamento.getPrecio_Unitario())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//precio_unitario
@@ -340,9 +339,9 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
             fila_actividad[1]=estudiante.getPersona().getInfoPersona();  
             fila_actividad[2]=estudiante.getSerie();   
             fila_actividad[3]=Herramienta.getAñosFrom(estudiante.getFecha_nacimiento());  
-            fila_actividad[4]=estudiante.getSexo().getAbre_sexo(); 
-            fila_actividad[5]=estudiante.getCondicion().getAbre_nombre();             
-            fila_actividad[6]=receta.getProcedencia().getNombre(); 
+            fila_actividad[4]=estudiante.getRolSexo().getAbre_rol(); 
+            fila_actividad[5]=estudiante.getRolCondicion().getAbre_rol();             
+            fila_actividad[6]=receta.getRolProcedencia().getNombre_rol(); 
             fila_actividad[7]=Detalle_Medicamento.getId_Medicamento().getNombre(); 
             fila_actividad[8]=Detalle_Medicamento.getCantidad();
             fila_actividad[9]=Detalle_Medicamento.getPrecio_Unitario();
@@ -363,7 +362,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         else{
             jbtnImprimir.setEnabled(false);
             llenar_Tabla_de_Recetas(modelo); 
-            if(objEscuela.getId_Escuela()!=50){
+            if(objEscuela.getId_Rol()!=450){
                 JOptionPane.showMessageDialog(jPanel5, "No se encontró Estudiante");                
             }
             
@@ -451,7 +450,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnCrearReceta;
     private javax.swing.JButton jbtnImprimir;
-    private javax.swing.JComboBox<Escuela> jcbEscuela;
+    private javax.swing.JComboBox<Rol> jcbEscuela;
     private rojeru_san.componentes.RSDateChooser jcbYearDesde;
     private rojeru_san.componentes.RSDateChooser jcbYearHasta;
     private javax.swing.JLabel jlblSerie;

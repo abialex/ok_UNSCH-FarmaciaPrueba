@@ -31,19 +31,17 @@ public class Tarifario implements Serializable{
     @Column(name = "precio", nullable = false)
     private float precio;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Tipo_asistencial",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_RolTipo_asistencial",nullable = true)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Tipo_Asistencial tipo_asistencial;
+    private Rol RolTipo_asistencial;
 
-    public Tipo_Asistencial getTipo_asistencial() {
-        return tipo_asistencial;
+    public Rol getRolTipo_asistencial(){
+        return RolTipo_asistencial;
     }
 
-    public void setTipo_asistencial(Tipo_Asistencial tipo_asistencial) {
-        this.tipo_asistencial = tipo_asistencial;
+    public void setRolTipo_asistencial(Rol RolTipo_asistencial) {
+        this.RolTipo_asistencial = RolTipo_asistencial;
     }
-    
-    
     
     public int getId_Tarifario() {
         return id_Tarifario;

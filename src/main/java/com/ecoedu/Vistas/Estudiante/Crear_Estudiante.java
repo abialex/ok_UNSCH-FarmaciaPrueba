@@ -5,12 +5,10 @@ package com.ecoedu.Vistas.Estudiante;
 
 
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
-import com.ecoedu.model.Escuela;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Persona;
-import com.ecoedu.model.Sexo;
+import com.ecoedu.model.Rol;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.util.Date;
@@ -33,8 +31,8 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     EntityManager jpa;
     Principal objPrincipal;
     TextAutoCompleter TextAutoCompleterEscuela;
-    List<Sexo> lista_sexo;
-    List<Escuela> Lista_Escuela;
+    List<Rol> Lista_Sexo;
+    List<Rol> Lista_Escuela;
     public Crear_Estudiante(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
@@ -45,22 +43,22 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 }});           
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Escuela p");
+        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1");
         Lista_Escuela=query1.getResultList();
         
-        Query query2=jpa.createQuery("SELECT p FROM Sexo p");
-        lista_sexo=query2.getResultList();
+        Query query2=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=4");
+        Lista_Sexo=query2.getResultList();
         
       
     }   
     public void principalEjecucion(){
         TextAutoCompleterEscuela.removeAllItems();
-        for (Escuela Escuela : Lista_Escuela) {
-            TextAutoCompleterEscuela.addItem(Escuela.getNombre());
+        for (Rol RolEscuela : Lista_Escuela) {
+            TextAutoCompleterEscuela.addItem(RolEscuela.getNombre_rol());
         } 
         jcbSexo.removeAllItems();
-        for (Sexo sexo : lista_sexo) {
-            jcbSexo.addItem(sexo);
+        for (Rol Rolsexo : Lista_Sexo) {
+            jcbSexo.addItem(Rolsexo);
         }
     }
 
@@ -100,7 +98,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel26 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jcbSexo = new javax.swing.JComboBox<>();
-        jtfCodigo1 = new javax.swing.JTextField();
         jtfAño = new javax.swing.JTextField();
         jtfMesVen = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
@@ -317,20 +314,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jcbSexo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jPanel7.add(jcbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 160, 25));
 
-        jtfCodigo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfCodigo1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCodigo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigo1ActionPerformed(evt);
-            }
-        });
-        jtfCodigo1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfCodigo1KeyReleased(evt);
-            }
-        });
-        jPanel7.add(jtfCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 160, 25));
-
         jtfAño.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfAño.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfAño.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -389,7 +372,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
   
-        Condicion objCondicion=(Condicion)jpa.createQuery("select p from Condicion p").getResultList().get(0);//condicion en nuevo
+        Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=1003").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
         Date FechaNacimiento=new Date();
         FechaNacimiento.setYear(Integer.parseInt(jtfAño.getText())-1900);
@@ -409,13 +392,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         objPersona.setDni(jtfDNI.getText());
         objEstudiante.setFecha_nacimiento(FechaNacimiento);
         
-        objEstudiante.setSexo((Sexo)jcbSexo.getSelectedItem());
+        objEstudiante.setRolSexo((Rol)jcbSexo.getSelectedItem());
         objEstudiante.setCodigo(jtfCodigo.getText());
         objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
-        objEstudiante.setCondicion(objCondicion);
-        for (Escuela Escuela : Lista_Escuela) {
-            if(Escuela.getNombre().equals(jtfEscuela.getText())){
-                objEstudiante.setEscuela(Escuela);
+        objEstudiante.setRolCondicion(objCondicion);
+        for (Rol RolEscuela : Lista_Escuela) {
+            if(RolEscuela.getNombre_rol().equals(jtfEscuela.getText())){
+                objEstudiante.setEscuela(RolEscuela);
             }
         }                      
         try {
@@ -439,6 +422,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton3ActionPerformed
     public void limpiar(){
+        jtfAño.setText("");
+        jtfMesVen.setText("");
+        jtfDiaVenc.setText("");
         jtfApellidoMaterno.setText("");
         jtfApellidoPaterno.setText("");
         jtfNombres.setText("");
@@ -481,14 +467,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private void jtfEscuelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEscuelaKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfEscuelaKeyReleased
-
-    private void jtfCodigo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigo1ActionPerformed
-
-    private void jtfCodigo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigo1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigo1KeyReleased
 
     private void jtfCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyTyped
         if (jtfCodigo.getText().length()>=8){             
@@ -711,12 +689,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JComboBox<String> jcbSerie;
-    private javax.swing.JComboBox<Sexo> jcbSexo;
+    private javax.swing.JComboBox<Rol> jcbSexo;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;
     private javax.swing.JTextField jtfCodigo;
-    private javax.swing.JTextField jtfCodigo1;
     private javax.swing.JTextField jtfDNI;
     private javax.swing.JTextField jtfDiaVenc;
     private javax.swing.JTextField jtfEscuela;

@@ -402,7 +402,7 @@ public class Ver_inventario extends javax.swing.JPanel {
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Paragraph(Lote_detalle.getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER));
-            table.addCell(new Paragraph(Lote_detalle.getFabricante().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            table.addCell(new Paragraph(Lote_detalle.getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER));
             if(Lote_detalle.getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){
                 if((Lote_detalle.getFecha_vencimiento().getTime()-(new Date()).getTime())/86400000 <=6*30){
                     System.out.println("volar");

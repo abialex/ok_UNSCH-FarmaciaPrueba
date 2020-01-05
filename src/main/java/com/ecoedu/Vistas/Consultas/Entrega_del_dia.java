@@ -226,7 +226,7 @@ public class Entrega_del_dia extends javax.swing.JPanel {
                  fila_actividad[1]=listadetalleMedicamento.get(i).getId_Medicamento().getNombre();
                  fila_actividad[2]=listadetalleMedicamento.get(i).getId_Medicamento().getConcentracion();             
                  fila_actividad[3]=listadetalleMedicamento.get(i).getId_Medicamento().getForma_farmaceutica();  
-                 fila_actividad[4]=listadetalleMedicamento.get(i).getLote_detalle().getFabricante().getNombre();   
+                 fila_actividad[4]=listadetalleMedicamento.get(i).getLote_detalle().getRolFabricante().getNombre_rol();   
                  fila_actividad[5]=Herramienta.formatoFecha(listadetalleMedicamento.get(i).getLote_detalle().getFecha_vencimiento());   
                  fila_actividad[6]=listadetalleMedicamento.get(i).getPrecio_Unitario();
                  fila_actividad[7]=listadetalleMedicamento.get(i).getPrecio_Total();

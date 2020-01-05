@@ -6,8 +6,8 @@ import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Detalle_Servicio_Social;
 import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Rol;
 import com.ecoedu.model.Tarifario;
-import com.ecoedu.model.Tipo_Asistencial;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -50,7 +50,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private Usuario objUsuario;
     private EntityManager jpa;   
     private List<Detalle_Servicio_Social> lista_DetalleServicioSocial=new ArrayList<>();
-    private List<Tipo_Asistencial> lista_tipo_asistencial; 
+    private List<Rol> lista_tipo_asistencial; 
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     TextAutoCompleter autoCompleterServicio;
     private List<Tarifario> Lista_tarifa;
@@ -514,7 +514,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 saldo_totalControlEstudiante=90-objControl_paciente_Final.getMonto_Total();
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
-                jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getEscuela().getNombre());
+                jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getRolescuela().getNombre_rol());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
                 Lista_Detalle_servicio_social=Herramienta.findbyWhere(Servicio_social.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearServicio.setEnabled(true);
@@ -668,7 +668,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         document.add(paraTitle);
         Paragraph parag=new Paragraph(new Text("APELLIDOS Y NOMBRES: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getPersona().getInfoPersona()).setTextAlignment(TextAlignment.LEFT);
         document.add(parag);      
-        Paragraph paraEscCodSerie=new Paragraph(new Text("ESCUELA: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getEscuela().getNombre())
+        Paragraph paraEscCodSerie=new Paragraph(new Text("ESCUELA: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getRolescuela().getNombre_rol())
                 .add(new Text("         SERIE: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getSerie()).setTextAlignment(TextAlignment.LEFT)
                 .add(new Text("         CÓDIGO: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getCodigo());
         document.add(paraEscCodSerie);
@@ -770,7 +770,7 @@ public void llenar_Tabla_de_Recetas(List<Detalle_Servicio_Social> lista_de_detal
              //.....................................TABLA...........Fin......................           
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = lista_de_detalleServicioSocial.size()-1; i>=0 ; i--){
-                 fila_actividad[0]=lista_de_detalleServicioSocial.get(i).getTarifario().getTipo_asistencial().getNombre_Asistencil();
+                 fila_actividad[0]=lista_de_detalleServicioSocial.get(i).getTarifario().getRolTipo_asistencial().getNombre_rol();
                  fila_actividad[1]=lista_de_detalleServicioSocial.get(i).getTarifario().getDescripcion();           
                  fila_actividad[2]=lista_de_detalleServicioSocial.get(i).getTarifario().getPrecio();  
                  fila_actividad[3]=lista_de_detalleServicioSocial.get(i).getUsuario().getPersona().getInfoPersona();   

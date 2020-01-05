@@ -38,7 +38,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
            
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Rol p");
+        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=7");
         Lista_Rol=query1.getResultList(); 
         
         Query query2=jpa.createQuery("SELECT p FROM Usuario p");

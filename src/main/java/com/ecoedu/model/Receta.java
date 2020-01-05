@@ -5,6 +5,7 @@
  */
 package com.ecoedu.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Receta implements Comparable<Receta>{
+public class Receta implements Comparable<Receta>, Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Diagnostico;
@@ -30,9 +31,9 @@ public class Receta implements Comparable<Receta>{
     @ManyToOne(cascade = CascadeType.ALL)
     private Control_paciente control_Paciente;    
         
-    @JoinColumn(insertable = true,updatable = false,name="id_procedencia",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_RolProcedencia",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Procedencia  procedencia;
+    private Rol RolProcedencia;
     
     @JoinColumn(insertable = true,updatable = false,name="id_DiagnosticoCodigo",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
@@ -61,13 +62,15 @@ public class Receta implements Comparable<Receta>{
         this.control_Paciente = control_Paciente;
     }
 
-    public Procedencia getProcedencia() {
-        return procedencia;
+    public Rol getRolProcedencia() {
+        return RolProcedencia;
     }
 
-    public void setProcedencia(Procedencia procedencia) {
-        this.procedencia = procedencia;
-    }  
+    public void setRolProcedencia(Rol RolProcedencia) {
+        this.RolProcedencia = RolProcedencia;
+    }
+
+      
 
     public float getTotal_costo_medicinas() {
         return total_costo_medicinas;

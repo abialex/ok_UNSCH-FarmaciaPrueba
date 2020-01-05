@@ -5,13 +5,10 @@ package com.ecoedu.Vistas.ProveedorFabricante;
 
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Fabricante;
-import com.ecoedu.model.Inventario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import com.ecoedu.model.Medicamento;
-import com.ecoedu.model.Proveedor;
+import com.ecoedu.model.Rol;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -27,13 +24,13 @@ import javax.swing.table.DefaultTableModel;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
 public class ProveedorFabricante extends javax.swing.JPanel{   
-    List<Proveedor> Lista_Proveedor;
-    List<Fabricante> Lista_Fabricante;
+    List<Rol> Lista_Proveedor;
+    List<Rol> Lista_Fabricante;
     EntityManager jpa;
     Principal objPrincipal;
     
-    Fabricante objFabricante;
-    Proveedor objProveedor;
+    Rol objFaPro;
+    
     
     public ProveedorFabricante(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
@@ -42,20 +39,20 @@ public class ProveedorFabricante extends javax.swing.JPanel{
            
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Fabricante p");
+        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3");
         Lista_Fabricante=query1.getResultList();    
-        Query query2=jpa.createQuery("SELECT p FROM Proveedor p");
+        Query query2=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=2");
         Lista_Proveedor=query2.getResultList();  
     }   
     public void principalEjecucion(){  
         llenar_tabla_Medicamento(Lista_Fabricante,Lista_Proveedor);
-        jtfFabricanteProveedor.setDocument(new soloMayusculas());
+        jtfFabricanteProveedorCambio.setDocument(new soloMayusculas());
         jtfFabricanteProveedor1.setDocument(new soloMayusculas());
         jbtnCambios.setEnabled(false);        
         
     }
 
-    public void llenar_tabla_Medicamento(List<Fabricante> listFabricante,List<Proveedor> listProveedor){
+    public void llenar_tabla_Medicamento(List<Rol> listFabricante,List<Rol> listProveedor){
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
@@ -68,14 +65,14 @@ public class ProveedorFabricante extends javax.swing.JPanel{
                  };
              //.....................................TABLA...........Fin......................          
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (Fabricante objFabricante : listFabricante){
-                 fila_actividad[0]=objFabricante;
+             for (Rol RolFabricante : listFabricante){
+                 fila_actividad[0]=RolFabricante;
                  fila_actividad[1]="Fabricante";             
            
                  modelo.addRow(fila_actividad);//agregando filas
                  }
-             for (Proveedor objProveedor : listProveedor) {
-                 fila_actividad[0]=objProveedor;
+             for (Rol RolProveedor : listProveedor) {
+                 fila_actividad[0]=RolProveedor;
                  fila_actividad[1]="Proveedor";             
                  modelo.addRow(fila_actividad);//agregando filas
                      
@@ -109,7 +106,7 @@ public class ProveedorFabricante extends javax.swing.JPanel{
         vistaLlenar = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jtfFabricanteProveedor = new javax.swing.JTextField();
+        jtfFabricanteProveedorCambio = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jbtnCambios = new javax.swing.JButton();
@@ -120,16 +117,18 @@ public class ProveedorFabricante extends javax.swing.JPanel{
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jLabel31 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jcbPROFa = new javax.swing.JComboBox<>();
+        jcbPROFaCambio = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jtfFabricanteProveedor1 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jcbPROFa1 = new javax.swing.JComboBox<>();
         jbtnCambios1 = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -161,14 +160,14 @@ public class ProveedorFabricante extends javax.swing.JPanel{
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jtfFabricanteProveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jtfFabricanteProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfFabricanteProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfFabricanteProveedorCambio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfFabricanteProveedorCambio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfFabricanteProveedorCambio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfFabricanteProveedorKeyReleased(evt);
+                jtfFabricanteProveedorCambioKeyReleased(evt);
             }
         });
-        jPanel7.add(jtfFabricanteProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, 180, 25));
+        jPanel7.add(jtfFabricanteProveedorCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 290, 25));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -245,11 +244,11 @@ public class ProveedorFabricante extends javax.swing.JPanel{
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel31.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel31.setText("Lista Proveedor / Fabricante");
-        jLabel31.setPreferredSize(new java.awt.Dimension(300, 30));
-        jPanel11.add(jLabel31);
+        jLabel33.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel33.setText("Lista Proveedor / Fabricante");
+        jLabel33.setPreferredSize(new java.awt.Dimension(300, 30));
+        jPanel11.add(jLabel33);
 
         jPanel10.add(jPanel11, java.awt.BorderLayout.PAGE_START);
 
@@ -268,14 +267,14 @@ public class ProveedorFabricante extends javax.swing.JPanel{
 
         jPanel7.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 200));
 
-        jcbPROFa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fabricante", "Proveedor" }));
-        jPanel7.add(jcbPROFa, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 150, 25));
+        jcbPROFaCambio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fabricante", "Proveedor" }));
+        jPanel7.add(jcbPROFaCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 150, 25));
 
         jLabel8.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Nombre: ");
         jLabel8.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel7.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 70, -1));
+        jPanel7.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 70, -1));
 
         jtfFabricanteProveedor1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfFabricanteProveedor1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -284,22 +283,22 @@ public class ProveedorFabricante extends javax.swing.JPanel{
                 jtfFabricanteProveedor1KeyReleased(evt);
             }
         });
-        jPanel7.add(jtfFabricanteProveedor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 180, 25));
+        jPanel7.add(jtfFabricanteProveedor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 360, 290, 25));
 
         jLabel9.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Nombre: ");
         jLabel9.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel7.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, 70, -1));
+        jPanel7.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, 70, -1));
 
         jLabel10.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel10.setText("Tipo:");
         jLabel10.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel7.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 60, -1));
+        jPanel7.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 60, -1));
 
         jcbPROFa1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fabricante", "Proveedor" }));
-        jPanel7.add(jcbPROFa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 330, 150, 25));
+        jPanel7.add(jcbPROFa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 360, 150, 25));
 
         jbtnCambios1.setBackground(new java.awt.Color(0, 0, 0));
         jbtnCambios1.setForeground(new java.awt.Color(255, 255, 255));
@@ -309,7 +308,19 @@ public class ProveedorFabricante extends javax.swing.JPanel{
                 jbtnCambios1ActionPerformed(evt);
             }
         });
-        jPanel7.add(jbtnCambios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 400, 180, -1));
+        jPanel7.add(jbtnCambios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 430, 180, -1));
+
+        jLabel32.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setText("Lista Proveedor / Fabricante");
+        jLabel32.setPreferredSize(new java.awt.Dimension(300, 30));
+        jPanel7.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 280));
+
+        jLabel31.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel31.setText("Crear Proveedor o Fabricante");
+        jLabel31.setPreferredSize(new java.awt.Dimension(300, 30));
+        jPanel7.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, -1, -1));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -320,40 +331,35 @@ public class ProveedorFabricante extends javax.swing.JPanel{
         add(bodyCard, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfFabricanteProveedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFabricanteProveedorKeyReleased
+    private void jtfFabricanteProveedorCambioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFabricanteProveedorCambioKeyReleased
        
         
-    }//GEN-LAST:event_jtfFabricanteProveedorKeyReleased
+    }//GEN-LAST:event_jtfFabricanteProveedorCambioKeyReleased
 
     private void jbtnCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCambiosActionPerformed
-        Medicamento objMedicamento=new Medicamento();
-        Inventario objInventario=new Inventario();
-
-
-        objMedicamento.setNombre(jtfFabricanteProveedor.getText());
-        objInventario.setCantidad(0);//creando un inventario con 0
         jpa.getTransaction().begin();
-        jpa.persist(objMedicamento);
-        jpa.refresh(objMedicamento);
-        objInventario.setMedicamento(objMedicamento);
-        jpa.persist(objInventario);        
+        if(((String)jcbPROFaCambio.getSelectedItem()).equals("Fabricante")){
+            objFaPro.setNombre_rol(jtfFabricanteProveedorCambio.getText());
+            jpa.persist(objFaPro);
+            jpa.createNativeQuery("update Rol set id_tipo_Roles=3"+" where id_Rol="+objFaPro.getId_Rol()).executeUpdate();
+        }
+        else{
+            objFaPro.setNombre_rol(jtfFabricanteProveedorCambio.getText());
+            jpa.persist(objFaPro);
+            jpa.createNativeQuery("update Rol set id_tipo_Roles=2"+" where id_Rol="+objFaPro.getId_Rol()).executeUpdate();
+            }
         jpa.getTransaction().commit();
         ConsultaBD();
-        jtfFabricanteProveedor.setText("");
+        jtfFabricanteProveedorCambio.setText("");
         llenar_tabla_Medicamento(Lista_Fabricante,Lista_Proveedor);
     }//GEN-LAST:event_jbtnCambiosActionPerformed
 
     private void jbtlProFaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtlProFaMouseClicked
-        if(((String)jbtlProFa.getValueAt(jbtlProFa.getSelectedRow(),1)).equals("Fabricante")){
-            objFabricante=(Fabricante)jbtlProFa.getValueAt(jbtlProFa.getSelectedRow(),0);
-            jtfFabricanteProveedor.setText(objFabricante.getNombre());
-            jcbPROFa.setSelectedItem("Fabricante");
-        }
-        else{
-            objProveedor=(Proveedor)jbtlProFa.getValueAt(jbtlProFa.getSelectedRow(),0);
-            jtfFabricanteProveedor.setText(objProveedor.getNombre());
-            jcbPROFa.setSelectedItem("Proveedor");
-        }
+
+        objFaPro=(Rol)jbtlProFa.getValueAt(jbtlProFa.getSelectedRow(),0);
+        jtfFabricanteProveedorCambio.setText(objFaPro.getNombre_rol());
+        jcbPROFaCambio.setSelectedItem(objFaPro.getTipo_Roles().getNombre_rol());
+        
         jbtnCambios.setEnabled(true);
         jbtnCambios1.setEnabled(false);
     
@@ -380,6 +386,8 @@ public class ProveedorFabricante extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -394,10 +402,10 @@ public class ProveedorFabricante extends javax.swing.JPanel{
     private javax.swing.JTable jbtlProFa;
     private javax.swing.JButton jbtnCambios;
     private javax.swing.JButton jbtnCambios1;
-    private javax.swing.JComboBox<String> jcbPROFa;
     private javax.swing.JComboBox<String> jcbPROFa1;
-    private javax.swing.JTextField jtfFabricanteProveedor;
+    private javax.swing.JComboBox<String> jcbPROFaCambio;
     private javax.swing.JTextField jtfFabricanteProveedor1;
+    private javax.swing.JTextField jtfFabricanteProveedorCambio;
     private javax.swing.JPanel vistaLlenar;
     // End of variables declaration//GEN-END:variables
 

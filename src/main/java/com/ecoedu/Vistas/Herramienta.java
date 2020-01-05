@@ -149,6 +149,7 @@ public class Herramienta {
     public static <T> List<T> findbyWhere(Class<T> generico,String Columna,int idFK,EntityManager jpa){
         List<T> listGenericos=new ArrayList<>();
         try {
+            System.out.println("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);
             Query query=jpa.createQuery             
         ("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" = "+idFK);
         listGenericos=query.getResultList(); 

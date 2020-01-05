@@ -1,13 +1,9 @@
 package com.ecoedu.Vistas.Consultas;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Condicion;
 import com.ecoedu.model.Control_paciente;
-import com.ecoedu.model.Diagnostico;
-import com.ecoedu.model.Escuela;
-import com.ecoedu.model.Procedencia;
-
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Rol;
 import com.ecoedu.model.ZObjetoProDiag;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -214,18 +210,18 @@ public class Reporte_Condicion extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jbtnImprimirActionPerformed
   
-     public List<Condicion> desglozarControlPacientetoCondicion(List<Control_paciente> lista_control){
-         List<Condicion> listaAuxCondicion=new ArrayList<>();
+     public List<Rol> desglozarControlPacientetoCondicion(List<Control_paciente> lista_control){
+         List<Rol> listaAuxCondicion=new ArrayList<>();
         for (Control_paciente lista_controll : lista_control) {
              boolean auxInventario=true;
-             for (Condicion listaAuxCondicion1: listaAuxCondicion) {
-                 if(listaAuxCondicion1==lista_controll.getEstudiante().getCondicion()){
+             for (Rol listaAuxCondicion1: listaAuxCondicion) {
+                 if(listaAuxCondicion1==lista_controll.getEstudiante().getRolCondicion()){
                     auxInventario=false;		
                     break;
                     }
              }
             if(auxInventario){               
-                listaAuxCondicion.add(lista_controll.getEstudiante().getCondicion());
+                listaAuxCondicion.add(lista_controll.getEstudiante().getRolCondicion());
                 }
         } 
          return listaAuxCondicion;
@@ -233,7 +229,7 @@ public class Reporte_Condicion extends javax.swing.JPanel {
      
     
     public void imprimirProcedencia() throws FileNotFoundException, DocumentException, IOException{
-        List<Condicion> listaCondiciones=desglozarControlPacientetoCondicion(Lista_ControlPaciente);
+        List<Rol> listaCondiciones=desglozarControlPacientetoCondicion(Lista_ControlPaciente);
         List<ZObjetoProDiag> Lista_zObjetoProdiag=new ArrayList<>();
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -280,18 +276,18 @@ public class Reporte_Condicion extends javax.swing.JPanel {
             
             for(Control_paciente control_paciente : Lista_ControlPaciente){
                 int cant=0;
-                for(Condicion objCondicion : listaCondiciones){
-                    if(control_paciente.getEstudiante().getCondicion()==objCondicion){
+                for(Rol objCondicion : listaCondiciones){
+                    if(control_paciente.getEstudiante().getRolCondicion()==objCondicion){
                         cant++;          
                         }
                     }//fin for allreceta
-                Lista_zObjetoProdiag.add(new ZObjetoProDiag(control_paciente.getEstudiante().getCondicion(),cant));
+                Lista_zObjetoProdiag.add(new ZObjetoProDiag(control_paciente.getEstudiante().getRolCondicion(),cant));
                 }//fin for receta
             Collections.sort(Lista_zObjetoProdiag);
             for(int i=Lista_zObjetoProdiag.size()-1;0<=i;i--){
-                table.addCell(new Paragraph(Lista_zObjetoProdiag.get(i).getObjCondicion().getNombre_condicion()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//codigo
+                table.addCell(new Paragraph(Lista_zObjetoProdiag.get(i).getObjRolesMuchos().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//codigo
                 table.addCell(new Paragraph(Lista_zObjetoProdiag.get(i).getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//inforpersona
-                fila_actividad[0]=Lista_zObjetoProdiag.get(i).getObjCondicion().getNombre_condicion();       
+                fila_actividad[0]=Lista_zObjetoProdiag.get(i).getObjRolesMuchos().getNombre_rol();       
                 fila_actividad[1]=Lista_zObjetoProdiag.get(i).getCantidad();   
                 modelo.addRow(fila_actividad);
             }            

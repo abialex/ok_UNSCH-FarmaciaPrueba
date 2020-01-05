@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.ecoedu.model;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Lote_detalle implements Comparable<Lote_detalle>{
+public class Lote_detalle implements Comparable<Lote_detalle>, Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Lote_detalle;
@@ -28,9 +29,9 @@ public class Lote_detalle implements Comparable<Lote_detalle>{
     @ManyToOne(cascade = CascadeType.ALL)
     private Inventario inventario;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Fabricante",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_RolFabricante",nullable = true)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Fabricante fabricante;
+    private Rol RolFabricante;
     
     @JoinColumn(insertable = true,updatable = false,name="id_Factura",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
@@ -79,13 +80,15 @@ public class Lote_detalle implements Comparable<Lote_detalle>{
         return id_Lote_detalle;
     }
 
-    public Fabricante getFabricante() {
-        return fabricante;
+    public Rol getRolFabricante() {
+        return RolFabricante;
     }
 
-    public void setFabricante(Fabricante fabricante) {
-        this.fabricante = fabricante;
-    }   
+    public void setRolFabricante(Rol RolFabricante) {
+        this.RolFabricante = RolFabricante;
+    }
+
+      
 
     public Date getFecha_vencimiento() {
         return fecha_vencimiento;

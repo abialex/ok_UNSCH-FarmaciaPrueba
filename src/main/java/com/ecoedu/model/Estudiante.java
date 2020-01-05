@@ -33,9 +33,9 @@ public class Estudiante{
     @Column(name="fecha_nacimiento",nullable = true)
     private Date  fecha_nacimiento;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Escuela",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_Rolescuela",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Escuela escuela;
+    private Rol Rolescuela;
     
     @Column(name="codigo",unique = true,length = 8,nullable = false)
     private String codigo;
@@ -43,29 +43,36 @@ public class Estudiante{
     @Column(name="serie",length = 3,nullable = false)
     private String serie;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Condicion",nullable = true)
+    @JoinColumn(insertable = true,updatable = false,name="id_RolCondicion",nullable = true)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Condicion condicion;
+    private Rol RolCondicion;
     
-    @JoinColumn(insertable = true,updatable =true,name="id_Sexo",nullable = true)
+    @JoinColumn(insertable = true,updatable = false,name="id_RolSexo",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Sexo sexo; 
+    private Rol RolSexo;
 
-    public Sexo getSexo() {
-        return sexo;
+    public Rol getRolescuela() {
+        return Rolescuela;
     }
 
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
+    public void setRolescuela(Rol Rolescuela) {
+        this.Rolescuela = Rolescuela;
     }
 
-    
-    public Condicion getCondicion() {
-        return condicion;
+    public Rol getRolSexo() {
+        return RolSexo;
     }
 
-    public void setCondicion(Condicion condicion) {
-        this.condicion = condicion;
+    public void setRolSexo(Rol RolSexo) {
+        this.RolSexo = RolSexo;
+    }
+
+    public Rol getRolCondicion() {
+        return RolCondicion;
+    }
+
+    public void setRolCondicion(Rol RolCondicion) {
+        this.RolCondicion = RolCondicion;
     }
 
     public Date getFecha_nacimiento() {
@@ -104,12 +111,12 @@ public class Estudiante{
         this.persona = persona;
     }
 
-    public Escuela getEscuela() {
-        return escuela;
+    public Rol getEscuela() {
+        return Rolescuela;
     }
 
-    public void setEscuela(Escuela escuela) {
-        this.escuela = escuela;
+    public void setEscuela(Rol rolescuela) {
+        this.Rolescuela = rolescuela;
     }
 
     public String getCodigo() {

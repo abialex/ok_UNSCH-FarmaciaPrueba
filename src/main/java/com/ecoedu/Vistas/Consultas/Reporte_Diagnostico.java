@@ -1,13 +1,9 @@
 package com.ecoedu.Vistas.Consultas;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Control_paciente;
-import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Diagnostico;
-import com.ecoedu.model.Escuela;
-import com.ecoedu.model.Procedencia;
-
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.Rol;
 import com.ecoedu.model.ZObjetoProDiag;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -28,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +39,6 @@ import org.dom4j.DocumentException;
 public class Reporte_Diagnostico extends javax.swing.JPanel {
     private Principal objPrincipal;
     private EntityManager jpa;   
-    private List<Escuela> Lista_Escuelas=new ArrayList<>();//
     //datos q se desglozan de la BD               
     private List<Receta> Lista_Recetas=new ArrayList<>();//    
     public Reporte_Diagnostico(EntityManager jpa2,Principal OBJPrincipal ){
@@ -53,7 +47,7 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
         this.objPrincipal=OBJPrincipal;             
     }
      public void ConsultaBD(){
-         Lista_Escuelas=jpa.createQuery("select p from Escuela p ").getResultList();             
+                  
      }    
      public void principalEjecucion() throws DocumentException, IOException{    
             jcbTipoBusqueda.removeAllItems();                 
@@ -286,18 +280,18 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
             } 
          return listaAuxDiagnostico;
          }
-     public List<Procedencia> desglozarRecetatoProcedencia(List<Receta> allrecetas){
-         List<Procedencia> listaAuxProcedencia=new ArrayList<>();
+     public List<Rol> desglozarRecetatoProcedencia(List<Receta> allrecetas){
+         List<Rol> listaAuxProcedencia=new ArrayList<>();
          for (int i = 0; i < allrecetas.size(); i++){
             boolean auxInventario=true;
             for (int j = 0; j < listaAuxProcedencia.size(); j++){
-                if(listaAuxProcedencia.get(j)==allrecetas.get(i).getProcedencia()){
+                if(listaAuxProcedencia.get(j)==allrecetas.get(i).getRolProcedencia()){
                     auxInventario=false;		
                     break;
                     }
                 }
             if(auxInventario){               
-                listaAuxProcedencia.add(allrecetas.get(i).getProcedencia());
+                listaAuxProcedencia.add(allrecetas.get(i).getRolProcedencia());
                 }
             } 
          return listaAuxProcedencia;
@@ -385,7 +379,7 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
     }
     public void imprimirProcedencia(int a) throws FileNotFoundException, DocumentException, IOException{
         List<Receta> All_Recetass=Herramienta.findbyBeetWeen(Receta.class, "fecha_creada", jcbYearDesde.getDatoFecha(),jcbYearHasta.getDatoFecha(), jpa);
-        List<Procedencia> Lista_Procedencia=desglozarRecetatoProcedencia(All_Recetass);
+        List<Rol> Lista_Procedencia=desglozarRecetatoProcedencia(All_Recetass);
         List<ZObjetoProDiag> Lista_zObjetoProdiag=new ArrayList<>();
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -431,10 +425,10 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
             table.addHeaderCell(new Cell().add(new Paragraph("Procedencia").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
             table.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));  
             
-            for(Procedencia procedencia : Lista_Procedencia){
+            for(Rol procedencia : Lista_Procedencia){
                 int cant=0;
                 for(Receta allreceta : All_Recetass){
-                    if(procedencia==allreceta.getProcedencia()){
+                    if(procedencia==allreceta.getRolProcedencia()){
                         cant++;          
                         }
                     }//fin for allreceta
@@ -442,9 +436,9 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
                 }//fin for receta
             Collections.sort(Lista_zObjetoProdiag);
             for(int i=Lista_zObjetoProdiag.size()-1;0<=i;i--){
-                table.addCell(new Paragraph(Lista_zObjetoProdiag.get(i).getObjProcedencia().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//codigo
+                table.addCell(new Paragraph(Lista_zObjetoProdiag.get(i).getObjRolesMuchos().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//codigo
                 table.addCell(new Paragraph(Lista_zObjetoProdiag.get(i).getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));//inforpersona
-                fila_actividad[0]=Lista_zObjetoProdiag.get(i).getObjProcedencia().getNombre();       
+                fila_actividad[0]=Lista_zObjetoProdiag.get(i).getObjRolesMuchos().getNombre_rol();       
                 fila_actividad[1]=Lista_zObjetoProdiag.get(i).getCantidad();   
                 modelo.addRow(fila_actividad);
             }            

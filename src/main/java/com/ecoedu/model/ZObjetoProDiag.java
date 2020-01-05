@@ -11,35 +11,32 @@ package com.ecoedu.model;
  */
 public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
     
-    private Procedencia objProcedencia;
     private Diagnostico objDiagnostico;
-    private Condicion objCondicion;
+    private Rol objRolesMuchos;
     private int cantidad;
-
-    public ZObjetoProDiag(Procedencia objProcedencia, int cantidad) {
-        this.objProcedencia = objProcedencia;
+    public ZObjetoProDiag(Rol objRol, int cantidad) {
+        this.objRolesMuchos = objRol;
         this.cantidad = cantidad;
     }
     public ZObjetoProDiag(Diagnostico objDiagnostico, int cantidad) {
         this.objDiagnostico = objDiagnostico;
         this.cantidad = cantidad;
     }
-    public ZObjetoProDiag(Condicion objCondicion, int cantidad) {
-        this.objCondicion = objCondicion;
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    public Procedencia getObjProcedencia() {
-        return objProcedencia;
+
+    public Rol getObjRolesMuchos() {
+        return objRolesMuchos;
     }
 
-    public Condicion getObjCondicion() {
-        return objCondicion;
+    public void setObjRolesMuchos(Rol objRolesMuchos) {
+        this.objRolesMuchos = objRolesMuchos;
     }
-
-    public void setObjCondicion(Condicion objCondicion) {
-        this.objCondicion = objCondicion;
-    }
-    
 
     public Diagnostico getObjDiagnostico() {
         return objDiagnostico;
@@ -49,18 +46,6 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
         this.objDiagnostico = objDiagnostico;
     }
     
-
-    public void setObjProcedencia(Procedencia objProcedencia) {
-        this.objProcedencia = objProcedencia;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
 
     @Override
     public int compareTo(ZObjetoProDiag o) {
