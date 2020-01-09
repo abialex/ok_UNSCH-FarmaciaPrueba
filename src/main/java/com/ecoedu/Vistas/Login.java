@@ -7,15 +7,12 @@ import com.ecoedu.app.JPAUtil;
 import com.ecoedu.app.TextPrompt;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 import java.util.List;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -30,23 +27,27 @@ public class Login extends javax.swing.JPanel {
     EntityManager jpa;
     Usuario usuario;
     CuadroLogin loginframe;
+    //private Timer tiempo;
+    //int cont;
+    //public final static int TWO_SECOND=3;
     boolean auxOpera=true;
      
+    public class Proceso extends Thread{
+        @Override
+        public void run(){
+            conectarBD();
+        }        
+    }
     
-    public Login(CuadroLogin loginFrame) {     
-        initComponents();
-        try {
-            this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
-            } catch(Exception e) {
-                JOptionPane.showMessageDialog(barraProgreso,"la base de datos no está disponible "+e.toString());
-                auxOpera=false;                        
-        }
-        
+    public Login(CuadroLogin loginFrame){     
+        initComponents(); 
+        jButton1.setEnabled(false);
+        jlblMensaje.setText("Conectado a la Base de Datos....");
+        new Proceso().start();
         this.loginframe=loginFrame;
         TextPrompt txr=new TextPrompt("Nombre de usuario",jtfUsuario);
          txr=new TextPrompt("Contraseña",jtfContraseña);
-
-    }
+         }
 
     
     @SuppressWarnings("unchecked")
@@ -66,7 +67,7 @@ public class Login extends javax.swing.JPanel {
         jtfUsuario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jtfContraseña = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
+        jlblMensaje = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         barraProgreso = new javax.swing.JProgressBar();
@@ -115,6 +116,9 @@ public class Login extends javax.swing.JPanel {
             }
         });
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jPanel3MouseExited(evt);
             }
@@ -145,20 +149,13 @@ public class Login extends javax.swing.JPanel {
 
         jtfUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jtfUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfUsuario.setText("farmacia01");
         jtfUsuario.setPreferredSize(new java.awt.Dimension(300, 30));
-        jtfUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfUsuarioActionPerformed(evt);
-            }
-        });
         cuerpito.add(jtfUsuario);
 
         jLabel3.setPreferredSize(new java.awt.Dimension(300, 15));
         cuerpito.add(jLabel3);
 
         jtfContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfContraseña.setText("12345");
         jtfContraseña.setPreferredSize(new java.awt.Dimension(300, 30));
         jtfContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -167,8 +164,11 @@ public class Login extends javax.swing.JPanel {
         });
         cuerpito.add(jtfContraseña);
 
-        jLabel4.setPreferredSize(new java.awt.Dimension(300, 15));
-        cuerpito.add(jLabel4);
+        jlblMensaje.setForeground(new java.awt.Color(255, 255, 255));
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblMensaje.setText("cargando");
+        jlblMensaje.setPreferredSize(new java.awt.Dimension(300, 15));
+        cuerpito.add(jlblMensaje);
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -211,31 +211,53 @@ public class Login extends javax.swing.JPanel {
         add(pie, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void conectarBD(){
+        try {
+            
+            this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
+            jlblMensaje.setText("Conexión exitosa");
+            jButton1.setEnabled(true);
+            }
+        catch(Exception e) {
+            jlblMensaje.setText("Falló la conexión");
+            auxOpera=false; 
+            }        
+    }
     private void iniciarSesion(){
+        barraProgreso.setValue(20);        
         if(auxOpera){
             try{
-        Query query=jpa.createQuery("SELECT e FROM Usuario e where nickname="+"'"+jtfUsuario.getText()+"'"+" and "+
-            "contraseña="+"'"+ jtfContraseña.getText()+"'");
-        List<Usuario> listaUsuario=query.getResultList();
-        usuario = listaUsuario.get(0);
-        loginframe.setVisible(false);        
-        Principal objPrincipal=new Principal(jpa,usuario);
-        objPrincipal.setVisible(true);}
-            catch(Exception e){
+                barraProgreso.setValue(40);
+                Query query=jpa.createQuery("SELECT e FROM Usuario e where nickname="+"'"+jtfUsuario.getText()+"'"+" and "+
+                "contraseña="+"'"+ jtfContraseña.getText()+"'");
+                barraProgreso.setValue(60);
+                List<Usuario> listaUsuario=query.getResultList();
+                if(!listaUsuario.isEmpty()){
+                    usuario = listaUsuario.get(0);
+                    barraProgreso.setValue(80);
+                    Principal objPrincipal=new Principal(jpa,usuario);
+                    barraProgreso.setValue(100);
+                    loginframe.setVisible(false);
+                    objPrincipal.setVisible(true);
+                    }
+                else{
+                    jlblMensaje.setText("Datos Incorrectos");
+                    barraProgreso.setValue(0);
+                    }
+                }
+            catch(HeadlessException e){
                 JOptionPane.showMessageDialog(barraProgreso, "error logueo"+e.toString());
+                barraProgreso.setValue(WIDTH);
+                }
             }
-        }
         else{
             JOptionPane.showMessageDialog(barraProgreso, "la base de datos no está disponible");
-        }
+            }
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       iniciarSesion();  
+       iniciarSesion();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jtfUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfUsuarioActionPerformed
 
     private void jlblOlvideContraMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblOlvideContraMouseMoved
       jlblOlvideContra.setForeground(Color.red);
@@ -266,10 +288,15 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void jtfContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfContraseñaKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER && (("Conexión exitosa").equals(jlblMensaje.getText()) || ("Datos Incorrectos").equals(jlblMensaje.getText()) )){
             iniciarSesion();            
+            
         }
     }//GEN-LAST:event_jtfContraseñaKeyPressed
+
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jPanel3MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -281,12 +308,12 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblMinimizar;
     private javax.swing.JLabel jlblOlvideContra;
     private javax.swing.JLabel jlblSalida;

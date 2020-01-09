@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.ecoedu.model.Medicamento;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -104,7 +105,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jLabel25 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jtfConcentracion = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jbtnAgregarMedicamentos = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -186,15 +187,28 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jtfConcentracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel7.add(jtfConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 25));
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("AGREGAR MEDICAMENTO");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+        jbtnAgregarMedicamentos.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregarMedicamentos.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregarMedicamentos.setText("AGREGAR MEDICAMENTO");
+        jbtnAgregarMedicamentos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jbtnAgregarMedicamentosFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jbtnAgregarMedicamentosFocusLost(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, -1, -1));
+        jbtnAgregarMedicamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarMedicamentosActionPerformed(evt);
+            }
+        });
+        jbtnAgregarMedicamentos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnAgregarMedicamentosKeyPressed(evt);
+            }
+        });
+        jPanel7.add(jbtnAgregarMedicamentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, -1, -1));
 
         jPanel9.setLayout(new java.awt.BorderLayout());
 
@@ -231,6 +245,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
                 "Fecha", "Producto Farmaceutico", "Cantidad", "Monto"
             }
         ));
+        jtblMedicamento.setFocusable(false);
         jtblMedicamento.setGridColor(new java.awt.Color(0, 0, 0));
         jtblMedicamento.setMaximumSize(new java.awt.Dimension(2147483647, 32312310));
         jtblMedicamento.setMinimumSize(new java.awt.Dimension(500, 100));
@@ -286,7 +301,12 @@ public class CrearMedicamento extends javax.swing.JPanel{
         
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jbtnAgregarMedicamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentosActionPerformed
+
+        agregarMedicamento();
+    }//GEN-LAST:event_jbtnAgregarMedicamentosActionPerformed
+
+    public void agregarMedicamento(){
         Medicamento objMedicamento=new Medicamento();
         Inventario objInventario=new Inventario();
         objMedicamento.setConcentracion(jtfConcentracion.getText());
@@ -304,7 +324,21 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jtfFormaFarmaceutica.setText("");
         jtfProductoFarmaceutico.setText("");
         llenar_tabla_Medicamento(Lista_Medicamento);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }
+    private void jbtnAgregarMedicamentosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentosKeyPressed
+         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+             agregarMedicamento();
+             }
+    }//GEN-LAST:event_jbtnAgregarMedicamentosKeyPressed
+
+    private void jbtnAgregarMedicamentosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentosFocusGained
+        //948537112
+        jbtnAgregarMedicamentos.setBackground(new java.awt.Color(100, 100, 100));
+    }//GEN-LAST:event_jbtnAgregarMedicamentosFocusGained
+
+    private void jbtnAgregarMedicamentosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentosFocusLost
+        jbtnAgregarMedicamentos.setBackground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_jbtnAgregarMedicamentosFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -312,7 +346,6 @@ public class CrearMedicamento extends javax.swing.JPanel{
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel23;
@@ -330,6 +363,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton jbtnAgregarMedicamentos;
     private javax.swing.JTable jtblMedicamento;
     private javax.swing.JTextField jtfConcentracion;
     private javax.swing.JTextField jtfFormaFarmaceutica;

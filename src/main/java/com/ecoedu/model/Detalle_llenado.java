@@ -5,6 +5,7 @@
  */
 package com.ecoedu.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Detalle_llenado {
+public class Detalle_llenado implements Comparable<Detalle_llenado>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Detalle_llenado;
@@ -101,6 +102,11 @@ public class Detalle_llenado {
 
     public void setPrecio_unitario(float precio_unitario) {
         this.precio_unitario = precio_unitario;
+    }
+
+    @Override
+    public int compareTo(Detalle_llenado o) {
+        return this.getLote_detalle().getInventario().getMedicamento().getNombre().compareTo(o.getLote_detalle().getInventario().getMedicamento().getNombre());
     }
      
      

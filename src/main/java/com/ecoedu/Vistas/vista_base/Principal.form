@@ -1372,7 +1372,7 @@
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="2"/>
-                    <Property name="text" type="java.lang.String" value="Proveedor y Fabricante"/>
+                    <Property name="text" type="java.lang.String" value="Proveedor y Laboratorio"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[200, 50]"/>
                     </Property>

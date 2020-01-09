@@ -4,12 +4,12 @@ package com.ecoedu.Vistas.Medicamento;
 
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
-import com.ecoedu.model.Inventario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.ecoedu.model.Medicamento;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -34,8 +34,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         initComponents();
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;        
-        ConsultaBD();
-        principalEjecucion(); 
+         
            
     }
     public void ConsultaBD(){
@@ -190,9 +189,22 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jbtnModificar.setBackground(new java.awt.Color(0, 0, 0));
         jbtnModificar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnModificar.setText("GUARDAR MODIFICACIÓN");
+        jbtnModificar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jbtnModificarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jbtnModificarFocusLost(evt);
+            }
+        });
         jbtnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnModificarActionPerformed(evt);
+            }
+        });
+        jbtnModificar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnModificarKeyPressed(evt);
             }
         });
         jPanel7.add(jbtnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, -1, -1));
@@ -232,6 +244,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
                 "Fecha", "Producto Farmaceutico", "Cantidad", "Monto"
             }
         ));
+        jtblMedicamento.setFocusable(false);
         jtblMedicamento.setGridColor(new java.awt.Color(0, 0, 0));
         jtblMedicamento.setMaximumSize(new java.awt.Dimension(2147483647, 32312310));
         jtblMedicamento.setMinimumSize(new java.awt.Dimension(500, 100));
@@ -294,7 +307,12 @@ public class ModificarMedicamento extends javax.swing.JPanel{
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
     private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
-      objMedicamento=(Medicamento)jtblMedicamento.getValueAt(jtblMedicamento.getSelectedRow(),0);
+      guardar_modificacion();
+      
+    }//GEN-LAST:event_jbtnModificarActionPerformed
+
+    public void guardar_modificacion(){
+        objMedicamento=(Medicamento)jtblMedicamento.getValueAt(jtblMedicamento.getSelectedRow(),0);
       jpa.getTransaction().begin();
       objMedicamento.setForma_farmaceutica(jtfFormaFarmaceutica.getText());
       objMedicamento.setNombre(jtfProductoFarmaceutico.getText());
@@ -306,15 +324,27 @@ public class ModificarMedicamento extends javax.swing.JPanel{
       jtfFormaFarmaceutica.setText("");
       jtfProductoFarmaceutico.setText("");
       llenar_tabla_Medicamento(Lista_Medicamento);
-      
-    }//GEN-LAST:event_jbtnModificarActionPerformed
-
+    }
     private void jtblMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblMedicamentoMouseClicked
         objMedicamento=(Medicamento)jtblMedicamento.getValueAt(jtblMedicamento.getSelectedRow(),0);
         jtfProductoFarmaceutico.setText(objMedicamento.getNombre());
         jtfFormaFarmaceutica.setText(objMedicamento.getForma_farmaceutica());
         jtfConcentracion.setText(objMedicamento.getConcentracion());
     }//GEN-LAST:event_jtblMedicamentoMouseClicked
+
+    private void jbtnModificarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnModificarKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            guardar_modificacion();
+        }
+    }//GEN-LAST:event_jbtnModificarKeyPressed
+
+    private void jbtnModificarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnModificarFocusGained
+        jbtnModificar.setBackground(new java.awt.Color(50, 50, 50));
+    }//GEN-LAST:event_jbtnModificarFocusGained
+
+    private void jbtnModificarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnModificarFocusLost
+        jbtnModificar.setBackground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_jbtnModificarFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

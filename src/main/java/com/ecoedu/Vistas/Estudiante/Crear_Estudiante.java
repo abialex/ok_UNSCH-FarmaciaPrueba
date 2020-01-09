@@ -372,7 +372,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
   
-        Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=1003").getResultList().get(0);//condicion en nuevo
+        Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=4").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
         Date FechaNacimiento=new Date();
         FechaNacimiento.setYear(Integer.parseInt(jtfAño.getText())-1900);

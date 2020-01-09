@@ -66,6 +66,9 @@ public class LlenarInventario extends javax.swing.JPanel {
         Lista_Proveedor=query4.getResultList();
     }   
     public void principalEjecucion(){
+        jtfProveedor.setEnabled(false);
+        jtfCodigoFactura.setEnabled(false);
+        jcbBloqueo.setSelected(true);
         jbtnGuardarLotes.setEnabled(false);
         llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
         autoCompleterFabricante.removeAllItems();
@@ -131,6 +134,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jPanel11 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
+        jcbBloqueo = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jtfCodigoFactura = new javax.swing.JTextField();
@@ -306,6 +310,14 @@ public class LlenarInventario extends javax.swing.JPanel {
         jbtnAgregarLotes.setBackground(new java.awt.Color(0, 0, 0));
         jbtnAgregarLotes.setForeground(new java.awt.Color(255, 255, 255));
         jbtnAgregarLotes.setText("AGREGAR A LA LISTA DE LOTES");
+        jbtnAgregarLotes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jbtnAgregarLotesFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jbtnAgregarLotesFocusLost(evt);
+            }
+        });
         jbtnAgregarLotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnAgregarLotesActionPerformed(evt);
@@ -339,6 +351,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 "Fecha", "Producto Farmaceutico", "Cantidad", "Monto"
             }
         ));
+        jtblLoteDetalle.setFocusable(false);
         jtblLoteDetalle.setGridColor(new java.awt.Color(0, 0, 0));
         jtblLoteDetalle.setMinimumSize(new java.awt.Dimension(500, 100));
         jtblLoteDetalle.setRequestFocusEnabled(false);
@@ -365,6 +378,16 @@ public class LlenarInventario extends javax.swing.JPanel {
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setPreferredSize(new java.awt.Dimension(100, 35));
 
+        jcbBloqueo.setBackground(new java.awt.Color(255, 255, 255));
+        jcbBloqueo.setFocusable(false);
+        jcbBloqueo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcbBloqueoMouseClicked(evt);
+            }
+        });
+        jPanel12.add(jcbBloqueo);
+
+        jLabel3.setText("Block");
         jLabel3.setPreferredSize(new java.awt.Dimension(125, 25));
         jPanel12.add(jLabel3);
 
@@ -388,6 +411,7 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jtfProveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfProveedor.setFocusCycleRoot(true);
         jtfProveedor.setMinimumSize(new java.awt.Dimension(100, 21));
         jtfProveedor.setPreferredSize(new java.awt.Dimension(150, 21));
         jtfProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -403,6 +427,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jbtnGuardarLotes.setBackground(new java.awt.Color(0, 0, 0));
         jbtnGuardarLotes.setForeground(new java.awt.Color(255, 255, 255));
         jbtnGuardarLotes.setText("GUARDAR LOTES");
+        jbtnGuardarLotes.setFocusable(false);
         jbtnGuardarLotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnGuardarLotesActionPerformed(evt);
@@ -527,7 +552,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
     private void jtfPrecioUnitarioCompraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPrecioUnitarioCompraKeyReleased
-        jlblPVR.setText(Herramienta.unDecimales(Float.parseFloat(jtfPrecioUnitarioCompra.getText())+(float)0.01));
+        jlblPVR.setText(Herramienta.redondeo(Float.parseFloat(jtfPrecioUnitarioCompra.getText()))+"");
     }//GEN-LAST:event_jtfPrecioUnitarioCompraKeyReleased
 
     private void jbtnAgregarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesActionPerformed
@@ -562,7 +587,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         objDetalle_llenado.setMedicamento(objInventario_final.getMedicamento());
         objDetalle_llenado.setUsuario(objPrincipal.getUsuario());
         objDetalle_llenado.setFecha_de_registro(new Date());
-        objDetalle_llenado.setCantidad(Integer.parseInt(jtfDiaVenc.getText()));
+        objDetalle_llenado.setCantidad(Integer.parseInt(jtfCantidad.getText()));
         //objDetalle_llenado.setLote_detalle(objLote_Detalle);     
         //objInventario_final.setCantidad(objInventario_final.getCantidad()+Integer.parseInt(jtfCantidad.getText()));
         if(MensajeProductoFarmaceutico.length()==0 && MensajeFabricante.length()==0){
@@ -579,7 +604,7 @@ public class LlenarInventario extends javax.swing.JPanel {
             jtfPrecioUnitarioCompra.setText("");
             jlblPVR.setText("");
             jtfFabricante.setText("");
-            jbtnGuardarLotes.setEnabled(true);
+            //jbtnGuardarLotes.setEnabled(true);
         } 
         else{
             jlblMensaje.setText(MensajeProductoFarmaceutico+" "+MensajeFabricante);
@@ -650,9 +675,11 @@ public class LlenarInventario extends javax.swing.JPanel {
                  objProveedor=Lista_Proveedor.get(i);
              }
         }
-        objFactura.setRolProveedor(objProveedor);
-        jpa.getTransaction().begin();
-        for (int i = 0; i < Lista_Lote_detalle_final.size(); i++){
+        objFactura.setRolProveedor(objProveedor);        
+        
+        if(!Lista_Detalle_Llenado_final.isEmpty()&& !Lista_Lote_detalle_final.isEmpty()){
+            jpa.getTransaction().begin();
+            for (int i = 0; i < Lista_Lote_detalle_final.size(); i++){
             Lista_Lote_detalle_final.get(i).setFactura(objFactura);            
             jpa.persist(Lista_Lote_detalle_final.get(i));            
             jpa.refresh(Lista_Lote_detalle_final.get(i));
@@ -665,9 +692,16 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfProveedor.setText("");
         Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
         llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
-        JOptionPane.showMessageDialog(jbtnGuardarLotes, "Guardado con Éxito");
+        JOptionPane.showMessageDialog(jtfMesVen, "Guardado con Éxito");
         jbtnGuardarLotes.setEnabled(false);
         jpa.getTransaction().commit();
+        }
+        else{
+            JOptionPane.showMessageDialog(jtfMesVen, "lotes vacíos, agregue!");
+        }
+
+            
+        
         //nunca poner un 2persist antes de 1 refresh
     }//GEN-LAST:event_jbtnGuardarLotesActionPerformed
 
@@ -848,6 +882,30 @@ public class LlenarInventario extends javax.swing.JPanel {
     private void jtfMesVenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfMesVenKeyPressed
+
+    private void jbtnAgregarLotesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesFocusGained
+         jbtnAgregarLotes.setBackground(new java.awt.Color(50, 50, 50));
+    }//GEN-LAST:event_jbtnAgregarLotesFocusGained
+
+    private void jbtnAgregarLotesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesFocusLost
+         jbtnAgregarLotes.setBackground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_jbtnAgregarLotesFocusLost
+
+    private void jcbBloqueoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcbBloqueoMouseClicked
+        if(jcbBloqueo.isSelected()){
+            jcbBloqueo.setSelected(true);
+            jtfProveedor.setEnabled(false);
+            jtfCodigoFactura.setEnabled(false);
+            jbtnGuardarLotes.setEnabled(false);
+        }
+        else{
+            
+            jcbBloqueo.setSelected(false);
+            jtfProveedor.setEnabled(true);
+            jtfCodigoFactura.setEnabled(true);
+            jbtnGuardarLotes.setEnabled(true);            
+        }
+    }//GEN-LAST:event_jcbBloqueoMouseClicked
       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -892,6 +950,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jbtnAgregarLotes;
     private javax.swing.JButton jbtnGuardarLotes;
+    private javax.swing.JCheckBox jcbBloqueo;
     private javax.swing.JLabel jlblConcentracion;
     private javax.swing.JLabel jlblFechaHoy;
     private javax.swing.JLabel jlblFormaFarmaceutica;

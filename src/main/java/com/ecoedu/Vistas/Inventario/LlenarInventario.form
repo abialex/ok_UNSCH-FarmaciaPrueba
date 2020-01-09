@@ -442,6 +442,8 @@
                         <Property name="text" type="java.lang.String" value="AGREGAR A LA LISTA DE LOTES"/>
                       </Properties>
                       <Events>
+                        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jbtnAgregarLotesFocusGained"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jbtnAgregarLotesFocusLost"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnAgregarLotesActionPerformed"/>
                       </Events>
                       <Constraints>
@@ -529,6 +531,7 @@
                                         </Column>
                                       </TableColumnModel>
                                     </Property>
+                                    <Property name="focusable" type="boolean" value="false"/>
                                     <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                       <Color blue="0" green="0" red="0" type="rgb"/>
                                     </Property>
@@ -615,8 +618,20 @@
 
                               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                               <SubComponents>
+                                <Component class="javax.swing.JCheckBox" name="jcbBloqueo">
+                                  <Properties>
+                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                                    </Property>
+                                    <Property name="focusable" type="boolean" value="false"/>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jcbBloqueoMouseClicked"/>
+                                  </Events>
+                                </Component>
                                 <Component class="javax.swing.JLabel" name="jLabel3">
                                   <Properties>
+                                    <Property name="text" type="java.lang.String" value="Block"/>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[125, 25]"/>
                                     </Property>
@@ -664,6 +679,7 @@
                                       <Font name="Tahoma" size="12" style="1"/>
                                     </Property>
                                     <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="focusCycleRoot" type="boolean" value="true"/>
                                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[100, 21]"/>
                                     </Property>
@@ -691,6 +707,7 @@
                                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="GUARDAR LOTES"/>
+                                    <Property name="focusable" type="boolean" value="false"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnGuardarLotesActionPerformed"/>

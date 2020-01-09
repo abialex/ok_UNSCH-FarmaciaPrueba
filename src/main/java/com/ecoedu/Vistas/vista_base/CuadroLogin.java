@@ -17,8 +17,10 @@ public class CuadroLogin extends javax.swing.JFrame {
     
     public CuadroLogin(){         
         initComponents();
+        
         this.objLogin=new Login(this);
         contenedor.add(objLogin);
+        
         this.setLocationRelativeTo(null);
     }   
     @SuppressWarnings("unchecked")

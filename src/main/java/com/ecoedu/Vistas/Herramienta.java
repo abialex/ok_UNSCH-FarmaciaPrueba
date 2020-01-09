@@ -19,9 +19,20 @@ import javax.persistence.Query;
  */
 public class Herramienta { 
     public  static void main(String asdasd[]){
-        Date objFechaVencimiento=new Date();
         //Herramienta.Prueba();
         
+    }
+    public static float redondeo(float a){
+       int b=(int)a*100;
+       int uy=b/100;
+       float u =(a*100)%10;
+       int d=(int)((a*10)%10);
+        System.out.println(d+" "+u);
+       if(u>=5){
+           d++;
+       }
+       
+       return Float.parseFloat(uy+"."+d+"0");
     }
     
   

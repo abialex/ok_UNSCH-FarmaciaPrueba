@@ -12,6 +12,7 @@ import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +47,11 @@ public class ModificarUsuario extends javax.swing.JPanel {
       
     }   
     public void principalEjecucion(){  
+        jtfApellidoMaterno.setText("");
+        jtfApellidoPaterno.setText("");
+        jtfDNI.setText("");
+        jtfNombres.setText("");
+        jbtnGuardarCambio.setEnabled(false);
         for (Rol objRol : Lista_Rol){
             jcbRol.addItem(objRol);
         } 
@@ -107,7 +113,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jbtnGuardarCambio = new javax.swing.JButton();
         jcbRol = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         jtfNombres = new javax.swing.JTextField();
@@ -127,6 +133,10 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel34 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        jlblAsteriscoDNI = new javax.swing.JLabel();
+        jlblAsteriscoNombres = new javax.swing.JLabel();
+        jlblAsteriscoApellidoPaterno = new javax.swing.JLabel();
+        jlblAsteriscoApellidoMaterno = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -186,15 +196,15 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jLabel28.setPreferredSize(new java.awt.Dimension(700, 14));
         jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 900, 10));
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("GUARDAR CAMBIOS");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jbtnGuardarCambio.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnGuardarCambio.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnGuardarCambio.setText("GUARDAR CAMBIOS");
+        jbtnGuardarCambio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jbtnGuardarCambioActionPerformed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 450, -1, -1));
+        jPanel7.add(jbtnGuardarCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 450, -1, -1));
 
         jcbRol.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbRol.setToolTipText("");
@@ -212,6 +222,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfNombresKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfNombresKeyTyped(evt);
+            }
         });
         jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 500, 25));
 
@@ -223,11 +236,6 @@ public class ModificarUsuario extends javax.swing.JPanel {
 
         jtfDNI.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDNI.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfDNI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfDNIActionPerformed(evt);
-            }
-        });
         jtfDNI.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfDNIKeyReleased(evt);
@@ -258,11 +266,6 @@ public class ModificarUsuario extends javax.swing.JPanel {
 
         jtfApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfApellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfApellidoMaternoActionPerformed(evt);
-            }
-        });
         jtfApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfApellidoMaternoKeyReleased(evt);
@@ -347,6 +350,30 @@ public class ModificarUsuario extends javax.swing.JPanel {
 
         jPanel7.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 170));
 
+        jlblAsteriscoDNI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoDNI.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoDNI.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoDNI.setText("*");
+        jPanel7.add(jlblAsteriscoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 380, 10, 25));
+
+        jlblAsteriscoNombres.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoNombres.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoNombres.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoNombres.setText("*");
+        jPanel7.add(jlblAsteriscoNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 200, 10, 25));
+
+        jlblAsteriscoApellidoPaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoApellidoPaterno.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoApellidoPaterno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoApellidoPaterno.setText("*");
+        jPanel7.add(jlblAsteriscoApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 260, 10, 25));
+
+        jlblAsteriscoApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoApellidoMaterno.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoApellidoMaterno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoApellidoMaterno.setText("*");
+        jPanel7.add(jlblAsteriscoApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 320, 10, 25));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -357,53 +384,87 @@ public class ModificarUsuario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtfApellidoPaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoPaternoKeyReleased
-       
-        
+
+        if(!jtfApellidoPaterno.getText().isEmpty()){
+            jlblAsteriscoApellidoPaterno.setText("");
+        }
+        else{
+            jlblAsteriscoApellidoPaterno.setText("*");            
+        }        
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jbtnGuardarCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarCambioActionPerformed
+                
+        GuardarModificacion();
+    }//GEN-LAST:event_jbtnGuardarCambioActionPerformed
+    public void GuardarModificacion(){
+        if(jlblAsteriscoApellidoMaterno.getText().isEmpty() && jlblAsteriscoApellidoPaterno.getText().isEmpty()
+                && jlblAsteriscoDNI.getText().isEmpty() && jlblAsteriscoNombres.getText().isEmpty()){
         Persona objPersona=objUsuario.getPersona();  
         objUsuario.setRol((Rol)jcbRol.getSelectedItem());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setDni(jtfDNI.getText());
         objPersona.setNombres(jtfNombres.getText()); 
-        jpa.getTransaction().begin();
-        jpa.persist(objPersona);  
-        jpa.persist(objUsuario);
-        jpa.createNativeQuery("update Usuario set id_Rol="+((Rol)jcbRol.getSelectedItem()).getId_Rol()+" where id_Usuario="+objUsuario.getId_Usuario()).executeUpdate();
-        jpa.flush();
-        jpa.getTransaction().commit();
-        limpiar();
-        
-        ConsultaBD();
-        llenar_tabla_Medicamento(Lista_Usuario);
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
+        try{
+            jpa.getTransaction().begin();
+            jpa.persist(objPersona);  
+            jpa.persist(objUsuario);
+            jpa.createNativeQuery("update Usuario set id_Rol="+((Rol)jcbRol.getSelectedItem()).getId_Rol()+" where id_Usuario="+objUsuario.getId_Usuario()).executeUpdate();
+            jpa.flush();
+            objPrincipal.actualizar_Usuario(objUsuario);
+            jpa.getTransaction().commit();  
+            limpiar();
+            ConsultaBD();
+            llenar_tabla_Medicamento(Lista_Usuario);  
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(jcbRol, e.toString());
+            jpa.getTransaction().rollback();
+            ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
+            principalEjecucion();
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(jtfNombres, "llene los espacio con *");            
+        }
+              
+    }
     public void limpiar(){
         jtfApellidoMaterno.setText("");
         jtfApellidoPaterno.setText("");
         jtfDNI.setText("");
         jtfNombres.setText("");
+        jlblAsteriscoApellidoMaterno.setText("*");
+        jlblAsteriscoApellidoPaterno.setText("*");
+        jlblAsteriscoDNI.setText("*");
+        jlblAsteriscoNombres.setText("*");
     }
     private void jtfNombresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyReleased
-        // TODO add your handling code here:
+        if(!jtfNombres.getText().isEmpty()){
+            jlblAsteriscoNombres.setText("");
+        }
+        else{
+            jlblAsteriscoNombres.setText("*");
+        }
     }//GEN-LAST:event_jtfNombresKeyReleased
 
     private void jtfDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyReleased
-        // TODO add your handling code here:
+        if(jtfDNI.getText().length()>=8){
+            jlblAsteriscoDNI.setText("");
+        }
+        else{
+            jlblAsteriscoDNI.setText("*");            
+        }
     }//GEN-LAST:event_jtfDNIKeyReleased
 
-    private void jtfDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDNIActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfDNIActionPerformed
-
-    private void jtfApellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfApellidoMaternoActionPerformed
-
     private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
-        // TODO add your handling code here:
+        if(!jtfApellidoMaterno.getText().isEmpty()){
+            jlblAsteriscoApellidoMaterno.setText("");
+        }
+        else{
+            jlblAsteriscoApellidoMaterno.setText("*");            
+        }
     }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
 
     private void jtblMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblMedicamentoMouseClicked
@@ -412,9 +473,12 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jtfApellidoPaterno.setText(objUsuario.getPersona().getApellido_Paterno());
         jtfApellidoMaterno.setText(objUsuario.getPersona().getApellido_Materno());
         jtfDNI.setText(objUsuario.getPersona().getDni());
+        jbtnGuardarCambio.setEnabled(true);
         jcbRol.setSelectedItem(objUsuario.getRol());
-        
-        
+        jlblAsteriscoApellidoMaterno.setText("");
+        jlblAsteriscoApellidoPaterno.setText("");
+        jlblAsteriscoDNI.setText("");
+        jlblAsteriscoNombres.setText("");    
     }//GEN-LAST:event_jtblMedicamentoMouseClicked
 
     private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
@@ -426,6 +490,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
             getToolkit().beep();
             evt.consume();
         }
+        if(' '==validar){
+            evt.consume();
+            }
     }//GEN-LAST:event_jtfDNIKeyTyped
 
     private void jtfApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyTyped
@@ -445,10 +512,17 @@ public class ModificarUsuario extends javax.swing.JPanel {
          }     
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
-            getToolkit().beep();
             evt.consume();
         }
+        
     }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
+
+    private void jtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isLetter(validar)){
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfNombresKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -456,7 +530,6 @@ public class ModificarUsuario extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
@@ -477,7 +550,12 @@ public class ModificarUsuario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton jbtnGuardarCambio;
     private javax.swing.JComboBox<Rol> jcbRol;
+    private javax.swing.JLabel jlblAsteriscoApellidoMaterno;
+    private javax.swing.JLabel jlblAsteriscoApellidoPaterno;
+    private javax.swing.JLabel jlblAsteriscoDNI;
+    private javax.swing.JLabel jlblAsteriscoNombres;
     private javax.swing.JTable jtblMedicamento;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
