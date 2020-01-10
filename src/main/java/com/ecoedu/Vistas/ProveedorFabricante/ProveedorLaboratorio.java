@@ -132,6 +132,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
         jLabel31 = new javax.swing.JLabel();
         jrbCrear = new javax.swing.JRadioButton();
         jRbModificar = new javax.swing.JRadioButton();
+        jlblAsteriscoNombre = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -338,6 +339,11 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
 
         buttonGroup1.add(jrbCrear);
         jrbCrear.setFocusable(false);
+        jrbCrear.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jrbCrearStateChanged(evt);
+            }
+        });
         jrbCrear.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jrbCrearMouseClicked(evt);
@@ -347,12 +353,23 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
 
         buttonGroup1.add(jRbModificar);
         jRbModificar.setFocusable(false);
+        jRbModificar.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jRbModificarStateChanged(evt);
+            }
+        });
         jRbModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jRbModificarMouseClicked(evt);
             }
         });
         jPanel7.add(jRbModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, -1, -1));
+
+        jlblAsteriscoNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoNombre.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoNombre.setText("*");
+        jPanel7.add(jlblAsteriscoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 10, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -418,6 +435,12 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
     private void jtfFabricanteGuardarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFabricanteGuardarKeyReleased
         jbtnCambios.setEnabled(false);
         jbtnCambios1.setEnabled(true);
+        if(jtfFabricanteGuardar.getText().isEmpty()){
+            jlblAsteriscoNombre.setText("*");
+        }
+        else{
+            jlblAsteriscoNombre.setText("");
+        }
     }//GEN-LAST:event_jtfFabricanteGuardarKeyReleased
 
     public void guardarProveedorOLab(){
@@ -458,30 +481,15 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
     }//GEN-LAST:event_jbtnCambios1ActionPerformed
 
     private void jrbCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrbCrearMouseClicked
-       jRbModificar.setSelected(false);
-        jrbCrear.setSelected(true);
-        if(jrbCrear.isSelected()){
-            jtfFabricanteProveedorCambio.setEnabled(false);
-            jcbPROFaCambio.setEnabled(false);
-            jbtnCambios.setEnabled(false);
-            jtfFabricanteGuardar.setEnabled(true);
-            jcbPROFa1.setEnabled(true);
-            jbtnCambios1.setEnabled(true);
-        }
+     
+        
         
     }//GEN-LAST:event_jrbCrearMouseClicked
 
     private void jRbModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRbModificarMouseClicked
-        jRbModificar.setSelected(true);
-        jrbCrear.setSelected(false);
-        if(jRbModificar.isSelected()){
-            jtfFabricanteProveedorCambio.setEnabled(true);
-            jcbPROFaCambio.setEnabled(true);
-            jbtnCambios.setEnabled(true);     
-            jtfFabricanteGuardar.setEnabled(false);
-            jcbPROFa1.setEnabled(false);
-            jbtnCambios1.setEnabled(false);
-            }        
+     
+       
+              
     }//GEN-LAST:event_jRbModificarMouseClicked
 
     private void jbtnCambios1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnCambios1KeyPressed
@@ -495,6 +503,28 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
             modificarProveedorOLaboratorio();
         }
     }//GEN-LAST:event_jbtnCambiosKeyPressed
+
+    private void jRbModificarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRbModificarStateChanged
+        if(jRbModificar.isSelected()){
+            jtfFabricanteProveedorCambio.setEnabled(true);
+            jcbPROFaCambio.setEnabled(true);
+            jbtnCambios.setEnabled(true);     
+            jtfFabricanteGuardar.setEnabled(false);
+            jcbPROFa1.setEnabled(false);
+            jbtnCambios1.setEnabled(false);
+            }  
+    }//GEN-LAST:event_jRbModificarStateChanged
+
+    private void jrbCrearStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jrbCrearStateChanged
+       if(jrbCrear.isSelected()){
+            jtfFabricanteProveedorCambio.setEnabled(false);
+            jcbPROFaCambio.setEnabled(false);
+            jbtnCambios.setEnabled(false);
+            jtfFabricanteGuardar.setEnabled(true);
+            jcbPROFa1.setEnabled(true);
+            jbtnCambios1.setEnabled(true);
+        }
+    }//GEN-LAST:event_jrbCrearStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -528,6 +558,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
     private javax.swing.JButton jbtnCambios1;
     private javax.swing.JComboBox<String> jcbPROFa1;
     private javax.swing.JComboBox<String> jcbPROFaCambio;
+    private javax.swing.JLabel jlblAsteriscoNombre;
     private javax.swing.JRadioButton jrbCrear;
     private javax.swing.JTextField jtfFabricanteGuardar;
     private javax.swing.JTextField jtfFabricanteProveedorCambio;
