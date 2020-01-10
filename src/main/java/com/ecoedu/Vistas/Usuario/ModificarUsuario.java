@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import javax.persistence.PersistenceException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -37,6 +38,21 @@ public class ModificarUsuario extends javax.swing.JPanel {
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
            
+    }
+     public class Proceso extends Thread{
+        public Proceso( ){
+        
+        }
+        @Override
+        public void run(){                 
+            try {                
+                    Thread.sleep(10000);
+                jlblMensaje.setText("");
+                } 
+            catch (InterruptedException e) {
+                System.out.println(e.toString());
+                }
+        }        
     }
     public void ConsultaBD(){
         Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=7");
@@ -137,6 +153,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jlblAsteriscoNombres = new javax.swing.JLabel();
         jlblAsteriscoApellidoPaterno = new javax.swing.JLabel();
         jlblAsteriscoApellidoMaterno = new javax.swing.JLabel();
+        jlblMensaje = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -194,7 +211,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
 
         jLabel28.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel28.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 900, 10));
+        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 900, 10));
 
         jbtnGuardarCambio.setBackground(new java.awt.Color(0, 0, 0));
         jbtnGuardarCambio.setForeground(new java.awt.Color(255, 255, 255));
@@ -204,7 +221,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
                 jbtnGuardarCambioActionPerformed(evt);
             }
         });
-        jPanel7.add(jbtnGuardarCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 450, -1, -1));
+        jPanel7.add(jbtnGuardarCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 460, -1, -1));
 
         jcbRol.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbRol.setToolTipText("");
@@ -374,6 +391,11 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jlblAsteriscoApellidoMaterno.setText("*");
         jPanel7.add(jlblAsteriscoApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 320, 10, 25));
 
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 900, 20));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -413,13 +435,16 @@ public class ModificarUsuario extends javax.swing.JPanel {
             jpa.createNativeQuery("update Usuario set id_Rol="+((Rol)jcbRol.getSelectedItem()).getId_Rol()+" where id_Usuario="+objUsuario.getId_Usuario()).executeUpdate();
             jpa.flush();
             objPrincipal.actualizar_Usuario(objUsuario);
+            jlblMensaje.setText("se cambió con exito");
+            new Proceso().start();
             jpa.getTransaction().commit();  
             limpiar();
             ConsultaBD();
             llenar_tabla_Medicamento(Lista_Usuario);  
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(jcbRol, e.toString());
+        catch(PersistenceException e){
+            jlblMensaje.setText("el DNI ya está en uso");
+            new Proceso().start();
             jpa.getTransaction().rollback();
             ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
             principalEjecucion();
@@ -564,6 +589,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jlblAsteriscoApellidoPaterno;
     private javax.swing.JLabel jlblAsteriscoDNI;
     private javax.swing.JLabel jlblAsteriscoNombres;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTable jtblMedicamento;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;

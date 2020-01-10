@@ -11,6 +11,7 @@ import com.ecoedu.model.Persona;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import java.awt.event.KeyEvent;
+import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 
 
@@ -34,15 +35,21 @@ public class CrearUsuario extends javax.swing.JPanel {
     }
     public class Proceso extends Thread{
         Usuario objUsuario;
-        public Proceso(Usuario objUsuario){
+        boolean hola;
+        public Proceso(Usuario objUsuario,boolean ola){
+            this.hola=ola;
             this.objUsuario = objUsuario;
+        }
+        public Proceso(boolean ola){
+            this.hola=ola;
         }
         @Override
         public void run(){                 
-            try {
+            try {     
                 
                 for (int i = 0; i < 11; i++) {
-                    jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI "+i); 
+                    if(hola){
+                    jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI "+i);} 
                     Thread.sleep(1000);
                 }
                 jlblMensaje.setText("");
@@ -314,12 +321,13 @@ public class CrearUsuario extends javax.swing.JPanel {
                 jpa.persist(objUsuario);
                 jpa.refresh(objUsuario);
                 //poner un thread de mensaje
-                new Proceso(objUsuario).start();
+                new Proceso(objUsuario,true).start();
                 //jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI");
                 limpiar();                
                 jpa.getTransaction().commit();}
-            catch (Exception e) {
-                JOptionPane.showMessageDialog(jcbRol, e.toString());
+            catch (PersistenceException e) {
+                jlblMensaje.setText("el DNI ya está en uso");
+                new Proceso(false).start();
                 jpa.getTransaction().rollback();   
                 ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
                 principalEjecucion();

@@ -33,6 +33,23 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     TextAutoCompleter TextAutoCompleterEscuela;
     List<Rol> Lista_Sexo;
     List<Rol> Lista_Escuela;
+    
+    public class Proceso extends Thread{
+        public Proceso( ){
+        
+        }
+        @Override
+        public void run(){                 
+            try {                
+                    Thread.sleep(10000);
+
+                jlblMensaje.setText("");
+                } 
+            catch (InterruptedException e) {
+                System.out.println(e.toString());
+                }
+        }        
+    }
     public Crear_Estudiante(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
@@ -112,6 +129,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jlblAsteriscoFecha = new javax.swing.JLabel();
         jlblAsteriscoDNI = new javax.swing.JLabel();
         jlblAsteriscoEscuela = new javax.swing.JLabel();
+        jlblMensaje = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -179,7 +197,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 440, -1, -1));
+        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 440, -1, -1));
 
         jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -416,6 +434,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jlblAsteriscoEscuela.setText("*");
         jPanel7.add(jlblAsteriscoEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 270, 10, 25));
 
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 900, 20));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -481,10 +504,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             objControl_paciente.setEstudiante(objEstudiante);    
             jpa.persist(objControl_paciente);
             limpiar();
+            jlblMensaje.setText("se guardó con exito");
+            new Proceso().start();
             jpa.getTransaction().commit();
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(jcbSexo, e.toString());
+            jlblMensaje.setText("el DNI o Código está en uso");
+            new Proceso().start();
             jpa.getTransaction().rollback();   
             ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
             principalEjecucion();
@@ -497,7 +523,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         }
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-guardarEstudiante();
+       guardarEstudiante();
         
         
         
@@ -861,6 +887,7 @@ guardarEstudiante();
     private javax.swing.JLabel jlblAsteriscoEscuela;
     private javax.swing.JLabel jlblAsteriscoFecha;
     private javax.swing.JLabel jlblAsteriscoNombress;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;

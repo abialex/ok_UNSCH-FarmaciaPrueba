@@ -13,7 +13,22 @@ import javax.swing.JOptionPane;
 2-agregar cantidad a un medicamento ya existente;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
-public class Modificar_Estudiante extends javax.swing.JPanel {   
+public class Modificar_Estudiante extends javax.swing.JPanel{
+    public class Proceso extends Thread{
+        public Proceso( ){
+        
+        }
+        @Override
+        public void run(){                 
+            try {                
+                    Thread.sleep(10000);
+                jlblMensaje.setText("");
+                } 
+            catch (InterruptedException e) {
+                System.out.println(e.toString());
+                }
+        }        
+    }
     EntityManager jpa;
     Principal objPrincipal;
     TextAutoCompleter TextAutoCompleterEscuela;
@@ -140,6 +155,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jtfCodigo = new javax.swing.JTextField();
         jlblAsteriscoNombres = new javax.swing.JLabel();
+        jlblMensaje = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -444,6 +460,11 @@ public class Modificar_Estudiante extends javax.swing.JPanel {
         jlblAsteriscoNombres.setText("*");
         jPanel7.add(jlblAsteriscoNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, 10, 25));
 
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 900, 20));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -492,13 +513,16 @@ guardarModificacionEstudiante();
             jpa.persist(objEstudianteM);
             jpa.createNativeQuery("update Estudiante set id_Rolescuela="+objEstudianteM.getEscuela().getId_Rol()+" ,id_RolSexo="+objEstudianteM.getRolSexo().getId_Rol()+" where id_Estudiante="+objEstudianteM.getId_Estudiante()).executeUpdate();
             jpa.flush();
+            jlblMensaje.setText("se modificó con exito");
+            new Proceso().start();
             jpa.getTransaction().commit();
             ConsultaBD();
             principalEjecucion();
             limpiar();
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(jtfMesVen, "error"+e.toString());
+            jlblMensaje.setText("el DNI o Código está en uso");
+            new Proceso().start();
             jpa.getTransaction().rollback();   
             ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
             principalEjecucion();
@@ -916,6 +940,7 @@ guardarModificacionEstudiante();
     private javax.swing.JLabel jlblAsteriscoEscuela;
     private javax.swing.JLabel jlblAsteriscoFechaNacimiento;
     private javax.swing.JLabel jlblAsteriscoNombres;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;
