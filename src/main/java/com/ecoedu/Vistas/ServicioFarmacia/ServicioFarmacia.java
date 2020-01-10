@@ -62,6 +62,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Rol> Lista_Procedencia;    
     private List<Rol> Lista_Condicion;
     private List<Lote_detalle> Lista_lote_detalle;
+    private List<Lote_detalle> Lista_lote_detalleaux;
     private List<Servicio_social> Lista_detalle_servicio_social;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
@@ -166,14 +167,22 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                  lote_detalle.setCantidad(lote_detalle.getCantidad()-objDetalleMedicamento.getCantidad());
                  lote_detalle.getInventario().setCantidad(lote_detalle.getInventario().getCantidad()-objDetalleMedicamento.getCantidad());
                  break;
-                 }
-                          
-         }
-         
+                 }                          
+         }         
          llenar_Tabla_de_carrito_medicina(Lista_carrito_medicamentos);
          jlblTotalCarrito.setText("S/"+Herramienta.dosDecimales(Monto_totalControlEstudiante-objControl_paciente_Final.getMonto_Total()));
          jlblSaldo.setText(Herramienta.dosDecimales(saldo_totalControlEstudiante));
                  
+     }
+     public void devolverDelCarrito(Detalle_Medicamentos objDetalleMedicamento){
+         for (Lote_detalle lote_detalle : Lista_lote_detalle){
+             if(lote_detalle==objDetalleMedicamento.getLote_detalle()){
+                 lote_detalle.setCantidad(lote_detalle.getCantidad()+objDetalleMedicamento.getCantidad());
+                 lote_detalle.getInventario().setCantidad(lote_detalle.getInventario().getCantidad()+objDetalleMedicamento.getCantidad());
+                 break;
+                 }                          
+         } 
+         
      }
      public List<Lote_detalle> getListaInventario(){
          return Lista_lote_detalle;
@@ -971,6 +980,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jlblCodigoDiagnostico.setText("");
         Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
         saldo_totalControlEstudiante=limite_seguro-Monto_totalControlEstudiante;
+        for (Detalle_Medicamentos Lista_carrito_medicamento : Lista_carrito_medicamentos){
+            devolverDelCarrito(Lista_carrito_medicamento);            
+        }
         Limpiarcuerp2CrearRecetas();
         
     }//GEN-LAST:event_jbtnCancelarCrearDiagnosticoActionPerformed
@@ -995,8 +1007,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
         //Lista_Recetas
         Estudiante objEstudiante=objControl_paciente_Final.getEstudiante();
-        Receta objReceta;
-        
+        Receta objReceta;        
         Receta objReceta_Final=new Receta();
         objReceta_Final.setRolProcedencia((Rol)jcbProcedencia.getSelectedItem()); 
         try {            
@@ -1032,13 +1043,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 objReceta=fechadeUltimaReceta(Lista_Recetas);
                 if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){//menor de 6 meses
                     objEstudiante.setRolCondicion(Lista_Condicion.get(1));
-                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+5+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1004+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);
 
                     }
                 else{
                     objEstudiante.setRolCondicion(Lista_Condicion.get(2));
-                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+6+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1005+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);//Reingresante
                     }
                 }

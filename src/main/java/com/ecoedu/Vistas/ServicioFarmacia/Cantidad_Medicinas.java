@@ -423,9 +423,9 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     }//GEN-LAST:event_jtfMedicamentoKeyReleased
     private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
         if(!jtfCantidad.getText().equals("")){
-                objDetalle_Medicamento_Final.setCantidad(Integer.parseInt(jtfCantidad.getText()));
-                objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));  
-                objServicioFarmacia.addPrecio_delControlEstudiante(Float.parseFloat(jlblPrecioTotal.getText()));
+                objDetalle_Medicamento_Final.setCantidad(Integer.parseInt(jtfCantidad.getText()));//get
+                objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));//get  
+                objServicioFarmacia.addPrecio_delControlEstudiante(Float.parseFloat(jlblPrecioTotal.getText()));//nada
                 objServicioFarmacia.getListaCarritos(objDetalle_Medicamento_Final);                  
                 objServicioFarmacia.getPrincipal().setEnabled(true);
                 objCuadroCarritoMedicinas.setVisible(false);  

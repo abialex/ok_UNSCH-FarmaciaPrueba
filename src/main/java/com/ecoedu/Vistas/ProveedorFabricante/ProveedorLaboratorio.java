@@ -27,8 +27,7 @@ import javax.swing.table.DefaultTableModel;
 3-Modificar precio Unitario de un Medicamento ya existente;
 */
 public class ProveedorLaboratorio extends javax.swing.JPanel{   
-    List<Rol> Lista_Proveedor;
-    List<Rol> Lista_Laboratorio;
+    List<Rol> Lista_LabProv;
     EntityManager jpa;
     Principal objPrincipal;
     List<Tipo_Roles> Lista_Roles;
@@ -43,10 +42,8 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
            
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3");
-        Lista_Laboratorio=query1.getResultList();    
-        Query query2=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=2");
-        Lista_Proveedor=query2.getResultList();  
+        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3 or id_tipo_Roles=2");
+        Lista_LabProv=query1.getResultList();    
         Lista_Roles=jpa.createQuery("SELECT p FROM Tipo_Roles p ").getResultList();
     }   
     public void principalEjecucion(){  
@@ -55,18 +52,18 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
         jtfFabricanteProveedorCambio.setEnabled(false);
         jcbPROFaCambio.setEnabled(false);
         jbtnCambios.setEnabled(false);
-        llenar_tabla_Medicamento(Lista_Laboratorio,Lista_Proveedor);
+        llenar_tabla_Medicamento(Lista_LabProv);
         jtfFabricanteProveedorCambio.setDocument(new soloMayusculas());
         jtfFabricanteGuardar.setDocument(new soloMayusculas());
         jbtnCambios.setEnabled(false);        
         
     }
 
-    public void llenar_tabla_Medicamento(List<Rol> listFabricante,List<Rol> listProveedor){
+    public void llenar_tabla_Medicamento(List<Rol> listLABPRO){
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-                String [] lista={"Producto Farmaceutico","Concentraciòn"}; 
+                String [] lista={"Nombre","Tipo"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {false, false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -75,18 +72,11 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
                  };
              //.....................................TABLA...........Fin......................          
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (Rol RolFabricante : listFabricante){
-                 fila_actividad[0]=RolFabricante;
-                 fila_actividad[1]="Laboratorio";             
-           
+             for (int i=listLABPRO.size()-1;i>=0;i--){
+                 fila_actividad[0]=listLABPRO.get(i);
+                 fila_actividad[1]=listLABPRO.get(i).getTipo_Roles().getNombre_rol();           
                  modelo.addRow(fila_actividad);//agregando filas
-                 }
-             for (Rol RolProveedor : listProveedor) {
-                 fila_actividad[0]=RolProveedor;
-                 fila_actividad[1]="Proveedor";             
-                 modelo.addRow(fila_actividad);//agregando filas
-                     
-                 }
+                 }             
             jbtlProFa.setModel(modelo); 
             jbtlProFa.setGridColor(Color.black);
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -156,7 +146,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("CREAR O MODIFICAR PROVEEDOR/FABRICANTE");
+        jLabel12.setText("CREAR O MODIFICAR PROVEEDOR/LABORATORIO");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -398,7 +388,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
         jpa.getTransaction().commit();
         ConsultaBD();
         jtfFabricanteProveedorCambio.setText("");
-        llenar_tabla_Medicamento(Lista_Laboratorio,Lista_Proveedor);
+        llenar_tabla_Medicamento(Lista_LabProv);
             
         }
         else{
@@ -456,7 +446,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
         jpa.getTransaction().commit();
         ConsultaBD();
         jtfFabricanteGuardar.setText("");
-        llenar_tabla_Medicamento(Lista_Laboratorio,Lista_Proveedor);}
+        llenar_tabla_Medicamento(Lista_LabProv);}
         else{
             JOptionPane.showMessageDialog(jPanel7, "ingrese un nombre");
         }

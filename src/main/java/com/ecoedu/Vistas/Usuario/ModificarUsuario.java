@@ -501,8 +501,10 @@ public class ModificarUsuario extends javax.swing.JPanel {
          }     
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
-            getToolkit().beep();
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
     }//GEN-LAST:event_jtfApellidoMaternoKeyTyped
 
@@ -513,6 +515,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
         
     }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
@@ -522,6 +527,9 @@ public class ModificarUsuario extends javax.swing.JPanel {
         if(!Character.isLetter(validar)){
             evt.consume();
             }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
+        }
     }//GEN-LAST:event_jtfNombresKeyTyped
 
 

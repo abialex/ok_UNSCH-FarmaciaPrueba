@@ -54,7 +54,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     public void principalEjecucion(){
         TextAutoCompleterEscuela.removeAllItems();
         for (Rol RolEscuela : Lista_Escuela) {
-            TextAutoCompleterEscuela.addItem(RolEscuela.getNombre_rol());
+            TextAutoCompleterEscuela.addItem(RolEscuela);
+            
+            
         } 
         jcbSexo.removeAllItems();
         for (Rol Rolsexo : Lista_Sexo) {
@@ -103,6 +105,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel33 = new javax.swing.JLabel();
         jtfDiaVenc = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
+        jlblAsteriscoCodigo = new javax.swing.JLabel();
+        jlblAsteriscoNombress = new javax.swing.JLabel();
+        jlblAsteriscoApelloPaterno = new javax.swing.JLabel();
+        jlblAsteriscoApellidoMaterno = new javax.swing.JLabel();
+        jlblAsteriscoFecha = new javax.swing.JLabel();
+        jlblAsteriscoDNI = new javax.swing.JLabel();
+        jlblAsteriscoEscuela = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -317,6 +326,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jtfAño.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfAño.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfAño.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfAñoKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfAñoKeyTyped(evt);
             }
@@ -328,6 +340,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jtfMesVen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtfMesVenKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfMesVenKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfMesVenKeyTyped(evt);
@@ -344,6 +359,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jtfDiaVenc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDiaVenc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfDiaVenc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDiaVencKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfDiaVencKeyTyped(evt);
             }
@@ -356,6 +374,48 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel27.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 10, 25));
 
+        jlblAsteriscoCodigo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoCodigo.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoCodigo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoCodigo.setText("*");
+        jPanel7.add(jlblAsteriscoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, 10, 25));
+
+        jlblAsteriscoNombress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoNombress.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoNombress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoNombress.setText("*");
+        jPanel7.add(jlblAsteriscoNombress, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 30, 10, 25));
+
+        jlblAsteriscoApelloPaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoApelloPaterno.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoApelloPaterno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoApelloPaterno.setText("*");
+        jPanel7.add(jlblAsteriscoApelloPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 90, 10, 25));
+
+        jlblAsteriscoApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoApellidoMaterno.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoApellidoMaterno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoApellidoMaterno.setText("*");
+        jPanel7.add(jlblAsteriscoApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 10, 25));
+
+        jlblAsteriscoFecha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoFecha.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoFecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoFecha.setText("*");
+        jPanel7.add(jlblAsteriscoFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 10, 25));
+
+        jlblAsteriscoDNI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoDNI.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoDNI.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoDNI.setText("*");
+        jPanel7.add(jlblAsteriscoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 210, 10, 25));
+
+        jlblAsteriscoEscuela.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoEscuela.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoEscuela.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoEscuela.setText("*");
+        jPanel7.add(jlblAsteriscoEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 270, 10, 25));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -367,12 +427,21 @@ public class Crear_Estudiante extends javax.swing.JPanel {
 
     private void jtfApellidoPaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoPaternoKeyReleased
        
+        if(jtfApellidoPaterno.getText().isEmpty()){
+            jlblAsteriscoApelloPaterno.setText("*");
+        }
+        else{
+            jlblAsteriscoApelloPaterno.setText("");            
+        }
         
     }//GEN-LAST:event_jtfApellidoPaternoKeyReleased
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-  
-        Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=4").getResultList().get(0);//condicion en nuevo
+ 
+    public void guardarEstudiante(){
+        if(jlblAsteriscoDNI.getText().isEmpty() && jlblAsteriscoApellidoMaterno.getText().isEmpty() &&
+                jlblAsteriscoApelloPaterno.getText().isEmpty() && jlblAsteriscoCodigo.getText().isEmpty()
+                && jlblAsteriscoEscuela.getText().isEmpty() && jlblAsteriscoFecha.getText().isEmpty()
+                && jlblAsteriscoNombress.getText().isEmpty()){
+            Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=1003").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
         Date FechaNacimiento=new Date();
         FechaNacimiento.setYear(Integer.parseInt(jtfAño.getText())-1900);
@@ -396,7 +465,8 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         objEstudiante.setCodigo(jtfCodigo.getText());
         objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
         objEstudiante.setRolCondicion(objCondicion);
-        for (Rol RolEscuela : Lista_Escuela) {
+        objEstudiante.setEscuela((Rol)TextAutoCompleterEscuela.getItemSelected());
+        for (Rol RolEscuela : Lista_Escuela){
             if(RolEscuela.getNombre_rol().equals(jtfEscuela.getText())){
                 objEstudiante.setEscuela(RolEscuela);
             }
@@ -417,7 +487,18 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(jcbSexo, e.toString());
             jpa.getTransaction().rollback();   
             ConsultaBD();//volviendo a cargar los datos manejados por el JPA;
+            principalEjecucion();
+            
         }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(jtfMesVen, "llene los espacios con *");
+        }
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+guardarEstudiante();
+        
         
         
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -431,13 +512,30 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jtfDNI.setText("");
         jtfCodigo.setText("");
         jtfEscuela.setText("");
+        jlblAsteriscoApellidoMaterno.setText("*");
+        jlblAsteriscoApelloPaterno.setText("*");
+        jlblAsteriscoCodigo.setText("*");
+        jlblAsteriscoDNI.setText("*");
+        jlblAsteriscoEscuela.setText("*");
+        jlblAsteriscoFecha.setText("*");
+        jlblAsteriscoNombress.setText("*");
     }
     private void jtfNombresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresKeyReleased
-        // TODO add your handling code here:
+        if(jtfNombres.getText().isEmpty()){
+            jlblAsteriscoNombress.setText("*");
+        }
+        else{
+            jlblAsteriscoNombress.setText("");
+        }
     }//GEN-LAST:event_jtfNombresKeyReleased
 
     private void jtfDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyReleased
-        // TODO add your handling code here:
+        if(jtfDNI.getText().length()>=8){
+            jlblAsteriscoDNI.setText("");
+        }
+        else{
+            jlblAsteriscoDNI.setText("*");            
+        }
     }//GEN-LAST:event_jtfDNIKeyReleased
 
     private void jtfDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDNIActionPerformed
@@ -449,7 +547,12 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfApellidoMaternoActionPerformed
 
     private void jtfApellidoMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyReleased
-        // TODO add your handling code here:
+        if(jtfApellidoMaterno.getText().isEmpty()){
+            jlblAsteriscoApellidoMaterno.setText("*");
+        }
+        else{
+            jlblAsteriscoApellidoMaterno.setText("");            
+        }
     }//GEN-LAST:event_jtfApellidoMaternoKeyReleased
 
     private void jtfCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoActionPerformed
@@ -457,7 +560,12 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfCodigoActionPerformed
 
     private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
-        // TODO add your handling code here:
+        if(jtfCodigo.getText().length()>=8){
+            jlblAsteriscoCodigo.setText("");
+        }
+        else{
+            jlblAsteriscoCodigo.setText("*");            
+        }
     }//GEN-LAST:event_jtfCodigoKeyReleased
 
     private void jtfEscuelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEscuelaActionPerformed
@@ -465,7 +573,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfEscuelaActionPerformed
 
     private void jtfEscuelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEscuelaKeyReleased
-        // TODO add your handling code here:
+        for (Rol RolEscuela : Lista_Escuela){
+            if(RolEscuela.getNombre_rol().equals(jtfEscuela.getText())){
+                jlblAsteriscoEscuela.setText("");
+                break;
+            }
+            jlblAsteriscoEscuela.setText("*");            
+        }
     }//GEN-LAST:event_jtfEscuelaKeyReleased
 
     private void jtfCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyTyped
@@ -477,6 +591,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             getToolkit().beep();
             evt.consume();
         }
+        if(' '==validar){
+            evt.consume();
+            } 
     }//GEN-LAST:event_jtfCodigoKeyTyped
 
     private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
@@ -485,9 +602,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
             }
         char validar=evt.getKeyChar();
         if(Character.isLetter(validar)){
-            getToolkit().beep();
             evt.consume();
             }
+        if(' '==validar){
+            evt.consume();
+            } 
     }//GEN-LAST:event_jtfDNIKeyTyped
 
     private void jtfApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfApellidoMaternoKeyTyped
@@ -496,8 +615,10 @@ public class Crear_Estudiante extends javax.swing.JPanel {
          }     
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
-            getToolkit().beep();
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
     }//GEN-LAST:event_jtfApellidoMaternoKeyTyped
 
@@ -507,8 +628,10 @@ public class Crear_Estudiante extends javax.swing.JPanel {
          }     
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
-            getToolkit().beep();
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
     }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
 
@@ -518,15 +641,16 @@ public class Crear_Estudiante extends javax.swing.JPanel {
          }     
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
-            getToolkit().beep();
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
     }//GEN-LAST:event_jtfNombresKeyTyped
 
     private void jtfAñoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfAñoKeyTyped
         char validar=evt.getKeyChar();
         if(!Character.isDigit(validar)){
-            getToolkit().beep();
             evt.consume();
         }
 
@@ -542,7 +666,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private void jtfMesVenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyTyped
         char validar=evt.getKeyChar();
         if(!Character.isDigit(validar)){
-            getToolkit().beep();
             evt.consume();
         }
         else{
@@ -573,7 +696,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private void jtfDiaVencKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDiaVencKeyTyped
         char validar=evt.getKeyChar();
         if(!Character.isDigit(validar)){
-            getToolkit().beep();
             evt.consume();
         }
         else{
@@ -662,6 +784,48 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jtfDiaVencKeyTyped
 
+    private void jtfDiaVencKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDiaVencKeyReleased
+        if(jtfDiaVenc.getText().isEmpty()||jtfMesVen.getText().isEmpty()||jtfAño.getText().isEmpty()){
+            jlblAsteriscoFecha.setText("*");
+        }
+        else{
+            if(jtfDiaVenc.getText().equals("0") || jtfMesVen.getText().equals("0") || jtfAño.getText().equals("0")){
+               jlblAsteriscoFecha.setText("*");
+           }
+           else{
+               jlblAsteriscoFecha.setText("");
+           }
+        }
+    }//GEN-LAST:event_jtfDiaVencKeyReleased
+
+    private void jtfMesVenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyReleased
+        if(jtfDiaVenc.getText().isEmpty()||jtfMesVen.getText().isEmpty()||jtfAño.getText().isEmpty()){
+            jlblAsteriscoFecha.setText("*");
+        }
+        else{
+            if(jtfDiaVenc.getText().equals("0") || jtfMesVen.getText().equals("0") || jtfAño.getText().equals("0")){
+                jlblAsteriscoFecha.setText("*");
+            }
+            else{
+                jlblAsteriscoFecha.setText("");                
+            }
+        }
+    }//GEN-LAST:event_jtfMesVenKeyReleased
+
+    private void jtfAñoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfAñoKeyReleased
+        if(jtfDiaVenc.getText().isEmpty()||jtfMesVen.getText().isEmpty()||jtfAño.getText().isEmpty()){
+            jlblAsteriscoFecha.setText("*");
+        }
+        else{
+            if(jtfDiaVenc.getText().equals("0") || jtfMesVen.getText().equals("0") || jtfAño.getText().equals("0")){
+                jlblAsteriscoFecha.setText("*");
+            }
+            else{
+                jlblAsteriscoFecha.setText("");
+            }
+        }
+    }//GEN-LAST:event_jtfAñoKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyCard;
@@ -690,6 +854,13 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JComboBox<String> jcbSerie;
     private javax.swing.JComboBox<Rol> jcbSexo;
+    private javax.swing.JLabel jlblAsteriscoApellidoMaterno;
+    private javax.swing.JLabel jlblAsteriscoApelloPaterno;
+    private javax.swing.JLabel jlblAsteriscoCodigo;
+    private javax.swing.JLabel jlblAsteriscoDNI;
+    private javax.swing.JLabel jlblAsteriscoEscuela;
+    private javax.swing.JLabel jlblAsteriscoFecha;
+    private javax.swing.JLabel jlblAsteriscoNombress;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;

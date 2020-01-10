@@ -40,8 +40,11 @@ public class CrearUsuario extends javax.swing.JPanel {
         @Override
         public void run(){                 
             try {
-                jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI"); 
-                Thread.sleep(10000);
+                
+                for (int i = 0; i < 11; i++) {
+                    jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI "+i); 
+                    Thread.sleep(1000);
+                }
                 jlblMensaje.setText("");
                 } 
             catch (InterruptedException e) {
@@ -166,7 +169,7 @@ public class CrearUsuario extends javax.swing.JPanel {
                 jButton3KeyPressed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 330, -1, -1));
+        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, -1, -1));
 
         jcbRol.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbRol.setToolTipText("");
@@ -372,6 +375,9 @@ public class CrearUsuario extends javax.swing.JPanel {
         if(!Character.isLetter(validar)){
             evt.consume();
             }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
+        }
         
     }//GEN-LAST:event_jtfNombresKeyTyped
 
@@ -395,6 +401,9 @@ public class CrearUsuario extends javax.swing.JPanel {
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
     }//GEN-LAST:event_jtfApellidoPaternoKeyTyped
 
@@ -405,6 +414,9 @@ public class CrearUsuario extends javax.swing.JPanel {
         char validar=evt.getKeyChar();
         if(!Character.isLetter(validar)){
             evt.consume();
+            }
+        if(!Character.isLowerCase(validar)){
+            evt.setKeyChar(Character.toLowerCase(validar));
         }
     }//GEN-LAST:event_jtfApellidoMaternoKeyTyped
 

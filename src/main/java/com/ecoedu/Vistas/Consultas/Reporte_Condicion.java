@@ -212,9 +212,9 @@ public class Reporte_Condicion extends javax.swing.JPanel {
   
      public List<Rol> desglozarControlPacientetoCondicion(List<Control_paciente> lista_control){
          List<Rol> listaAuxCondicion=new ArrayList<>();
-        for (Control_paciente lista_controll : lista_control) {
+        for (Control_paciente lista_controll : lista_control){
              boolean auxInventario=true;
-             for (Rol listaAuxCondicion1: listaAuxCondicion) {
+             for (Rol listaAuxCondicion1: listaAuxCondicion){
                  if(listaAuxCondicion1==lista_controll.getEstudiante().getRolCondicion()){
                     auxInventario=false;		
                     break;
@@ -273,15 +273,15 @@ public class Reporte_Condicion extends javax.swing.JPanel {
             document.add(new Paragraph(" "));
             table.addHeaderCell(new Cell().add(new Paragraph("Condicion").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
             table.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));  
-            
-            for(Control_paciente control_paciente : Lista_ControlPaciente){
+            //Control_paciente control_paciente : Lista_ControlPaciente
+            for(Rol objCondicion : listaCondiciones){
                 int cant=0;
-                for(Rol objCondicion : listaCondiciones){
+                for(Control_paciente control_paciente : Lista_ControlPaciente){
                     if(control_paciente.getEstudiante().getRolCondicion()==objCondicion){
                         cant++;          
                         }
                     }//fin for allreceta
-                Lista_zObjetoProdiag.add(new ZObjetoProDiag(control_paciente.getEstudiante().getRolCondicion(),cant));
+                Lista_zObjetoProdiag.add(new ZObjetoProDiag(objCondicion,cant));
                 }//fin for receta
             Collections.sort(Lista_zObjetoProdiag);
             for(int i=Lista_zObjetoProdiag.size()-1;0<=i;i--){

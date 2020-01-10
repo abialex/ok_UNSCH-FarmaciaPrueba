@@ -1553,6 +1553,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Por_Escuela.setVisible(false);
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
+        objModificar_Estudiante.setVisible(false);
         objEntragEntrega_del_dia.ConsultaBD();
         objEntragEntrega_del_dia.principalEjecucion();
         objEntragEntrega_del_dia.setVisible(true);
