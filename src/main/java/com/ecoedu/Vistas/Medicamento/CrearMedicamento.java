@@ -28,6 +28,22 @@ public class CrearMedicamento extends javax.swing.JPanel{
     List<Medicamento> Lista_Medicamento;
     EntityManager jpa;
     Principal objPrincipal;
+    
+    public class Proceso extends Thread{
+        boolean hola;
+        
+        
+        @Override
+        public void run(){                 
+            try {    
+                Thread.sleep(5000);
+                jlblMensaje.setText("");
+                } 
+            catch (InterruptedException e) {
+                System.out.println(e.toString());
+                }
+        }        
+    }
 
     
     public CrearMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
@@ -117,6 +133,10 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jPanel12 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jtfFormaFarmaceutica = new javax.swing.JTextField();
+        jlblAsteCont = new javax.swing.JLabel();
+        jlblAsteFF = new javax.swing.JLabel();
+        jlblAstePF = new javax.swing.JLabel();
+        jlblMensaje = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -185,6 +205,14 @@ public class CrearMedicamento extends javax.swing.JPanel{
 
         jtfConcentracion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfConcentracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfConcentracion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfConcentracionKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfConcentracionKeyTyped(evt);
+            }
+        });
         jPanel7.add(jtfConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 25));
 
         jbtnAgregarMedicamentos.setBackground(new java.awt.Color(0, 0, 0));
@@ -285,7 +313,38 @@ public class CrearMedicamento extends javax.swing.JPanel{
 
         jtfFormaFarmaceutica.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfFormaFarmaceutica.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfFormaFarmaceutica.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfFormaFarmaceuticaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfFormaFarmaceuticaKeyTyped(evt);
+            }
+        });
         jPanel7.add(jtfFormaFarmaceutica, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 120, 25));
+
+        jlblAsteCont.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteCont.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteCont.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteCont.setText("*");
+        jPanel7.add(jlblAsteCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 270, 10, 25));
+
+        jlblAsteFF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteFF.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteFF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteFF.setText("*");
+        jPanel7.add(jlblAsteFF, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 10, 25));
+
+        jlblAstePF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAstePF.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAstePF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAstePF.setText("*");
+        jPanel7.add(jlblAstePF, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 210, 10, 25));
+
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 500, 20));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -297,7 +356,13 @@ public class CrearMedicamento extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtfProductoFarmaceuticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProductoFarmaceuticoKeyReleased
-       
+
+        if(jtfProductoFarmaceutico.getText().isEmpty()){
+            jlblAstePF.setText("*");
+            }
+        else{
+            jlblAstePF.setText("");
+            }
         
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
@@ -307,6 +372,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
     }//GEN-LAST:event_jbtnAgregarMedicamentosActionPerformed
 
     public void agregarMedicamento(){
+        if(jlblAsteCont.getText().isEmpty()&&jlblAsteFF.getText().isEmpty()&&jlblAstePF.getText().isEmpty()){
         Medicamento objMedicamento=new Medicamento();
         Inventario objInventario=new Inventario();
         objMedicamento.setConcentracion(jtfConcentracion.getText());
@@ -323,7 +389,15 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jtfConcentracion.setText("");
         jtfFormaFarmaceutica.setText("");
         jtfProductoFarmaceutico.setText("");
-        llenar_tabla_Medicamento(Lista_Medicamento);
+        jlblAsteCont.setText("*");
+        jlblAsteFF.setText("*");
+        jlblAstePF.setText("*");
+        jlblMensaje.setText("se guardó");
+        new Proceso().start();
+        llenar_tabla_Medicamento(Lista_Medicamento);}
+        else{
+            jlblMensaje.setText("llene los espacios con *");
+        }
     }
     private void jbtnAgregarMedicamentosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentosKeyPressed
          if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -339,6 +413,37 @@ public class CrearMedicamento extends javax.swing.JPanel{
     private void jbtnAgregarMedicamentosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentosFocusLost
         jbtnAgregarMedicamentos.setBackground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_jbtnAgregarMedicamentosFocusLost
+
+    private void jtfFormaFarmaceuticaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFormaFarmaceuticaKeyReleased
+        if(jtfFormaFarmaceutica.getText().isEmpty()){
+            jlblAsteFF.setText("*");
+        }
+        else{
+            jlblAsteFF.setText("");
+        }
+    }//GEN-LAST:event_jtfFormaFarmaceuticaKeyReleased
+
+    private void jtfConcentracionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfConcentracionKeyReleased
+        if(jtfConcentracion.getText().isEmpty()){
+            jlblAsteCont.setText("*");
+        }
+        else{
+            jlblAsteCont.setText("");
+            
+        }
+    }//GEN-LAST:event_jtfConcentracionKeyReleased
+
+    private void jtfFormaFarmaceuticaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFormaFarmaceuticaKeyTyped
+        if(' '==evt.getKeyChar()){
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfFormaFarmaceuticaKeyTyped
+
+    private void jtfConcentracionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfConcentracionKeyTyped
+        if(' '==evt.getKeyChar()){
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfConcentracionKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -364,6 +469,10 @@ public class CrearMedicamento extends javax.swing.JPanel{
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jbtnAgregarMedicamentos;
+    private javax.swing.JLabel jlblAsteCont;
+    private javax.swing.JLabel jlblAsteFF;
+    private javax.swing.JLabel jlblAstePF;
+    private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTable jtblMedicamento;
     private javax.swing.JTextField jtfConcentracion;
     private javax.swing.JTextField jtfFormaFarmaceutica;

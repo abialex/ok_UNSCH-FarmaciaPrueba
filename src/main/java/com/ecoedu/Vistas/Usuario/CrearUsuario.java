@@ -13,6 +13,7 @@ import com.ecoedu.model.Usuario;
 import java.awt.event.KeyEvent;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
+import org.apache.commons.codec.digest.DigestUtils;
 
 
 
@@ -311,13 +312,14 @@ public class CrearUsuario extends javax.swing.JPanel {
             objPersona.setDni(jtfDni.getText());
             Usuario objUsuario=new Usuario();
             objUsuario.setRol((Rol)jcbRol.getSelectedItem());
-            objUsuario.setContraseña(jtfDni.getText());
+            objUsuario.setContraseña(DigestUtils.md5Hex(jtfDni.getText()));
+            objUsuario.setCambio(false);
             try{
                 jpa.getTransaction().begin();
                 jpa.persist(objPersona);
                 jpa.refresh(objPersona);
                 objUsuario.setPersona(objPersona);
-                objUsuario.setNickname("Farmacia"+objPersona.getId_Persona());
+                objUsuario.setNickname("farmacia"+objPersona.getId_Persona());
                 jpa.persist(objUsuario);
                 jpa.refresh(objUsuario);
                 //poner un thread de mensaje

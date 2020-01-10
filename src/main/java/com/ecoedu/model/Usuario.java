@@ -25,11 +25,14 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Usuario;
     
-    @Column(name="nickname",length = 20,nullable = false)
+    @Column(name="nickname",unique = true,length = 20,nullable = false)
     private String nickname;
     
-    @Column(name="contraseña",length = 20,nullable = false)
+    @Column(name="contraseña",length = 40,nullable = false)
     private String contraseña;
+    
+    @Column(name="iScambio",nullable = true)
+    private boolean cambio;
     
     @JoinColumn(insertable = true,updatable = false,name="id_Rol",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
@@ -39,6 +42,15 @@ public class Usuario implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Persona persona;
 
+    public boolean isCambio() {
+        return cambio;
+    }
+
+    public void setCambio(boolean cambio) {
+        this.cambio = cambio;
+    }
+
+    
     public Rol getRol() {
         return rol;
     }

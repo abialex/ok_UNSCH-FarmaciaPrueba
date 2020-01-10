@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -19,7 +20,11 @@ import javax.persistence.Query;
  */
 public class Herramienta { 
     public  static void main(String asdasd[]){
-        //Herramienta.Prueba();
+        String encriptado=DigestUtils.md5Hex("123456");
+        String encriptado2=DigestUtils.md5Hex("alexcito");
+        System.out.println(encriptado.equals(encriptado2));
+        System.out.println(DigestUtils.md5Hex(encriptado));
+        System.out.println(DigestUtils.md5Hex(encriptado2));
         
     }
     public static float redondeo(float a){
