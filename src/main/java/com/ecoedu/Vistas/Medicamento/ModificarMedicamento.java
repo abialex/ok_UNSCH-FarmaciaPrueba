@@ -60,6 +60,10 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jtfProductoFarmaceutico.setDocument(new soloMayusculas());
         jtfFormaFarmaceutica.setDocument(new soloMayusculas());
         jtfConcentracion.setDocument(new soloMayusculas());
+        jbtnModificar.setEnabled(false);
+        jtfConcentracion.setText("");
+        jtfFormaFarmaceutica.setText("");
+        jtfProductoFarmaceutico.setText("");
     }
 
     public void llenar_tabla_Medicamento(List<Medicamento> listaMedicamento){
@@ -388,6 +392,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
       jlblAsteCont.setText("*");
       jlblAsteFF.setText("*");
       jlblAstePF.setText("*");
+      jbtnModificar.setEnabled(false);
       jlblMensaje.setText("se modificó");
       new Proceso().start();
       llenar_tabla_Medicamento(Lista_Medicamento);}
@@ -400,6 +405,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jtfProductoFarmaceutico.setText(objMedicamento.getNombre());
         jtfFormaFarmaceutica.setText(objMedicamento.getForma_farmaceutica());
         jtfConcentracion.setText(objMedicamento.getConcentracion());
+        jbtnModificar.setEnabled(true);
         jlblAsteCont.setText("");
         jlblAsteFF.setText("");
         jlblAstePF.setText("");

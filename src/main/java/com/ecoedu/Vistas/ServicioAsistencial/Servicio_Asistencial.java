@@ -69,7 +69,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     }
      public void ConsultaBD(){
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
-         lista_tipo_asistencial=jpa.createQuery("SELECT p FROM Tipo_Asistencial p ").getResultList();  
+         lista_tipo_asistencial=jpa.createQuery("SELECT p FROM Rol p ").getResultList();  
          Lista_tarifa=jpa.createQuery("SELECT p FROM Tarifario p ").getResultList();
          
          

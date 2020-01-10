@@ -8,6 +8,7 @@ package com.ecoedu.Vistas.vista_base;
 
 
 import com.ecoedu.Vistas.Login;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,7 +19,7 @@ public class CuadroLogin extends javax.swing.JFrame {
     
     public CuadroLogin(){         
         initComponents();
-        
+        setIconImage(new ImageIcon(getClass().getResource("/images/login.png")).getImage());
         this.objLogin=new Login(this);
         contenedor.add(objLogin);
         

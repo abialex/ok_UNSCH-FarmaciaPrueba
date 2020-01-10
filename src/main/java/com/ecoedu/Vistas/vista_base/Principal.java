@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.dom4j.DocumentException;
 
@@ -133,7 +134,7 @@ public class Principal extends javax.swing.JFrame {
        bodyContenedor.validate();
        
        
-       
+       setIconImage(new ImageIcon(getClass().getResource("/images/014-pharmacy.png")).getImage());
        if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR")){
            jleftMedicamento.setVisible(false);
            jleftEstudiante.setVisible(false);
@@ -143,8 +144,11 @@ public class Principal extends javax.swing.JFrame {
            jleftInventario_llenarInventario.setVisible(false);
            jleftInventario_detalleInventario.setVisible(false);   
            jtfsub_inventario.setPreferredSize(new Dimension(300, 41)); 
+           
            }
        if(OBJuser.getRol().getNombre_rol().equals("ASISTENCIAL")){
+           setIconImage(new ImageIcon(getClass().getResource("/images/informacion.png")).getImage());
+           jlblRolcito.setText("Trabajadora Social:");
            jleftServicioFarmacia.setVisible(false);
            jleftMedicamento.setVisible(false);
            jleftEstudiante.setVisible(false);
@@ -153,7 +157,7 @@ public class Principal extends javax.swing.JFrame {
            jleftInventario.setVisible(false);
            jleftProveedorYfabricante.setVisible(false);
            jleftInventario_llenarInventario.setVisible(false);
-           jleftInventario_detalleInventario.setVisible(false);             
+           jleftInventario_detalleInventario.setVisible(false);   
        }
        else{
            jleftServicioAsistencial.setVisible(false);
@@ -179,7 +183,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jlblRolcito = new javax.swing.JLabel();
         jlblUsuario = new javax.swing.JLabel();
         jlblNavegacion = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -281,11 +285,11 @@ public class Principal extends javax.swing.JFrame {
         jPanel4.setPreferredSize(new java.awt.Dimension(669, 1000));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel5.setText("Química(o) Farmacéutica(o):");
-        jLabel5.setMaximumSize(new java.awt.Dimension(990, 14));
-        jLabel5.setPreferredSize(new java.awt.Dimension(250, 50));
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 5, -1, -1));
+        jlblRolcito.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jlblRolcito.setText("Química(o) Farmacéutica(o):");
+        jlblRolcito.setMaximumSize(new java.awt.Dimension(990, 14));
+        jlblRolcito.setPreferredSize(new java.awt.Dimension(250, 50));
+        jPanel4.add(jlblRolcito, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 5, -1, -1));
 
         jlblUsuario.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jlblUsuario.setPreferredSize(new java.awt.Dimension(640, 50));
@@ -1795,7 +1799,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1811,6 +1814,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jlblInventarioFlecha;
     private javax.swing.JLabel jlblMinimizar;
     private javax.swing.JLabel jlblNavegacion;
+    private javax.swing.JLabel jlblRolcito;
     private javax.swing.JLabel jlblSalir;
     private javax.swing.JLabel jlblUsuario;
     private javax.swing.JPanel jleftConsultas;

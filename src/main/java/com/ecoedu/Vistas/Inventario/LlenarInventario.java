@@ -156,6 +156,12 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel28 = new javax.swing.JLabel();
         jtfMesVen = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
+        jlblAsteFabricante = new javax.swing.JLabel();
+        jlblAstePF = new javax.swing.JLabel();
+        jlblAsteCodigoLote = new javax.swing.JLabel();
+        jlblAsteCantidad = new javax.swing.JLabel();
+        jlblAstePUC = new javax.swing.JLabel();
+        jlblAsteFechaVenc = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -301,6 +307,9 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfFabricante.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfFabricante.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfFabricante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfFabricanteKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfFabricanteKeyTyped(evt);
             }
@@ -465,6 +474,11 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jtfCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigoLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoLoteKeyReleased(evt);
+            }
+        });
         jPanel7.add(jtfCodigoLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 140, 25));
 
         jLabel32.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -474,6 +488,9 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCantidadKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfCantidadKeyTyped(evt);
             }
@@ -525,6 +542,42 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel33.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 140, 25));
 
+        jlblAsteFabricante.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteFabricante.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteFabricante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteFabricante.setText("*");
+        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, 10, 25));
+
+        jlblAstePF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAstePF.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAstePF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAstePF.setText("*");
+        jPanel7.add(jlblAstePF, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 10, 10, 25));
+
+        jlblAsteCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteCodigoLote.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteCodigoLote.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteCodigoLote.setText("*");
+        jPanel7.add(jlblAsteCodigoLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, 10, 25));
+
+        jlblAsteCantidad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteCantidad.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteCantidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteCantidad.setText("*");
+        jPanel7.add(jlblAsteCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 10, 25));
+
+        jlblAstePUC.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAstePUC.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAstePUC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAstePUC.setText("*");
+        jPanel7.add(jlblAstePUC, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 90, 10, 25));
+
+        jlblAsteFechaVenc.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteFechaVenc.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteFechaVenc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteFechaVenc.setText("*");
+        jPanel7.add(jlblAsteFechaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 10, 25));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -548,15 +601,36 @@ public class LlenarInventario extends javax.swing.JPanel {
         }        
     }      
     private void jtfProductoFarmaceuticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProductoFarmaceuticoKeyReleased
-        encontrarMedicamento("");       
+        encontrarMedicamento("");  
+        for (Inventario inventarito : Lista_Inventario){
+            if(inventarito.getMedicamento().getNombre().equals(jtfProductoFarmaceutico.getText())){
+                jlblAstePF.setText("");
+                break;
+            }
+            jlblAstePF.setText("*");            
+        }
     }//GEN-LAST:event_jtfProductoFarmaceuticoKeyReleased
 
     private void jtfPrecioUnitarioCompraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPrecioUnitarioCompraKeyReleased
         jlblPVR.setText(Herramienta.redondeo(Float.parseFloat(jtfPrecioUnitarioCompra.getText()))+"");
+        if(jtfPrecioUnitarioCompra.getText().isEmpty()){
+            jlblAstePUC.setText("*");
+        }
+        else{
+            jlblAstePUC.setText("");
+        }
     }//GEN-LAST:event_jtfPrecioUnitarioCompraKeyReleased
 
     private void jbtnAgregarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesActionPerformed
-         Detalle_llenado objDetalle_llenado=new Detalle_llenado();
+              
+        guardarLote();
+    }//GEN-LAST:event_jbtnAgregarLotesActionPerformed
+
+    public void guardarLote(){
+        if(jlblAsteCantidad.getText().isEmpty()&&jlblAsteCodigoLote.getText().isEmpty()
+                &&jlblAsteFabricante.getText().isEmpty()&&jlblAsteFechaVenc.getText().isEmpty()
+                &&jlblAstePF.getText().isEmpty()&&jlblAstePUC.getText().isEmpty()){
+            Detalle_llenado objDetalle_llenado=new Detalle_llenado();
          Lote_detalle objLote_Detalle=new Lote_detalle();
          Date objFechaVencimiento=new Date();
          objFechaVencimiento.setYear(Integer.parseInt(jtfAñovencimiento.getText())+100);
@@ -609,8 +683,12 @@ public class LlenarInventario extends javax.swing.JPanel {
         else{
             jlblMensaje.setText(MensajeProductoFarmaceutico+" "+MensajeFabricante);
         }
-    }//GEN-LAST:event_jbtnAgregarLotesActionPerformed
-
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(jtfCantidad, "llene los espacios con *");
+        }
+    }
     public void llenar_tabla_LoteDetalle(List<Lote_detalle> listaLote,List<Detalle_llenado> listaLlenado){
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -712,9 +790,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 getToolkit().beep();
                 evt.consume();  
                 }
-            }
-
-       
+            }     
         
         if (jtfPrecioUnitarioCompra.getText().length()>=6){ 
          evt.consume(); 
@@ -833,7 +909,19 @@ public class LlenarInventario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfProveedorKeyTyped
 
     private void jtfCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyTyped
-        // TODO add your handling code here:
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+            if(validar!='.'){
+                evt.consume();  
+                }
+            }     
+        
+        if (jtfCantidad.getText().length()>=6){ 
+         evt.consume(); 
+         }
+        if(' '==evt.getKeyChar()){
+            evt.consume();
+        }
     }//GEN-LAST:event_jtfCantidadKeyTyped
 
     private void jtfAñovencimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfAñovencimientoKeyTyped
@@ -906,6 +994,34 @@ public class LlenarInventario extends javax.swing.JPanel {
             jbtnGuardarLotes.setEnabled(true);            
         }
     }//GEN-LAST:event_jcbBloqueoMouseClicked
+
+    private void jtfCodigoLoteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoLoteKeyReleased
+        if(jtfCodigoLote.getText().isEmpty()){
+            jlblAsteCodigoLote.setText("*");
+        }
+        else{
+            jlblAsteCodigoLote.setText("");
+            }
+    }//GEN-LAST:event_jtfCodigoLoteKeyReleased
+
+    private void jtfCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyReleased
+        if(jtfCantidad.getText().isEmpty()){
+            jlblAsteCantidad.setText("*");
+        }
+        else{
+            jlblAsteCantidad.setText("");
+            }
+    }//GEN-LAST:event_jtfCantidadKeyReleased
+
+    private void jtfFabricanteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFabricanteKeyReleased
+        for (Rol RolEscuela : Lista_Fabricante){
+            if(RolEscuela.getNombre_rol().equals(jtfFabricante.getText())){
+                jlblAsteFabricante.setText("");
+                break;
+            }
+            jlblAsteFabricante.setText("*");            
+        }
+    }//GEN-LAST:event_jtfFabricanteKeyReleased
       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -951,6 +1067,12 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JButton jbtnAgregarLotes;
     private javax.swing.JButton jbtnGuardarLotes;
     private javax.swing.JCheckBox jcbBloqueo;
+    private javax.swing.JLabel jlblAsteCantidad;
+    private javax.swing.JLabel jlblAsteCodigoLote;
+    private javax.swing.JLabel jlblAsteFabricante;
+    private javax.swing.JLabel jlblAsteFechaVenc;
+    private javax.swing.JLabel jlblAstePF;
+    private javax.swing.JLabel jlblAstePUC;
     private javax.swing.JLabel jlblConcentracion;
     private javax.swing.JLabel jlblFechaHoy;
     private javax.swing.JLabel jlblFormaFarmaceutica;
