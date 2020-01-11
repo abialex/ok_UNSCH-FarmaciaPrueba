@@ -1017,7 +1017,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private void jtfLookCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyPressed
 
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){  
-            System.out.println("aqui");
             llenarControlAlumno();            
         }
     }//GEN-LAST:event_jtfLookCodigoKeyPressed

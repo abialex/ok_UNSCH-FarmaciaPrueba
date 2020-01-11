@@ -15,6 +15,7 @@ import com.ecoedu.model.Rol;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JLabel;
@@ -255,6 +256,9 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfDiaVenc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDiaVenc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfDiaVenc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDiaVencKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfDiaVencKeyTyped(evt);
             }
@@ -330,6 +334,11 @@ public class LlenarInventario extends javax.swing.JPanel {
         jbtnAgregarLotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnAgregarLotesActionPerformed(evt);
+            }
+        });
+        jbtnAgregarLotes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnAgregarLotesKeyPressed(evt);
             }
         });
         jPanel7.add(jbtnAgregarLotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
@@ -506,6 +515,9 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfAñovencimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfAñovencimiento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfAñovencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfAñovencimientoKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfAñovencimientoKeyTyped(evt);
             }
@@ -529,6 +541,9 @@ public class LlenarInventario extends javax.swing.JPanel {
         jtfMesVen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtfMesVenKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfMesVenKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfMesVenKeyTyped(evt);
@@ -624,6 +639,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private void jbtnAgregarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesActionPerformed
               
         guardarLote();
+        
     }//GEN-LAST:event_jbtnAgregarLotesActionPerformed
 
     public void guardarLote(){
@@ -664,30 +680,36 @@ public class LlenarInventario extends javax.swing.JPanel {
         objDetalle_llenado.setCantidad(Integer.parseInt(jtfCantidad.getText()));
         //objDetalle_llenado.setLote_detalle(objLote_Detalle);     
         //objInventario_final.setCantidad(objInventario_final.getCantidad()+Integer.parseInt(jtfCantidad.getText()));
-        if(MensajeProductoFarmaceutico.length()==0 && MensajeFabricante.length()==0){
-            Lista_Detalle_Llenado_final.add(objDetalle_llenado);
-            Lista_Lote_detalle_final.add(objLote_Detalle);
-            llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
-            jlblMensaje.setText("");
-            //limpiando campos
-            jtfProductoFarmaceutico.setText("");
-            jlblFormaFarmaceutica.setText("");
-            jlblConcentracion.setText("");
-            jtfCodigoLote.setText("");
-            jtfDiaVenc.setText("");
-            jtfPrecioUnitarioCompra.setText("");
-            jlblPVR.setText("");
-            jtfFabricante.setText("");
-            //jbtnGuardarLotes.setEnabled(true);
-        } 
-        else{
-            jlblMensaje.setText(MensajeProductoFarmaceutico+" "+MensajeFabricante);
-        }
-            
+       
+        Lista_Detalle_Llenado_final.add(objDetalle_llenado);
+        Lista_Lote_detalle_final.add(objLote_Detalle);
+        llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
+        limpiar();
+        jtfProductoFarmaceutico.requestFocus();
         }
         else{
             JOptionPane.showMessageDialog(jtfCantidad, "llene los espacios con *");
         }
+    }
+    public void limpiar(){
+        jlblMensaje.setText("");
+        jtfProductoFarmaceutico.setText("");
+        jlblFormaFarmaceutica.setText("");
+        jlblConcentracion.setText("");
+        jtfCodigoLote.setText("");
+        jtfDiaVenc.setText("");
+        jtfMesVen.setText("");
+        jtfAñovencimiento.setText("");
+        jtfCantidad.setText("");
+        jtfPrecioUnitarioCompra.setText("");
+        jlblPVR.setText("");
+        jtfFabricante.setText("");
+        jlblAsteCantidad.setText("*");
+        jlblAsteCodigoLote.setText("*");
+        jlblAsteFabricante.setText("*");
+        jlblAsteFechaVenc.setText("*");
+        jlblAstePF.setText("*");
+        jlblAstePUC.setText("*");
     }
     public void llenar_tabla_LoteDetalle(List<Lote_detalle> listaLote,List<Detalle_llenado> listaLlenado){
         DefaultTableModel modelo;
@@ -1022,6 +1044,55 @@ public class LlenarInventario extends javax.swing.JPanel {
             jlblAsteFabricante.setText("*");            
         }
     }//GEN-LAST:event_jtfFabricanteKeyReleased
+
+    private void jtfAñovencimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfAñovencimientoKeyReleased
+        if(jtfDiaVenc.getText().isEmpty()||jtfMesVen.getText().isEmpty()||jtfAñovencimiento.getText().isEmpty()){
+            jlblAsteFechaVenc.setText("*");
+        }
+        else{
+            if(jtfDiaVenc.getText().equals("0") || jtfMesVen.getText().equals("0") || jtfAñovencimiento.getText().equals("0")){
+                jlblAsteFechaVenc.setText("*");
+            }
+            else{
+                jlblAsteFechaVenc.setText("");
+            }
+        }
+    }//GEN-LAST:event_jtfAñovencimientoKeyReleased
+
+    private void jtfMesVenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMesVenKeyReleased
+        if(jtfDiaVenc.getText().isEmpty()||jtfMesVen.getText().isEmpty()||jtfAñovencimiento.getText().isEmpty()){
+            jlblAsteFechaVenc.setText("*");
+        }
+        else{
+            if(jtfDiaVenc.getText().equals("0") || jtfMesVen.getText().equals("0") || jtfAñovencimiento.getText().equals("0")){
+                jlblAsteFechaVenc.setText("*");
+            }
+            else{
+                jlblAsteFechaVenc.setText("");
+            }
+        }
+    }//GEN-LAST:event_jtfMesVenKeyReleased
+
+    private void jtfDiaVencKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDiaVencKeyReleased
+        if(jtfDiaVenc.getText().isEmpty()||jtfMesVen.getText().isEmpty()||jtfAñovencimiento.getText().isEmpty()){
+            jlblAsteFechaVenc.setText("*");
+        }
+        else{
+            if(jtfDiaVenc.getText().equals("0") || jtfMesVen.getText().equals("0") || jtfAñovencimiento.getText().equals("0")){
+                jlblAsteFechaVenc.setText("*");
+            }
+            else{
+                jlblAsteFechaVenc.setText("");
+            }
+        }
+    }//GEN-LAST:event_jtfDiaVencKeyReleased
+
+    private void jbtnAgregarLotesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnAgregarLotesKeyPressed
+
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){  
+            guardarLote();
+        }
+    }//GEN-LAST:event_jbtnAgregarLotesKeyPressed
       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
