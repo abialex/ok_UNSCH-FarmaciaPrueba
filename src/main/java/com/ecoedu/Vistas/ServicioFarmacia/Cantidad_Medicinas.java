@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.ServicioFarmacia;
 
 
 import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Inventario;
@@ -46,6 +47,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     }       
   
     public void principalEjecucion(){
+        jtfMedicamento.setDocument(new soloMayusculas());
         list_Lote_detalle=objServicioFarmacia.getListaInventario();
         desglozarDatos(); 
         llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));

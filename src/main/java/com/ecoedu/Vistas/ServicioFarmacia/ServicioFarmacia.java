@@ -925,9 +925,18 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             jbtnImprimir.setEnabled(false);
             jlblAdvertencia.setText("");
         }
-        if(aux){
-            jlblAdvertencia.setText("NO SE ENCONTRÓ ALUMNO CON EL CÓDIGO: "+jtfLookCodigo.getText());
-            limpiarVista1();
+        if(aux){            
+            List<Estudiante> Lista_Estudiante=jpa.createQuery("SELECT p FROM Estudiante p where codigo='"+jtfLookCodigo.getText()+"'").getResultList();
+            if(Lista_Estudiante.isEmpty()){
+                jlblAdvertencia.setText("NO SE ENCONTRÓ ALUMNO CON EL CÓDIGO: "+jtfLookCodigo.getText());
+                limpiarVista1();
+                }
+            else{
+                CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this);
+                objCuadroCarrito.setVisible(true);
+                objPrincipal.setEnabled(false);
+                
+            }
         }
        llenar_Tabla_de_Recetas(Lista_Recetas);        
     }
@@ -1221,7 +1230,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         table.addHeaderCell(new Cell().add(new Paragraph("Cant").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));         
         table.addHeaderCell(new Cell().add(new Paragraph("P.U").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));        
         table.addHeaderCell(new Cell().add(new Paragraph("P.T").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("Q.F").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Fecha").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño)); 
                  
       Collections.sort(ListaMedicamentosDetalle);//ordenando A-Z (método como Override)
         for(Detalle_Medicamentos detalleMedi : ListaMedicamentosDetalle){                    
@@ -1229,7 +1238,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             table.addCell(new Paragraph(detalleMedi.getCantidad()+"").setFontSize(fontTamaño).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             table.addCell(new Paragraph(detalleMedi.getPrecio_Unitario()+"").setFontSize(fontTamaño).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             table.addCell(new Paragraph(detalleMedi.getPrecio_Total()+"").setFontSize(fontTamaño).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            table.addCell(new Paragraph(detalleMedi.getUsuario().getPersona().getApellido_Paterno()).setFontSize(fontTamaño).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            table.addCell(new Paragraph(Herramienta.formatoFecha(detalleMedi.getFecha())).setFontSize(fontTamaño).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             }
         document.add(table);        
         document.close();   
@@ -1301,12 +1310,14 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         document.close();       
     }
     public void limpiarVista1(){
-         jlblNombres.setText("");
-         jlblEscuela.setText("");
-         jlblSerie.setText("");
-         jlblMontoTotal.setText("");
-         Lista_Recetas.clear();
-         llenar_Tabla_de_Recetas(Lista_Recetas);
+        jlblCondicion.setText("");
+        jlblNombres.setText("");
+        jlblEscuela.setText("");
+        jlblSerie.setText("");
+        jlblMontoTotal.setText("");
+        //jlblAdvertencia.setText("");
+        Lista_Recetas.clear();
+        llenar_Tabla_de_Recetas(Lista_Recetas);
      }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
