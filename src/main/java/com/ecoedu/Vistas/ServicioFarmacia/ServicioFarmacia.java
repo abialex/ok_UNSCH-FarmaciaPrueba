@@ -71,6 +71,17 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Receta> Lista_Recetas=new ArrayList<>();//
     private TextAutoCompleter TextAutoCOmpleterCodigoDiagnostico;
     private int limite_seguro;
+    
+    public class Proceso extends Thread{
+        public Proceso( ){
+        
+        }
+        @Override
+        public void run(){                 
+            jtfLookCodigo.requestFocus();
+        }        
+    }
+    
     public void llenar_Detalle_de_Recetas(List<Detalle_Medicamentos> listaDetallesMedicamentos){
         //updateSaldoDisponible();
         DefaultTableModel modelo;
@@ -133,8 +144,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          Lista_Condicion=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=8").getResultList();
          
      }
-    
-     public void principalEjecucion(){ 
+     public void principalEjecucion(){         
+         jtfLookCodigo.setText("");
+         cuerpo1ListaRecetas.setVisible(true);
+         cuerp2CrearRecetas.setVisible(false);     
+         limpiarVista1();
+         Limpiarcuerp2CrearRecetas();
+         jtfLookCodigo.setEditable(true);
          if(!objUsuario.getRol().getNombre_rol().equals("ADMINISTRADOR")){
              jbtnImprimir.setVisible(false);
          }         
@@ -151,7 +167,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          jcbProcedencia.removeAllItems();
         for (Rol procedencia : Lista_Procedencia){
             jcbProcedencia.addItem(procedencia);
-            }             
+            }   
+        new Proceso().start();
      }  
      public float getPrecio_delControlEstudiante(){
          return Monto_totalControlEstudiante;
@@ -985,6 +1002,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         cuerp2CrearRecetas.setVisible(false);
         cuerpo1ListaRecetas.setVisible(true);
         jtfLookCodigo.setEditable(true);
+        jlblDescripcion.setText("");
         jlblTotalCarrito.setText("0.00");
         jlblCodigoDiagnostico.setText("");
         Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
