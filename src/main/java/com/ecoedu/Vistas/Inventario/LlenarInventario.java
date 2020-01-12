@@ -59,13 +59,31 @@ public class LlenarInventario extends javax.swing.JPanel {
     }
               
     public void ConsultaBD(){
-        Query query2=jpa.createQuery("SELECT p FROM Inventario p");
-        Lista_Inventario=query2.getResultList();
-        Query query3=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=2");
-        Lista_Fabricante=query3.getResultList();        
-        Query query4=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3");
-        Lista_Proveedor=query4.getResultList();
-    }   
+        if(jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList().isEmpty()){
+            Query query2=jpa.createQuery("SELECT p FROM Inventario p");
+            Lista_Inventario=query2.getResultList();
+            Query query3=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=2");
+            Lista_Fabricante=query3.getResultList();        
+            Query query4=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3");
+            Lista_Proveedor=query4.getResultList();
+            principalEjecucion();
+            }
+        else{
+            jlblHeadMensaje.setText("No puede llenar hasta que el inventario mensual se cierre");
+            jlblHeadMensaje.setForeground(Color.RED);
+            jtfProductoFarmaceutico.setEnabled(false);
+            jtfCodigoLote.setEnabled(false);
+            jtfCantidad.setEnabled(false);
+            jtfPrecioUnitarioCompra.setEnabled(false);
+            jtfAñovencimiento.setEnabled(false);
+            jtfMesVen.setEnabled(false);
+            jtfDiaVenc.setEnabled(false);
+            jtfFabricante.setEnabled(false);
+            jbtnAgregarLotes.setEnabled(false);
+            jcbBloqueo.setEnabled(false);
+            
+            }
+        }   
     public void principalEjecucion(){
         jtfProveedor.setEnabled(false);
         jtfCodigoFactura.setEnabled(false);
@@ -106,7 +124,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         vistaLlenar = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel40 = new javax.swing.JLabel();
+        jlblHeadMensaje = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jlblConcentracion = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -193,9 +211,9 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel40.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel40.setText("Ingrese los datos correspondientes");
-        jPanel6.add(jLabel40);
+        jlblHeadMensaje.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jlblHeadMensaje.setText("Ingrese los datos correspondientes");
+        jPanel6.add(jlblHeadMensaje);
 
         jPanel13.add(jPanel6, java.awt.BorderLayout.PAGE_START);
 
@@ -318,7 +336,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jtfFabricanteKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 120, 25));
+        jPanel7.add(jtfFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, 120, 25));
 
         jbtnAgregarLotes.setBackground(new java.awt.Color(0, 0, 0));
         jbtnAgregarLotes.setForeground(new java.awt.Color(255, 255, 255));
@@ -461,9 +479,9 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jLabel15.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel15.setText("Fabricante:");
+        jLabel15.setText("Laboratorio:");
         jLabel15.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 170, 80, 25));
+        jPanel7.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 170, 90, 25));
 
         jlblPVR.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jlblPVR.setForeground(new java.awt.Color(0, 102, 204));
@@ -561,7 +579,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFabricante.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteFabricante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteFabricante.setText("*");
-        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 170, 10, 25));
+        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 170, 10, 25));
 
         jlblAstePF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAstePF.setForeground(new java.awt.Color(255, 0, 0));
@@ -793,6 +811,10 @@ public class LlenarInventario extends javax.swing.JPanel {
         Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
         llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
         JOptionPane.showMessageDialog(jtfMesVen, "Guardado con Éxito");
+       
+        jcbBloqueo.setSelected(true);
+        jtfProveedor.setEnabled(false);
+        jtfCodigoFactura.setEnabled(false);
         jbtnGuardarLotes.setEnabled(false);
         jpa.getTransaction().commit();
         }
@@ -1125,7 +1147,6 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1147,6 +1168,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JLabel jlblConcentracion;
     private javax.swing.JLabel jlblFechaHoy;
     private javax.swing.JLabel jlblFormaFarmaceutica;
+    private javax.swing.JLabel jlblHeadMensaje;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblPVR;
     private javax.swing.JTable jtblLoteDetalle;

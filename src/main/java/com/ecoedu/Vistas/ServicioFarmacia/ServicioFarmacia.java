@@ -138,7 +138,22 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         this.objPrincipal=OBJPrincipal;
         this.objUsuario=OBJUsuario;        
     }
+    
      public void ConsultaBD(){
+         
+         if(jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList().isEmpty()){
+         jbtnCrearReceta.setVisible(false);
+         jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
+         jlblMensajito.setText("El inventario está cerrado solo puede visualizar Recetas");
+         jlblMensajito.setForeground(Color.red);
+         }
+         else{
+             jbtnCrearReceta.setVisible(true);
+         jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
+         jlblMensajito.setText("LISTA DE RECETAS DEL ESTUDIANTE");
+         jlblMensajito.setForeground(Color.black);
+             
+         }
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
          Lista_Procedencia =jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=5").getResultList();
          Lista_Condicion=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=8").getResultList();
@@ -278,7 +293,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblRecetas = new javax.swing.JTable();
-        jLabel11 = new javax.swing.JLabel();
+        jlblMensajito = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -339,7 +354,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel41 = new javax.swing.JLabel();
         jbtnVolver2 = new javax.swing.JButton();
         jLabel42 = new javax.swing.JLabel();
-        jbtnFinalizar2 = new javax.swing.JButton();
+        jbtnAgregarMedicamentoExtemporaneo = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setMaximumSize(new java.awt.Dimension(990, 650));
@@ -518,12 +533,12 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
         jPanel9.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("LISTA DE RECETAS DEL ESTUDIANTE");
-        jLabel11.setPreferredSize(new java.awt.Dimension(178, 30));
-        jPanel9.add(jLabel11, java.awt.BorderLayout.PAGE_START);
+        jlblMensajito.setBackground(new java.awt.Color(255, 255, 255));
+        jlblMensajito.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
+        jlblMensajito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblMensajito.setText("LISTA DE RECETAS DEL ESTUDIANTE");
+        jlblMensajito.setPreferredSize(new java.awt.Dimension(178, 30));
+        jPanel9.add(jlblMensajito, java.awt.BorderLayout.PAGE_START);
 
         jLabel14.setPreferredSize(new java.awt.Dimension(10, 14));
         jPanel9.add(jLabel14, java.awt.BorderLayout.LINE_END);
@@ -890,17 +905,17 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel42.setPreferredSize(new java.awt.Dimension(15, 30));
         jPanel24.add(jLabel42);
 
-        jbtnFinalizar2.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnFinalizar2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnFinalizar2.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnFinalizar2.setText("AGREGAR MEDICAMENTOS");
-        jbtnFinalizar2.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnFinalizar2.addActionListener(new java.awt.event.ActionListener() {
+        jbtnAgregarMedicamentoExtemporaneo.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregarMedicamentoExtemporaneo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnAgregarMedicamentoExtemporaneo.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregarMedicamentoExtemporaneo.setText("AGREGAR MEDICAMENTOS");
+        jbtnAgregarMedicamentoExtemporaneo.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnAgregarMedicamentoExtemporaneo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnFinalizar2ActionPerformed(evt);
+                jbtnAgregarMedicamentoExtemporaneoActionPerformed(evt);
             }
         });
-        jPanel24.add(jbtnFinalizar2);
+        jPanel24.add(jbtnAgregarMedicamentoExtemporaneo);
 
         cuerpo4VerDetallesDeLaReceta.add(jPanel24);
 
@@ -1149,9 +1164,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jtfCodigoDiagnosticoKeyReleased
 
-    private void jbtnFinalizar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFinalizar2ActionPerformed
+    private void jbtnAgregarMedicamentoExtemporaneoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarMedicamentoExtemporaneoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnFinalizar2ActionPerformed
+    }//GEN-LAST:event_jbtnAgregarMedicamentoExtemporaneoActionPerformed
 
     private void jtfLookCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyTyped
         if (jtfLookCodigo.getText().length()>=8){             
@@ -1347,7 +1362,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1395,9 +1409,9 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton jbtnADDmedicamentos;
+    private javax.swing.JButton jbtnAgregarMedicamentoExtemporaneo;
     private javax.swing.JButton jbtnCancelarCrearDiagnostico;
     private javax.swing.JButton jbtnCrearReceta;
-    private javax.swing.JButton jbtnFinalizar2;
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JButton jbtnImprimir;
     private javax.swing.JButton jbtnVolver2;
@@ -1409,6 +1423,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private javax.swing.JLabel jlblDescripcion;
     private javax.swing.JLabel jlblDescripcionDia;
     private javax.swing.JLabel jlblEscuela;
+    private javax.swing.JLabel jlblMensajito;
     private javax.swing.JLabel jlblMontoTotal;
     private javax.swing.JLabel jlblMontoTotalCrearReceta;
     private javax.swing.JLabel jlblNombres;

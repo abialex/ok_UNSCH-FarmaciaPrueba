@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.Inventario;
 
 
 import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Detalle_llenado;
 import java.awt.Color;
@@ -52,16 +53,16 @@ public class Ver_inventario extends javax.swing.JPanel {
         this.objPrincipal=OBJPrincipal;
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Detalle_llenado p");
+        Query query1=jpa.createQuery("SELECT p FROM Detalle_llenado p ");
         Lista_LotesDetalle_llenado=query1.getResultList();      
     }   
     public void principalEjecucion(){
          desglozarDatos();
+         jtfMedicamento.setDocument(new soloMayusculas());
         llenar_tabla_de_inventarioOperaciones(getMedicamentosParecidos(""));
         llenar_tabla_LoteDetalle(new ArrayList<Lote_detalle>());
     }
     public void desglozarDatos(){
-         //Lista_Inventario
          for (int i = 0; i < Lista_LotesDetalle_llenado.size(); i++){
             boolean auxInventario=true;
             for (int j = 0; j < Lista_Inventario.size(); j++){
@@ -366,6 +367,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton1ActionPerformed
     public void imprimir(Date Fe) throws FileNotFoundException, DocumentException, IOException{
+        Detalle_llenado objDetalleLlenado_AñoActual=null;
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
         PdfWriter writer=null;
