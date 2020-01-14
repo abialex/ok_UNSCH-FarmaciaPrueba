@@ -43,19 +43,32 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;             
     }
-    public void ConsultaBD(){             
-         if(jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList().isEmpty()){
+    public void ConsultaBD(){       
+        List<RegistroMensualLotes> lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
+         if(lista_registro.isEmpty()){
              jlblAdvertencia.setText("");
              Lista_lote_detalle=jpa.createQuery("SELECT p FROM Lote_detalle p").getResultList();
              Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)
              llenarTabla(Lista_lote_detalle);
-             jbtnAbrirInventario.setEnabled(true);
+             if(jpa.createQuery("Select p from RegistroMensualLotes p where month(fecha_cierre_real)="+(new Date().getMonth()+1) ).getResultList().isEmpty()){
+                 jbtnAbrirInventario.setEnabled(true);
+             }
+             else{
+                 jlblAdvertencia.setText("YA ABRIÓ PARA ESTE MES");
+                 jbtnAbrirInventario.setEnabled(false);
+                 }
              }
          else{
-             jlblAdvertencia.setText("El Inventario Mensual Está Abierto");
+             if(lista_registro.get(0).getFecha_cierra()==null){
+                 jlblAdvertencia.setText("El Inventario de "+Herramienta.getNombreMes(lista_registro.get(0).getFecha_apertura().getMonth()+1)+" Está Abierto");
+                 jbtnAbrirInventario.setEnabled(false);
+                 
+                 }
+             else{
+                 jlblAdvertencia.setText("Inventaríe los lotes para Abrir Inventario del Mes de "+Herramienta.getNombreMes(lista_registro.get(0).getFecha_apertura().getMonth()+2));
+                 }
              jbtnAbrirInventario.setEnabled(false);
-             Lista_lote_detalle=new ArrayList<>();
-             llenarTabla(Lista_lote_detalle);
+             llenarTabla(new ArrayList<Lote_detalle>());
              }
          }
     
@@ -256,7 +269,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
             
              
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (Lote_detalle objLote : Lista_lote_detalle){
+             for (Lote_detalle objLote : lista_lote_detalle){
                  fila_actividad[0]=objLote.getCodigo();
                  fila_actividad[1]=objLote.getInventario().getMedicamento().getNombre();
                  fila_actividad[2]=objLote.getCantidad();

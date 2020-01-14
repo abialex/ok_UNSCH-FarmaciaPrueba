@@ -11,6 +11,7 @@ import com.ecoedu.Vistas.Estudiante.Crear_Estudiante;
 import com.ecoedu.Vistas.Estudiante.Modificar_Estudiante;
 import com.ecoedu.Vistas.Consultas.Reporte_Por_Escuela;
 import com.ecoedu.Vistas.Inventario.Abrir_Inventario;
+import com.ecoedu.Vistas.Inventario.Cerrar_Inventario;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
 import com.ecoedu.Vistas.Inventario.LlenarInventario;
 import com.ecoedu.Vistas.Inventario.Ver_inventario;
@@ -61,6 +62,7 @@ public class Principal extends javax.swing.JFrame {
    private Reporte_Condicion objReporte_Condicion;
    private Servicio_Asistencial objServicio_Asistencial;
    private Abrir_Inventario objAbrir_Inventario;
+   private Cerrar_Inventario objCerrar_Inventario;
    
    
    private Color colorMoved=new Color(4,20,25);
@@ -98,6 +100,8 @@ public class Principal extends javax.swing.JFrame {
        this.objModificarMedicamento=new ModificarMedicamento(OBJjpa, this);
        this.objReporte_Condicion=new Reporte_Condicion(jpa, this);
        this.objAbrir_Inventario=new Abrir_Inventario(jpa, this, OBJuser);
+       this.objCerrar_Inventario=new Cerrar_Inventario(jpa, this, OBJuser);
+       
        this.setLocationRelativeTo(null);
        jlblUsuario.setText(user.getPersona().getInfoPersona());
        bodyContenedor.add(objBusquedaVentas);//1  
@@ -134,7 +138,9 @@ public class Principal extends javax.swing.JFrame {
        bodyContenedor.validate();
        bodyContenedor.add(objServicio_Asistencial);//17
        bodyContenedor.validate();
-       bodyContenedor.add(objAbrir_Inventario);
+       bodyContenedor.add(objAbrir_Inventario);//18
+       bodyContenedor.validate();
+       bodyContenedor.add(objCerrar_Inventario);//19
        bodyContenedor.validate();
        
        
@@ -560,7 +566,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Detalle de Inventario");
+        jLabel14.setText("Llenado Detallado(prueba)");
         jLabel14.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftInventario_detalleInventario.add(jLabel14, java.awt.BorderLayout.CENTER);
 
@@ -682,7 +688,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel21.setText("Medicamento Mas Usado");
+        jLabel21.setText("Medicamento Mas Usado(Prueba)");
         jLabel21.setPreferredSize(new java.awt.Dimension(300, 50));
         jleftConsultas_MedicamentoUsado.add(jLabel21, java.awt.BorderLayout.CENTER);
 
@@ -1178,7 +1184,9 @@ public class Principal extends javax.swing.JFrame {
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
         objReporte_Condicion.setVisible(false);//16
-         objServicioFarmacia.ConsultaBD();
+        objCerrar_Inventario.setVisible(false);//19
+        
+        objServicioFarmacia.ConsultaBD();
         objServicioFarmacia.principalEjecucion();
         objServicioFarmacia.setVisible(true);//9 
         jtfsub_Consultas.setVisible(false);
@@ -1330,6 +1338,7 @@ public class Principal extends javax.swing.JFrame {
       objServicio_Asistencial.setVisible(false);//17
       objReporte_Condicion.setVisible(false);//16
       objAbrir_Inventario.setVisible(false);//18
+      objCerrar_Inventario.setVisible(false);//19
       objLlenarInventario.ConsultaBD();
       //objLlenarInventario.principalEjecucion();(acondicionado con apertura/cierre inventario
       objLlenarInventario.setVisible(true);
@@ -1347,6 +1356,7 @@ public class Principal extends javax.swing.JFrame {
       objCrearUsuario.setVisible(false);
       objServicio_Asistencial.setVisible(false);//17
       objAbrir_Inventario.setVisible(false);//18
+      objCerrar_Inventario.setVisible(false);//19
       objDetalle_Inventario.setVisible(true);
       objCrear_Estudiante.setVisible(false);        
       objBusquedaVentas.setVisible(false);
@@ -1416,6 +1426,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objVer_inventario.ConsultaBD();
         objVer_inventario.principalEjecucion();        
         objVer_inventario.setVisible(true);
@@ -1491,6 +1502,7 @@ public class Principal extends javax.swing.JFrame {
         objProveedorLaboratorio.setVisible(true);//14
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objProveedorLaboratorio.ConsultaBD();
         objProveedorLaboratorio.principalEjecucion();
         jtfsub_Consultas.setVisible(false);
@@ -1525,6 +1537,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objCrearMedicamento.setVisible(true);
         objCrearMedicamento.ConsultaBD();
         objCrearMedicamento.principalEjecucion();
@@ -1552,6 +1565,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objCrearUsuario.ConsultaBD();
         objCrearUsuario.principalEjecucion();
         objCrearUsuario.setVisible(true);
@@ -1579,6 +1593,7 @@ public class Principal extends javax.swing.JFrame {
         objModificarUsuario.setVisible(true);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objModificarUsuario.ConsultaBD();
         objModificarUsuario.principalEjecucion();
         
@@ -1605,6 +1620,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objCrear_Estudiante.setVisible(true); 
         objCrear_Estudiante.ConsultaBD();
         objCrear_Estudiante.principalEjecucion();
@@ -1630,6 +1646,7 @@ public class Principal extends javax.swing.JFrame {
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objModificar_Estudiante.setVisible(false);
         objEntragEntrega_del_dia.ConsultaBD();
         objEntragEntrega_del_dia.principalEjecucion();
@@ -1655,6 +1672,7 @@ public class Principal extends javax.swing.JFrame {
         objEntragEntrega_del_dia.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objModificar_Estudiante.ConsultaBD();
         objModificar_Estudiante.principalEjecucion();
         objModificar_Estudiante.setVisible(true);
@@ -1685,6 +1703,7 @@ public class Principal extends javax.swing.JFrame {
         objModificar_Estudiante.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela.ConsultaBD();
        try {
            objReporte_Por_Escuela.principalEjecucion();
@@ -1719,6 +1738,7 @@ public class Principal extends javax.swing.JFrame {
         objServicioFarmacia.setVisible(false); 
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
@@ -1764,6 +1784,7 @@ public class Principal extends javax.swing.JFrame {
         objCrearMedicamento.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objModificarMedicamento.setVisible(true);//15
         
         objModificarMedicamento.ConsultaBD();
@@ -1797,6 +1818,7 @@ public class Principal extends javax.swing.JFrame {
            objCrearMedicamento.setVisible(false);
            objServicio_Asistencial.setVisible(false);//17
            objAbrir_Inventario.setVisible(false);//18
+           objCerrar_Inventario.setVisible(false);//19
            objModificarMedicamento.setVisible(false);//15
            objReporte_Condicion.ConsultaBD();
            objReporte_Condicion.principalEjecucion();
@@ -1834,6 +1856,7 @@ public class Principal extends javax.swing.JFrame {
         objModificarMedicamento.setVisible(false);//15
         objReporte_Condicion.setVisible(false);//16
         objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.setVisible(false);//19
         objServicio_Asistencial.ConsultaBD();
         objServicio_Asistencial.principalEjecucion();
         objServicio_Asistencial.setVisible(true);//17           
@@ -1866,6 +1889,7 @@ public class Principal extends javax.swing.JFrame {
         objModificarMedicamento.setVisible(false);//15
         objReporte_Condicion.setVisible(false);//16        
         objServicio_Asistencial.setVisible(false);//17
+        objCerrar_Inventario.setVisible(false);//19
         objAbrir_Inventario.ConsultaBD();
         objAbrir_Inventario.principalEjecucion();
         objAbrir_Inventario.setVisible(true);//18 
@@ -1880,7 +1904,29 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftInventario_CerrarInventarioMouseMoved
 
     private void jleftInventario_CerrarInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_CerrarInventarioMouseClicked
-        // TODO add your handling code here:
+        bodyContenedor.setVisible(true);           
+        objProveedorLaboratorio.setVisible(false);//14
+        objVer_inventario.setVisible(false);
+        objDetalle_Inventario.setVisible(false);
+        objCrear_Estudiante.setVisible(false);
+        objBusquedaVentas.setVisible(false);
+        objLlenarInventario.setVisible(false);
+        objServicioFarmacia.setVisible(false);
+        objCrearUsuario.setVisible(false);
+        objModificarUsuario.setVisible(false);
+        objEntragEntrega_del_dia.setVisible(false);
+        objModificar_Estudiante.setVisible(false);
+        objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.setVisible(false);
+        objCrearMedicamento.setVisible(false);
+        objModificarMedicamento.setVisible(false);//15
+        objReporte_Condicion.setVisible(false);//16        
+        objServicio_Asistencial.setVisible(false);//17
+        objAbrir_Inventario.setVisible(false);//18
+        objCerrar_Inventario.ConsultaBD();
+        objCerrar_Inventario.principalEjecucion();
+        objCerrar_Inventario.setVisible(true);//19
+         
     }//GEN-LAST:event_jleftInventario_CerrarInventarioMouseClicked
 
     private void jleftInventario_CerrarInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_CerrarInventarioMouseExited

@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
@@ -59,7 +60,8 @@ public class LlenarInventario extends javax.swing.JPanel {
     }
               
     public void ConsultaBD(){
-        if(jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList().isEmpty()){
+        List<RegistroMensualLotes> lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
+        if(lista_registro.isEmpty()){
             Query query2=jpa.createQuery("SELECT p FROM Inventario p");
             Lista_Inventario=query2.getResultList();
             Query query3=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=2");
@@ -69,7 +71,7 @@ public class LlenarInventario extends javax.swing.JPanel {
             principalEjecucion();
             }
         else{
-            jlblHeadMensaje.setText("No puede llenar hasta que el inventario mensual se cierre");
+            jlblHeadMensaje.setText("No puede llenar hasta que el inventario de "+Herramienta.getNombreMes(lista_registro.get(0).getFecha_apertura().getMonth()+1)+" se cierre");
             jlblHeadMensaje.setForeground(Color.RED);
             jtfProductoFarmaceutico.setEnabled(false);
             jtfCodigoLote.setEnabled(false);

@@ -594,7 +594,7 @@
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="text" type="java.lang.String" value="Detalle de Inventario"/>
+                        <Property name="text" type="java.lang.String" value="Llenado Detallado(prueba)"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[300, 50]"/>
                         </Property>
@@ -809,7 +809,7 @@
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="text" type="java.lang.String" value="Medicamento Mas Usado"/>
+                        <Property name="text" type="java.lang.String" value="Medicamento Mas Usado(Prueba)"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[300, 50]"/>
                         </Property>

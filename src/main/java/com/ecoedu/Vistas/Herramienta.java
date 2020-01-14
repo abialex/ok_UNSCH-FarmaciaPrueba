@@ -69,6 +69,38 @@ public class Herramienta {
         return fechamenor.getTime()<=fechaMayor.getTime();
         
     }
+    
+    public static String getNombreMes(int a){
+        switch(a){
+            case 0:
+                return "diciembre";
+            case 1:
+                return "Enero";                
+            case 2:
+                return "Febrero";
+            case 3:
+                return "Marzo";
+            case 4:
+                return "Abril";
+            case 5:
+                return "Mayo";
+            case 6:
+                return "Junio";
+            case 7:
+                return "Julio";
+            case 8:
+                return "Agosto";
+            case 9:
+                return "Setiembre";
+            case 10:
+                return "Octubre";
+            case 11:
+                return "Noviembre";
+            case 12:
+                return "Diciembre";
+                }
+        return a+"";
+        }
      
     
     
@@ -147,6 +179,23 @@ public class Herramienta {
         }               
         return listGenericos; 
     }
+    //
+    public static <T> List<T> findbyBeetWeen(Class<T> generico,String Columna,Date FechaInicio,Date FechaFin,EntityManager jpa,int id_Lote_Detalle){
+        List<T> listGenericos=new ArrayList<>();
+        try {
+            Query query=jpa.createQuery("SELECT p FROM "+generico.getSimpleName()+" p where "+Columna+" BETWEEN "+"'"+
+            (FechaInicio.getYear()+1900)+(Herramienta.conOsin0(FechaInicio.getMonth()+1))+(Herramienta.conOsin0(FechaInicio.getDate())+" 00:00:00 ")+"'"
+            +" and "+"'"+
+            (FechaFin.getYear()+1900)+(Herramienta.conOsin0(FechaFin.getMonth()+1))+(Herramienta.conOsin0(FechaFin.getDate()))+" 23:59:59 "+"'"
+            +"and id_Lote_detalle="+id_Lote_Detalle);
+        listGenericos=query.getResultList();  
+            
+        } catch (Exception e) {
+            System.out.println(e.toString()+" HUBO ERROR DE CONSULTA");
+        }               
+        return listGenericos; 
+    }
+    
     public static <T> List<T> findbyBeetWeen(Class<T> generico,String Columna,Date FechaInicio,Date FechaFin,int idControl,EntityManager jpa){
         List<T> listGenericos=new ArrayList<>();
         try {

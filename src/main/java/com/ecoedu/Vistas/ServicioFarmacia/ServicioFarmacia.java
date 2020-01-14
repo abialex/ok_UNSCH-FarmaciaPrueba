@@ -10,6 +10,7 @@ import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Receta;
+import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
@@ -139,25 +140,34 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         this.objUsuario=OBJUsuario;        
     }
     
-     public void ConsultaBD(){
-         
-         if(jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList().isEmpty()){
-         jbtnCrearReceta.setVisible(false);
-         jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
-         jlblMensajito.setText("El inventario está cerrado solo puede visualizar Recetas");
-         jlblMensajito.setForeground(Color.red);
+     public void ConsultaBD(){  
+         List<RegistroMensualLotes> listaRegistro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList();         
+         if(listaRegistro.isEmpty()){         
+             jbtnCrearReceta.setVisible(false);
+             jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
+             jlblMensajito.setText("El inventario está cerrado");
+             jlblMensajito.setForeground(Color.red);
          }
          else{
-             jbtnCrearReceta.setVisible(true);
-         jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
-         jlblMensajito.setText("LISTA DE RECETAS DEL ESTUDIANTE");
-         jlblMensajito.setForeground(Color.black);
-             
+             if(jpa.createQuery("select p from RegistroMensualLotes p where MONTH(fecha_apertura)="+(new Date().getMonth())+1).getResultList().isEmpty()){
+                 jbtnCrearReceta.setVisible(false);
+                 jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
+                 jlblMensajito.setText("Cierre el inventario de "+Herramienta.getNombreMes(listaRegistro.get(0).getFecha_apertura().getMonth()+1));
+                 jlblMensajito.setForeground(Color.red); 
+                 
+             }
+             else{
+                 
+                 jbtnCrearReceta.setVisible(true);
+                 jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
+                 jlblMensajito.setText("LISTA DE RECETAS DEL ESTUDIANTE");
+                 jlblMensajito.setForeground(Color.black); 
+                 }            
+         
          }
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
          Lista_Procedencia =jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=5").getResultList();
          Lista_Condicion=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=8").getResultList();
-         
      }
      public void principalEjecucion(){         
          jtfLookCodigo.setText("");

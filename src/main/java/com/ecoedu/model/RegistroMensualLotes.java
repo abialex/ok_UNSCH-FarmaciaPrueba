@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class RegistroMensualLotes implements Serializable {
+public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Serializable {
 
     public RegistroMensualLotes() {
     }
@@ -147,6 +147,15 @@ public class RegistroMensualLotes implements Serializable {
 
     public void setLote_detalle(Lote_detalle lote_detalle) {
         this.lote_detalle = lote_detalle;
+    }
+
+    @Override
+    public int compareTo(RegistroMensualLotes o) {
+        return this.getLote_detalle().getInventario().getMedicamento().getNombre().compareTo(o.getLote_detalle().getInventario().getMedicamento().getNombre());
+    }
+    @Override
+    public String toString(){
+        return lote_detalle.getCodigo();
     }
     
     
