@@ -5,11 +5,9 @@
  */
 package com.ecoedu.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,24 +18,11 @@ import javax.persistence.ManyToOne;
  *
  * @author yrma
  */
-@Entity
-public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Serializable {
-
-    public RegistroMensualLotes() {
-    }
-
-    public RegistroMensualLotes(int cantidad_inicial, Date fecha_apertura, Date fecha_apertura_real, Usuario usuario_apertura, Lote_detalle lote_detalle) {
-        this.cantidad_inicial = cantidad_inicial;
-        this.fecha_apertura = fecha_apertura;
-        this.fecha_apertura_real = fecha_apertura_real;
-        this.usuario_apertura = usuario_apertura;
-        this.lote_detalle = lote_detalle;
-    }  
-    
+public class RegistroMensualInventario{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Registro_mensual_lotes;
+    private int id_Registro_mensual_Inventario;
     
     @Column(name = "cantidad_inicial",nullable = false)
     private int cantidad_inicial;
@@ -65,20 +50,16 @@ public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Se
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario_cierre;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_Inventario",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Lote_detalle lote_detalle;
-    
-    
-    
-    
 
-    public int getId_Registro_mensual_lotes() {
-        return id_Registro_mensual_lotes;
+    public int getId_Registro_mensual_Inventario() {
+        return id_Registro_mensual_Inventario;
     }
 
-    public void setId_Registro_mensual_lotes(int id_Registro_mensual_lotes) {
-        this.id_Registro_mensual_lotes = id_Registro_mensual_lotes;
+    public void setId_Registro_mensual_Inventario(int id_Registro_mensual_Inventario) {
+        this.id_Registro_mensual_Inventario = id_Registro_mensual_Inventario;
     }
 
     public int getCantidad_inicial() {
@@ -152,15 +133,7 @@ public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Se
     public void setLote_detalle(Lote_detalle lote_detalle) {
         this.lote_detalle = lote_detalle;
     }
-
-    @Override
-    public int compareTo(RegistroMensualLotes o) {
-        return this.getLote_detalle().getInventario().getMedicamento().getNombre().compareTo(o.getLote_detalle().getInventario().getMedicamento().getNombre());
-    }
-    @Override
-    public String toString(){
-        return lote_detalle.getCodigo();
-    }
+    
     
     
 }

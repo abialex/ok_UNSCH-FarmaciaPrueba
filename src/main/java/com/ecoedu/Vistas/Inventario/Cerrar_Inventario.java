@@ -1,8 +1,4 @@
 package com.ecoedu.Vistas.Inventario;
-
-
-
-
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Detalle_Medicamentos;
@@ -106,6 +102,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jLabel18 = new javax.swing.JLabel();
         jlblAdverte = new javax.swing.JLabel();
         jbtnCerrarInventario = new javax.swing.JButton();
+        jbtnDescruzarGeneral = new javax.swing.JButton();
         vistaLoteAcerrar = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -266,6 +263,18 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             }
         });
         vistaRegistroLotes.add(jbtnCerrarInventario);
+
+        jbtnDescruzarGeneral.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnDescruzarGeneral.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnDescruzarGeneral.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnDescruzarGeneral.setText("DESCRUZAR");
+        jbtnDescruzarGeneral.setPreferredSize(new java.awt.Dimension(220, 25));
+        jbtnDescruzarGeneral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnDescruzarGeneralActionPerformed(evt);
+            }
+        });
+        vistaRegistroLotes.add(jbtnDescruzarGeneral);
 
         body2.add(vistaRegistroLotes, "card2");
 
@@ -485,9 +494,14 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                 }
             
             else{
-                System.out.println("vale... no borro nada...");}
+                System.out.println("vale... no borro nada...");
+            }
         
     }//GEN-LAST:event_jbtnCerrarInventarioActionPerformed
+
+    private void jbtnDescruzarGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDescruzarGeneralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnDescruzarGeneralActionPerformed
 
     public void llenarTabla(List<RegistroMensualLotes> lista_Registros){ 
         DefaultTableModel modelo;
@@ -621,6 +635,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JButton jbtnAbrirInventario3;
     private javax.swing.JButton jbtnCerrarInventario;
     private javax.swing.JButton jbtnDescruzar;
+    private javax.swing.JButton jbtnDescruzarGeneral;
     private javax.swing.JButton jbtnGuardarCierreLote;
     private javax.swing.JLabel jlblAdverte;
     private javax.swing.JLabel jlblAdvertencia;

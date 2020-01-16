@@ -5,6 +5,7 @@
  */
 package com.ecoedu.model;
 
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +37,18 @@ public class Control_paciente{
 
     @Column(name="iSactivo",nullable = false)
     private boolean  iSactivo;
+    
+    @Column(name="fecha_registro",nullable = true)
+    private Date  fecha_registro;
 
+    public Date getFecha_registro() {
+        return fecha_registro;
+    }
+
+    public void setFecha_registro(Date fecha_registro) {
+        this.fecha_registro = fecha_registro;
+    }   
+        
     public boolean isiSactivo(){
         return iSactivo;
     }

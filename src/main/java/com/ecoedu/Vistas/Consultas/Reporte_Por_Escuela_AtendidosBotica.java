@@ -52,13 +52,11 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
         this.objPrincipal=OBJPrincipal;             
     }
      public void ConsultaBD(){
-         Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();             
+         //Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
+         
      }    
      public void principalEjecucion() throws DocumentException, IOException{    
-            jcbEscuela.removeAllItems();
-            for (Rol RolEscuela : desglozarControlPacientetoEscuelas(Lista_control_paciente)){
-                jcbEscuela.addItem(RolEscuela);
-            }
+            
             Rol objEscuela1=new Rol();
             objEscuela1.setId_Rol(450);
             imprimir(objEscuela1);
@@ -76,7 +74,6 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jcbYearDesde = new rojeru_san.componentes.RSDateChooser();
         jcbYearHasta = new rojeru_san.componentes.RSDateChooser();
-        jcbEscuela = new javax.swing.JComboBox<>();
         jlblSerie = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
@@ -125,9 +122,6 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
 
         jcbYearHasta.setPreferredSize(new java.awt.Dimension(240, 30));
         jPanel5.add(jcbYearHasta);
-
-        jcbEscuela.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel5.add(jcbEscuela);
 
         jPanel7.add(jPanel5);
 
@@ -237,7 +231,7 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void imprimirEscuelitas() throws MalformedURLException, IOException{
-        List<Rol> listaCondiciones=desglozarControlPacientetoEscuelas(Lista_control_paciente);
+        
         List<ZObjetoProDiag> Lista_zObjetoProdiag=new ArrayList<>();
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -252,7 +246,10 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
                  };
              //.....................................TABLA...........Fin......................           
              fila_actividad=new Object[modelo.getColumnCount()]; 
+             Lista_control_paciente=Herramienta.findbyBeetWeen(Control_paciente.class, "fecha_registro", jcbYearDesde.getDatoFecha(), jcbYearHasta.getDatoFecha(), jpa);
+            
         if(!Lista_control_paciente.isEmpty()){
+            List<Rol> listaCondiciones=desglozarControlPacientetoEscuelas(Lista_control_paciente);
             jbtnImprimir.setEnabled(true);
             String ol="images\\unsch.png";
             Image unsch=new Image(ImageDataFactory.create(ol));            
@@ -260,12 +257,13 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
             int fontHeadTamaño=11;
             PdfWriter writer=null;
             try {
-                writer=new PdfWriter("Carpeta_de_Archivos\\Reporte_Condicion.pdf"); 
+                writer=new PdfWriter("Carpeta_de_Archivos\\Reporte_Escuela_Botica.pdf"); 
                 }
             catch (FileNotFoundException e) {
                 JOptionPane.showMessageDialog(jPanel7, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso procedencia");
                 jbtnImprimir.setEnabled(false);
                 }
+            
             PdfDocument pdf = new PdfDocument(writer);
             Document document=new Document(pdf,PageSize.A4);
             PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
@@ -273,13 +271,14 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
             Table table = new Table(new float[]{10,10});
             table.setWidthPercent(100); 
             Paragraph paragIma=new Paragraph("").add(unsch).add(
-                new Text("                  REPORTE DE CONDICIONES DEL AÑO "+(new Date().getYear()+1900)).setFontSize(16).setFont(bold).setTextAlignment(TextAlignment.CENTER));  
+                new Text("REPORTE DE ESCUELAS ATENDIDOS EN SERVICIO:BOTICA DEL AÑO "+(new Date().getYear()+1900)).setFontSize(13).setFont(bold).setTextAlignment(TextAlignment.CENTER));  
             document.add(paragIma);   
-            Paragraph paraEscCodSerie=new Paragraph(new Text("reporte hasta la fecha de : ").setFont(bold))
-                    .add(new Text(Herramienta.formatoFechaHora(new Date())).setFont(bold));
-            document.add(paraEscCodSerie);            
+            Paragraph paraEscCodSerie=new Paragraph(new Text("DESDE: ").setFont(bold)).add(Herramienta.formatoFecha(jcbYearDesde.getDatoFecha()))
+                .add(new Text("     HASTA: ").setFont(bold)).add(Herramienta.formatoFecha(jcbYearHasta.getDatoFecha()));
+            
+            document.add(paraEscCodSerie);           
             document.add(new Paragraph(" "));
-            table.addHeaderCell(new Cell().add(new Paragraph("Condicion").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
+            table.addHeaderCell(new Cell().add(new Paragraph("Escuela").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
             table.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));  
             //Control_paciente control_paciente : Lista_ControlPaciente
             for(Rol objCondicion : listaCondiciones){
@@ -316,12 +315,12 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
     private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
         try {
             if(Herramienta.fechaMenor(jcbYearDesde.getDatoFecha(),jcbYearHasta.getDatoFecha())){
-                imprimir((Rol)jcbEscuela.getSelectedItem());
+                imprimirEscuelitas();
                 }
             else{
                 JOptionPane.showMessageDialog(jPanel5, "La fecha (Desde) no debe ser mayor que (Hasta)");
             }
-        } catch (DocumentException | IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Reporte_Diagnostico.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnCrearRecetaActionPerformed
@@ -519,7 +518,6 @@ public class Reporte_Por_Escuela_AtendidosBotica extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnCrearReceta;
     private javax.swing.JButton jbtnImprimir;
-    private javax.swing.JComboBox<Rol> jcbEscuela;
     private rojeru_san.componentes.RSDateChooser jcbYearDesde;
     private rojeru_san.componentes.RSDateChooser jcbYearHasta;
     private javax.swing.JLabel jlblSerie;
@@ -532,32 +530,14 @@ public void llenar_Tabla_de_Recetas(DefaultTableModel modelo){
             tcr.setHorizontalAlignment(SwingConstants.CENTER);
             jtblRecetas.getColumnModel().getColumn(0).setCellRenderer(tcr);
             jtblRecetas.getColumnModel().getColumn(1).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(2).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(3).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(4).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(5).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(6).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(7).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(8).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(9).setCellRenderer(tcr);  
-            jtblRecetas.getColumnModel().getColumn(10).setCellRenderer(tcr);              
-            jtblRecetas.getColumnModel().getColumn(11).setCellRenderer(tcr);
-            jtblRecetas.setFont(new java.awt.Font("Tahoma", 0, 11));
-            jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 14));
+      
+            jtblRecetas.setFont(new java.awt.Font("Tahoma", 0, 14));
+            jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18));
             jtblRecetas.getTableHeader().setBackground(Color.BLUE);
             jtblRecetas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(75);//queda
-            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(220);//queda
-            jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(45);//queda
-            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(45);//queda   
-            jtblRecetas.getColumnModel().getColumn(4).setPreferredWidth(45);//queda 
-            jtblRecetas.getColumnModel().getColumn(5).setPreferredWidth(90); 
-            jtblRecetas.getColumnModel().getColumn(6).setPreferredWidth(95); 
-            jtblRecetas.getColumnModel().getColumn(7).setPreferredWidth(145);//quedo 
-            jtblRecetas.getColumnModel().getColumn(8).setPreferredWidth(50);//queda 
-            jtblRecetas.getColumnModel().getColumn(9).setPreferredWidth(40); //queda
-            jtblRecetas.getColumnModel().getColumn(10).setPreferredWidth(40); //queda
-            jtblRecetas.getColumnModel().getColumn(11).setPreferredWidth(210); //queda
+            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(150);//queda
+            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(50);//queda
+ 
             ((DefaultTableCellRenderer)jtblRecetas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64  
     }   
