@@ -67,11 +67,7 @@ public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Se
     
     @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Lote_detalle lote_detalle;
-    
-    
-    
-    
+    private Lote_detalle lote_detalle; 
 
     public int getId_Registro_mensual_lotes() {
         return id_Registro_mensual_lotes;

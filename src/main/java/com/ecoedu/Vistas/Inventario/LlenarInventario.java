@@ -591,7 +591,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFactura.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteFactura.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteFactura.setText("*");
-        jPanel7.add(jlblAsteFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 10, 25));
+        jPanel7.add(jlblAsteFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 10, 25));
 
         jlblAsteProveedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteProveedor.setForeground(new java.awt.Color(255, 0, 0));
@@ -603,7 +603,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFabricante.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteFabricante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteFabricante.setText("*");
-        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, -1, 25));
+        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, -1, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -787,7 +787,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                  fila_actividad[0]=listaLote.get(i).getInventario().getMedicamento().getNombre();
                  fila_actividad[1]=listaLote.get(i).getCodigo();
                  fila_actividad[2]=listaLote.get(i).getCantidad();             
-                 fila_actividad[3]=listaLlenado.get(i);
+                 fila_actividad[3]=listaLlenado.get(i).getPrecio_unitario();
                  fila_actividad[4]=listaLote.get(i).getPrecio_Venta_Redondeado();
                  fila_actividad[5]=Herramienta.formatoFecha(listaLote.get(i).getFecha_vencimiento());
                  fila_actividad[6]=listaLote.get(i).getRolFabricante().getNombre_rol();
@@ -830,8 +830,6 @@ public class LlenarInventario extends javax.swing.JPanel {
             jtblLoteDetalle.getColumnModel().getColumn(8).setPreferredWidth(100);
             ((DefaultTableCellRenderer)jtblLoteDetalle.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  
-    }
-    public void pruebas(){
     }
     
     private void jbtnGuardarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarLotesActionPerformed

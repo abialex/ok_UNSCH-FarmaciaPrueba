@@ -475,7 +475,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         FechaNacimiento.setSeconds(0);
         Estudiante objEstudiante=new Estudiante();
         Control_paciente objControl_paciente=new Control_paciente();
-        objControl_paciente.setFecha_registro(new Date());
         objControl_paciente.setMonto_Total(0); 
         objControl_paciente.setLimite_control(110);
         objControl_paciente.setiSactivo(true);
