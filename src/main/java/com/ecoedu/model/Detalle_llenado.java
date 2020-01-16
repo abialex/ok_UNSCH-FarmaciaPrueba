@@ -103,6 +103,10 @@ public class Detalle_llenado implements Comparable<Detalle_llenado>, Serializabl
     public void setPrecio_unitario(float precio_unitario) {
         this.precio_unitario = precio_unitario;
     }
+    @Override
+    public String toString(){
+        return this.getPrecio_unitario()+"";
+    }
 
     @Override
     public int compareTo(Detalle_llenado o) {

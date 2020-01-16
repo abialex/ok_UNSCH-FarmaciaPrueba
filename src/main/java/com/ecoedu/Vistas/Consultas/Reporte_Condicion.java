@@ -22,6 +22,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -247,7 +248,14 @@ public class Reporte_Condicion extends javax.swing.JPanel {
         if(!Lista_ControlPaciente.isEmpty()){
             jbtnImprimir.setEnabled(true);
             String ol="images\\unsch.png";
-            Image unsch=new Image(ImageDataFactory.create(ol));            
+            Image unsch=null;
+            try{             
+             unsch=new Image(ImageDataFactory.create(ol)); 
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(jPanel7, "no se encontró la imagen unsch.png");
+            }
+                       
             int fontTamaño=9;
             int fontHeadTamaño=11;
             PdfWriter writer=null;

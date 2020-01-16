@@ -464,7 +464,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jlblAsteriscoApelloPaterno.getText().isEmpty() && jlblAsteriscoCodigo.getText().isEmpty()
                 && jlblAsteriscoEscuela.getText().isEmpty() && jlblAsteriscoFecha.getText().isEmpty()
                 && jlblAsteriscoNombress.getText().isEmpty()){
-            Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=1003").getResultList().get(0);//condicion en nuevo
+            Rol objCondicion=(Rol)jpa.createQuery("select p from Rol p where id_Rol=4").getResultList().get(0);//condicion en nuevo
         Persona objPersona=new Persona();
         Date FechaNacimiento=new Date();
         FechaNacimiento.setYear(Integer.parseInt(jtfAño.getText())-1900);

@@ -1094,13 +1094,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 objReceta=fechadeUltimaReceta(Lista_Recetas);
                 if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){//menor de 6 meses
                     objEstudiante.setRolCondicion(Lista_Condicion.get(1));
-                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1004+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+5+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);
 
                     }
                 else{
                     objEstudiante.setRolCondicion(Lista_Condicion.get(2));
-                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1005+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+6+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);//Reingresante
                     }
                 }

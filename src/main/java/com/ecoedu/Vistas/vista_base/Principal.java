@@ -252,6 +252,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jleftConsultas_Reporte_Condicion = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
+        jleftConsultas_ReportePorEscuelaxAlumno = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
         jleftUsuario = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -832,7 +834,7 @@ public class Principal extends javax.swing.JFrame {
         left.add(jleftConsultas);
 
         jtfsub_Consultas.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_Consultas.setPreferredSize(new java.awt.Dimension(300, 160));
+        jtfsub_Consultas.setPreferredSize(new java.awt.Dimension(300, 200));
 
         jleftConsultas_Entregadeldia.setBackground(new java.awt.Color(73, 20, 100));
         jleftConsultas_Entregadeldia.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -941,6 +943,33 @@ public class Principal extends javax.swing.JFrame {
         jleftConsultas_Reporte_Condicion.add(jLabel31, java.awt.BorderLayout.CENTER);
 
         jtfsub_Consultas.add(jleftConsultas_Reporte_Condicion);
+
+        jleftConsultas_ReportePorEscuelaxAlumno.setBackground(new java.awt.Color(73, 20, 100));
+        jleftConsultas_ReportePorEscuelaxAlumno.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftConsultas_ReportePorEscuelaxAlumno.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportePorEscuelaxAlumnoMouseMoved(evt);
+            }
+        });
+        jleftConsultas_ReportePorEscuelaxAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportePorEscuelaxAlumnoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftConsultas_ReportePorEscuelaxAlumnoMouseExited(evt);
+            }
+        });
+        jleftConsultas_ReportePorEscuelaxAlumno.setLayout(new java.awt.BorderLayout());
+
+        jLabel35.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel35.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel35.setText("Reporte por Escuela por Atendidos");
+        jLabel35.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftConsultas_ReportePorEscuelaxAlumno.add(jLabel35, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Consultas.add(jleftConsultas_ReportePorEscuelaxAlumno);
 
         left.add(jtfsub_Consultas);
 
@@ -1933,6 +1962,18 @@ public class Principal extends javax.swing.JFrame {
          jleftInventario_CerrarInventario.setBackground(colorExitSub);
     }//GEN-LAST:event_jleftInventario_CerrarInventarioMouseExited
 
+    private void jleftConsultas_ReportePorEscuelaxAlumnoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseMoved
+        jleftConsultas_ReportePorEscuelaxAlumno.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseMoved
+
+    private void jleftConsultas_ReportePorEscuelaxAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseClicked
+
+    private void jleftConsultas_ReportePorEscuelaxAlumnoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseExited
+       jleftConsultas_ReportePorEscuelaxAlumno.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseExited
+
     public Usuario getUsuario(){
         return user;
     } 
@@ -1970,6 +2011,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1993,6 +2035,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftConsultas_Entregadeldia;
     private javax.swing.JPanel jleftConsultas_MedicamentoUsado;
     private javax.swing.JPanel jleftConsultas_ReportePorEscuela;
+    private javax.swing.JPanel jleftConsultas_ReportePorEscuelaxAlumno;
     private javax.swing.JPanel jleftConsultas_Reporte_Condicion;
     private javax.swing.JPanel jleftConsultas_ReportedelMes;
     private javax.swing.JPanel jleftEstudiante;

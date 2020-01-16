@@ -75,29 +75,29 @@ public class Herramienta {
             case 0:
                 return "diciembre";
             case 1:
-                return "Enero";                
+                return "ENERO";                
             case 2:
-                return "Febrero";
+                return "FEBRERO";
             case 3:
-                return "Marzo";
+                return "MARZO";
             case 4:
-                return "Abril";
+                return "ABRIL";
             case 5:
-                return "Mayo";
+                return "MAYO";
             case 6:
-                return "Junio";
+                return "JUNIO";
             case 7:
-                return "Julio";
+                return "JULIO";
             case 8:
-                return "Agosto";
+                return "AGOSTO";
             case 9:
-                return "Setiembre";
+                return "SETIEMBRE";
             case 10:
-                return "Octubre";
+                return "OCTUBRE";
             case 11:
-                return "Noviembre";
+                return "NOVIEMBRE";
             case 12:
-                return "Diciembre";
+                return "DICIEMBRE";
                 }
         return a+"";
         }
