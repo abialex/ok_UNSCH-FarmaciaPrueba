@@ -4,25 +4,19 @@
  * and open the template in the editor.
  */
 package com.ecoedu.Vistas.vista_base;
-
-
-
 import com.ecoedu.Vistas.Login;
 import javax.swing.ImageIcon;
-
 /**
  *
  * @author yrma
  */
 public class CuadroLogin extends javax.swing.JFrame {
-    Login objLogin;
-    
+    Login objLogin;    
     public CuadroLogin(){         
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/images/login.png")).getImage());
         this.objLogin=new Login(this);
         contenedor.add(objLogin);
-        
         this.setLocationRelativeTo(null);
     }   
     @SuppressWarnings("unchecked")

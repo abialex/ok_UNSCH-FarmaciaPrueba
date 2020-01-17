@@ -320,7 +320,6 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
         jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblMensaje.setText("error temporal");
         jlblMensaje.setPreferredSize(new java.awt.Dimension(700, 14));
         jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 260, 440, 20));
 
@@ -594,7 +593,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFactura.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteFactura.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteFactura.setText("*");
-        jPanel7.add(jlblAsteFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 10, 25));
+        jPanel7.add(jlblAsteFactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 10, 25));
 
         jlblAsteProveedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteProveedor.setForeground(new java.awt.Color(255, 0, 0));
@@ -606,7 +605,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFabricante.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteFabricante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteFabricante.setText("*");
-        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, -1, 25));
+        jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, -1, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 

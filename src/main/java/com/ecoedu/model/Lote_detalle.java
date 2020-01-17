@@ -129,7 +129,11 @@ public class Lote_detalle implements Comparable<Lote_detalle>, Serializable{
         this.cantidad=cantidad-cant;
         return this;
     }
-
+    
+    @Override
+    public String toString(){
+        return this.codigo;
+    }
     @Override
     public int compareTo(Lote_detalle o) {        
         return this.getInventario().getMedicamento().getNombre().compareTo(o.getInventario().getMedicamento().getNombre());

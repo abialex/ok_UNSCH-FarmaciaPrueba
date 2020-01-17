@@ -323,10 +323,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         table.setWidthPercent(100);
         //Paragraph parag=new Paragraph("KARDEX DIARIO MEDICAMENTOS").setFontSize(16).setFont(bold);
         Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                    APERTURA DE INVENTARIO PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
-   
-        document.add(paragIma);
-
-             
+        document.add(paragIma);    
         Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
         document.add(parag2);
         document.add(new Paragraph(" "));    
@@ -368,8 +365,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     
         }     
         document.add(table);        
-        document.close();  
-        
+        document.close(); 
     }
     public void llenarTabla(List<Detalle_llenado> lista_lote_detalle){ 
         DefaultTableModel modelo;

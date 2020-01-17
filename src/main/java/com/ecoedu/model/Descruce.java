@@ -32,9 +32,8 @@ public class Descruce implements Serializable {
     @Column(name = "cantidad",nullable = false)
     private int cantidad;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_RolOperacion",nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Rol RolOperacion;
+    @Column(name = "cantidad2",nullable = false)
+    private int cantidad2;
     
     @Column(name = "fecha_registro")
     private Date fecha_registro;
@@ -46,7 +45,27 @@ public class Descruce implements Serializable {
     @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Lote_detalle lote_detalle;
+    
+    @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle2",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Lote_detalle lote_detalle2;
 
+    public int getCantidad2() {
+        return cantidad2;
+    }
+
+    public void setCantidad2(int cantidad2) {
+        this.cantidad2 = cantidad2;
+    }
+
+    public Lote_detalle getLote_detalle2() {
+        return lote_detalle2;
+    }
+
+    public void setLote_detalle2(Lote_detalle lote_detalle2) {
+        this.lote_detalle2 = lote_detalle2;
+    }
+    
     public int getId_Descruce() {
         return id_Descruce;
     }
@@ -69,14 +88,6 @@ public class Descruce implements Serializable {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public Rol getRolOperacion() {
-        return RolOperacion;
-    }
-
-    public void setRolOperacion(Rol RolOperacion) {
-        this.RolOperacion = RolOperacion;
     }
 
     public Date getFecha_registro() {
