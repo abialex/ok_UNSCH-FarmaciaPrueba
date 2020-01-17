@@ -82,6 +82,9 @@ public class LlenarInventario extends javax.swing.JPanel {
             jtfDiaVenc.setEnabled(false);
             jtfLaboratorio.setEnabled(false);
             jbtnAgregarLotes.setEnabled(false);
+            jbtnGuardarLotes.setEnabled(false);
+            jtfCodigoFactura.setEnabled(false);
+            jtfProveedor.setEnabled(false);
             }
         }   
     public void principalEjecucion(){

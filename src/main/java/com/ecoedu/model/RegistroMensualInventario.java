@@ -21,24 +21,22 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Serializable {
+public class RegistroMensualInventario implements Serializable,Comparable<RegistroMensualInventario>{
 
-    public RegistroMensualLotes() {
+    public RegistroMensualInventario() {
     }
 
-    public RegistroMensualLotes(int cantidad_inicial, Date fecha_apertura, Date fecha_apertura_real, Usuario usuario_apertura, Lote_detalle lote_detalle,RegistroMensualInventario objRegi) {
+    public RegistroMensualInventario(int cantidad_inicial, Date fecha_apertura, Date fecha_apertura_real, Usuario usuario_apertura, Inventario inventario) {
         this.cantidad_inicial = cantidad_inicial;
         this.fecha_apertura = fecha_apertura;
         this.fecha_apertura_real = fecha_apertura_real;
         this.usuario_apertura = usuario_apertura;
-        this.lote_detalle = lote_detalle;
-        this.RegistroMensualInventario=objRegi;
-    }  
-    
+        this.inventario = inventario;
+    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Registro_mensual_lotes;
+    private int id_Registro_mensual_Inventario;
     
     @Column(name = "cantidad_inicial",nullable = false)
     private int cantidad_inicial;
@@ -66,29 +64,24 @@ public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Se
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario_cierre;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle",nullable = false)
+    @JoinColumn(insertable = true,updatable = false,name="id_Inventario",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
-    private Lote_detalle lote_detalle;
-    
-    @JoinColumn(insertable = true,updatable = false,name="id_Registro_mensual_Inventario",nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
-    private RegistroMensualInventario RegistroMensualInventario; 
+    private Inventario inventario;
 
-    public RegistroMensualInventario getRegistroMensualInventario() {
-        return RegistroMensualInventario;
+    public Inventario getInventario() {
+        return inventario;
     }
 
-    public void setRegistroMensualInventario(RegistroMensualInventario RegistroMensualInventario) {
-        this.RegistroMensualInventario = RegistroMensualInventario;
-    }  
-    
-    
-    public int getId_Registro_mensual_lotes() {
-        return id_Registro_mensual_lotes;
+    public void setInventario(Inventario inventario) {
+        this.inventario = inventario;
+    }   
+
+    public int getId_Registro_mensual_Inventario() {
+        return id_Registro_mensual_Inventario;
     }
 
-    public void setId_Registro_mensual_lotes(int id_Registro_mensual_lotes) {
-        this.id_Registro_mensual_lotes = id_Registro_mensual_lotes;
+    public void setId_Registro_mensual_Inventario(int id_Registro_mensual_Inventario) {
+        this.id_Registro_mensual_Inventario = id_Registro_mensual_Inventario;
     }
 
     public int getCantidad_inicial() {
@@ -154,23 +147,21 @@ public class RegistroMensualLotes implements Comparable<RegistroMensualLotes>,Se
     public void setUsuario_cierre(Usuario usuario_cierre) {
         this.usuario_cierre = usuario_cierre;
     }
-
-    public Lote_detalle getLote_detalle() {
-        return lote_detalle;
-    }
-
-    public void setLote_detalle(Lote_detalle lote_detalle) {
-        this.lote_detalle = lote_detalle;
-    }
-
-    @Override
-    public int compareTo(RegistroMensualLotes o) {
-        return this.getLote_detalle().getInventario().getMedicamento().getNombre().compareTo(o.getLote_detalle().getInventario().getMedicamento().getNombre());
-    }
+    
     @Override
     public String toString(){
-        return lote_detalle.getCodigo();
+        return cantidad_inicial+"";
     }
+
+    @Override
+    public int compareTo(RegistroMensualInventario o) {
+        return this.getInventario().getMedicamento().getNombre().compareTo(o.getInventario().getMedicamento().getNombre());
+    }
+
+  
+    
+    
+    
     
     
 }

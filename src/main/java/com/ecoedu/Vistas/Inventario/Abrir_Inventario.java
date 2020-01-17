@@ -7,7 +7,8 @@ import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Detalle_llenado;
-import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.Inventario;
+import com.ecoedu.model.RegistroMensualInventario;
 import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
@@ -54,9 +55,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Abrir_Inventario extends javax.swing.JPanel {  
     List<Detalle_llenado> Lista_lote_detalle;
+    List<Inventario> Lista_Inventario;
     Principal objPrincipal;
     Usuario objUsuario;
     EntityManager jpa;
+    
     public Abrir_Inventario(EntityManager jpa2,Principal OBJPrincipal,Usuario objUser ){
         initComponents();   
         this.objUsuario=objUser;
@@ -67,6 +70,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         List<RegistroMensualLotes> lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
          if(lista_registro.isEmpty()){
              jlblAdvertencia.setText("");
+             Lista_Inventario=jpa.createQuery("select p from Inventario p where cantidad !=0").getResultList();
              Lista_lote_detalle=jpa.createQuery("SELECT p FROM Detalle_llenado p").getResultList();
              Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)
              llenarTabla(Lista_lote_detalle);
@@ -256,14 +260,29 @@ public class Abrir_Inventario extends javax.swing.JPanel {
 
         Date fechaApertu=new Date();
         Date fechaApertuReal=new Date();
-        fechaApertuReal.setDate(1);
-        fechaApertuReal.setHours(0);
-        fechaApertuReal.setMinutes(0);
-        fechaApertuReal.setSeconds(0);
+        fechaApertu.setDate(1);
+        fechaApertu.setHours(0);
+        fechaApertu.setMinutes(0);
+        fechaApertu.setSeconds(0);
         jpa.getTransaction().begin();
-        for (Detalle_llenado lote_detalle : Lista_lote_detalle){
-            jpa.persist(new RegistroMensualLotes(lote_detalle.getLote_detalle().getCantidad(), fechaApertuReal, fechaApertu, objUsuario, lote_detalle.getLote_detalle()));
+        int auxComprobante=0;
+        for (Inventario inventario : Lista_Inventario){   
+            RegistroMensualInventario objRegistro=new RegistroMensualInventario(inventario.getCantidad(), fechaApertu, fechaApertuReal, objUsuario, inventario);
+            jpa.persist(objRegistro);
+            jpa.refresh(objRegistro);
+            for (Detalle_llenado lote_detalle : Lista_lote_detalle){
+                if(lote_detalle.getLote_detalle().getInventario()==inventario){
+                jpa.persist(new RegistroMensualLotes(lote_detalle.getLote_detalle().getCantidad(),fechaApertu, fechaApertuReal, objUsuario, lote_detalle.getLote_detalle(),objRegistro));
+                auxComprobante=auxComprobante+lote_detalle.getLote_detalle().getCantidad();
+                }//fin if
+            }//fin for  
+            if(auxComprobante!=inventario.getCantidad()){
+                jpa.getTransaction().rollback();
+                JOptionPane.showMessageDialog(cuerpo1, "no coincide la suma de lostes iniciales con el inventario inicial");
             }
+            auxComprobante=0;            
+        }//fin for2
+       
         ConsultaBD();
         principalEjecucion();
         JOptionPane.showMessageDialog(jlblAdvertencia, "Aperturó con exito el mes"+Herramienta.getNombreMes(fechaApertuReal.getMonth()+1));
@@ -342,7 +361,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
             else{
                 table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED));
                 }
-            table.addCell(new Paragraph(Integer.toString(Lote_detalle.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getFactura().getCodigo_factura()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             //table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
