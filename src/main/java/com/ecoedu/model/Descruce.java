@@ -38,6 +38,17 @@ public class Descruce implements Serializable {
     @Column(name = "fecha_registro")
     private Date fecha_registro;
     
+    @Column(name = "mes",nullable = true)
+    private int mes_Descruce;
+
+    public int getMes_Descruce() {
+        return mes_Descruce;
+    }
+
+    public void setMes_Descruce(int mes_Descruce) {
+        this.mes_Descruce = mes_Descruce;
+    }
+    
     @JoinColumn(insertable = true,updatable = false,name="id_Usuario",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;

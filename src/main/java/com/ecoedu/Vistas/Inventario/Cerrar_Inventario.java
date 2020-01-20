@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.Inventario;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.model.Descruce;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.RegistroMensualInventario;
@@ -103,16 +104,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
          }
     
     public void principalEjecucion(){
-        autoCompleterDescruceMedicamento1.removeAllItems();
-        for (RegistroMensualInventario registroMensualInventario : Lista_Mensual_Inventario){
-            autoCompleterDescruceMedicamento1.addItem(registroMensualInventario.getInventario());
-        }
-        jSpinnerCantidad1.setEnabled(false);
+        llenarLotesMedicamento2(new ArrayList<Lote_detalle>());
+        llenarLotesMedicamento1(new ArrayList<Lote_detalle>());
         
-        autoCompleterDescruceMedicamento2.removeAllItems();
-        for (RegistroMensualInventario registroMensualInventario : Lista_Mensual_Inventario) {
-            autoCompleterDescruceMedicamento2.addItem(registroMensualInventario.getInventario());            
-        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -214,6 +208,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jlblDescruceCant1 = new javax.swing.JLabel();
         jSpinnerCantidad2 = new javax.swing.JSpinner();
         jSpinnerCantidad1 = new javax.swing.JSpinner();
+        jlblDescruceMedicamento1 = new javax.swing.JLabel();
+        jlblDescruceMedicamento2 = new javax.swing.JLabel();
+        jlblDescruceMotivo = new javax.swing.JLabel();
         jbtnVolver = new javax.swing.JButton();
         jbtnGuardarDescruce = new javax.swing.JButton();
 
@@ -700,6 +697,12 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jPanel12.add(jtfDescruceMedicamento2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 225, 25));
 
         jtfMotivo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfMotivo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfMotivo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfMotivoKeyReleased(evt);
+            }
+        });
         jPanel12.add(jtfMotivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 770, 25));
 
         jtblDescruceTablaMedicamento1.setModel(new javax.swing.table.DefaultTableModel(
@@ -786,6 +789,24 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         });
         jPanel12.add(jSpinnerCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 60, 25));
 
+        jlblDescruceMedicamento1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblDescruceMedicamento1.setForeground(new java.awt.Color(255, 0, 0));
+        jlblDescruceMedicamento1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblDescruceMedicamento1.setText("*");
+        jPanel12.add(jlblDescruceMedicamento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 10, 25));
+
+        jlblDescruceMedicamento2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblDescruceMedicamento2.setForeground(new java.awt.Color(255, 0, 0));
+        jlblDescruceMedicamento2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblDescruceMedicamento2.setText("*");
+        jPanel12.add(jlblDescruceMedicamento2, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 0, 10, 25));
+
+        jlblDescruceMotivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblDescruceMotivo.setForeground(new java.awt.Color(255, 0, 0));
+        jlblDescruceMotivo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblDescruceMotivo.setText("*");
+        jPanel12.add(jlblDescruceMotivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 340, 10, 25));
+
         vistaDesCruce.add(jPanel12);
 
         jbtnVolver.setBackground(new java.awt.Color(0, 0, 0));
@@ -803,7 +824,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jbtnGuardarDescruce.setBackground(new java.awt.Color(0, 0, 0));
         jbtnGuardarDescruce.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbtnGuardarDescruce.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnGuardarDescruce.setText("Guardar");
+        jbtnGuardarDescruce.setText("Guardar Cambio");
         jbtnGuardarDescruce.setPreferredSize(new java.awt.Dimension(220, 25));
         jbtnGuardarDescruce.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -854,7 +875,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             jlblFechaVen.setText(Herramienta.formatoFechaMas1(objRegistroMensualLotes.getLote_detalle().getFecha_vencimiento()));
             List<Detalle_Medicamentos> lista_Medicamentos_del_mes=
             Herramienta.findbyBeetWeen(Detalle_Medicamentos.class,"fecha", objRegistroMensualLotes.getFecha_apertura_real(), new Date(), jpa, objRegistroMensualLotes.getLote_detalle().getId_Lote_detalle());
-            llenarTablaDetalleMedicamento(lista_Medicamentos_del_mes);
+            List<Descruce> lista_Descruce=jpa.createQuery(
+                    "select p from Descruce p where id_Lote_detalle="+objRegistroMensualLotes.getLote_detalle().getId_Lote_detalle()+" or id_Lote_detalle2="+objRegistroMensualLotes.getLote_detalle().getId_Lote_detalle()).getResultList();
+            llenarTablaDetalleMedicamento(lista_Medicamentos_del_mes,lista_Descruce);
             vistaRegistroLotes.setVisible(false);
             vistaLoteAcerrar.setVisible(true);
             }
@@ -897,9 +920,10 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         vistaRegistroLotes.setVisible(true);
     }//GEN-LAST:event_jbtnAbrirInventario4ActionPerformed
 
+    RegistroMensualLotes obj;
     private void jtblLotesDelMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblLotesDelMedicamentoMouseClicked
 
-        RegistroMensualLotes obj=(RegistroMensualLotes)jtblLotesDelMedicamento.getValueAt(jtblLotesDelMedicamento.getSelectedRow(),0);
+        obj=(RegistroMensualLotes)jtblLotesDelMedicamento.getValueAt(jtblLotesDelMedicamento.getSelectedRow(),0);
         jlblPF.setText(obj.getLote_detalle().getInventario().getMedicamento().getNombre());
         jlblFF.setText(obj.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica());
         jlblConc.setText(obj.getLote_detalle().getInventario().getMedicamento().getConcentracion());
@@ -910,7 +934,10 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jlblFechaVen.setText(Herramienta.formatoFechaMas1(obj.getLote_detalle().getFecha_vencimiento()));
         List<Detalle_Medicamentos> lista_Medicamentos_del_mes=
             Herramienta.findbyBeetWeen(Detalle_Medicamentos.class,"fecha", obj.getFecha_apertura_real(), new Date(), jpa, obj.getLote_detalle().getId_Lote_detalle());
-        llenarTablaDetalleMedicamento(lista_Medicamentos_del_mes);
+        List<Descruce> lista_Descruce=jpa.createQuery(
+                    "select p from Descruce p where id_Lote_detalle="+obj.getLote_detalle().getId_Lote_detalle()+" or id_Lote_detalle2="+obj.getLote_detalle().getId_Lote_detalle()).getResultList();
+            
+        llenarTablaDetalleMedicamento(lista_Medicamentos_del_mes,lista_Descruce);
         vistaMedicamentesVer.setVisible(false);
         vistaLoteAcerrar.setVisible(true);
 
@@ -977,65 +1004,131 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         
     }//GEN-LAST:event_jbtnVolverActionPerformed
 
+    List<RegistroMensualInventario> Lista_Inventario_Descruce;
     private void jbtnDescruzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDescruzarActionPerformed
+        Lista_Inventario_Descruce=jpa.createQuery("select p from RegistroMensualInventario p where Month(fecha_apertura)="+(Lista_Mensual_Inventario.get(0).getFecha_apertura().getMonth()+1) ).getResultList();
         vistaRegistroLotes.setVisible(false);
         vistaDesCruce.setVisible(true);
         jlblAdvertencia.setText("Descruce");
-
+        autoCompleterDescruceMedicamento1.removeAllItems();
+        for (RegistroMensualInventario registroMensualInventario : Lista_Inventario_Descruce){
+            autoCompleterDescruceMedicamento1.addItem(registroMensualInventario.getInventario());
+        }
+                
+        autoCompleterDescruceMedicamento2.removeAllItems();
+        for (RegistroMensualInventario registroMensualInventario : Lista_Inventario_Descruce) {
+            autoCompleterDescruceMedicamento2.addItem(registroMensualInventario.getInventario());            
+        }
+        
         
     }//GEN-LAST:event_jbtnDescruzarActionPerformed
 
     private void jbtnGuardarDescruceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarDescruceActionPerformed
-        // TODO add your handling code here:
+        if(jlblDescruceMedicamento1.getText().isEmpty()&&jlblDescruceMedicamento2.getText().isEmpty()
+                && jlblDescruceMotivo.getText().isEmpty()){
+        Descruce objDescruce=new Descruce();
+        objDescruce.setCantidad((int)jSpinnerCantidad1.getValue());
+        objDescruce.setLote_detalle(objLote_Detalle1);
+        objDescruce.setCantidad2((int)jSpinnerCantidad2.getValue());
+        objDescruce.setLote_detalle2(objLote_Detalle2);
+        objLote_Detalle1.setCantidad(objLote_Detalle1.getCantidad()+((int)jSpinnerCantidad1.getValue()));
+        objLote_Detalle1.getInventario().setCantidad(objLote_Detalle1.getInventario().getCantidad()+((int)jSpinnerCantidad1.getValue()));
+        
+        objLote_Detalle2.setCantidad(objLote_Detalle2.getCantidad()+((int)jSpinnerCantidad2.getValue()));
+        objLote_Detalle2.getInventario().setCantidad(objLote_Detalle2.getInventario().getCantidad()+((int)jSpinnerCantidad2.getValue()));
+ 
+        objDescruce.setFecha_registro(new Date());
+        objDescruce.setMotivo(jtfMotivo.getText());
+        objDescruce.setUsuario(objUsuario);
+        objDescruce.setMes_Descruce(Lista_Mensual_Inventario.get(0).getFecha_apertura().getMonth()+1);
+        jpa.getTransaction().begin();
+        
+        jpa.persist(objDescruce);
+        ConsultaBD();
+        principalEjecucion();
+        JOptionPane.showMessageDialog(jPanel7, "Guardado con exito");
+        jpa.getTransaction().commit();}
+        else{
+            JOptionPane.showMessageDialog(jPanel7, "Llene los espacios con *");
+        }
+        
     }//GEN-LAST:event_jbtnGuardarDescruceActionPerformed
 
     private void jtfDescruzeMedicamento1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescruzeMedicamento1KeyReleased
 
-        for (RegistroMensualInventario registroMensualInventario : Lista_Mensual_Inventario){
+        
+        for (RegistroMensualInventario registroMensualInventario : Lista_Inventario_Descruce){
             if(registroMensualInventario.getInventario().getMedicamento().getNombre().equals(jtfDescruzeMedicamento1.getText())){
                 List<Lote_detalle> lista_Lotes=jpa.createQuery("select p from Lote_detalle p where id_Inventario="+
                 registroMensualInventario.getInventario().getId_Inventario()).getResultList();
                 jlblDescruceFF1.setText(registroMensualInventario.getInventario().getMedicamento().getForma_farmaceutica());
                 jlblDescruceCon1.setText(registroMensualInventario.getInventario().getMedicamento().getConcentracion());
                 llenarLotesMedicamento1(lista_Lotes);
+                jlblDescruceMedicamento1.setText("");
+                break;
                 }
+            jlblDescruceFF1.setText("");
+            jlblDescruceCon1.setText("");
+            jlblDescruceMedicamento1.setText("*");
+            llenarLotesMedicamento1(new ArrayList<Lote_detalle>());
             }      
     }//GEN-LAST:event_jtfDescruzeMedicamento1KeyReleased
 
+    Lote_detalle objLote_Detalle1;
+    Lote_detalle objLote_Detalle2;
+    
+        
     private void jtblDescruceTablaMedicamento1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblDescruceTablaMedicamento1MouseClicked
         //maybe
-        Lote_detalle obj=(Lote_detalle)jtblDescruceTablaMedicamento1.getValueAt(jtblDescruceTablaMedicamento1.getSelectedRow(),0);
-        jlblDescruceLoteSeleccionado1.setText(obj.getCodigo());
-        jlblDescruceCant1.setText(obj.getCantidad()+"");
-                
+        objLote_Detalle1=(Lote_detalle)jtblDescruceTablaMedicamento1.getValueAt(jtblDescruceTablaMedicamento1.getSelectedRow(),0);
+        jlblDescruceLoteSeleccionado1.setText(objLote_Detalle1.getCodigo());
+        jlblDescruceCant1.setText(objLote_Detalle1.getCantidad()+"");                
     }//GEN-LAST:event_jtblDescruceTablaMedicamento1MouseClicked
 
     private void jtfDescruceMedicamento2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescruceMedicamento2KeyReleased
-        for (RegistroMensualInventario registroMensualInventario : Lista_Mensual_Inventario){
+        for (RegistroMensualInventario registroMensualInventario : Lista_Inventario_Descruce){
             if(registroMensualInventario.getInventario().getMedicamento().getNombre().equals(jtfDescruceMedicamento2.getText())){
                 List<Lote_detalle> lista_Lotes=jpa.createQuery("select p from Lote_detalle p where id_Inventario="+
                 registroMensualInventario.getInventario().getId_Inventario()).getResultList();
                 jlblDescruceFF2.setText(registroMensualInventario.getInventario().getMedicamento().getForma_farmaceutica());
                 jlblDescruceConc2.setText(registroMensualInventario.getInventario().getMedicamento().getConcentracion());
                 llenarLotesMedicamento2(lista_Lotes);
+                jlblDescruceMedicamento2.setText("");
+                break;
                 }
+            jlblDescruceMedicamento2.setText("*");
+            jlblDescruceFF2.setText("");
+            jlblDescruceConc2.setText("");
+            llenarLotesMedicamento2(new ArrayList<Lote_detalle>());
             } 
     }//GEN-LAST:event_jtfDescruceMedicamento2KeyReleased
 
     private void jtblDescruceTablaMedicamento2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblDescruceTablaMedicamento2MouseClicked
-        Lote_detalle obj=(Lote_detalle)jtblDescruceTablaMedicamento2.getValueAt(jtblDescruceTablaMedicamento2.getSelectedRow(),0);
-        jlblDescruceLoteSeleccionado2.setText(obj.getCodigo());
-        jlblDescruceCant2.setText(obj.getCantidad()+"");
+        objLote_Detalle2=(Lote_detalle)jtblDescruceTablaMedicamento2.getValueAt(jtblDescruceTablaMedicamento2.getSelectedRow(),0);
+        jlblDescruceLoteSeleccionado2.setText(objLote_Detalle2.getCodigo());
+        jlblDescruceCant2.setText(objLote_Detalle2.getCantidad()+"");
+        
     }//GEN-LAST:event_jtblDescruceTablaMedicamento2MouseClicked
 
     private void jSpinnerCantidad1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerCantidad1StateChanged
         jSpinnerCantidad2.setValue(-(int)jSpinnerCantidad1.getValue());
+        jlblDescruceCant2.setText((objLote_Detalle2.getCantidad()+(int)jSpinnerCantidad2.getValue())+"");
 
     }//GEN-LAST:event_jSpinnerCantidad1StateChanged
 
     private void jSpinnerCantidad2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerCantidad2StateChanged
         jSpinnerCantidad1.setValue(-(int)jSpinnerCantidad2.getValue());
+        jlblDescruceCant1.setText((objLote_Detalle1.getCantidad()+(int)jSpinnerCantidad1.getValue())+"");
     }//GEN-LAST:event_jSpinnerCantidad2StateChanged
+
+    private void jtfMotivoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMotivoKeyReleased
+        if(jtfMotivo.getText().length()>0){
+            jlblDescruceMotivo.setText("");
+        }
+        else{
+            jlblDescruceMotivo.setText("*");
+        }
+    }//GEN-LAST:event_jtfMotivoKeyReleased
 
     //
     public void llenarLotesMedicamento2(List<Lote_detalle> Lista_lote){ 
@@ -1137,7 +1230,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         //Paragraph parag=new Paragraph("KARDEX DIARIO MEDICAMENTOS").setFontSize(16).setFont(bold);
         Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                    CIERRE DE INVENTARIO PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
         document.add(paragIma);             
-        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
+        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
         document.add(parag2);
         document.add(new Paragraph(" "));    
         table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
@@ -1180,8 +1273,38 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             //table.addCell(new Paragraph(Integer.toString(Lote_RegistroCierre.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
     
-        }     
-        document.add(table);        
+        }
+        document.add(table);  
+        
+        Paragraph parag3=new Paragraph("Descruces").setTextAlignment(TextAlignment.CENTER);         
+        document.add(parag3);
+        Table tableDescruce = new Table(new float[]{10,7,8,7,8,20,10});
+        tableDescruce.setWidthPercent(100);
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Fecha Descruce").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Lote 1").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Cantidad 1").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Lote 2").setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Cantidad 2").setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Motivo").setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Usuario").setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+      
+
+        List<Descruce> Lista_Descruce=jpa.createQuery("select p from Descruce p where mes="+(listaRegistroMensualImprimir.get(0).getFecha_apertura().getMonth()+1) ).getResultList();
+        for (Descruce descruce : Lista_Descruce) {
+            tableDescruce.addCell(new Paragraph(Herramienta.formatoFechaHoraMas1(descruce.getFecha_registro())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getLote_detalle().getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getLote_detalle2().getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getCantidad2()+"").setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getMotivo()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getUsuario().getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+
+
+        }
+        
+        if(!Lista_Descruce.isEmpty()){
+            document.add(tableDescruce);
+            }
         document.close();  
         
     }
@@ -1329,8 +1452,8 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             ((DefaultTableCellRenderer)jtblLotesDelMedicamento.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64      
     }
-    //
-    public void llenarTablaDetalleMedicamento(List<Detalle_Medicamentos> lista_Registros){ 
+    //+
+    public void llenarTablaDetalleMedicamento(List<Detalle_Medicamentos> lista_Registros,List<Descruce> lista_descruce){ 
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
@@ -1356,6 +1479,21 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                  //fila_actividad[5]=Herramienta.formatoFecha(objRegistro.getLote_detalle().getFecha_vencimiento());  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
+             
+             for (Descruce objDescruce : lista_descruce){
+                 fila_actividad[0]="Descruce";
+                 if(objDescruce.getCantidad()<0){fila_actividad[1]=objDescruce.getCantidad();}
+                 else                           {fila_actividad[1]=objDescruce.getCantidad();}
+                 
+                 if(objDescruce.getLote_detalle()!=obj.getLote_detalle()){fila_actividad[2]=objDescruce.getLote_detalle().getCodigo();}
+                 else{fila_actividad[2]=objDescruce.getLote_detalle2().getCodigo();}
+                 //fila_actividad[3]=objRegistro.getLote_detalle().getPrecio_Venta_Redondeado();  
+                 fila_actividad[3]=Herramienta.formatoFechaHoraMas1(objDescruce.getFecha_registro());   
+                 fila_actividad[4]=objDescruce.getUsuario().getPersona().getInfoPersona();
+                 //fila_actividad[5]=Herramienta.formatoFecha(objRegistro.getLote_detalle().getFecha_vencimiento());  
+                 modelo.addRow(fila_actividad);//agregando filas                 
+             }
+                          
             jtblDetalleMedicamento.setModel(modelo); 
             jtblDetalleMedicamento.setGridColor(Color.black);
             //jTable1.setBackground(Color.red);
@@ -1380,7 +1518,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             ((DefaultTableCellRenderer)jtblDetalleMedicamento.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64      
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
     private javax.swing.JPanel body2;
@@ -1460,6 +1598,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JLabel jlblDescruceFF2;
     private javax.swing.JLabel jlblDescruceLoteSeleccionado1;
     private javax.swing.JLabel jlblDescruceLoteSeleccionado2;
+    private javax.swing.JLabel jlblDescruceMedicamento1;
+    private javax.swing.JLabel jlblDescruceMedicamento2;
+    private javax.swing.JLabel jlblDescruceMotivo;
     private javax.swing.JLabel jlblFF;
     private javax.swing.JLabel jlblFFGeneral;
     private javax.swing.JLabel jlblFechaAperturada;
