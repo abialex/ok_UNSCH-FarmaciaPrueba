@@ -58,7 +58,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
         Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=7");
         Lista_Rol=query1.getResultList(); 
         
-        Query query2=jpa.createQuery("SELECT p FROM Usuario p");
+        Query query2=jpa.createQuery("SELECT p FROM Usuario p ");
         Lista_Usuario=query2.getResultList(); 
       
     }   
@@ -88,11 +88,14 @@ public class ModificarUsuario extends javax.swing.JPanel {
              //.....................................TABLA...........Fin......................          
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = 0; i <listUsuario.size(); i++){
+                 if(listUsuario.get(i).getRol().getTipo_Roles().getId_tipo_Roles()==7){
                  fila_actividad[0]=listUsuario.get(i).getRol().getNombre_rol();
                  fila_actividad[1]=listUsuario.get(i);             
                  fila_actividad[2]=listUsuario.get(i).getNickname();             
                  modelo.addRow(fila_actividad);//agregando filas
-                 }        
+                 }
+                 
+             }        
             jtblMedicamento.setModel(modelo); 
             jtblMedicamento.setGridColor(Color.black);
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();

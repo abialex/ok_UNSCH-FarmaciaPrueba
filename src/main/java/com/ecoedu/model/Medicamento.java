@@ -1,11 +1,14 @@
 package com.ecoedu.model;
 
-import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Medicamento{
@@ -15,14 +18,17 @@ public class Medicamento{
     
     @Column(name="nombre",unique = true,length = 100,nullable = false)
     private String  nombre;
-    
-    
+        
     @Column(name="forma_farmaceutica",nullable = false)
     private String forma_farmaceutica;
     
     @Column(name="concentracion",nullable = false)
     private String concentracion;
 
+    @JoinColumn(insertable = true,updatable = false,name="id_RolOrigen",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Rol Rolorigen;
+    
     public String getConcentracion() {
         return concentracion;
     }
@@ -38,9 +44,15 @@ public class Medicamento{
     public void setForma_farmaceutica(String forma_farmaceutica) {
         this.forma_farmaceutica = forma_farmaceutica;
     }
-    
-    
 
+    public Rol getRolorigen() {
+        return Rolorigen;
+    }
+
+    public void setRolorigen(Rol Rolorigen) {
+        this.Rolorigen = Rolorigen;
+    }
+    
     public int getId_Medicamento() {
         return id_Medicamento;
     }

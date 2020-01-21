@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.ecoedu.model.Medicamento;
+import com.ecoedu.model.Rol;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
     List<Medicamento> Lista_Medicamento;
     EntityManager jpa;
     Principal objPrincipal;
+    List<Rol> Lista_RolOrigen;
     
     public class Proceso extends Thread{
         boolean hola;
@@ -55,23 +57,29 @@ public class CrearMedicamento extends javax.swing.JPanel{
            
     }
     public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Medicamento p");
-        Lista_Medicamento=query1.getResultList();      
+        Lista_Medicamento=jpa.createQuery("SELECT p FROM Medicamento p").getResultList();
+        Lista_RolOrigen=jpa.createQuery("select p From Rol p where id_tipo_Roles=13").getResultList();
+        
+            
     }   
     public void principalEjecucion(){  
         llenar_tabla_Medicamento(Lista_Medicamento);
         jtfProductoFarmaceutico.setDocument(new soloMayusculas());
         jtfFormaFarmaceutica.setDocument(new soloMayusculas());
         jtfConcentracion.setDocument(new soloMayusculas());
+        jcbOrigen.removeAllItems();
+        for (Rol rol : Lista_RolOrigen){
+            jcbOrigen.addItem(rol);            
+        }
     }
 
     public void llenar_tabla_Medicamento(List<Medicamento> listaMedicamento){
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-                String [] lista={"Producto Farmaceutico","Concentraciòn","Forma Farmaceutica"}; 
+                String [] lista={"Producto Farmaceutico","Concentraciòn","Forma Farmaceutica","Origen"}; 
              modelo=new DefaultTableModel(null,lista){
-                 boolean[] canEdit = new boolean [] {false, false,false};
+                 boolean[] canEdit = new boolean [] {false, false,false,false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
                      }
@@ -81,7 +89,8 @@ public class CrearMedicamento extends javax.swing.JPanel{
              for (int i = listaMedicamento.size()-1; 0 <= i; i--){
                  fila_actividad[0]=listaMedicamento.get(i).getNombre();
                  fila_actividad[1]=listaMedicamento.get(i).getConcentracion();             
-                 fila_actividad[2]=listaMedicamento.get(i).getForma_farmaceutica();             
+                 fila_actividad[2]=listaMedicamento.get(i).getForma_farmaceutica(); 
+                 fila_actividad[3]=listaMedicamento.get(i).getRolorigen().getNombre_rol();
                  modelo.addRow(fila_actividad);//agregando filas
                  }        
             jtblMedicamento.setModel(modelo); 
@@ -91,14 +100,16 @@ public class CrearMedicamento extends javax.swing.JPanel{
             jtblMedicamento.getColumnModel().getColumn(0).setCellRenderer(tcr);
             jtblMedicamento.getColumnModel().getColumn(1).setCellRenderer(tcr);
             jtblMedicamento.getColumnModel().getColumn(2).setCellRenderer(tcr);
+            jtblMedicamento.getColumnModel().getColumn(3).setCellRenderer(tcr);
    
             jtblMedicamento.setFont(new java.awt.Font("Tahoma", 0, 15));
             jtblMedicamento.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
             jtblMedicamento.getTableHeader().setBackground(Color.BLUE);
             jtblMedicamento.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblMedicamento.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jtblMedicamento.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jtblMedicamento.getColumnModel().getColumn(2).setPreferredWidth(100);    
+            jtblMedicamento.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jtblMedicamento.getColumnModel().getColumn(1).setPreferredWidth(75);
+            jtblMedicamento.getColumnModel().getColumn(2).setPreferredWidth(75);
+            jtblMedicamento.getColumnModel().getColumn(3).setPreferredWidth(100);
             ((DefaultTableCellRenderer)jtblMedicamento.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  
     }
@@ -137,6 +148,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jlblAsteFF = new javax.swing.JLabel();
         jlblAstePF = new javax.swing.JLabel();
         jlblMensaje = new javax.swing.JLabel();
+        jcbOrigen = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -193,7 +205,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel23.setText("Concentración");
         jLabel23.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 270, 100, 25));
+        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 100, 25));
 
         jLabel25.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel25.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -213,7 +225,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
                 jtfConcentracionKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 25));
+        jPanel7.add(jtfConcentracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 270, 140, 25));
 
         jbtnAgregarMedicamentos.setBackground(new java.awt.Color(0, 0, 0));
         jbtnAgregarMedicamentos.setForeground(new java.awt.Color(255, 255, 255));
@@ -327,7 +339,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jlblAsteCont.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteCont.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteCont.setText("*");
-        jPanel7.add(jlblAsteCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 270, 10, 25));
+        jPanel7.add(jlblAsteCont, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, 10, 25));
 
         jlblAsteFF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteFF.setForeground(new java.awt.Color(255, 0, 0));
@@ -345,6 +357,14 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
         jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 500, 20));
+
+        jcbOrigen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jcbOrigen.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jcbOrigenPropertyChange(evt);
+            }
+        });
+        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 270, 160, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -378,6 +398,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
         objMedicamento.setConcentracion(jtfConcentracion.getText());
         objMedicamento.setForma_farmaceutica(jtfFormaFarmaceutica.getText());
         objMedicamento.setNombre(jtfProductoFarmaceutico.getText());
+        objMedicamento.setRolorigen((Rol)jcbOrigen.getSelectedItem());
         objInventario.setCantidad(0);//creando un inventario con 0
         jpa.getTransaction().begin();
         jpa.persist(objMedicamento);
@@ -445,6 +466,10 @@ public class CrearMedicamento extends javax.swing.JPanel{
             }
     }//GEN-LAST:event_jtfConcentracionKeyTyped
 
+    private void jcbOrigenPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jcbOrigenPropertyChange
+        System.out.println("ols");
+    }//GEN-LAST:event_jcbOrigenPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyCard;
@@ -469,6 +494,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jbtnAgregarMedicamentos;
+    private javax.swing.JComboBox<Rol> jcbOrigen;
     private javax.swing.JLabel jlblAsteCont;
     private javax.swing.JLabel jlblAsteFF;
     private javax.swing.JLabel jlblAstePF;

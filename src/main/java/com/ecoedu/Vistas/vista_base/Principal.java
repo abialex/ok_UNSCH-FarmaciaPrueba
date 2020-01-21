@@ -11,6 +11,7 @@ import com.ecoedu.Vistas.Estudiante.Crear_Estudiante;
 import com.ecoedu.Vistas.Estudiante.Modificar_Estudiante;
 import com.ecoedu.Vistas.Consultas.Reporte_Por_Escuela;
 import com.ecoedu.Vistas.Consultas.Reporte_Por_Escuela_AtendidosBotica;
+import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.Inventario.Abrir_Inventario;
 import com.ecoedu.Vistas.Inventario.Cerrar_Inventario;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
@@ -23,11 +24,13 @@ import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
 import com.ecoedu.Vistas.Usuario.CrearUsuario;
 import com.ecoedu.Vistas.Usuario.ModificarUsuario;
+import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -42,6 +45,19 @@ import org.dom4j.DocumentException;
  */
 public class Principal extends javax.swing.JFrame {
     
+    List<Lote_detalle> lotes_por_vencer;
+    public class Proceso extends Thread{
+        @Override
+        public void run(){
+            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60").getResultList();
+            jlblAlertaMedicamentosVencidos.setText(lotes_por_vencer.size()+"");
+            String mensaje="Lotes por vencer: "+lotes_por_vencer.size()+"\n";
+            for (Lote_detalle lote_detalle : lotes_por_vencer){                
+                mensaje=mensaje+" LOTE-CODIGO: "+lote_detalle.getCodigo()+" FECHA VENC: "+Herramienta.formatoFechaMas1(lote_detalle.getFecha_vencimiento())+"\n";
+            }
+            JOptionPane.showMessageDialog(rootPane,mensaje);
+        }
+        }
    
    EntityManager jpa;
    private Usuario user;
@@ -80,8 +96,6 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(jLabel12, "Error al crear Directorio");
             }
         }
-        
-        
        this.jpa=OBJjpa;
        this.user=OBJuser;
        this.objServicio_Asistencial=new Servicio_Asistencial(jpa, this, OBJuser);
@@ -104,7 +118,7 @@ public class Principal extends javax.swing.JFrame {
        this.objAbrir_Inventario=new Abrir_Inventario(jpa, this, OBJuser);
        this.objCerrar_Inventario=new Cerrar_Inventario(jpa, this, OBJuser);
        this.objReporte_Por_Escuela_AtendidosBotica=new Reporte_Por_Escuela_AtendidosBotica(jpa, this);
-       
+       new Proceso().start();
        this.setLocationRelativeTo(null);
        jlblUsuario.setText(user.getPersona().getInfoPersona());
        bodyContenedor.add(objBusquedaVentas);//1  
@@ -205,6 +219,8 @@ public class Principal extends javax.swing.JFrame {
         jlblSalir = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jlblMinimizar = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jlblAlertaMedicamentosVencidos = new javax.swing.JLabel();
         left = new javax.swing.JPanel();
         jleftServicioFarmacia = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -314,7 +330,7 @@ public class Principal extends javax.swing.JFrame {
 
         jlblUsuario.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jlblUsuario.setPreferredSize(new java.awt.Dimension(640, 50));
-        jPanel4.add(jlblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 5, 520, -1));
+        jPanel4.add(jlblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 5, 430, -1));
 
         jlblNavegacion.setText("Navegacion");
         jlblNavegacion.setPreferredSize(new java.awt.Dimension(900, 19));
@@ -363,6 +379,18 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.add(jlblMinimizar, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 7, 32, 32));
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jlblAlertaMedicamentosVencidos.setPreferredSize(new java.awt.Dimension(32, 32));
+        jlblAlertaMedicamentosVencidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblAlertaMedicamentosVencidosMouseClicked(evt);
+            }
+        });
+        jPanel5.add(jlblAlertaMedicamentosVencidos, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 32, 32));
 
         head.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 80));
 
@@ -2024,6 +2052,10 @@ public class Principal extends javax.swing.JFrame {
        jleftConsultas_ReportePorEscuelaxAlumno.setBackground(colorExitSub);
     }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseExited
 
+    private void jlblAlertaMedicamentosVencidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblAlertaMedicamentosVencidosMouseClicked
+        JOptionPane.showMessageDialog(rootPane, "visualisar vista de lotes a vencer");
+    }//GEN-LAST:event_jlblAlertaMedicamentosVencidosMouseClicked
+
     public Usuario getUsuario(){
         return user;
     } 
@@ -2071,6 +2103,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel jlblAlertaMedicamentosVencidos;
     private javax.swing.JLabel jlblConsultasFlecha;
     private javax.swing.JLabel jlblConsultasFlecha1;
     private javax.swing.JLabel jlblConsultasFlecha2;

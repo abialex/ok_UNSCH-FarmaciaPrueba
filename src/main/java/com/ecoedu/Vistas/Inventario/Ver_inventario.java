@@ -162,6 +162,9 @@ public class Ver_inventario extends javax.swing.JPanel {
         jPanel8.setPreferredSize(new java.awt.Dimension(890, 170));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(600, 402));
+        jScrollPane2.setRequestFocusEnabled(false);
+
         jtblInventarioOperaciones.setBorder(new javax.swing.border.MatteBorder(null));
         jtblInventarioOperaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -192,7 +195,6 @@ public class Ver_inventario extends javax.swing.JPanel {
         ));
         jtblInventarioOperaciones.setGridColor(new java.awt.Color(0, 0, 0));
         jtblInventarioOperaciones.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblInventarioOperaciones.setPreferredSize(new java.awt.Dimension(200, 260));
         jtblInventarioOperaciones.setRequestFocusEnabled(false);
         jtblInventarioOperaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -274,7 +276,6 @@ public class Ver_inventario extends javax.swing.JPanel {
         ));
         jtblLoteDetalle.setGridColor(new java.awt.Color(0, 0, 0));
         jtblLoteDetalle.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblLoteDetalle.setPreferredSize(new java.awt.Dimension(200, 260));
         jtblLoteDetalle.setRequestFocusEnabled(false);
         jScrollPane4.setViewportView(jtblLoteDetalle);
 

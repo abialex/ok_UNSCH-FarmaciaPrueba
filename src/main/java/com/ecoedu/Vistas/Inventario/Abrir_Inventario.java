@@ -10,6 +10,7 @@ import com.ecoedu.model.Detalle_llenado;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.RegistroMensualInventario;
 import com.ecoedu.model.RegistroMensualLotes;
+import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -57,6 +58,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     List<Detalle_llenado> Lista_lote_detalle;
     List<Inventario> Lista_Inventario;
     Principal objPrincipal;
+    List<Rol> Lista_Origen;
     Usuario objUsuario;
     EntityManager jpa;
     
@@ -66,7 +68,8 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;             
     }
-    public void ConsultaBD(){       
+    public void ConsultaBD(){    
+        Lista_Origen=jpa.createQuery("Select p from Rol p where id_tipo_Roles=13").getResultList();
         List<RegistroMensualLotes> lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
          if(lista_registro.isEmpty()){
              jlblAdvertencia.setText("");
@@ -217,7 +220,6 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         ));
         jtblVentas.setGridColor(new java.awt.Color(0, 0, 0));
         jtblVentas.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblVentas.setPreferredSize(new java.awt.Dimension(200, 390));
         jtblVentas.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(jtblVentas);
 
@@ -227,7 +229,6 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setPreferredSize(new java.awt.Dimension(0, 14));
         jPanel9.add(jLabel11, java.awt.BorderLayout.PAGE_END);
-        jLabel11.getAccessibleContext().setAccessibleName("");
 
         jLabel14.setPreferredSize(new java.awt.Dimension(10, 14));
         jPanel9.add(jLabel14, java.awt.BorderLayout.LINE_END);
@@ -258,6 +259,8 @@ public class Abrir_Inventario extends javax.swing.JPanel {
 
     private void jbtnAbrirInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAbrirInventarioActionPerformed
 
+        int confirmad = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Seguro de abrir el inventario? ya no podrà llenar");
+        if(JOptionPane.OK_OPTION==confirmad){
         Date fechaApertu=new Date();
         Date fechaApertuReal=new Date();
         fechaApertu.setDate(1);
@@ -281,12 +284,11 @@ public class Abrir_Inventario extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(cuerpo1, "no coincide la suma de lostes iniciales con el inventario inicial");
             }
             auxComprobante=0;            
-        }//fin for2
-       
+        }//fin for2       
         ConsultaBD();
         principalEjecucion();
-        JOptionPane.showMessageDialog(jlblAdvertencia, "Aperturó con exito el mes"+Herramienta.getNombreMes(fechaApertuReal.getMonth()+1));
-        int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Desea Imprimir la Receta?");
+        JOptionPane.showMessageDialog(jlblAdvertencia, "Aperturó con exito el mes de "+Herramienta.getNombreMes(fechaApertuReal.getMonth()+1));
+        int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Desea Imprimir la Apertura del Inventario?");
             if (JOptionPane.OK_OPTION == confirmado){
                 try {                
                     Date Fe=new Date();
@@ -302,6 +304,10 @@ public class Abrir_Inventario extends javax.swing.JPanel {
             else{
                 System.out.println("vale... no borro nada...");}
         jpa.getTransaction().commit();
+        } 
+        else{
+           System.out.println("olgas");
+        }
         
     }//GEN-LAST:event_jbtnAbrirInventarioActionPerformed
     public void imprimirInventarioApertura(Date Fe) throws MalformedURLException, IOException{
@@ -318,28 +324,32 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         PdfDocument pdf = new PdfDocument(writer);
         Document document=new Document(pdf,PageSize.A4.rotate());        
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
-        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
-        Table table = new Table(new float[]{19,7,6,11,11,8,11,11,11,11});
-        table.setWidthPercent(100);
-        //Paragraph parag=new Paragraph("KARDEX DIARIO MEDICAMENTOS").setFontSize(16).setFont(bold);
+        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);  
         Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                    APERTURA DE INVENTARIO PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
-        document.add(paragIma);    
+        document.add(paragIma);  
         Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
         document.add(parag2);
-        document.add(new Paragraph(" "));    
-        table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
-        table.addHeaderCell(new Cell().add(new Paragraph("Conc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
-        table.addHeaderCell(new Cell().add(new Paragraph("F.F").setFont(bold)).setTextAlignment(TextAlignment.CENTER));        
-        table.addHeaderCell(new Cell().add(new Paragraph("Lab.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("Lote").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("P.A").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("Fecha Venc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("Stock Inicial").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("FACTURA").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("Proveedor").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
-        //table.addHeaderCell(new Cell().add(new Paragraph("STOCK FINAL").setFont(bold)).setTextAlignment(TextAlignment.CENTER));              
+        
+        for (Rol Origen : Lista_Origen){
+            boolean auxAgregar=false;
+            Table table = new Table(new float[]{19,7,6,11,11,8,11,11,11,11});
+            table.setWidthPercent(100);       
+            document.add(new Paragraph(""));    
+            table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+            table.addHeaderCell(new Cell().add(new Paragraph("Conc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+            table.addHeaderCell(new Cell().add(new Paragraph("F.F").setFont(bold)).setTextAlignment(TextAlignment.CENTER));        
+            table.addHeaderCell(new Cell().add(new Paragraph("Lab.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+            table.addHeaderCell(new Cell().add(new Paragraph("Lote").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+            table.addHeaderCell(new Cell().add(new Paragraph("P.A").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+            table.addHeaderCell(new Cell().add(new Paragraph("Fecha Venc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+            table.addHeaderCell(new Cell().add(new Paragraph("FACTURA").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+            table.addHeaderCell(new Cell().add(new Paragraph("Proveedor").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+            table.addHeaderCell(new Cell().add(new Paragraph("Stock Inicial").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+
       Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)
         for (Detalle_llenado Lote_detalle : Lista_lote_detalle){
+            if(Lote_detalle.getMedicamento().getRolorigen()==Origen){
+                auxAgregar=true;                            
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));//P.F
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER));//Conc
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER));//FF
@@ -358,13 +368,15 @@ public class Abrir_Inventario extends javax.swing.JPanel {
             else{
                 table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED));
                 }
-            table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getFactura().getCodigo_factura()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-            //table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-    
-        }     
-        document.add(table);        
+            table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+
+
+            }
+        }
+        if(auxAgregar){document.add(new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER));document.add(table);}
+        }        
         document.close(); 
     }
     public void llenarTabla(List<Detalle_llenado> lista_lote_detalle){ 
@@ -437,9 +449,6 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     private javax.swing.JPanel cuerpo1;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;

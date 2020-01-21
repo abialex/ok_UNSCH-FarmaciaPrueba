@@ -99,10 +99,12 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
              };
          //.....................................TABLA...........Fin......................
          fila_actividad=new Object[modelo.getColumnCount()];  
-         for (int i = 0; i<listaInventario.size(); i++){            
+         for (int i = 0; i<listaInventario.size(); i++){  
+             if(listaInventario.get(i).getCantidad()!=0){
              fila_actividad[0]=listaInventario.get(i);             
              fila_actividad[1]=listaInventario.get(i).getCantidad();     
              modelo.addRow(fila_actividad);//agregando filas
+             }
              }
          jtlblInventario.setModel(modelo);
          DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();

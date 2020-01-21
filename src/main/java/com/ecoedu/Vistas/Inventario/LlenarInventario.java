@@ -149,8 +149,11 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jbtnGuardarLotes = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jbtnGuardarLotes1 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jlblPVR = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -377,6 +380,9 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setPreferredSize(new java.awt.Dimension(250, 15));
+        jPanel11.add(jLabel1);
+
         jLabel31.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setText("Lista de Lotes Registrados");
@@ -393,6 +399,20 @@ public class LlenarInventario extends javax.swing.JPanel {
             }
         });
         jPanel11.add(jbtnGuardarLotes);
+
+        jLabel2.setPreferredSize(new java.awt.Dimension(60, 15));
+        jPanel11.add(jLabel2);
+
+        jbtnGuardarLotes1.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnGuardarLotes1.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnGuardarLotes1.setText("Limpiar");
+        jbtnGuardarLotes1.setFocusable(false);
+        jbtnGuardarLotes1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGuardarLotes1ActionPerformed(evt);
+            }
+        });
+        jPanel11.add(jbtnGuardarLotes1);
 
         jPanel10.add(jPanel11, java.awt.BorderLayout.PAGE_START);
 
@@ -684,9 +704,6 @@ public class LlenarInventario extends javax.swing.JPanel {
              break;
              }             
         }      
-         
-        
-        
         objLote_Detalle.setPrecio_Venta_Redondeado(Float.parseFloat(jlblPVR.getText()));
         //fin Lote_detalle         
         //Detalle_Llenado
@@ -698,8 +715,6 @@ public class LlenarInventario extends javax.swing.JPanel {
         objDetalle_llenado.setCantidad(Integer.parseInt(jtfCantidad.getText()));
         //objDetalle_llenado.setLote_detalle(objLote_Detalle);     
         //objInventario_final.setCantidad(objInventario_final.getCantidad()+Integer.parseInt(jtfCantidad.getText()));
-       
-        
         Factura objFactura=new Factura();
          //factura
          Rol objProveedor = new Rol();
@@ -716,30 +731,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         Lista_Detalle_Llenado_final.add(objDetalle_llenado);
         Lista_Lote_detalle_final.add(objLote_Detalle);        
         llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
-        /*
-        if(!Lista_Detalle_Llenado_final.isEmpty()&& !Lista_Lote_detalle_final.isEmpty()){
-            jpa.getTransaction().begin();
-            for (int i = 0; i < Lista_Lote_detalle_final.size(); i++){
-            Lista_Lote_detalle_final.get(i).setFactura(objFactura);            
-            jpa.persist(Lista_Lote_detalle_final.get(i));            
-            jpa.refresh(Lista_Lote_detalle_final.get(i));
-            Lista_Detalle_Llenado_final.get(i).setLote_detalle(Lista_Lote_detalle_final.get(i));
-            jpa.persist(Lista_Detalle_Llenado_final.get(i));  
-            Lista_Lote_detalle_final.get(i).getInventario().agregarCantidad(Lista_Detalle_Llenado_final.get(i).getCantidad());
-            jpa.persist(Lista_Lote_detalle_final.get(i).getInventario());
-            }       
-        
-        Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
-        llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
-        JOptionPane.showMessageDialog(jtfMesVen, "Guardado con Éxito");
-        jpa.getTransaction().commit();
-        }
-        else{
-            JOptionPane.showMessageDialog(jtfMesVen, "lotes vacíos, agregue!");
-        }
-        */
-        limpiar();
-        
+        limpiar();        
         jtfProductoFarmaceutico.requestFocus();
         }
         else{
@@ -843,12 +835,9 @@ public class LlenarInventario extends javax.swing.JPanel {
             jpa.refresh(Lista_Lote_detalle_final.get(i));
             Lista_Detalle_Llenado_final.get(i).setLote_detalle(Lista_Lote_detalle_final.get(i));
             Lista_Lote_detalle_final.get(i).getInventario().agregarCantidad(Lista_Detalle_Llenado_final.get(i).getCantidad());
-
             jpa.persist(Lista_Detalle_Llenado_final.get(i));
-            jpa.flush();//sincronizando en la BD con el programa
-            
-            }       
-        
+            jpa.flush();//sincronizando en la BD con el programa            
+            }      
         Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
         llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
         JOptionPane.showMessageDialog(jtfMesVen, "Guardado con Éxito");
@@ -1151,6 +1140,12 @@ public class LlenarInventario extends javax.swing.JPanel {
             jlblAsteFactura.setText("");
             }
     }//GEN-LAST:event_jtfCodigoFacturaKeyReleased
+
+    private void jbtnGuardarLotes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarLotes1ActionPerformed
+       Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
+        llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
+        
+    }//GEN-LAST:event_jbtnGuardarLotes1ActionPerformed
       
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1158,6 +1153,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
@@ -1166,6 +1162,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1191,6 +1188,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jbtnAgregarLotes;
     private javax.swing.JButton jbtnGuardarLotes;
+    private javax.swing.JButton jbtnGuardarLotes1;
     private javax.swing.JLabel jlblAsteCantidad;
     private javax.swing.JLabel jlblAsteCodigoLote;
     private javax.swing.JLabel jlblAsteFabricante;
