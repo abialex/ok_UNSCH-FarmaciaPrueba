@@ -77,6 +77,10 @@ public class Detalle_Servicio_Social implements Serializable{
     public void setTarifario(Tarifario tarifario) {
         this.tarifario = tarifario;
     }
+    @Override
+    public String toString(){
+        return tarifario.getDescripcion();
+    }
     
     
     

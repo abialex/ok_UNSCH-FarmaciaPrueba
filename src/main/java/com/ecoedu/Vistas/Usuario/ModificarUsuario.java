@@ -29,12 +29,15 @@ import javax.swing.table.DefaultTableModel;
 */
 public class ModificarUsuario extends javax.swing.JPanel {   
     Usuario objUsuario;
+    Usuario objUsuarioLogueado;
     EntityManager jpa;
     Principal objPrincipal;
     List<Rol> Lista_Rol;
     List<Usuario> Lista_Usuario;
-    public ModificarUsuario(EntityManager objJPA,Principal OBJPrincipal) {
+    int auxiliar=0;
+    public ModificarUsuario(EntityManager objJPA,Principal OBJPrincipal,Usuario obj) {
         initComponents();
+        this.objUsuarioLogueado=obj;
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
            
@@ -54,11 +57,11 @@ public class ModificarUsuario extends javax.swing.JPanel {
                 }
         }        
     }
-    public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=7");
-        Lista_Rol=query1.getResultList(); 
-        
-        Query query2=jpa.createQuery("SELECT p FROM Usuario p ");
+    public void ConsultaBD(){       
+            
+        Lista_Rol=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles="+objUsuarioLogueado.getRol().getTipo_Roles().getId_tipo_Roles()).getResultList();  
+        auxiliar=objUsuarioLogueado.getRol().getTipo_Roles().getId_tipo_Roles();
+        Query query2=jpa.createQuery("SELECT p FROM Usuario p");
         Lista_Usuario=query2.getResultList(); 
       
     }   
@@ -88,14 +91,13 @@ public class ModificarUsuario extends javax.swing.JPanel {
              //.....................................TABLA...........Fin......................          
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = 0; i <listUsuario.size(); i++){
-                 if(listUsuario.get(i).getRol().getTipo_Roles().getId_tipo_Roles()==7){
-                 fila_actividad[0]=listUsuario.get(i).getRol().getNombre_rol();
-                 fila_actividad[1]=listUsuario.get(i);             
-                 fila_actividad[2]=listUsuario.get(i).getNickname();             
-                 modelo.addRow(fila_actividad);//agregando filas
-                 }
-                 
-             }        
+                 if(listUsuario.get(i).getRol().getTipo_Roles().getId_tipo_Roles()==auxiliar){
+                     fila_actividad[0]=listUsuario.get(i).getRol().getNombre_rol();
+                     fila_actividad[1]=listUsuario.get(i);             
+                     fila_actividad[2]=listUsuario.get(i).getNickname();
+                     modelo.addRow(fila_actividad);//agregando filas
+                     }
+                 }        
             jtblMedicamento.setModel(modelo); 
             jtblMedicamento.setGridColor(Color.black);
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -228,7 +230,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
 
         jcbRol.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbRol.setToolTipText("");
-        jPanel7.add(jcbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 380, 150, 25));
+        jPanel7.add(jcbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 380, 170, 25));
 
         jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);

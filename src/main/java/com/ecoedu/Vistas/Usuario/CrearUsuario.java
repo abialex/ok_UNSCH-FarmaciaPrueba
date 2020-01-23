@@ -6,7 +6,6 @@ package com.ecoedu.Vistas.Usuario;
 import com.ecoedu.Vistas.vista_base.Principal;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import com.ecoedu.model.Persona;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
@@ -27,9 +26,12 @@ public class CrearUsuario extends javax.swing.JPanel {
     EntityManager jpa;
     Principal objPrincipal;
     List<Rol> Lista_Rol;
-    public CrearUsuario(EntityManager objJPA,Principal OBJPrincipal) {
+    Usuario objUsuario;
+    Usuario objUsuarioVer;
+    public CrearUsuario(EntityManager objJPA,Principal OBJPrincipal,Usuario objUsuario) {
         initComponents();
         this.jpa=objJPA;
+        this.objUsuarioVer=objUsuario;
         this.objPrincipal=OBJPrincipal;
          
            
@@ -47,12 +49,11 @@ public class CrearUsuario extends javax.swing.JPanel {
         @Override
         public void run(){                 
             try {     
-                
-                for (int i = 0; i < 11; i++) {
+                for (int i = 0; i < 11; i++){
                     if(hola){
-                    jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI "+i);} 
-                    Thread.sleep(1000);
-                }
+                        jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI "+i);} 
+                        Thread.sleep(1000);
+                        }
                 jlblMensaje.setText("");
                 } 
             catch (InterruptedException e) {
@@ -60,9 +61,9 @@ public class CrearUsuario extends javax.swing.JPanel {
                 }
         }        
     }
-    public void ConsultaBD(){
-        Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=7");
-        Lista_Rol=query1.getResultList();       
+    public void ConsultaBD(){          
+        Lista_Rol=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles="+objUsuarioVer.getRol().getTipo_Roles().getId_tipo_Roles()).getResultList();
+           
     }   
     public void principalEjecucion(){  
         jcbRol.removeAllItems();
@@ -181,7 +182,7 @@ public class CrearUsuario extends javax.swing.JPanel {
 
         jcbRol.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbRol.setToolTipText("");
-        jPanel7.add(jcbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 210, 150, 25));
+        jPanel7.add(jcbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, 170, 25));
 
         jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -310,21 +311,21 @@ public class CrearUsuario extends javax.swing.JPanel {
             objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
             objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
             objPersona.setDni(jtfDni.getText());
-            Usuario objUsuario=new Usuario();
-            objUsuario.setRol((Rol)jcbRol.getSelectedItem());
-            objUsuario.setContraseña(DigestUtils.md5Hex(jtfDni.getText()));
-            objUsuario.setCambio(false);
+            Usuario objUsuarioo=new Usuario();
+            objUsuarioo.setRol((Rol)jcbRol.getSelectedItem());
+            objUsuarioo.setContraseña(DigestUtils.md5Hex(jtfDni.getText()));
+            objUsuarioo.setCambio(false);
             try{
                 jpa.getTransaction().begin();
                 jpa.persist(objPersona);
                 jpa.refresh(objPersona);
-                objUsuario.setPersona(objPersona);
-                objUsuario.setNickname("farmacia"+objPersona.getId_Persona());
-                jpa.persist(objUsuario);
-                jpa.refresh(objUsuario);
+                objUsuarioo.setPersona(objPersona);
+                objUsuarioo.setNickname("farmacia"+objPersona.getId_Persona());
+                jpa.persist(objUsuarioo);
+                jpa.refresh(objUsuarioo);
                 //poner un thread de mensaje
-                new Proceso(objUsuario,true).start();
-                //jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI");
+                new Proceso(objUsuarioo,true).start();
+                //jlblMensaje.setText("El nickname es: "+objUsuarioo.getNickname()+" y su contraseña es su DNI");
                 limpiar();                
                 jpa.getTransaction().commit();}
             catch (PersistenceException e) {

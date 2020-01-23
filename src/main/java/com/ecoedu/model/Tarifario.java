@@ -67,6 +67,10 @@ public class Tarifario implements Serializable{
         this.precio = precio;
     }
     
+    @Override
+    public String toString(){
+        return descripcion;
+    }
     
     
     

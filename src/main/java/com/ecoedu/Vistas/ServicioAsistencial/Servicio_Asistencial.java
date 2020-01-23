@@ -1,12 +1,12 @@
 package com.ecoedu.Vistas.ServicioAsistencial;
 import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
+import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
-import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Detalle_Servicio_Social;
+import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Servicio_social;
-import com.ecoedu.model.Receta;
-import com.ecoedu.model.Rol;
 import com.ecoedu.model.Tarifario;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -46,13 +48,13 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private float Monto_totalControlEstudiante;
     private float saldo_totalControlEstudiante;
     private Control_paciente objControl_paciente_Final;
-    private List<Servicio_social> Lista_Detalle_servicio_social;
+    private List<Servicio_social> Lista_servicio_social=new ArrayList<>();
     private Usuario objUsuario;
     private EntityManager jpa;   
     private List<Detalle_Servicio_Social> lista_DetalleServicioSocial=new ArrayList<>();
-    private List<Rol> lista_tipo_asistencial; 
-    private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
+    private List<Detalle_Servicio_Social> Lista_carrito_Servicio=new ArrayList<>();//
     TextAutoCompleter autoCompleterServicio;
+    private int limite_seguro;
     private List<Tarifario> Lista_tarifa;
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
@@ -69,21 +71,18 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     }
      public void ConsultaBD(){
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
-         lista_tipo_asistencial=jpa.createQuery("SELECT p FROM Rol p ").getResultList();  
-         Lista_tarifa=jpa.createQuery("SELECT p FROM Tarifario p ").getResultList();
-         
-         
-     }
-    
+         Lista_tarifa=jpa.createQuery("SELECT p FROM Tarifario p").getResultList();
+     }    
      public void principalEjecucion(){ 
-         jlblFecha.setText(Herramienta.formatoFecha(new Date()));
-         
-         for (Tarifario tarifario : Lista_tarifa) {
-             autoCompleterServicio.addItem(tarifario.getDescripcion());
-         }
+         llenar_Tabla_de_Detalle_Asistenciales(new ArrayList<Detalle_Servicio_Social>());
+         jlblFecha.setText(Herramienta.formatoFecha(new Date()));        
          jbtnImprimirServicios.setEnabled(false);     
          jbtnCrearServicio.setEnabled(false);
-         //llenar_Tabla_de_Recetas(Lista_Detalle_servicio_social);
+         autoCompleterServicio.removeAllItems();
+         for (Tarifario tarifario : Lista_tarifa) {
+             autoCompleterServicio.addItem(tarifario);
+         }
+         //llenar_Tabla_de_Recetas(Lista_servicio_social);
          
            
      }  
@@ -94,11 +93,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
          Monto_totalControlEstudiante=Monto_totalControlEstudiante+a;
          saldo_totalControlEstudiante=saldo_totalControlEstudiante-a;
      }
-     public void getListaCarritos(Detalle_Medicamentos objDetalleMedicamento){
-         JOptionPane.showMessageDialog(jlblNombres, "corre");
-         Lista_carrito_medicamentos.add(objDetalleMedicamento);
-                  
-     } 
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -120,28 +115,10 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jtfLookCodigo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
-        cuerpoListaCrearServicio = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jtfDescripcion = new javax.swing.JTextField();
-        jlblPrecio = new javax.swing.JLabel();
-        jlblFecha = new javax.swing.JLabel();
-        jbtnAgregar = new javax.swing.JButton();
-        jLabel35 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtblRecetas = new javax.swing.JTable();
-        jPanel14 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
-        jlblMontoTotal1 = new javax.swing.JLabel();
-        jbtnImprimir1 = new javax.swing.JButton();
-        jbtnCrearReceta1 = new javax.swing.JButton();
         cuerpoListaServicios = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblRecetas4 = new javax.swing.JTable();
+        jtblServicios = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -153,6 +130,42 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jlblMontoTotal = new javax.swing.JLabel();
         jbtnImprimirServicios = new javax.swing.JButton();
         jbtnCrearServicio = new javax.swing.JButton();
+        cuerpoListaCrearServicio = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jtfDescripcion = new javax.swing.JTextField();
+        jlblPrecio = new javax.swing.JLabel();
+        jlblFecha = new javax.swing.JLabel();
+        jbtnAgregar = new javax.swing.JButton();
+        jlblTipo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblTarifas = new javax.swing.JTable();
+        jlblAsteriscoServicioRegistrar = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jlblMontoTotalAsistencial = new javax.swing.JLabel();
+        jbtnVolver = new javax.swing.JButton();
+        jbtnCrearReceta1 = new javax.swing.JButton();
+        cuerpoVisualisarDetalleServicio = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jlblFechaVer = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtblDetalleServicioSocial = new javax.swing.JTable();
+        jLabel42 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jbtnCrearReceta2 = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
+        jbtnVolver1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setMaximumSize(new java.awt.Dimension(990, 650));
@@ -166,7 +179,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Servicios Asistenciales");
+        jLabel12.setText("Servicios Social");
         jLabel12.setPreferredSize(new java.awt.Dimension(351, 70));
         head.add(jLabel12);
 
@@ -259,125 +272,6 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         body2.setPreferredSize(new java.awt.Dimension(9900, 520));
         body2.setLayout(new java.awt.CardLayout());
 
-        cuerpoListaCrearServicio.setBackground(new java.awt.Color(255, 255, 255));
-        cuerpoListaCrearServicio.setPreferredSize(new java.awt.Dimension(900, 350));
-
-        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel12.setPreferredSize(new java.awt.Dimension(900, 320));
-        jPanel12.addHierarchyListener(new java.awt.event.HierarchyListener() {
-            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
-                jPanel12HierarchyChanged(evt);
-            }
-        });
-        jPanel12.setLayout(new java.awt.BorderLayout());
-
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText(" SERVICIOS ASISTENCIALES DEL ESTUDIANTE (rugro s/110)");
-        jLabel16.setPreferredSize(new java.awt.Dimension(178, 30));
-        jPanel12.add(jLabel16, java.awt.BorderLayout.PAGE_START);
-
-        jLabel17.setPreferredSize(new java.awt.Dimension(10, 14));
-        jPanel12.add(jLabel17, java.awt.BorderLayout.LINE_END);
-
-        jLabel19.setPreferredSize(new java.awt.Dimension(10, 14));
-        jPanel12.add(jLabel19, java.awt.BorderLayout.LINE_START);
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jtfDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtfDescripcionKeyTyped(evt);
-            }
-        });
-        jPanel1.add(jtfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 620, 30));
-
-        jlblPrecio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel1.add(jlblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 60, 40, -1));
-
-        jlblFecha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlblFecha.setText("2019/06/04");
-        jPanel1.add(jlblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
-
-        jbtnAgregar.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnAgregar.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnAgregar.setText("AGREGAR");
-        jbtnAgregar.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnAgregarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 140, 30));
-
-        jLabel35.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel35.setText("Fecha Registro:");
-        jPanel1.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jtblRecetas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Tipo", "Descripción", "Costo"
-            }
-        ));
-        jScrollPane2.setViewportView(jtblRecetas);
-
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 880, 180));
-
-        jPanel12.add(jPanel1, java.awt.BorderLayout.CENTER);
-
-        cuerpoListaCrearServicio.add(jPanel12);
-
-        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel14.setPreferredSize(new java.awt.Dimension(900, 40));
-
-        jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setText("Monto Total :");
-        jLabel20.setPreferredSize(new java.awt.Dimension(130, 26));
-        jPanel14.add(jLabel20);
-
-        jlblMontoTotal1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jlblMontoTotal1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jlblMontoTotal1.setText("S/0.00");
-        jlblMontoTotal1.setPreferredSize(new java.awt.Dimension(280, 29));
-        jPanel14.add(jlblMontoTotal1);
-
-        jbtnImprimir1.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnImprimir1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnImprimir1.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnImprimir1.setText("IMPRIMIR");
-        jbtnImprimir1.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnImprimir1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnImprimir1ActionPerformed(evt);
-            }
-        });
-        jPanel14.add(jbtnImprimir1);
-
-        jbtnCrearReceta1.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnCrearReceta1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnCrearReceta1.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnCrearReceta1.setText("GUARDAR");
-        jbtnCrearReceta1.setPreferredSize(new java.awt.Dimension(200, 25));
-        jbtnCrearReceta1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCrearReceta1ActionPerformed(evt);
-            }
-        });
-        jPanel14.add(jbtnCrearReceta1);
-
-        cuerpoListaCrearServicio.add(jPanel14);
-
-        body2.add(cuerpoListaCrearServicio, "card2");
-
         cuerpoListaServicios.setBackground(new java.awt.Color(255, 255, 255));
         cuerpoListaServicios.setPreferredSize(new java.awt.Dimension(900, 350));
 
@@ -385,8 +279,8 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jPanel9.setPreferredSize(new java.awt.Dimension(900, 250));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jtblRecetas4.setBorder(new javax.swing.border.MatteBorder(null));
-        jtblRecetas4.setModel(new javax.swing.table.DefaultTableModel(
+        jtblServicios.setBorder(new javax.swing.border.MatteBorder(null));
+        jtblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -413,16 +307,16 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 "Código", "Fecha", "Total Costo", "Procedencia", "Diagnostico"
             }
         ));
-        jtblRecetas4.setGridColor(new java.awt.Color(0, 0, 0));
-        jtblRecetas4.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblRecetas4.setPreferredSize(new java.awt.Dimension(200, 260));
-        jtblRecetas4.setRequestFocusEnabled(false);
-        jtblRecetas4.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtblServicios.setGridColor(new java.awt.Color(0, 0, 0));
+        jtblServicios.setMinimumSize(new java.awt.Dimension(500, 100));
+        jtblServicios.setPreferredSize(new java.awt.Dimension(200, 260));
+        jtblServicios.setRequestFocusEnabled(false);
+        jtblServicios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtblRecetas4MouseClicked(evt);
+                jtblServiciosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtblRecetas4);
+        jScrollPane1.setViewportView(jtblServicios);
 
         jPanel9.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -446,7 +340,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         cuerpoListaServicios.add(jPanel9);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel11.setPreferredSize(new java.awt.Dimension(900, 70));
+        jPanel11.setPreferredSize(new java.awt.Dimension(900, 75));
 
         jlblAdvertencia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAdvertencia.setForeground(new java.awt.Color(255, 0, 0));
@@ -500,54 +394,303 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
 
         body2.add(cuerpoListaServicios, "card2");
 
+        cuerpoListaCrearServicio.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpoListaCrearServicio.setPreferredSize(new java.awt.Dimension(900, 350));
+
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setPreferredSize(new java.awt.Dimension(900, 330));
+        jPanel12.addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                jPanel12HierarchyChanged(evt);
+            }
+        });
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText(" SERVICIO SOCIAL DEL ESTUDIANTE (rugro s/110)");
+        jLabel16.setPreferredSize(new java.awt.Dimension(178, 30));
+        jPanel12.add(jLabel16, java.awt.BorderLayout.PAGE_START);
+
+        jLabel17.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel12.add(jLabel17, java.awt.BorderLayout.LINE_END);
+
+        jLabel19.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel12.add(jLabel19, java.awt.BorderLayout.LINE_START);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jtfDescripcion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDescripcionKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfDescripcionKeyTyped(evt);
+            }
+        });
+        jPanel1.add(jtfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 30));
+
+        jlblPrecio.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jPanel1.add(jlblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 70, 25));
+
+        jlblFecha.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jPanel1.add(jlblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 120, 25));
+
+        jbtnAgregar.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregar.setText("AGREGAR");
+        jbtnAgregar.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 10, 180, 30));
+
+        jlblTipo.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jPanel1.add(jlblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 170, 25));
+
+        jtblTarifas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tipo", "Descripción", "Costo"
+            }
+        ));
+        jScrollPane2.setViewportView(jtblTarifas);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 180));
+
+        jlblAsteriscoServicioRegistrar.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jlblAsteriscoServicioRegistrar.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoServicioRegistrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoServicioRegistrar.setText("*");
+        jPanel1.add(jlblAsteriscoServicioRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 15, 30));
+
+        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel37.setText("Precio:");
+        jPanel1.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, -1, 25));
+
+        jLabel38.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel38.setText("Tipo:");
+        jPanel1.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 25));
+
+        jLabel39.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel39.setText("Fecha Registro:");
+        jPanel1.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, -1, 25));
+
+        jPanel12.add(jPanel1, java.awt.BorderLayout.PAGE_END);
+
+        cuerpoListaCrearServicio.add(jPanel12);
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel14.setPreferredSize(new java.awt.Dimension(900, 40));
+
+        jLabel21.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel21.setText("Total:");
+        jLabel21.setPreferredSize(new java.awt.Dimension(130, 26));
+        jPanel14.add(jLabel21);
+
+        jlblMontoTotalAsistencial.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblMontoTotalAsistencial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblMontoTotalAsistencial.setText("S/0.00");
+        jlblMontoTotalAsistencial.setPreferredSize(new java.awt.Dimension(280, 29));
+        jPanel14.add(jlblMontoTotalAsistencial);
+
+        jbtnVolver.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnVolver.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnVolver.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnVolver.setText("VOLVER");
+        jbtnVolver.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnVolverActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jbtnVolver);
+
+        jbtnCrearReceta1.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnCrearReceta1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnCrearReceta1.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCrearReceta1.setText("GUARDAR");
+        jbtnCrearReceta1.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnCrearReceta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCrearReceta1ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jbtnCrearReceta1);
+
+        cuerpoListaCrearServicio.add(jPanel14);
+
+        body2.add(cuerpoListaCrearServicio, "card2");
+
+        cuerpoVisualisarDetalleServicio.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpoVisualisarDetalleServicio.setPreferredSize(new java.awt.Dimension(900, 350));
+
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setPreferredSize(new java.awt.Dimension(900, 331));
+        jPanel13.addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                jPanel13HierarchyChanged(evt);
+            }
+        });
+        jPanel13.setLayout(new java.awt.BorderLayout());
+
+        jLabel20.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Detalle de Servicio Social");
+        jLabel20.setPreferredSize(new java.awt.Dimension(178, 30));
+        jPanel13.add(jLabel20, java.awt.BorderLayout.PAGE_START);
+
+        jLabel22.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel13.add(jLabel22, java.awt.BorderLayout.LINE_END);
+
+        jLabel23.setPreferredSize(new java.awt.Dimension(10, 14));
+        jPanel13.add(jLabel23, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(900, 300));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jlblFechaVer.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jPanel2.add(jlblFechaVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, 25));
+
+        jtblDetalleServicioSocial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tipo", "Descripción", "Costo"
+            }
+        ));
+        jtblDetalleServicioSocial.setMinimumSize(new java.awt.Dimension(0, 0));
+        jScrollPane3.setViewportView(jtblDetalleServicioSocial);
+
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 180));
+
+        jLabel42.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel42.setText("Fecha Registro:");
+        jPanel2.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, 25));
+
+        jPanel13.add(jPanel2, java.awt.BorderLayout.PAGE_END);
+
+        cuerpoVisualisarDetalleServicio.add(jPanel13);
+
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel15.setPreferredSize(new java.awt.Dimension(900, 40));
+
+        jbtnCrearReceta2.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnCrearReceta2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnCrearReceta2.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCrearReceta2.setText("IMPRIMIR");
+        jbtnCrearReceta2.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnCrearReceta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCrearReceta2ActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jbtnCrearReceta2);
+
+        jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel24.setPreferredSize(new java.awt.Dimension(455, 26));
+        jPanel15.add(jLabel24);
+
+        jbtnVolver1.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnVolver1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnVolver1.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnVolver1.setText("VOLVER");
+        jbtnVolver1.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnVolver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnVolver1ActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jbtnVolver1);
+
+        cuerpoVisualisarDetalleServicio.add(jPanel15);
+
+        body2.add(cuerpoVisualisarDetalleServicio, "card2");
+
         body.add(body2, java.awt.BorderLayout.CENTER);
 
         add(body, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
    
     
-    public void llenarControlAlumno(){//usando acceso BD   
+    public void llenarControlAlumno(){//usando acceso BD  
+        boolean aux=true;
         for (int i = 0; i < Lista_control_paciente.size(); i++){
-            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){                
+            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){  
+                aux=false;
                 objControl_paciente_Final=Lista_control_paciente.get(i);
-                Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();
-                saldo_totalControlEstudiante=90-objControl_paciente_Final.getMonto_Total();
+                limite_seguro=objControl_paciente_Final.getLimite_control();  
+                Monto_totalControlEstudiante=objControl_paciente_Final.getMonto_Total();                
+                saldo_totalControlEstudiante=limite_seguro-objControl_paciente_Final.getMonto_Total();                
                 jlblNombres.setText(Lista_control_paciente.get(i).getEstudiante().getPersona().getInfoPersona());
                 jlblSerie.setText(Lista_control_paciente.get(i).getEstudiante().getSerie());
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getRolescuela().getNombre_rol());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
-                Lista_Detalle_servicio_social=Herramienta.findbyWhere(Servicio_social.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
+                Lista_servicio_social=Herramienta.findbyWhere(Servicio_social.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearServicio.setEnabled(true);
                 jbtnImprimirServicios.setEnabled(true);
-                if(Lista_Detalle_servicio_social.isEmpty()){
-                jlblAdvertencia.setText("NO CONTIENE NI UN SERVICIO");
-                jbtnImprimirServicios.setEnabled(false);
-                }               
+                if(Lista_servicio_social.isEmpty()){
+                    jlblAdvertencia.setText("NO CONTIENE NI UN SERVICIO");
+                    jbtnImprimirServicios.setEnabled(false);
+                    }
+                else{
+                    jlblAdvertencia.setText("");
+                }
                 break;
-            }
+                }
             jbtnCrearServicio.setEnabled(false);
             jbtnImprimirServicios.setEnabled(false);
             jlblAdvertencia.setText("");
+            }
+        if(aux){
+            List<Estudiante> Lista_Estudiante=jpa.createQuery("SELECT p FROM Estudiante p where codigo='"+jtfLookCodigo.getText()+"'").getResultList();
+            if(Lista_Estudiante.isEmpty()){
+                jlblAdvertencia.setText("NO SE ENCONTRÓ ALUMNO CON EL CÓDIGO: "+jtfLookCodigo.getText());
+                limpiarVista1();
+                }
+            else{
+                CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this);
+                objCuadroCarrito.setVisible(true);
+                objPrincipal.setEnabled(false); 
+                }
+            }
+        llenar_Tabla_de_Asistenciales(Lista_servicio_social);
         }
-        
-       //new ArrayList<>()(Lista_Detalle_servicio_social);        
+    
+    public Principal getPrincipal(){
+        return objPrincipal;
     }
     private void jbtnCrearServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearServicioActionPerformed
-        Lista_Detalle_servicio_social=jpa.createQuery("SELECT p FROM Detalle_servicio_social p").getResultList();
         cuerpoListaServicios.setVisible(false);  
+        cuerpoListaCrearServicio.setVisible(true);
         jtfLookCodigo.setEditable(false);
     }//GEN-LAST:event_jbtnCrearServicioActionPerformed
 
-    private void jtblRecetas4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetas4MouseClicked
-        Receta objReceta=(Receta)jtblRecetas4.getValueAt(jtblRecetas4.getSelectedRow(),0);
-        for (int i = 0; i < Lista_Detalle_servicio_social.size(); i++){
-          /*  if(Lista_Detalle_servicio_social.get(i)==objReceta){ 
-                cuerpoListaServicios.setVisible(false);
-                jtfLookCodigo.setEditable(false);
-                break;
-            } */       
-        }
-    }//GEN-LAST:event_jtblRecetas4MouseClicked
+    private void jtblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblServiciosMouseClicked
+        Servicio_social objServicio_Social=(Servicio_social)jtblServicios.getValueAt(jtblServicios.getSelectedRow(),1);
+        lista_DetalleServicioSocial=Herramienta.findbyWhere(Detalle_Servicio_Social.class, "id_Servicio_social", objServicio_Social.getId_Detalle_servicio_social(), jpa);
+        llenar_Tabla_de_DetalleAsistencialesMirar(lista_DetalleServicioSocial);
+        jlblFechaVer.setText(Herramienta.formatoFechaHoraMas1(objServicio_Social.getFecha()));
+        cuerpoListaServicios.setVisible(false);
+        cuerpoVisualisarDetalleServicio.setVisible(true);
+    }//GEN-LAST:event_jtblServiciosMouseClicked
 
     private void jtfLookCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLookCodigoKeyPressed
 
@@ -600,48 +743,120 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jbtnImprimirServiciosActionPerformed
 
-    private void jbtnImprimir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimir1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnImprimir1ActionPerformed
-
     private void jbtnCrearReceta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta1ActionPerformed
        Servicio_social objServicioSocial=new Servicio_social();
-        objServicioSocial.setControl_Paciente(objControl_paciente_Final);
-        objServicioSocial.setFecha(new Date());
-        objServicioSocial.setMonto(0);
-        objServicioSocial.setUsuario(objUsuario);
+        objServicioSocial.setControl_Paciente(objControl_paciente_Final);//control
+        objServicioSocial.setFecha(new Date());//fecha
+        objServicioSocial.setMonto(sumarPrecios());//monto
+        
+        jpa.getTransaction().begin();        
+        jpa.persist(objServicioSocial);
+        jpa.refresh(objServicioSocial);
+        jpa.persist(objControl_paciente_Final.agregarPrecioTotal(sumarPrecios()));
+        for (Detalle_Servicio_Social objDetalleServicio : Lista_carrito_Servicio){
+            objDetalleServicio.setServicio_social(objServicioSocial);
+            jpa.persist(objDetalleServicio);
+        }
+        ConsultaBD();
+        principalEjecucion();
+        llenarControlAlumno();
+        jlblMontoTotalAsistencial.setText("S/0.00");
+        Lista_carrito_Servicio.clear();
+        cuerpoListaCrearServicio.setVisible(false);
+        cuerpoListaServicios.setVisible(true);
+        int confirmado = JOptionPane.showConfirmDialog(jlblNombres,"¿Desea Imprimir?");
+            if (JOptionPane.OK_OPTION == confirmado){
+                try {                
+                    //imprimirReceta(Lista_carrito_medicamentos);
+                    String url="Carpeta_de_Archivos\\Servicio_Asistencial"+objControl_paciente_Final.getEstudiante().getCodigo()+"asistencial.pdf";
+                    ProcessBuilder p=new ProcessBuilder();
+                    p.command("cmd.exe","/c",url);
+                    p.start();            
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                }
+            else{
+                System.out.println("vale... no borro nada...");}
+        jpa.getTransaction().commit();
     }//GEN-LAST:event_jbtnCrearReceta1ActionPerformed
 
     private void jPanel12HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jPanel12HierarchyChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel12HierarchyChanged
 
-    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
-        Detalle_Servicio_Social objDetalle_Servicio_Social=new Detalle_Servicio_Social();        
-        objDetalle_Servicio_Social.setPrecio_Total(Float.parseFloat(jlblPrecio.getText()));
-        for (Tarifario tarifario : Lista_tarifa) {
-            if(tarifario.getDescripcion().equals(jtfDescripcion.getText())){
-                objDetalle_Servicio_Social.setTarifario(tarifario);
-                break;
-            }            
+    private float sumarPrecios(){
+        float a=0;
+        for (Detalle_Servicio_Social detalle_Servicio_Social : Lista_carrito_Servicio){
+            a=a+detalle_Servicio_Social.getPrecio_Total();
         }
-        objDetalle_Servicio_Social.setServicio_social(new Servicio_social());
-        objDetalle_Servicio_Social.setUsuario(objUsuario);
-        lista_DetalleServicioSocial.add(objDetalle_Servicio_Social);
-        llenar_Tabla_de_Recetas(lista_DetalleServicioSocial);
+        return a;
+    }
+    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
+       if(jlblAsteriscoServicioRegistrar.getText().isEmpty()){
+        Tarifario objTarifa=(Tarifario)autoCompleterServicio.getItemSelected();
+        Detalle_Servicio_Social objDetalleServicioSocial=new Detalle_Servicio_Social();
+        objDetalleServicioSocial.setUsuario(objUsuario);
+        objDetalleServicioSocial.setTarifario(objTarifa);
+        objDetalleServicioSocial.setPrecio_Total(objTarifa.getPrecio());
+        Lista_carrito_Servicio.add(objDetalleServicioSocial);
+        llenar_Tabla_de_Detalle_Asistenciales(Lista_carrito_Servicio);
+        jlblMontoTotalAsistencial.setText("S/"+sumarPrecios()+"0");
+        jtfDescripcion.setText("");
+        jlblAsteriscoServicioRegistrar.setText("*");
+        jlblTipo.setText("");
+        jlblPrecio.setText("");
+       }
+       else{
+           JOptionPane.showMessageDialog(jlblNombres, "INGRESE UN SERVICIO VÁLIDO");
+       }
+        
+
     }//GEN-LAST:event_jbtnAgregarActionPerformed
 
     public void actualizarPrecio(){
-        for (Tarifario tarifario : Lista_tarifa){
+        /*for (Tarifario tarifario : Lista_tarifa){
             if(tarifario.getDescripcion().equals(jtfDescripcion.getText())){
                 jlblPrecio.setText(Float.toString(tarifario.getPrecio()));
                 break;
             }            
-        }
+        }*/
     }
     private void jtfDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescripcionKeyTyped
         actualizarPrecio();
     }//GEN-LAST:event_jtfDescripcionKeyTyped
+
+    private void jbtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVolverActionPerformed
+        cuerpoListaCrearServicio.setVisible(false);
+        cuerpoListaServicios.setVisible(true);
+        jtfLookCodigo.setEditable(true);
+    }//GEN-LAST:event_jbtnVolverActionPerformed
+
+    private void jtfDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescripcionKeyReleased
+        for (Tarifario tarifario : Lista_tarifa){
+            if(tarifario.getDescripcion().equals(jtfDescripcion.getText())){
+                jlblTipo.setText(tarifario.getRolTipo_asistencial().getNombre_rol());
+                jlblPrecio.setText("S/"+tarifario.getPrecio());
+                jlblAsteriscoServicioRegistrar.setText("");
+                break;
+            }
+            jlblAsteriscoServicioRegistrar.setText("*");
+            
+        }
+    }//GEN-LAST:event_jtfDescripcionKeyReleased
+
+    private void jPanel13HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jPanel13HierarchyChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel13HierarchyChanged
+
+    private void jbtnVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVolver1ActionPerformed
+        cuerpoVisualisarDetalleServicio.setVisible(false);
+        cuerpoListaServicios.setVisible(true);
+    }//GEN-LAST:event_jbtnVolver1ActionPerformed
+
+    private void jbtnCrearReceta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCrearReceta2ActionPerformed
     public void imprimirEstudiante() throws FileNotFoundException, DocumentException, IOException{
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
@@ -681,8 +896,8 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         table.addHeaderCell(new Cell().add(new Paragraph("Monto").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
         table.addHeaderCell(new Cell().add(new Paragraph("Químico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
                  
-      //Collections.sort(Lista_Detalle_servicio_social);//ordenando A-Z (método como Override)
-        for(Servicio_social detalle_servicio_social : Lista_Detalle_servicio_social){
+      //Collections.sort(Lista_servicio_social);//ordenando A-Z (método como Override)
+        for(Servicio_social detalle_servicio_social : Lista_servicio_social){
            // table.addCell(new Paragraph(Herramienta.formatoFecha(Detalle_Medicamento.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             //table.addCell(new Paragraph(Detalle_Medicamento.getId_Medicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             //table.addCell(new Paragraph(Integer.toString(Detalle_Medicamento.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
@@ -697,8 +912,10 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
          jlblNombres.setText("");
          jlblEscuela.setText("");
          jlblSerie.setText("");
-         Lista_Detalle_servicio_social.clear();
-         llenarControlAlumno();
+         jlblMontoTotal.setText("");
+         Lista_servicio_social.clear();
+         llenar_Tabla_de_Asistenciales(Lista_servicio_social);
+
      }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -706,6 +923,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JPanel body2;
     private javax.swing.JPanel cuerpoListaCrearServicio;
     private javax.swing.JPanel cuerpoListaServicios;
+    private javax.swing.JPanel cuerpoVisualisarDetalleServicio;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
     private javax.swing.JLabel jLabel1;
@@ -719,8 +937,15 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -729,39 +954,48 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbtnAgregar;
     private javax.swing.JButton jbtnCrearReceta1;
+    private javax.swing.JButton jbtnCrearReceta2;
     private javax.swing.JButton jbtnCrearServicio;
-    private javax.swing.JButton jbtnImprimir1;
     private javax.swing.JButton jbtnImprimirServicios;
+    private javax.swing.JButton jbtnVolver;
+    private javax.swing.JButton jbtnVolver1;
     private javax.swing.JLabel jlblAdvertencia;
+    private javax.swing.JLabel jlblAsteriscoServicioRegistrar;
     private javax.swing.JLabel jlblEscuela;
     private javax.swing.JLabel jlblFecha;
+    private javax.swing.JLabel jlblFechaVer;
     private javax.swing.JLabel jlblMontoTotal;
-    private javax.swing.JLabel jlblMontoTotal1;
+    private javax.swing.JLabel jlblMontoTotalAsistencial;
     private javax.swing.JLabel jlblNombres;
     private javax.swing.JLabel jlblPrecio;
     private javax.swing.JLabel jlblSerie;
-    private javax.swing.JTable jtblRecetas;
-    private javax.swing.JTable jtblRecetas4;
+    private javax.swing.JLabel jlblTipo;
+    private javax.swing.JTable jtblDetalleServicioSocial;
+    private javax.swing.JTable jtblServicios;
+    private javax.swing.JTable jtblTarifas;
     private javax.swing.JTextField jtfDescripcion;
     private javax.swing.JTextField jtfLookCodigo;
     // End of variables declaration//GEN-END:variables
-public void llenar_Tabla_de_Recetas(List<Detalle_Servicio_Social> lista_de_detalleServicioSocial){
+public void llenar_Tabla_de_Detalle_Asistenciales(List<Detalle_Servicio_Social> lista_de_detalleServicioSocial){
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Tipo","Descripción","Precio","Asistenta"}; 
+             String [] lista={"Tipo","Descripción","Precio"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
-                       false, false, false
-                         };
+                       false, false, false};
                  @Override
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
@@ -771,30 +1005,110 @@ public void llenar_Tabla_de_Recetas(List<Detalle_Servicio_Social> lista_de_detal
              fila_actividad=new Object[modelo.getColumnCount()];  
              for (int i = lista_de_detalleServicioSocial.size()-1; i>=0 ; i--){
                  fila_actividad[0]=lista_de_detalleServicioSocial.get(i).getTarifario().getRolTipo_asistencial().getNombre_rol();
-                 fila_actividad[1]=lista_de_detalleServicioSocial.get(i).getTarifario().getDescripcion();           
+                 fila_actividad[1]=lista_de_detalleServicioSocial.get(i);           
+                 fila_actividad[2]=lista_de_detalleServicioSocial.get(i).getTarifario().getPrecio();  
+                 //fila_actividad[3]=lista_de_detalleServicioSocial.get(i).getUsuario().getPersona().getInfoPersona();   
+                 modelo.addRow(fila_actividad);//agregando filas
+                 }
+            jtblTarifas.setModel(modelo); 
+            jtblTarifas.setGridColor(Color.black);
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+            tcr.setHorizontalAlignment(SwingConstants.CENTER);
+            jtblTarifas.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jtblTarifas.getColumnModel().getColumn(1).setCellRenderer(tcr);
+            jtblTarifas.getColumnModel().getColumn(2).setCellRenderer(tcr);
+
+            jtblTarifas.setFont(new java.awt.Font("Tahoma", 0, 15));
+            jtblTarifas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18));
+            jtblTarifas.getTableHeader().setBackground(Color.BLUE);
+            jtblTarifas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jtblTarifas.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jtblTarifas.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jtblTarifas.getColumnModel().getColumn(2).setPreferredWidth(30);
+           
+            ((DefaultTableCellRenderer)jtblTarifas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            //864-550=64  
+    }
+public void llenar_Tabla_de_DetalleAsistencialesMirar(List<Detalle_Servicio_Social> lista_de_detalleServicioSocial){
+        DefaultTableModel modelo;
+        Object[] fila_actividad;
+             //.....................................TABLA......................................
+             String [] lista={"Tipo","Descripción","Precio","Asistenta"}; 
+             modelo=new DefaultTableModel(null,lista){
+                 boolean[] canEdit = new boolean [] {
+                       false, false, false,false};
+                 @Override
+                 public boolean isCellEditable(int rowIndex, int columnIndex) {
+                     return canEdit [columnIndex];
+                     }
+                 };
+             //.....................................TABLA...........Fin......................           
+             fila_actividad=new Object[modelo.getColumnCount()];  
+             for (int i = lista_de_detalleServicioSocial.size()-1; i>=0 ; i--){
+                 fila_actividad[0]=lista_de_detalleServicioSocial.get(i).getTarifario().getRolTipo_asistencial().getNombre_rol();
+                 fila_actividad[1]=lista_de_detalleServicioSocial.get(i);           
                  fila_actividad[2]=lista_de_detalleServicioSocial.get(i).getTarifario().getPrecio();  
                  fila_actividad[3]=lista_de_detalleServicioSocial.get(i).getUsuario().getPersona().getInfoPersona();   
                  modelo.addRow(fila_actividad);//agregando filas
                  }
-            jtblRecetas.setModel(modelo); 
-            jtblRecetas.setGridColor(Color.black);
+            jtblDetalleServicioSocial.setModel(modelo); 
+            jtblDetalleServicioSocial.setGridColor(Color.black);
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
             tcr.setHorizontalAlignment(SwingConstants.CENTER);
-            jtblRecetas.getColumnModel().getColumn(0).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(1).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(2).setCellRenderer(tcr);
-            jtblRecetas.getColumnModel().getColumn(3).setCellRenderer(tcr);
-
-            jtblRecetas.setFont(new java.awt.Font("Tahoma", 0, 15));
-            jtblRecetas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18));
-            jtblRecetas.getTableHeader().setBackground(Color.BLUE);
-            jtblRecetas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblRecetas.getColumnModel().getColumn(0).setPreferredWidth(40);
-            jtblRecetas.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblRecetas.getColumnModel().getColumn(2).setPreferredWidth(30);
-            jtblRecetas.getColumnModel().getColumn(3).setPreferredWidth(130);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(1).setCellRenderer(tcr);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(2).setCellRenderer(tcr);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(3).setCellRenderer(tcr);
+            jtblDetalleServicioSocial.setFont(new java.awt.Font("Tahoma", 0, 15));
+            jtblDetalleServicioSocial.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18));
+            jtblDetalleServicioSocial.getTableHeader().setBackground(Color.BLUE);
+            jtblDetalleServicioSocial.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jtblDetalleServicioSocial.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(2).setPreferredWidth(5);
+            jtblDetalleServicioSocial.getColumnModel().getColumn(3).setPreferredWidth(25);
            
-            ((DefaultTableCellRenderer)jtblRecetas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            ((DefaultTableCellRenderer)jtblDetalleServicioSocial.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64  
-    }   
+    }
+public void llenar_Tabla_de_Asistenciales(List<Servicio_social> lista_de_Servicio_Social){
+        DefaultTableModel modelo;
+        Object[] fila_actividad;
+             //.....................................TABLA......................................
+             String [] lista={"Fecha","Precio Total"}; 
+             modelo=new DefaultTableModel(null,lista){
+                 boolean[] canEdit = new boolean [] {
+                       false, false};
+                 @Override
+                 public boolean isCellEditable(int rowIndex, int columnIndex) {
+                     return canEdit [columnIndex];
+                     }
+                 };
+             //.....................................TABLA...........Fin......................           
+             fila_actividad=new Object[modelo.getColumnCount()];  
+             for (Servicio_social objServicio_Social : lista_de_Servicio_Social) {
+                 fila_actividad[0]=Herramienta.formatoFechaHoraMas1(objServicio_Social.getFecha());
+                 fila_actividad[1]=objServicio_Social;
+                 //fila_actividad[2]=objServicio_Social.getUsuario().getPersona().getInfoPersona();
+                 modelo.addRow(fila_actividad);//agregando filas
+                 }
+            jtblServicios.setModel(modelo); 
+            jtblServicios.setGridColor(Color.black);
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+            tcr.setHorizontalAlignment(SwingConstants.CENTER);
+            jtblServicios.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jtblServicios.getColumnModel().getColumn(1).setCellRenderer(tcr);
+            //jtblServicios.getColumnModel().getColumn(2).setCellRenderer(tcr);
+
+            jtblServicios.setFont(new java.awt.Font("Tahoma", 0, 15));
+            jtblServicios.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18));
+            jtblServicios.getTableHeader().setBackground(Color.BLUE);
+            jtblServicios.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jtblServicios.getColumnModel().getColumn(0).setPreferredWidth(75);
+            jtblServicios.getColumnModel().getColumn(1).setPreferredWidth(100);
+            //jtblServicios.getColumnModel().getColumn(2).setPreferredWidth(100);           
+            ((DefaultTableCellRenderer)jtblServicios.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            //864-550=64  
+    }
+   
 }

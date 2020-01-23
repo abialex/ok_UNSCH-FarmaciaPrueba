@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.ServicioFarmacia;
 
 
 
+import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Estudiante;
@@ -23,15 +24,27 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
     EntityManager jpa;
     CuadroCarritoMedicinas objCuadroCarritoMedicinas;
     ServicioFarmacia objServicioFarmacia;
+    Servicio_Asistencial objServicio_Asistencial;
     Estudiante objEstudiante;
+    boolean auxServis_Farmacia_o_Asistencial=false;
     public ActualizarControlDelAlumno(EntityManager objJpa,Estudiante objEstudiante,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia){
         initComponents();
+        auxServis_Farmacia_o_Asistencial=true;
         this.objEstudiante=objEstudiante;
         this.jpa=objJpa;
         this.objServicioFarmacia=OBJServicioFarmacia;
         this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
         principalEjecucion();        
-    }       
+    }
+    public ActualizarControlDelAlumno(EntityManager objJpa,Estudiante objEstudiante,CuadroCarritoMedicinas objCuadroCarritoMedicinas,Servicio_Asistencial objServicio_asistencial){
+        initComponents();
+        auxServis_Farmacia_o_Asistencial=true;
+        this.objEstudiante=objEstudiante;
+        this.jpa=objJpa;
+        this.objServicio_Asistencial=objServicio_asistencial;
+        this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
+        principalEjecucion();        
+    } 
   
     public void principalEjecucion(){
         jlblEstEscuela.setText(objEstudiante.getEscuela().getNombre_rol());
@@ -203,10 +216,16 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
         //que el objeto cambió algún atributo, este lo actualiza en la BD
         jpa.persist(objControlNuevo);
         JOptionPane.showMessageDialog(jLabel12, "Se actualizó y se renovó el control con exito");
-        objServicioFarmacia.ConsultaBD();
-        objServicioFarmacia.principalEjecucion();
-        objServicioFarmacia.llenarControlAlumno();
-        objServicioFarmacia.getPrincipal().setEnabled(true);
+        if(auxServis_Farmacia_o_Asistencial){
+            objServicioFarmacia.ConsultaBD();
+            objServicioFarmacia.principalEjecucion();
+            objServicioFarmacia.llenarControlAlumno();
+            objServicioFarmacia.getPrincipal().setEnabled(true);}
+        else{
+            objServicio_Asistencial.ConsultaBD();
+            objServicio_Asistencial.principalEjecucion();
+            objServicio_Asistencial.llenarControlAlumno();
+            objServicio_Asistencial.getPrincipal().setEnabled(true);}
         objCuadroCarritoMedicinas.setVisible(false);
         jpa.getTransaction().commit();
     }//GEN-LAST:event_jbtnAgregarActionPerformed

@@ -38,10 +38,6 @@ public class Servicio_social implements Serializable {
     @Column(name="monto",nullable = false)
     private float  monto;
     
-    @JoinColumn(insertable = true,updatable = false,name="id_Usuario",nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Usuario usuario;
-
     public Control_paciente getControl_Paciente() {
         return control_Paciente;
     }
@@ -73,14 +69,12 @@ public class Servicio_social implements Serializable {
     public void setMonto(float monto) {
         this.monto = monto;
     }
-
-    public Usuario getUsuario() {
-        return usuario;
+    @Override
+    public String toString(){
+        return monto+"";
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+   
     
     
 

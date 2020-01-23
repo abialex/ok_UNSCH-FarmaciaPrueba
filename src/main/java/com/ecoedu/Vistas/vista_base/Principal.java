@@ -98,18 +98,18 @@ public class Principal extends javax.swing.JFrame {
         }
        this.jpa=OBJjpa;
        this.user=OBJuser;
-       this.objServicio_Asistencial=new Servicio_Asistencial(jpa, this, OBJuser);
+       this.objServicio_Asistencial=new Servicio_Asistencial(OBJjpa, this, OBJuser);
        this.objProveedorLaboratorio=new ProveedorLaboratorio(OBJjpa, this);
        this.objReporte_Diagnostico=new Reporte_Diagnostico(OBJjpa, this);
        this.objEntragEntrega_del_dia=new Entrega_del_dia(OBJjpa);
        this.objCrearMedicamento=new CrearMedicamento(OBJjpa, this);
-       this.objServicioFarmacia=new ServicioFarmacia(OBJjpa,this,user);
+       this.objServicioFarmacia=new ServicioFarmacia(OBJjpa,this, OBJuser);
        this.objBusquedaVentas=new Entrega_del_dia(OBJjpa);
        this.objLlenarInventario=new LlenarInventario(OBJjpa, this);
        this.objDetalle_Inventario=new Detalle_Inventario(OBJjpa,this);
        this.objVer_inventario=new Ver_inventario(OBJjpa, this);
-       this.objCrearUsuario=new CrearUsuario(OBJjpa, this);
-       this.objModificarUsuario=new ModificarUsuario(OBJjpa, this);
+       this.objCrearUsuario=new CrearUsuario(OBJjpa, this,OBJuser);
+       this.objModificarUsuario=new ModificarUsuario(OBJjpa, this,OBJuser);
        this.objCrear_Estudiante=new Crear_Estudiante(OBJjpa, this);
        this.objModificar_Estudiante=new Modificar_Estudiante(OBJjpa, this);
        this.objReporte_Por_Escuela=new Reporte_Por_Escuela(OBJjpa, this);
@@ -117,8 +117,8 @@ public class Principal extends javax.swing.JFrame {
        this.objReporte_Condicion=new Reporte_Condicion(jpa, this);
        this.objAbrir_Inventario=new Abrir_Inventario(jpa, this, OBJuser);
        this.objCerrar_Inventario=new Cerrar_Inventario(jpa, this, OBJuser);
-       this.objReporte_Por_Escuela_AtendidosBotica=new Reporte_Por_Escuela_AtendidosBotica(jpa, this);
-       new Proceso().start();
+       this.objReporte_Por_Escuela_AtendidosBotica=new Reporte_Por_Escuela_AtendidosBotica(OBJjpa, this);
+       
        this.setLocationRelativeTo(null);
        jlblUsuario.setText(user.getPersona().getInfoPersona());
        bodyContenedor.add(objBusquedaVentas);//1  
@@ -175,20 +175,22 @@ public class Principal extends javax.swing.JFrame {
            jtfsub_inventario.setPreferredSize(new Dimension(300, 41)); 
            
            }
-       if(OBJuser.getRol().getNombre_rol().equals("ASISTENCIAL")){
+       if(OBJuser.getRol().getNombre_rol().equals("ASISTENCIAL-ADM")){
            setIconImage(new ImageIcon(getClass().getResource("/images/informacion.png")).getImage());
            jlblRolcito.setText("Trabajadora Social:");
            jleftServicioFarmacia.setVisible(false);
            jleftMedicamento.setVisible(false);
            jleftEstudiante.setVisible(false);
            jleftConsultas.setVisible(false);
-           jleftUsuario.setVisible(false);
+           jleftUsuario.setVisible(true);
            jleftInventario.setVisible(false);
            jleftProveedorYfabricante.setVisible(false);
            jleftInventario_llenarInventario.setVisible(false);
            jleftInventario_detalleInventario.setVisible(false);   
        }
        else{
+           new Proceso().start();
+           jleftTarifario.setVisible(false);
            jleftServicioAsistencial.setVisible(false);
        }
        bodyContenedor.setVisible(false);
@@ -197,6 +199,7 @@ public class Principal extends javax.swing.JFrame {
        jtfsub_Consultas.setVisible(false);    
        jtfsub_Medicina.setVisible(false);
        jtfsub_Estudiante.setVisible(false);
+       jtfsub_Tarifario.setVisible(false);
        }
    @SuppressWarnings("unchecked")
    public void actualizar_Usuario(Usuario objUser){
@@ -275,10 +278,22 @@ public class Principal extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jleftConsultas_ReportePorEscuelaxAlumno = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
+        jleftServicioAsistencial = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jleftTarifario = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jlblTarifarioFlecha = new javax.swing.JLabel();
+        jtfsub_Tarifario = new javax.swing.JPanel();
+        jleftTarifario_Crear = new javax.swing.JPanel();
+        jLabel38 = new javax.swing.JLabel();
+        jleftTarifario_Modificar = new javax.swing.JPanel();
+        jLabel39 = new javax.swing.JLabel();
         jleftUsuario = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jlblConsultasFlecha2 = new javax.swing.JLabel();
+        jlblUsuarioFlecha = new javax.swing.JLabel();
         jtfsub_Usuario = new javax.swing.JPanel();
         jleftUsuario_CrearModificarUser = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -287,9 +302,6 @@ public class Principal extends javax.swing.JFrame {
         jleftProveedorYfabricante = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        jleftServicioAsistencial = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
         bodyContenedor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1006,6 +1018,135 @@ public class Principal extends javax.swing.JFrame {
 
         left.add(jtfsub_Consultas);
 
+        jleftServicioAsistencial.setBackground(new java.awt.Color(73, 20, 119));
+        jleftServicioAsistencial.setPreferredSize(new java.awt.Dimension(300, 33));
+        jleftServicioAsistencial.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftServicioAsistencialMouseMoved(evt);
+            }
+        });
+        jleftServicioAsistencial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftServicioAsistencialMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftServicioAsistencialMouseExited(evt);
+            }
+        });
+        jleftServicioAsistencial.setLayout(new java.awt.BorderLayout());
+
+        jLabel29.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel29.setText("Servicio Social (110)");
+        jLabel29.setPreferredSize(new java.awt.Dimension(200, 50));
+        jleftServicioAsistencial.add(jLabel29, java.awt.BorderLayout.CENTER);
+
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/009-drug.png"))); // NOI18N
+        jLabel32.setPreferredSize(new java.awt.Dimension(100, 14));
+        jleftServicioAsistencial.add(jLabel32, java.awt.BorderLayout.LINE_START);
+
+        left.add(jleftServicioAsistencial);
+
+        jleftTarifario.setBackground(new java.awt.Color(73, 20, 119));
+        jleftTarifario.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftTarifario.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftTarifarioMouseMoved(evt);
+            }
+        });
+        jleftTarifario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftTarifarioMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftTarifarioMouseExited(evt);
+            }
+        });
+        jleftTarifario.setLayout(new java.awt.BorderLayout());
+
+        jLabel36.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel36.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel36.setText("Tarifario");
+        jLabel36.setPreferredSize(new java.awt.Dimension(200, 50));
+        jleftTarifario.add(jLabel36, java.awt.BorderLayout.CENTER);
+
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jefe.png"))); // NOI18N
+        jLabel37.setPreferredSize(new java.awt.Dimension(100, 14));
+        jleftTarifario.add(jLabel37, java.awt.BorderLayout.LINE_START);
+
+        jlblTarifarioFlecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblTarifarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
+        jlblTarifarioFlecha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblTarifarioFlecha.setPreferredSize(new java.awt.Dimension(50, 32));
+        jleftTarifario.add(jlblTarifarioFlecha, java.awt.BorderLayout.LINE_END);
+
+        left.add(jleftTarifario);
+
+        jtfsub_Tarifario.setBackground(new java.awt.Color(73, 20, 100));
+        jtfsub_Tarifario.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jleftTarifario_Crear.setBackground(new java.awt.Color(73, 20, 100));
+        jleftTarifario_Crear.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftTarifario_Crear.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftTarifario_CrearMouseMoved(evt);
+            }
+        });
+        jleftTarifario_Crear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftTarifario_CrearMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftTarifario_CrearMouseExited(evt);
+            }
+        });
+        jleftTarifario_Crear.setLayout(new java.awt.BorderLayout());
+
+        jLabel38.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel38.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel38.setText("Crear");
+        jLabel38.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftTarifario_Crear.add(jLabel38, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Tarifario.add(jleftTarifario_Crear);
+
+        jleftTarifario_Modificar.setBackground(new java.awt.Color(73, 20, 100));
+        jleftTarifario_Modificar.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftTarifario_Modificar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftTarifario_ModificarMouseMoved(evt);
+            }
+        });
+        jleftTarifario_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftTarifario_ModificarMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftTarifario_ModificarMouseExited(evt);
+            }
+        });
+        jleftTarifario_Modificar.setLayout(new java.awt.BorderLayout());
+
+        jLabel39.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel39.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel39.setText("Modificar");
+        jLabel39.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftTarifario_Modificar.add(jLabel39, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Tarifario.add(jleftTarifario_Modificar);
+
+        left.add(jtfsub_Tarifario);
+
         jleftUsuario.setBackground(new java.awt.Color(73, 20, 119));
         jleftUsuario.setPreferredSize(new java.awt.Dimension(300, 32));
         jleftUsuario.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -1036,11 +1177,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel9.setPreferredSize(new java.awt.Dimension(100, 14));
         jleftUsuario.add(jLabel9, java.awt.BorderLayout.LINE_START);
 
-        jlblConsultasFlecha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
-        jlblConsultasFlecha2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jlblConsultasFlecha2.setPreferredSize(new java.awt.Dimension(50, 32));
-        jleftUsuario.add(jlblConsultasFlecha2, java.awt.BorderLayout.LINE_END);
+        jlblUsuarioFlecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblUsuarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
+        jlblUsuarioFlecha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblUsuarioFlecha.setPreferredSize(new java.awt.Dimension(50, 32));
+        jleftUsuario.add(jlblUsuarioFlecha, java.awt.BorderLayout.LINE_END);
 
         left.add(jleftUsuario);
 
@@ -1135,38 +1276,6 @@ public class Principal extends javax.swing.JFrame {
 
         left.add(jleftProveedorYfabricante);
 
-        jleftServicioAsistencial.setBackground(new java.awt.Color(73, 20, 119));
-        jleftServicioAsistencial.setPreferredSize(new java.awt.Dimension(300, 33));
-        jleftServicioAsistencial.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftServicioAsistencialMouseMoved(evt);
-            }
-        });
-        jleftServicioAsistencial.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftServicioAsistencialMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftServicioAsistencialMouseExited(evt);
-            }
-        });
-        jleftServicioAsistencial.setLayout(new java.awt.BorderLayout());
-
-        jLabel29.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel29.setText("Servicio Asistencial (110)");
-        jLabel29.setPreferredSize(new java.awt.Dimension(200, 50));
-        jleftServicioAsistencial.add(jLabel29, java.awt.BorderLayout.CENTER);
-
-        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/009-drug.png"))); // NOI18N
-        jLabel32.setPreferredSize(new java.awt.Dimension(100, 14));
-        jleftServicioAsistencial.add(jLabel32, java.awt.BorderLayout.LINE_START);
-
-        left.add(jleftServicioAsistencial);
-
         contenedorPrincipal.add(left, java.awt.BorderLayout.LINE_START);
 
         bodyContenedor.setBackground(new java.awt.Color(255, 0, 255));
@@ -1258,7 +1367,7 @@ public class Principal extends javax.swing.JFrame {
         jtfsub_Usuario.setVisible(false);
         jtfsub_inventario.setVisible(false);
         jlblConsultasFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
-        jlblConsultasFlecha2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
+        jlblUsuarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblInventarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblEstudianteFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
@@ -1282,7 +1391,7 @@ public class Principal extends javax.swing.JFrame {
         jtfsub_Usuario.setVisible(false);
         jtfsub_inventario.setVisible(false);
         jlblConsultasFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
-        jlblConsultasFlecha2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
+        jlblUsuarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblInventarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
     }//GEN-LAST:event_jleftEstudianteMouseClicked
@@ -1511,10 +1620,14 @@ public class Principal extends javax.swing.JFrame {
         
         if(jtfsub_Usuario.isShowing()){
             jtfsub_Usuario.setVisible(false);
+            jlblUsuarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
+            
         }
         else{
+            jlblUsuarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-down-arrow.png")));
             jtfsub_Usuario.setVisible(true);
         }
+        jtfsub_Tarifario.setVisible(false);
         jtfsub_Consultas.setVisible(false);
         jtfsub_Estudiante.setVisible(false);
         jtfsub_Medicina.setVisible(false);
@@ -2056,6 +2169,51 @@ public class Principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, "visualisar vista de lotes a vencer");
     }//GEN-LAST:event_jlblAlertaMedicamentosVencidosMouseClicked
 
+    private void jleftTarifarioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifarioMouseMoved
+        jleftTarifario.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftTarifarioMouseMoved
+
+    private void jleftTarifarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifarioMouseClicked
+        if(jtfsub_Tarifario.isShowing()){
+            jlblTarifarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
+            jtfsub_Tarifario.setVisible(false);
+            }
+        else{
+            jlblTarifarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-down-arrow.png")));
+            jtfsub_Tarifario.setVisible(true);
+            }
+        jtfsub_Usuario.setVisible(false);
+
+    }//GEN-LAST:event_jleftTarifarioMouseClicked
+
+    private void jleftTarifarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifarioMouseExited
+        jleftTarifario.setBackground(colorExit);
+    }//GEN-LAST:event_jleftTarifarioMouseExited
+
+    private void jleftTarifario_CrearMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_CrearMouseMoved
+        jleftTarifario_Crear.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftTarifario_CrearMouseMoved
+
+    private void jleftTarifario_CrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_CrearMouseClicked
+       
+    }//GEN-LAST:event_jleftTarifario_CrearMouseClicked
+
+    private void jleftTarifario_CrearMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_CrearMouseExited
+        jleftTarifario_Crear.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftTarifario_CrearMouseExited
+
+    private void jleftTarifario_ModificarMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_ModificarMouseMoved
+        jleftTarifario_Modificar.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftTarifario_ModificarMouseMoved
+
+    private void jleftTarifario_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_ModificarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftTarifario_ModificarMouseClicked
+
+    private void jleftTarifario_ModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_ModificarMouseExited
+        jleftTarifario_Modificar.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftTarifario_ModificarMouseExited
+
     public Usuario getUsuario(){
         return user;
     } 
@@ -2094,6 +2252,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2107,14 +2269,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jlblAlertaMedicamentosVencidos;
     private javax.swing.JLabel jlblConsultasFlecha;
     private javax.swing.JLabel jlblConsultasFlecha1;
-    private javax.swing.JLabel jlblConsultasFlecha2;
     private javax.swing.JLabel jlblEstudianteFlecha1;
     private javax.swing.JLabel jlblInventarioFlecha;
     private javax.swing.JLabel jlblMinimizar;
     private javax.swing.JLabel jlblNavegacion;
     private javax.swing.JLabel jlblRolcito;
     private javax.swing.JLabel jlblSalir;
+    private javax.swing.JLabel jlblTarifarioFlecha;
     private javax.swing.JLabel jlblUsuario;
+    private javax.swing.JLabel jlblUsuarioFlecha;
     private javax.swing.JPanel jleftConsultas;
     private javax.swing.JPanel jleftConsultas_Entregadeldia;
     private javax.swing.JPanel jleftConsultas_MedicamentoUsado;
@@ -2137,12 +2300,16 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftProveedorYfabricante;
     private javax.swing.JPanel jleftServicioAsistencial;
     private javax.swing.JPanel jleftServicioFarmacia;
+    private javax.swing.JPanel jleftTarifario;
+    private javax.swing.JPanel jleftTarifario_Crear;
+    private javax.swing.JPanel jleftTarifario_Modificar;
     private javax.swing.JPanel jleftUsuario;
     private javax.swing.JPanel jleftUsuario_AdministrarRol;
     private javax.swing.JPanel jleftUsuario_CrearModificarUser;
     private javax.swing.JPanel jtfsub_Consultas;
     private javax.swing.JPanel jtfsub_Estudiante;
     private javax.swing.JPanel jtfsub_Medicina;
+    private javax.swing.JPanel jtfsub_Tarifario;
     private javax.swing.JPanel jtfsub_Usuario;
     private javax.swing.JPanel jtfsub_inventario;
     private javax.swing.JPanel left;

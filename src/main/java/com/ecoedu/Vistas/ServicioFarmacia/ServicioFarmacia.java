@@ -994,19 +994,20 @@ public class ServicioFarmacia extends javax.swing.JPanel {
 
     private void jtblRecetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblRecetasMouseClicked
         Receta objReceta=(Receta)jtblRecetas.getValueAt(jtblRecetas.getSelectedRow(),0);
-        for (int i = 0; i < Lista_Recetas.size(); i++){
-            if(Lista_Recetas.get(i)==objReceta){ 
+        //for (int i = 0; i < Lista_Recetas.size(); i++){
+            //if(Lista_Recetas.get(i)==objReceta){ 
                 Lista_detalle_medicamento=Herramienta.findbyWhere(Detalle_Medicamentos.class,"id_Receta", objReceta.getId_Receta(), jpa);
                 llenar_Detalle_de_Recetas(Lista_detalle_medicamento);
                 cuerpo1ListaRecetas.setVisible(false);
                 cuerpo4VerDetallesDeLaReceta.setVisible(true);
-                jlblCodigoDiagnostico.setText(Lista_Recetas.get(i).getDiagnosito().getId_DiagnosticoCodigo());
-                jlblDescripcionDia.setText(Lista_Recetas.get(i).getDiagnosito().getDescripcion_Diagnostico());
-                jlblProcedencia.setText(Lista_Recetas.get(i).getRolProcedencia().getNombre_rol());
+                
+                jlblCodigoDiagnostico.setText(objReceta.getDiagnosito().getId_DiagnosticoCodigo());
+                jlblDescripcionDia.setText(objReceta.getDiagnosito().getDescripcion_Diagnostico());
+                jlblProcedencia.setText(objReceta.getRolProcedencia().getNombre_rol());
                 jtfLookCodigo.setEditable(false);
-                break;
-            }        
-        }
+              //  break;
+            //}        
+        //}
     }//GEN-LAST:event_jtblRecetasMouseClicked
 
     private void jbtnVolver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVolver2ActionPerformed
@@ -1088,23 +1089,19 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             }
             jlblSaldo.setText("S/0.00");
             jlblTotalCarrito.setText("S/0.00");
-            jlblAdvertencia.setText("");
-           
+            jlblAdvertencia.setText("");           
             if(!Lista_Recetas.isEmpty()){
                 objReceta=fechadeUltimaReceta(Lista_Recetas);
                 if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){//menor de 6 meses
                     objEstudiante.setRolCondicion(Lista_Condicion.get(1));
                     jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1003+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
-                    jpa.persist(objEstudiante);
-
-                    }
+                    jpa.persist(objEstudiante);}
                 else{
                     objEstudiante.setRolCondicion(Lista_Condicion.get(2));
                     jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1003+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);//Reingresante
                     }
-                }
-            
+                }            
             int confirmado = JOptionPane.showConfirmDialog(jlblNombres,"¿Desea Imprimir la Receta?");
             if (JOptionPane.OK_OPTION == confirmado){
                 try {                
