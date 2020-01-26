@@ -1,17 +1,9 @@
-package com.ecoedu.Vistas;
+package com.ecoedu.Vistas.Inventario;
 
 
-
-
-import java.awt.Color;
-
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,10 +15,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author yrma
  */
-public class Inicio extends javax.swing.JPanel {  
+public class Descargo extends javax.swing.JPanel {  
    // List<Detalle_control_paciente> lista_Detalles_control_paciente;
     EntityManager jpa;
-    public Inicio(EntityManager objJPA) {
+    public Descargo(EntityManager objJPA) {
         initComponents();
         this.jpa=objJPA;
         principalEjecucion();
@@ -40,7 +32,7 @@ public class Inicio extends javax.swing.JPanel {
         
     }
     public void principalEjecucion(){
-  
+      
         
     }
 
@@ -64,8 +56,10 @@ public class Inicio extends javax.swing.JPanel {
         jComboBox2 = new javax.swing.JComboBox<>();
         jtfCodigoDocumento = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
-        cuerpo2 = new javax.swing.JPanel();
         cuerpo1Vencido = new javax.swing.JPanel();
         jlblLotesVencidos = new javax.swing.JLabel();
         jcbLotesVencidos = new javax.swing.JComboBox<>();
@@ -73,11 +67,21 @@ public class Inicio extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblLoteVencido = new javax.swing.JTable();
         jlblLoteSelecionado = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jbtnGuardarVencidos = new javax.swing.JButton();
+        cuerpo2Faltante = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jtfCodigoLote = new javax.swing.JTextField();
+        jtfCodigoLote1 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jbtnGuardarFaltantes = new javax.swing.JButton();
+        cuerpo3Donacion = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jtfCodigoLote2 = new javax.swing.JTextField();
+        jtfCodigoLote3 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jbtnGuardarFaltantes1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -89,10 +93,10 @@ public class Inicio extends javax.swing.JPanel {
         head.setBackground(new java.awt.Color(207, 48, 72));
         head.setPreferredSize(new java.awt.Dimension(100, 70));
 
-        jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("INICIO");
+        jLabel12.setText("DESCARGO");
         jLabel12.setPreferredSize(new java.awt.Dimension(900, 70));
         head.add(jLabel12);
 
@@ -102,11 +106,11 @@ public class Inicio extends javax.swing.JPanel {
         body.setLayout(new java.awt.BorderLayout());
 
         head2.setBackground(new java.awt.Color(255, 255, 255));
-        head2.setPreferredSize(new java.awt.Dimension(890, 140));
+        head2.setPreferredSize(new java.awt.Dimension(890, 280));
         head2.setLayout(new java.awt.BorderLayout());
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setPreferredSize(new java.awt.Dimension(890, 130));
+        jPanel7.setPreferredSize(new java.awt.Dimension(890, 200));
         jPanel7.setRequestFocusEnabled(false);
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -135,6 +139,18 @@ public class Inicio extends javax.swing.JPanel {
         jLabel31.setPreferredSize(new java.awt.Dimension(700, 14));
         jPanel7.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 900, 10));
 
+        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel7.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 700, 25));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("MOTIVO :");
+        jPanel7.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, 25));
+
+        jLabel30.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel30.setPreferredSize(new java.awt.Dimension(700, 14));
+        jPanel7.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 900, 10));
+
         head2.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         body.add(head2, java.awt.BorderLayout.PAGE_START);
@@ -145,26 +161,21 @@ public class Inicio extends javax.swing.JPanel {
         body2.setPreferredSize(new java.awt.Dimension(9900, 320));
         body2.setLayout(new java.awt.CardLayout());
 
-        cuerpo2.setBackground(new java.awt.Color(255, 255, 255));
-        cuerpo2.setPreferredSize(new java.awt.Dimension(900, 350));
-        cuerpo2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        body2.add(cuerpo2, "card2");
-
         cuerpo1Vencido.setBackground(new java.awt.Color(255, 255, 255));
         cuerpo1Vencido.setPreferredSize(new java.awt.Dimension(900, 350));
         cuerpo1Vencido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jlblLotesVencidos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblLotesVencidos.setText("LOTES VENCIDOS :");
-        cuerpo1Vencido.add(jlblLotesVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, 25));
+        cuerpo1Vencido.add(jlblLotesVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 25));
 
         jcbLotesVencidos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcbLotesVencidos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cuerpo1Vencido.add(jcbLotesVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 140, 25));
+        cuerpo1Vencido.add(jcbLotesVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 140, 25));
 
         jbtnAgregarLoteVencido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbtnAgregarLoteVencido.setText("+");
-        cuerpo1Vencido.add(jbtnAgregarLoteVencido, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, 50, 25));
+        cuerpo1Vencido.add(jbtnAgregarLoteVencido, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, 50, 25));
 
         jtblLoteVencido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -180,33 +191,100 @@ public class Inicio extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jtblLoteVencido);
 
-        cuerpo1Vencido.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 30, 230, 110));
+        cuerpo1Vencido.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, 230, 110));
 
         jlblLoteSelecionado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblLoteSelecionado.setText("LOTES SELECCIONADOS :");
-        cuerpo1Vencido.add(jlblLoteSelecionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, -1, 25));
+        cuerpo1Vencido.add(jlblLoteSelecionado, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, -1, 25));
 
-        jLabel30.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        jLabel30.setPreferredSize(new java.awt.Dimension(700, 14));
-        cuerpo1Vencido.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 900, 10));
-
-        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        cuerpo1Vencido.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 720, 25));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("MOTIVO :");
-        cuerpo1Vencido.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, 25));
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setText("Cancelar");
-        cuerpo1Vencido.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, -1, 25));
-
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Guardar");
-        cuerpo1Vencido.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, -1, 25));
+        jbtnGuardarVencidos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarVencidos.setText("Guardar");
+        jbtnGuardarVencidos.setPreferredSize(new java.awt.Dimension(100, 25));
+        cuerpo1Vencido.add(jbtnGuardarVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, -1, 25));
 
         body2.add(cuerpo1Vencido, "card2");
+
+        cuerpo2Faltante.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpo2Faltante.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpo2Faltante.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("CANTIDAD :");
+        cuerpo2Faltante.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, 25));
+
+        jtfCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLoteActionPerformed(evt);
+            }
+        });
+        cuerpo2Faltante.add(jtfCodigoLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 230, 25));
+
+        jtfCodigoLote1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote1ActionPerformed(evt);
+            }
+        });
+        cuerpo2Faltante.add(jtfCodigoLote1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 180, 25));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("CÓDIGO LOTE :");
+        cuerpo2Faltante.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 25));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setText("CANTIDAD :");
+        cuerpo2Faltante.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, 25));
+
+        jbtnGuardarFaltantes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarFaltantes.setText("Guardar");
+        jbtnGuardarFaltantes.setPreferredSize(new java.awt.Dimension(100, 25));
+        cuerpo2Faltante.add(jbtnGuardarFaltantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, -1, 25));
+
+        body2.add(cuerpo2Faltante, "card2");
+
+        cuerpo3Donacion.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpo3Donacion.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpo3Donacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("CANTIDAD :");
+        cuerpo3Donacion.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, 25));
+
+        jtfCodigoLote2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote2ActionPerformed(evt);
+            }
+        });
+        cuerpo3Donacion.add(jtfCodigoLote2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 230, 25));
+
+        jtfCodigoLote3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote3ActionPerformed(evt);
+            }
+        });
+        cuerpo3Donacion.add(jtfCodigoLote3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 180, 25));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("CÓDIGO LOTE :");
+        cuerpo3Donacion.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 25));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setText("CANTIDAD :");
+        cuerpo3Donacion.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, 25));
+
+        jbtnGuardarFaltantes1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarFaltantes1.setText("Guardar");
+        jbtnGuardarFaltantes1.setPreferredSize(new java.awt.Dimension(100, 25));
+        cuerpo3Donacion.add(jbtnGuardarFaltantes1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, -1, 25));
+
+        body2.add(cuerpo3Donacion, "card2");
 
         body.add(body2, java.awt.BorderLayout.CENTER);
 
@@ -216,6 +294,22 @@ public class Inicio extends javax.swing.JPanel {
     private void jtfCodigoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoDocumentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfCodigoDocumentoActionPerformed
+
+    private void jtfCodigoLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLoteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLoteActionPerformed
+
+    private void jtfCodigoLote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote1ActionPerformed
+
+    private void jtfCodigoLote2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote2ActionPerformed
+
+    private void jtfCodigoLote3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote3ActionPerformed
 /*
     public void llenarTabla(List<Detalle_control_paciente> listaDetalleControl){ 
         DefaultTableModel modelo;
@@ -288,27 +382,39 @@ public class Inicio extends javax.swing.JPanel {
     private javax.swing.JPanel body2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel cuerpo1Vencido;
-    private javax.swing.JPanel cuerpo2;
+    private javax.swing.JPanel cuerpo2Faltante;
+    private javax.swing.JPanel cuerpo3Donacion;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtnAgregarLoteVencido;
+    private javax.swing.JButton jbtnGuardarFaltantes;
+    private javax.swing.JButton jbtnGuardarFaltantes1;
+    private javax.swing.JButton jbtnGuardarVencidos;
     private javax.swing.JComboBox<String> jcbLotesVencidos;
     private javax.swing.JLabel jlblLoteSelecionado;
     private javax.swing.JLabel jlblLotesVencidos;
     private javax.swing.JTable jtblLoteVencido;
     private javax.swing.JTextField jtfCodigoDocumento;
+    private javax.swing.JTextField jtfCodigoLote;
+    private javax.swing.JTextField jtfCodigoLote1;
+    private javax.swing.JTextField jtfCodigoLote2;
+    private javax.swing.JTextField jtfCodigoLote3;
     // End of variables declaration//GEN-END:variables
 
     

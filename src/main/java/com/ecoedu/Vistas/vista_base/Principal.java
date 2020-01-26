@@ -265,6 +265,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel34 = new javax.swing.JLabel();
         jleftInventario_detalleInventario = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        jleftInventario_Descargo = new javax.swing.JPanel();
+        jLabel40 = new javax.swing.JLabel();
         jleftMedicamento = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -621,7 +623,7 @@ public class Principal extends javax.swing.JFrame {
         left.add(jleftInventario);
 
         jtfsub_inventario.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_inventario.setPreferredSize(new java.awt.Dimension(300, 200));
+        jtfsub_inventario.setPreferredSize(new java.awt.Dimension(300, 240));
 
         jleftInventario_verInventario.setBackground(new java.awt.Color(73, 20, 100));
         jleftInventario_verInventario.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -757,6 +759,33 @@ public class Principal extends javax.swing.JFrame {
         jleftInventario_detalleInventario.add(jLabel14, java.awt.BorderLayout.CENTER);
 
         jtfsub_inventario.add(jleftInventario_detalleInventario);
+
+        jleftInventario_Descargo.setBackground(new java.awt.Color(73, 20, 100));
+        jleftInventario_Descargo.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftInventario_Descargo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftInventario_DescargoMouseMoved(evt);
+            }
+        });
+        jleftInventario_Descargo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftInventario_DescargoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftInventario_DescargoMouseExited(evt);
+            }
+        });
+        jleftInventario_Descargo.setLayout(new java.awt.BorderLayout());
+
+        jLabel40.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel40.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel40.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel40.setText("Descargo");
+        jLabel40.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftInventario_Descargo.add(jLabel40, java.awt.BorderLayout.CENTER);
+
+        jtfsub_inventario.add(jleftInventario_Descargo);
 
         left.add(jtfsub_inventario);
 
@@ -2313,6 +2342,18 @@ public class Principal extends javax.swing.JFrame {
         jleftTarifario_Modificar.setBackground(colorExitSub);
     }//GEN-LAST:event_jleftTarifario_ModificarMouseExited
 
+    private void jleftInventario_DescargoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_DescargoMouseMoved
+        jleftInventario_Descargo.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftInventario_DescargoMouseMoved
+
+    private void jleftInventario_DescargoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_DescargoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jleftInventario_DescargoMouseClicked
+
+    private void jleftInventario_DescargoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_DescargoMouseExited
+        jleftInventario_Descargo.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftInventario_DescargoMouseExited
+
     public Usuario getUsuario(){
         return user;
     } 
@@ -2356,6 +2397,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2390,6 +2432,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jleftInventario;
     private javax.swing.JPanel jleftInventario_AbrirInventario;
     private javax.swing.JPanel jleftInventario_CerrarInventario;
+    private javax.swing.JPanel jleftInventario_Descargo;
     private javax.swing.JPanel jleftInventario_detalleInventario;
     private javax.swing.JPanel jleftInventario_llenarInventario;
     private javax.swing.JPanel jleftInventario_verInventario;
