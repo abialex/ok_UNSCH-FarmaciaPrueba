@@ -6,8 +6,14 @@ import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 
 /*
@@ -27,8 +33,10 @@ public class Descargo extends javax.swing.JPanel {
     List<Rol> Lista_RolDescargo;
     List<Lote_detalle> Lista_LotesVencidos;
     TextAutoCompleter TextAutoCompleterLotes;
+    List<Lote_detalle> Lista_CarritosDeVencidos=new ArrayList<>();
     public Descargo(EntityManager objJPA, Usuario obj) {
         initComponents();
+        llenarTabla(new ArrayList<Lote_detalle>());
         this.jpa=objJPA;
         this.objUsuario=obj;
         this.TextAutoCompleterLotes=new TextAutoCompleter(jtfCodigoLote, new AutoCompleterCallback(){
@@ -41,10 +49,8 @@ public class Descargo extends javax.swing.JPanel {
     }
     public void ConsultaBD(){
         Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1002").getResultList();
-        Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE()").getResultList();
-        
-//lista_Detalles_control_paciente=query1.getResultList();
-        
+        Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE()").getResultList();  
+//lista_Detalles_control_paciente=query1.getResultList();  
     }
     public void principalEjecucion(){
         jcbTipoDescargo.removeAllItems();
@@ -93,7 +99,7 @@ public class Descargo extends javax.swing.JPanel {
         jcbLotesVencidos = new javax.swing.JComboBox<>();
         jbtnAgregarLoteVencido = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblLoteVencido = new javax.swing.JTable();
+        jtblLotesSeleccionados = new javax.swing.JTable();
         jlblMensaje = new javax.swing.JLabel();
         jbtnGuardarVencidos = new javax.swing.JButton();
         jlblConc = new javax.swing.JLabel();
@@ -216,9 +222,14 @@ public class Descargo extends javax.swing.JPanel {
 
         jbtnAgregarLoteVencido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbtnAgregarLoteVencido.setText("+");
+        jbtnAgregarLoteVencido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarLoteVencidoActionPerformed(evt);
+            }
+        });
         cuerpo1Vencido.add(jbtnAgregarLoteVencido, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 50, 25));
 
-        jtblLoteVencido.setModel(new javax.swing.table.DefaultTableModel(
+        jtblLotesSeleccionados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -230,7 +241,12 @@ public class Descargo extends javax.swing.JPanel {
                 "Title 1", "Title 2"
             }
         ));
-        jScrollPane1.setViewportView(jtblLoteVencido);
+        jtblLotesSeleccionados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblLotesSeleccionadosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtblLotesSeleccionados);
 
         cuerpo1Vencido.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, 230, 110));
 
@@ -255,7 +271,7 @@ public class Descargo extends javax.swing.JPanel {
 
         jlblLoteSelecionado2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblLoteSelecionado2.setText("LOTES SELECCIONADOS :");
-        cuerpo1Vencido.add(jlblLoteSelecionado2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, -1, 25));
+        cuerpo1Vencido.add(jlblLoteSelecionado2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, -1, 25));
 
         jlblFF.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblFF.setForeground(new java.awt.Color(0, 0, 255));
@@ -399,12 +415,33 @@ public class Descargo extends javax.swing.JPanel {
             jlblTpf.setVisible(false);
         }
     }//GEN-LAST:event_jcbLotesVencidosItemStateChanged
-/*
-    public void llenarTabla(List<Detalle_control_paciente> listaDetalleControl){ 
+
+    private void jbtnAgregarLoteVencidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarLoteVencidoActionPerformed
+        if(jcbLotesVencidos.getSelectedItem()!=null){
+            Lote_detalle objLote=(Lote_detalle)jcbLotesVencidos.getSelectedItem();
+            jcbLotesVencidos.removeItem(objLote);
+            Lista_CarritosDeVencidos.add(objLote);
+            llenarTabla(Lista_CarritosDeVencidos);            
+        }
+        
+    }//GEN-LAST:event_jbtnAgregarLoteVencidoActionPerformed
+
+    private void jtblLotesSeleccionadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblLotesSeleccionadosMouseClicked
+         
+        Lote_detalle objLote_Detalle =(Lote_detalle)jtblLotesSeleccionados.getValueAt(jtblLotesSeleccionados.getSelectedRow(),0);
+        jcbLotesVencidos.addItem(objLote_Detalle);
+        Lista_CarritosDeVencidos.remove(objLote_Detalle);
+        llenarTabla(Lista_CarritosDeVencidos);
+        
+        
+
+    }//GEN-LAST:event_jtblLotesSeleccionadosMouseClicked
+
+    public void llenarTabla(List<Lote_detalle> Lista_CarritoLote){ 
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Fecha","Producto Farmacéutico","Cantidad","Precio Unidad","Código Estudiante","Química(o) Farmacéutica(o)"};
+             String [] lista={"Código","Cantidad"};
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
                      false, false, false, false, false, false
@@ -415,55 +452,31 @@ public class Descargo extends javax.swing.JPanel {
                      }
                  };
              //.....................................TABLA...........Fin......................
-            
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (int i = 0; i < listaDetalleControl.size(); i++){
-                 System.out.println("entro");
-                 fila_actividad[0]=listaDetalleControl.get(i).getFecha();
-                 fila_actividad[1]=listaDetalleControl.get(i).getId_Medicamento().getNombre();             
-                 fila_actividad[2]=listaDetalleControl.get(i).getCantidad();  
-                 fila_actividad[3]=listaDetalleControl.get(i).getPrecio_Unitario();   
-                 fila_actividad[4]=listaDetalleControl.get(i).getControl_Paciente().getPersona().getCodigo();   
-                 fila_actividad[5]=listaDetalleControl.get(i).getUsuario().getPersona().getInfoPersona();  
+             for (Lote_detalle objLote: Lista_CarritoLote){
+                 fila_actividad[0]=objLote;
+                 fila_actividad[1]=objLote.getCantidad();   
+                   
                  modelo.addRow(fila_actividad);//agregando filas
                  }
-            jtblVentas.setModel(modelo); 
-            jtblVentas.setGridColor(Color.black);
+            jtblLotesSeleccionados.setModel(modelo); 
+            jtblLotesSeleccionados.setGridColor(Color.BLACK);
             //jTable1.setBackground(Color.red);
             //jTable1.setForeground(Color.blue);
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
             tcr.setHorizontalAlignment(SwingConstants.CENTER);
-            jtblVentas.getColumnModel().getColumn(0).setCellRenderer(tcr);
-            jtblVentas.getColumnModel().getColumn(1).setCellRenderer(tcr);
-            jtblVentas.getColumnModel().getColumn(2).setCellRenderer(tcr);
-            jtblVentas.getColumnModel().getColumn(3).setCellRenderer(tcr);
-            jtblVentas.getColumnModel().getColumn(4).setCellRenderer(tcr);
-            jtblVentas.getColumnModel().getColumn(5).setCellRenderer(tcr);
-            
-            jtblVentas.getColumnModel().getColumn(5).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(4).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(3).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(2).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(1).setPreferredWidth(40);
-            jtblVentas.getColumnModel().getColumn(0).setPreferredWidth(40);
-            jtblVentas.setFont(new java.awt.Font("Tahoma", 0, 15));
-            jtblVentas.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
-            jtblVentas.getTableHeader().setBackground(Color.BLUE);
-            jtblVentas.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblVentas.getColumnModel().getColumn(0).setPreferredWidth(154);
-            jtblVentas.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblVentas.getColumnModel().getColumn(2).setPreferredWidth(75);
-            jtblVentas.getColumnModel().getColumn(3).setPreferredWidth(125);
-            jtblVentas.getColumnModel().getColumn(4).setPreferredWidth(90);
-            jtblVentas.getColumnModel().getColumn(5).setPreferredWidth(220);
-            
-            ((DefaultTableCellRenderer)jtblVentas.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-            //864-550=64
-            
-
-    
+            jtblLotesSeleccionados.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jtblLotesSeleccionados.getColumnModel().getColumn(1).setCellRenderer(tcr);
            
-    }   */
+            jtblLotesSeleccionados.setFont(new java.awt.Font("Tahoma", 0, 15));
+            jtblLotesSeleccionados.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
+            jtblLotesSeleccionados.getTableHeader().setBackground(Color.BLUE);
+            jtblLotesSeleccionados.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jtblLotesSeleccionados.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jtblLotesSeleccionados.getColumnModel().getColumn(1).setPreferredWidth(200);          
+            ((DefaultTableCellRenderer)jtblLotesSeleccionados.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            //864-550=64       
+    }   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -504,7 +517,7 @@ public class Descargo extends javax.swing.JPanel {
     private javax.swing.JLabel jlblTConc;
     private javax.swing.JLabel jlblTff;
     private javax.swing.JLabel jlblTpf;
-    private javax.swing.JTable jtblLoteVencido;
+    private javax.swing.JTable jtblLotesSeleccionados;
     private javax.swing.JTextField jtfCodigoDocumento;
     private javax.swing.JTextField jtfCodigoLote;
     private javax.swing.JTextField jtfCodigoLote1;

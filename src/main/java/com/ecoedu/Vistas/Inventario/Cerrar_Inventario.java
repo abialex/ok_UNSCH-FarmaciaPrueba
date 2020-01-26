@@ -1534,15 +1534,17 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                  fila_actividad[4]=objMedicamento.getUsuario().getPersona().getInfoPersona();
                  //fila_actividad[5]=Herramienta.formatoFecha(objRegistro.getLote_detalle().getFecha_vencimiento());  
                  modelo.addRow(fila_actividad);//agregando filas
-                 }
-             
+                 }             
              for (Descruce objDescruce : lista_descruce){
-                 fila_actividad[0]="Descruce";
-                 if(objDescruce.getCantidad()<0){fila_actividad[1]=-objDescruce.getCantidad();}
-                 else                           {fila_actividad[1]=objDescruce.getCantidad();}
-                 
-                 if(objDescruce.getLote_detalle()!=obj.getLote_detalle()){fila_actividad[2]=objDescruce.getLote_detalle().getCodigo();}
-                 else{fila_actividad[2]=objDescruce.getLote_detalle2().getCodigo();}
+                 fila_actividad[0]="-DESCRUCE-";
+                 if(objDescruce.getLote_detalle()!=obj.getLote_detalle()){
+                     fila_actividad[1]=objDescruce.getCantidad2();
+                     fila_actividad[2]="cod. lote:"+objDescruce.getLote_detalle().getCodigo();                 
+                 }
+                 else{
+                     fila_actividad[2]=objDescruce.getLote_detalle2().getCodigo();
+                     fila_actividad[1]=objDescruce.getCantidad();
+                 }
                  //fila_actividad[3]=objRegistro.getLote_detalle().getPrecio_Venta_Redondeado();  
                  fila_actividad[3]=Herramienta.formatoFechaHoraMas1(objDescruce.getFecha_registro());   
                  fila_actividad[4]=objDescruce.getUsuario().getPersona().getInfoPersona();
@@ -1567,10 +1569,10 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             jtblDetalleMedicamento.getTableHeader().setBackground(Color.BLUE);
             jtblDetalleMedicamento.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
             jtblDetalleMedicamento.getColumnModel().getColumn(0).setPreferredWidth(200);
-            jtblDetalleMedicamento.getColumnModel().getColumn(1).setPreferredWidth(90);
-            jtblDetalleMedicamento.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jtblDetalleMedicamento.getColumnModel().getColumn(1).setPreferredWidth(40);
+            jtblDetalleMedicamento.getColumnModel().getColumn(2).setPreferredWidth(130);
             jtblDetalleMedicamento.getColumnModel().getColumn(3).setPreferredWidth(120);
-            jtblDetalleMedicamento.getColumnModel().getColumn(4).setPreferredWidth(150);
+            jtblDetalleMedicamento.getColumnModel().getColumn(4).setPreferredWidth(170);
             ((DefaultTableCellRenderer)jtblDetalleMedicamento.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64      
     }
