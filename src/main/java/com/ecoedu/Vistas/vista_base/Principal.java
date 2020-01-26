@@ -22,6 +22,8 @@ import com.ecoedu.Vistas.Medicamento.ModificarMedicamento;
 import com.ecoedu.Vistas.ProveedorFabricante.ProveedorLaboratorio;
 import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
+import com.ecoedu.Vistas.Tarifario.Crear_Tarifario;
+import com.ecoedu.Vistas.Tarifario.Modificar_Tarifario;
 import com.ecoedu.Vistas.Usuario.CrearUsuario;
 import com.ecoedu.Vistas.Usuario.ModificarUsuario;
 import com.ecoedu.model.Lote_detalle;
@@ -81,6 +83,8 @@ public class Principal extends javax.swing.JFrame {
    private Abrir_Inventario objAbrir_Inventario;
    private Cerrar_Inventario objCerrar_Inventario;
    private Reporte_Por_Escuela_AtendidosBotica objReporte_Por_Escuela_AtendidosBotica;
+   private Crear_Tarifario objCrear_Tarifario;
+   private Modificar_Tarifario objModificar_Tarifario;
    
    
    private Color colorMoved=new Color(4,20,25);
@@ -118,6 +122,8 @@ public class Principal extends javax.swing.JFrame {
        this.objAbrir_Inventario=new Abrir_Inventario(jpa, this, OBJuser);
        this.objCerrar_Inventario=new Cerrar_Inventario(jpa, this, OBJuser);
        this.objReporte_Por_Escuela_AtendidosBotica=new Reporte_Por_Escuela_AtendidosBotica(OBJjpa, this);
+       this.objCrear_Tarifario=new Crear_Tarifario(OBJjpa);
+       this.objModificar_Tarifario=new Modificar_Tarifario(OBJjpa);
        
        this.setLocationRelativeTo(null);
        jlblUsuario.setText(user.getPersona().getInfoPersona());
@@ -161,6 +167,10 @@ public class Principal extends javax.swing.JFrame {
        bodyContenedor.validate();
        bodyContenedor.add(objReporte_Por_Escuela_AtendidosBotica);//20
        bodyContenedor.validate();
+       bodyContenedor.add(objCrear_Tarifario);
+       bodyContenedor.validate();
+       bodyContenedor.add(objModificar_Tarifario);
+       bodyContenedor.validate();
        
        
        setIconImage(new ImageIcon(getClass().getResource("/images/014-pharmacy.png")).getImage());
@@ -180,7 +190,7 @@ public class Principal extends javax.swing.JFrame {
            jlblRolcito.setText("Trabajadora Social:");
            jleftServicioFarmacia.setVisible(false);
            jleftMedicamento.setVisible(false);
-           jleftEstudiante.setVisible(false);
+           jleftEstudiante.setVisible(true);
            jleftConsultas.setVisible(false);
            jleftUsuario.setVisible(true);
            jleftInventario.setVisible(false);
@@ -228,6 +238,18 @@ public class Principal extends javax.swing.JFrame {
         jleftServicioFarmacia = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jleftServicioAsistencial = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jleftTarifario = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jlblTarifarioFlecha = new javax.swing.JLabel();
+        jtfsub_Tarifario = new javax.swing.JPanel();
+        jleftTarifario_Crear = new javax.swing.JPanel();
+        jLabel38 = new javax.swing.JLabel();
+        jleftTarifario_Modificar = new javax.swing.JPanel();
+        jLabel39 = new javax.swing.JLabel();
         jleftInventario = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -278,18 +300,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jleftConsultas_ReportePorEscuelaxAlumno = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
-        jleftServicioAsistencial = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jleftTarifario = new javax.swing.JPanel();
-        jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jlblTarifarioFlecha = new javax.swing.JLabel();
-        jtfsub_Tarifario = new javax.swing.JPanel();
-        jleftTarifario_Crear = new javax.swing.JPanel();
-        jLabel38 = new javax.swing.JLabel();
-        jleftTarifario_Modificar = new javax.swing.JPanel();
-        jLabel39 = new javax.swing.JLabel();
         jleftUsuario = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -442,6 +452,135 @@ public class Principal extends javax.swing.JFrame {
         jleftServicioFarmacia.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
         left.add(jleftServicioFarmacia);
+
+        jleftServicioAsistencial.setBackground(new java.awt.Color(73, 20, 119));
+        jleftServicioAsistencial.setPreferredSize(new java.awt.Dimension(300, 33));
+        jleftServicioAsistencial.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftServicioAsistencialMouseMoved(evt);
+            }
+        });
+        jleftServicioAsistencial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftServicioAsistencialMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftServicioAsistencialMouseExited(evt);
+            }
+        });
+        jleftServicioAsistencial.setLayout(new java.awt.BorderLayout());
+
+        jLabel29.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel29.setText("Servicio Social (110)");
+        jLabel29.setPreferredSize(new java.awt.Dimension(200, 50));
+        jleftServicioAsistencial.add(jLabel29, java.awt.BorderLayout.CENTER);
+
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/009-drug.png"))); // NOI18N
+        jLabel32.setPreferredSize(new java.awt.Dimension(100, 14));
+        jleftServicioAsistencial.add(jLabel32, java.awt.BorderLayout.LINE_START);
+
+        left.add(jleftServicioAsistencial);
+
+        jleftTarifario.setBackground(new java.awt.Color(73, 20, 119));
+        jleftTarifario.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftTarifario.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftTarifarioMouseMoved(evt);
+            }
+        });
+        jleftTarifario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftTarifarioMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftTarifarioMouseExited(evt);
+            }
+        });
+        jleftTarifario.setLayout(new java.awt.BorderLayout());
+
+        jLabel36.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel36.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel36.setText("Tarifario");
+        jLabel36.setPreferredSize(new java.awt.Dimension(200, 50));
+        jleftTarifario.add(jLabel36, java.awt.BorderLayout.CENTER);
+
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jefe.png"))); // NOI18N
+        jLabel37.setPreferredSize(new java.awt.Dimension(100, 14));
+        jleftTarifario.add(jLabel37, java.awt.BorderLayout.LINE_START);
+
+        jlblTarifarioFlecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblTarifarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
+        jlblTarifarioFlecha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblTarifarioFlecha.setPreferredSize(new java.awt.Dimension(50, 32));
+        jleftTarifario.add(jlblTarifarioFlecha, java.awt.BorderLayout.LINE_END);
+
+        left.add(jleftTarifario);
+
+        jtfsub_Tarifario.setBackground(new java.awt.Color(73, 20, 100));
+        jtfsub_Tarifario.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jleftTarifario_Crear.setBackground(new java.awt.Color(73, 20, 100));
+        jleftTarifario_Crear.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftTarifario_Crear.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftTarifario_CrearMouseMoved(evt);
+            }
+        });
+        jleftTarifario_Crear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftTarifario_CrearMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftTarifario_CrearMouseExited(evt);
+            }
+        });
+        jleftTarifario_Crear.setLayout(new java.awt.BorderLayout());
+
+        jLabel38.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel38.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel38.setText("Crear");
+        jLabel38.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftTarifario_Crear.add(jLabel38, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Tarifario.add(jleftTarifario_Crear);
+
+        jleftTarifario_Modificar.setBackground(new java.awt.Color(73, 20, 100));
+        jleftTarifario_Modificar.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftTarifario_Modificar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftTarifario_ModificarMouseMoved(evt);
+            }
+        });
+        jleftTarifario_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftTarifario_ModificarMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftTarifario_ModificarMouseExited(evt);
+            }
+        });
+        jleftTarifario_Modificar.setLayout(new java.awt.BorderLayout());
+
+        jLabel39.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel39.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel39.setText("Modificar");
+        jLabel39.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftTarifario_Modificar.add(jLabel39, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Tarifario.add(jleftTarifario_Modificar);
+
+        left.add(jtfsub_Tarifario);
 
         jleftInventario.setBackground(new java.awt.Color(73, 20, 119));
         jleftInventario.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -1018,135 +1157,6 @@ public class Principal extends javax.swing.JFrame {
 
         left.add(jtfsub_Consultas);
 
-        jleftServicioAsistencial.setBackground(new java.awt.Color(73, 20, 119));
-        jleftServicioAsistencial.setPreferredSize(new java.awt.Dimension(300, 33));
-        jleftServicioAsistencial.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftServicioAsistencialMouseMoved(evt);
-            }
-        });
-        jleftServicioAsistencial.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftServicioAsistencialMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftServicioAsistencialMouseExited(evt);
-            }
-        });
-        jleftServicioAsistencial.setLayout(new java.awt.BorderLayout());
-
-        jLabel29.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel29.setText("Servicio Social (110)");
-        jLabel29.setPreferredSize(new java.awt.Dimension(200, 50));
-        jleftServicioAsistencial.add(jLabel29, java.awt.BorderLayout.CENTER);
-
-        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/009-drug.png"))); // NOI18N
-        jLabel32.setPreferredSize(new java.awt.Dimension(100, 14));
-        jleftServicioAsistencial.add(jLabel32, java.awt.BorderLayout.LINE_START);
-
-        left.add(jleftServicioAsistencial);
-
-        jleftTarifario.setBackground(new java.awt.Color(73, 20, 119));
-        jleftTarifario.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftTarifario.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftTarifarioMouseMoved(evt);
-            }
-        });
-        jleftTarifario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftTarifarioMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftTarifarioMouseExited(evt);
-            }
-        });
-        jleftTarifario.setLayout(new java.awt.BorderLayout());
-
-        jLabel36.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel36.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel36.setText("Tarifario");
-        jLabel36.setPreferredSize(new java.awt.Dimension(200, 50));
-        jleftTarifario.add(jLabel36, java.awt.BorderLayout.CENTER);
-
-        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jefe.png"))); // NOI18N
-        jLabel37.setPreferredSize(new java.awt.Dimension(100, 14));
-        jleftTarifario.add(jLabel37, java.awt.BorderLayout.LINE_START);
-
-        jlblTarifarioFlecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblTarifarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png"))); // NOI18N
-        jlblTarifarioFlecha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jlblTarifarioFlecha.setPreferredSize(new java.awt.Dimension(50, 32));
-        jleftTarifario.add(jlblTarifarioFlecha, java.awt.BorderLayout.LINE_END);
-
-        left.add(jleftTarifario);
-
-        jtfsub_Tarifario.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_Tarifario.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        jleftTarifario_Crear.setBackground(new java.awt.Color(73, 20, 100));
-        jleftTarifario_Crear.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftTarifario_Crear.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftTarifario_CrearMouseMoved(evt);
-            }
-        });
-        jleftTarifario_Crear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftTarifario_CrearMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftTarifario_CrearMouseExited(evt);
-            }
-        });
-        jleftTarifario_Crear.setLayout(new java.awt.BorderLayout());
-
-        jLabel38.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel38.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel38.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel38.setText("Crear");
-        jLabel38.setPreferredSize(new java.awt.Dimension(300, 50));
-        jleftTarifario_Crear.add(jLabel38, java.awt.BorderLayout.CENTER);
-
-        jtfsub_Tarifario.add(jleftTarifario_Crear);
-
-        jleftTarifario_Modificar.setBackground(new java.awt.Color(73, 20, 100));
-        jleftTarifario_Modificar.setPreferredSize(new java.awt.Dimension(300, 32));
-        jleftTarifario_Modificar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jleftTarifario_ModificarMouseMoved(evt);
-            }
-        });
-        jleftTarifario_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jleftTarifario_ModificarMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jleftTarifario_ModificarMouseExited(evt);
-            }
-        });
-        jleftTarifario_Modificar.setLayout(new java.awt.BorderLayout());
-
-        jLabel39.setBackground(new java.awt.Color(153, 0, 153));
-        jLabel39.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
-        jLabel39.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel39.setText("Modificar");
-        jLabel39.setPreferredSize(new java.awt.Dimension(300, 50));
-        jleftTarifario_Modificar.add(jLabel39, java.awt.BorderLayout.CENTER);
-
-        jtfsub_Tarifario.add(jleftTarifario_Modificar);
-
-        left.add(jtfsub_Tarifario);
-
         jleftUsuario.setBackground(new java.awt.Color(73, 20, 119));
         jleftUsuario.setPreferredSize(new java.awt.Dimension(300, 32));
         jleftUsuario.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -1355,8 +1365,11 @@ public class Principal extends javax.swing.JFrame {
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
         objReporte_Condicion.setVisible(false);//16
-        objCerrar_Inventario.setVisible(false);//19
+        objCrear_Tarifario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCerrar_Inventario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);
+        
         
         objServicioFarmacia.ConsultaBD();
         objServicioFarmacia.principalEjecucion();
@@ -1510,8 +1523,10 @@ public class Principal extends javax.swing.JFrame {
       objServicio_Asistencial.setVisible(false);//17
       objReporte_Condicion.setVisible(false);//16
       objAbrir_Inventario.setVisible(false);//18
-      objCerrar_Inventario.setVisible(false);//19
+      objCrear_Tarifario.setVisible(false);//19
       objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+      objCerrar_Inventario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);
       objLlenarInventario.ConsultaBD();
       //objLlenarInventario.principalEjecucion();(acondicionado con apertura/cierre inventario
       objLlenarInventario.setVisible(true);
@@ -1529,7 +1544,9 @@ public class Principal extends javax.swing.JFrame {
       objCrearUsuario.setVisible(false);
       objServicio_Asistencial.setVisible(false);//17
       objAbrir_Inventario.setVisible(false);//18
-      objCerrar_Inventario.setVisible(false);//19
+      objCrear_Tarifario.setVisible(false);//19
+      objCerrar_Inventario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
       objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
       objDetalle_Inventario.setVisible(true);
       objCrear_Estudiante.setVisible(false);        
@@ -1596,11 +1613,13 @@ public class Principal extends javax.swing.JFrame {
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
+        objCerrar_Inventario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
         objReporte_Diagnostico.setVisible(false);
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
-        objCerrar_Inventario.setVisible(false);//19
+        objCrear_Tarifario.setVisible(false);//19
         objVer_inventario.ConsultaBD();
         objVer_inventario.principalEjecucion();        
         objVer_inventario.setVisible(true);
@@ -1682,6 +1701,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objProveedorLaboratorio.ConsultaBD();
         objProveedorLaboratorio.principalEjecucion();
         jtfsub_Consultas.setVisible(false);
@@ -1718,6 +1739,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objCrearMedicamento.setVisible(true);
         objCrearMedicamento.ConsultaBD();
         objCrearMedicamento.principalEjecucion();
@@ -1747,6 +1770,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objCrearUsuario.ConsultaBD();
         objCrearUsuario.principalEjecucion();
         objCrearUsuario.setVisible(true);
@@ -1776,6 +1801,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objModificarUsuario.ConsultaBD();
         objModificarUsuario.principalEjecucion();
         
@@ -1804,6 +1831,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objCrear_Estudiante.setVisible(true); 
         objCrear_Estudiante.ConsultaBD();
         objCrear_Estudiante.principalEjecucion();
@@ -1831,6 +1860,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objModificar_Estudiante.setVisible(false);
         objEntragEntrega_del_dia.ConsultaBD();
         objEntragEntrega_del_dia.principalEjecucion();
@@ -1858,6 +1889,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objModificar_Estudiante.ConsultaBD();
         objModificar_Estudiante.principalEjecucion();
         objModificar_Estudiante.setVisible(true);
@@ -1890,6 +1923,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objReporte_Por_Escuela.ConsultaBD();
        try {
            objReporte_Por_Escuela.principalEjecucion();
@@ -1926,6 +1961,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
@@ -1973,6 +2010,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objModificarMedicamento.setVisible(true);//15
         
         objModificarMedicamento.ConsultaBD();
@@ -2009,6 +2048,8 @@ public class Principal extends javax.swing.JFrame {
            objCerrar_Inventario.setVisible(false);//19
            objModificarMedicamento.setVisible(false);//15
            objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+           objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
            objReporte_Condicion.ConsultaBD();
            objReporte_Condicion.principalEjecucion();
            objReporte_Condicion.setVisible(true);//16
@@ -2047,6 +2088,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objServicio_Asistencial.ConsultaBD();
         objServicio_Asistencial.principalEjecucion();
         objServicio_Asistencial.setVisible(true);//17           
@@ -2081,6 +2124,8 @@ public class Principal extends javax.swing.JFrame {
         objServicio_Asistencial.setVisible(false);//17
         objCerrar_Inventario.setVisible(false);//19
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objAbrir_Inventario.ConsultaBD();
         objAbrir_Inventario.principalEjecucion();
         objAbrir_Inventario.setVisible(true);//18 
@@ -2115,6 +2160,8 @@ public class Principal extends javax.swing.JFrame {
         objServicio_Asistencial.setVisible(false);//17
         objAbrir_Inventario.setVisible(false);//18
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objCerrar_Inventario.ConsultaBD();
         objCerrar_Inventario.principalEjecucion();
         objCerrar_Inventario.setVisible(true);//19
@@ -2150,6 +2197,8 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.setVisible(false);//18
         objCerrar_Inventario.setVisible(false);//19
         objServicio_Asistencial.setVisible(false);//17 
+        objCrear_Tarifario.setVisible(false);
+        objModificar_Tarifario.setVisible(false);//22
         objReporte_Por_Escuela_AtendidosBotica.ConsultaBD();
        try {
            objReporte_Por_Escuela_AtendidosBotica.principalEjecucion();
@@ -2195,7 +2244,33 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftTarifario_CrearMouseMoved
 
     private void jleftTarifario_CrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_CrearMouseClicked
-       
+
+        bodyContenedor.setVisible(true);//1           
+        objProveedorLaboratorio.setVisible(false);//14
+        objVer_inventario.setVisible(false);//3
+        objDetalle_Inventario.setVisible(false);//4
+        objCrear_Estudiante.setVisible(false);//5
+        objBusquedaVentas.setVisible(false);//6
+        objLlenarInventario.setVisible(false);//7
+        objServicioFarmacia.setVisible(false);//8
+        objCrearUsuario.setVisible(false);//9
+        objModificarUsuario.setVisible(false);//10
+        objEntragEntrega_del_dia.setVisible(false);//11
+        objModificar_Estudiante.setVisible(false);//12
+        objReporte_Por_Escuela.setVisible(false);//13
+        objReporte_Diagnostico.setVisible(false);//14
+        objCrearMedicamento.setVisible(false);//15
+        objModificarMedicamento.setVisible(false);//15
+        objReporte_Condicion.setVisible(false);//16        
+        objServicio_Asistencial.setVisible(false);//17
+        objAbrir_Inventario.setVisible(false);//18
+        objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCerrar_Inventario.setVisible(false);//19        
+        objModificar_Tarifario.setVisible(false);//22
+        objCrear_Tarifario.ConsultaBD();
+        objCrear_Tarifario.principalEjecucion();
+        objCrear_Tarifario.setVisible(true);//22
+        
     }//GEN-LAST:event_jleftTarifario_CrearMouseClicked
 
     private void jleftTarifario_CrearMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_CrearMouseExited
@@ -2207,7 +2282,31 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftTarifario_ModificarMouseMoved
 
     private void jleftTarifario_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_ModificarMouseClicked
-        // TODO add your handling code here:
+        bodyContenedor.setVisible(true);//1           
+        objProveedorLaboratorio.setVisible(false);//14
+        objVer_inventario.setVisible(false);//3
+        objDetalle_Inventario.setVisible(false);//4
+        objCrear_Estudiante.setVisible(false);//5
+        objBusquedaVentas.setVisible(false);//6
+        objLlenarInventario.setVisible(false);//7
+        objServicioFarmacia.setVisible(false);//8
+        objCrearUsuario.setVisible(false);//9
+        objModificarUsuario.setVisible(false);//10
+        objEntragEntrega_del_dia.setVisible(false);//11
+        objModificar_Estudiante.setVisible(false);//12
+        objReporte_Por_Escuela.setVisible(false);//13
+        objReporte_Diagnostico.setVisible(false);//14
+        objCrearMedicamento.setVisible(false);//15
+        objModificarMedicamento.setVisible(false);//15
+        objReporte_Condicion.setVisible(false);//16        
+        objServicio_Asistencial.setVisible(false);//17
+        objAbrir_Inventario.setVisible(false);//18
+        objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCerrar_Inventario.setVisible(false);//19        
+        objCrear_Tarifario.setVisible(false);//22
+        objModificar_Tarifario.ConsultaBD();
+        objModificar_Tarifario.principalEjecucion();
+        objModificar_Tarifario.setVisible(true);//22
     }//GEN-LAST:event_jleftTarifario_ModificarMouseClicked
 
     private void jleftTarifario_ModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifario_ModificarMouseExited

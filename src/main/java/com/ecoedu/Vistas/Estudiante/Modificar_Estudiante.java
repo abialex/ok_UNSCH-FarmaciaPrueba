@@ -90,6 +90,8 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfMesVen.setText(Estudiante.getFecha_nacimiento().getMonth()+1+"");
                 jtfDiaVenc.setText(Estudiante.getFecha_nacimiento().getDate()+"");
                 jcbSexo.setSelectedItem((Rol) Estudiante.getRolSexo());
+                jtfCelular.setText(Estudiante.getNroTelefonico());
+                jlblAsteriscoCelular.setText("");
                 jlblAsteriscoApellidoMaterno.setText("");
                 jlblAsteriscoApellidoPaterno.setText("");
                 jlblAsteriscoDNI.setText("");
@@ -156,6 +158,9 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
         jtfCodigo = new javax.swing.JTextField();
         jlblAsteriscoNombres = new javax.swing.JLabel();
         jlblMensaje = new javax.swing.JLabel();
+        jtfCelular = new javax.swing.JTextField();
+        jlblCelular = new javax.swing.JLabel();
+        jlblAsteriscoCelular = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -197,23 +202,23 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfApellidoPaternoKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 500, 25));
+        jPanel7.add(jtfApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 180, 500, 25));
 
         jLabel19.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel19.setText("Apellido Paterno:");
         jLabel19.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 130, 25));
+        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 130, 25));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Código:");
         jLabel6.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel7.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 60, -1));
+        jPanel7.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 60, -1));
 
         jLabel28.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel28.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 900, 10));
+        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 900, 10));
 
         jButton3.setBackground(new java.awt.Color(0, 0, 0));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
@@ -223,13 +228,13 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 450, -1, -1));
+        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 460, -1, -1));
 
         jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel20.setText("Sexo:");
         jLabel20.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, 50, 25));
+        jPanel7.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 50, 25));
 
         jtfNombres.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfNombres.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -241,13 +246,13 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfNombresKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 220, 25));
+        jPanel7.add(jtfNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 240, 25));
 
         jLabel21.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel21.setText("Apellido Materno:");
         jLabel21.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 130, 25));
+        jPanel7.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 130, 25));
 
         jtfDNI.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDNI.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -259,19 +264,19 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfDNIKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 160, 25));
+        jPanel7.add(jtfDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 160, 25));
 
         jLabel29.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel29.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel7.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 900, 10));
+        jPanel7.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 900, 10));
 
         jLabel30.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel30.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel7.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 900, 10));
+        jPanel7.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 900, 10));
 
         jLabel31.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel31.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel7.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 900, 10));
+        jPanel7.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 900, 10));
 
         jtfEscuela.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfEscuela.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -283,7 +288,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfEscuelaKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 500, 25));
+        jPanel7.add(jtfEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 500, 25));
 
         jLabel23.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -302,26 +307,26 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfCodigoModificarKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfCodigoModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 150, 25));
+        jPanel7.add(jtfCodigoModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 120, 150, 25));
 
         jLabel32.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
-        jPanel7.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 900, 10));
+        jPanel7.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 900, 10));
 
         jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel24.setText("Serie:");
         jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 320, 50, 25));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, 50, 25));
 
         jLabel25.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel25.setText("Escuela:");
         jLabel25.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 80, 25));
+        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 80, 25));
 
         jcbSexo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel7.add(jcbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 370, 160, 25));
+        jPanel7.add(jcbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 350, 160, 25));
 
         jtfApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfApellidoMaterno.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -333,7 +338,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfApellidoMaternoKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 500, 25));
+        jPanel7.add(jtfApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 500, 25));
 
         jtfAño.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfAño.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -345,7 +350,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfAñoKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, 60, 25));
+        jPanel7.add(jtfAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 60, 25));
 
         jtfDiaVenc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDiaVenc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -357,7 +362,7 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfDiaVencKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfDiaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 370, 40, 25));
+        jPanel7.add(jtfDiaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, 40, 25));
 
         jtfMesVen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfMesVen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -369,77 +374,77 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
                 jtfMesVenKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfMesVen, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 370, 40, 25));
+        jPanel7.add(jtfMesVen, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, 40, 25));
 
         jLabel22.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("/");
         jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 370, 10, 25));
+        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, 10, 25));
 
         jLabel33.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setText("/");
         jLabel33.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 10, 25));
+        jPanel7.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, 10, 25));
 
         jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel26.setText("DNI:");
         jLabel26.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 130, 25));
+        jPanel7.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 130, 25));
 
         jLabel27.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel27.setText("Fecha Nacimiento:");
         jLabel27.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 130, 25));
+        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 130, 25));
 
         jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
-        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, 160, 25));
+        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, 160, 25));
 
         jlblAsteriscoEscuela.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteriscoEscuela.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoEscuela.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoEscuela.setText("*");
-        jPanel7.add(jlblAsteriscoEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 80, 10, 25));
+        jPanel7.add(jlblAsteriscoEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, 10, 25));
 
         jlblAsteriscoCodigo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteriscoCodigo.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoCodigo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoCodigo.setText("*");
-        jPanel7.add(jlblAsteriscoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 140, 10, 25));
+        jPanel7.add(jlblAsteriscoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, 10, 25));
 
         jlblAsteriscoApellidoPaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteriscoApellidoPaterno.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoApellidoPaterno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoApellidoPaterno.setText("*");
-        jPanel7.add(jlblAsteriscoApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 200, 10, 25));
+        jPanel7.add(jlblAsteriscoApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, 10, 25));
 
         jlblAsteriscoDNI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteriscoDNI.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoDNI.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoDNI.setText("*");
-        jPanel7.add(jlblAsteriscoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 10, 25));
+        jPanel7.add(jlblAsteriscoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 300, 10, 25));
 
         jlblAsteriscoFechaNacimiento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteriscoFechaNacimiento.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoFechaNacimiento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoFechaNacimiento.setText("*");
-        jPanel7.add(jlblAsteriscoFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, 10, 25));
+        jPanel7.add(jlblAsteriscoFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 350, 10, 25));
 
         jlblAsteriscoApellidoMaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblAsteriscoApellidoMaterno.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoApellidoMaterno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoApellidoMaterno.setText("*");
-        jPanel7.add(jlblAsteriscoApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 260, 10, 25));
+        jPanel7.add(jlblAsteriscoApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 240, 10, 25));
 
         jLabel7.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("Nombres:");
         jLabel7.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel7.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 70, -1));
+        jPanel7.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 70, -1));
 
         jtfCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -458,12 +463,41 @@ public class Modificar_Estudiante extends javax.swing.JPanel{
         jlblAsteriscoNombres.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoNombres.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAsteriscoNombres.setText("*");
-        jPanel7.add(jlblAsteriscoNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, 10, 25));
+        jPanel7.add(jlblAsteriscoNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 120, 10, 25));
 
         jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
         jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 900, 20));
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 900, 20));
+
+        jtfCelular.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfCelular.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCelularActionPerformed(evt);
+            }
+        });
+        jtfCelular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCelularKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCelularKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, 160, 25));
+
+        jlblCelular.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblCelular.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblCelular.setText("Celular:");
+        jlblCelular.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jlblCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 390, 80, 25));
+
+        jlblAsteriscoCelular.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoCelular.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoCelular.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoCelular.setText("*");
+        jPanel7.add(jlblAsteriscoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 390, 10, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -481,7 +515,7 @@ guardarModificacionEstudiante();
         
     }//GEN-LAST:event_jButton3ActionPerformed
     public void guardarModificacionEstudiante(){
-        if( jlblAsteriscoCodigo.getText().isEmpty()&&jlblAsteriscoDNI.getText().isEmpty() && jlblAsteriscoApellidoMaterno.getText().isEmpty() &&
+        if( jlblAsteriscoCelular.getText().isEmpty() && jlblAsteriscoCodigo.getText().isEmpty()&&jlblAsteriscoDNI.getText().isEmpty() && jlblAsteriscoApellidoMaterno.getText().isEmpty() &&
                 jlblAsteriscoApellidoPaterno.getText().isEmpty() &&  jlblAsteriscoEscuela.getText().isEmpty() && jlblAsteriscoFechaNacimiento.getText().isEmpty()
                 && jlblAsteriscoNombres.getText().isEmpty()){
                 Persona objPersona=objEstudianteM.getPersona();        
@@ -492,6 +526,7 @@ guardarModificacionEstudiante();
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setDni(jtfDNI.getText());
+        objEstudianteM.setNroTelefonico(jtfCelular.getText());
         objEstudianteM.setCodigo(jtfCodigoModificar.getText());
         objEstudianteM.setSerie((String)jcbSerie.getSelectedItem());
         objEstudianteM.getFecha_nacimiento().setYear(Integer.parseInt(jtfAño.getText())-1900);
@@ -542,6 +577,8 @@ guardarModificacionEstudiante();
         jtfApellidoPaterno.setText("");
         jtfApellidoMaterno.setText("");
         jtfNombres.setText("");
+        jtfCelular.setText("");
+        jlblAsteriscoCelular.setText("*");
         jtfDNI.setText("");
         jtfCodigo.setText("");  
         jtfCodigoModificar.setText("");
@@ -904,6 +941,33 @@ guardarModificacionEstudiante();
             } 
     }//GEN-LAST:event_jtfCodigoKeyTyped
 
+    private void jtfCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCelularActionPerformed
+
+    private void jtfCelularKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCelularKeyReleased
+        if(jtfCelular.getText().length()>=9){
+            jlblAsteriscoCelular.setText("");
+        }
+        else{
+            jlblAsteriscoCelular.setText("*");
+        }
+    }//GEN-LAST:event_jtfCelularKeyReleased
+
+    private void jtfCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCelularKeyTyped
+        if (jtfCelular.getText().length()>=9){
+            evt.consume();
+        }
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+        if(' '==validar){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfCelularKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyCard;
@@ -935,15 +999,18 @@ guardarModificacionEstudiante();
     private javax.swing.JComboBox<Rol> jcbSexo;
     private javax.swing.JLabel jlblAsteriscoApellidoMaterno;
     private javax.swing.JLabel jlblAsteriscoApellidoPaterno;
+    private javax.swing.JLabel jlblAsteriscoCelular;
     private javax.swing.JLabel jlblAsteriscoCodigo;
     private javax.swing.JLabel jlblAsteriscoDNI;
     private javax.swing.JLabel jlblAsteriscoEscuela;
     private javax.swing.JLabel jlblAsteriscoFechaNacimiento;
     private javax.swing.JLabel jlblAsteriscoNombres;
+    private javax.swing.JLabel jlblCelular;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;
+    private javax.swing.JTextField jtfCelular;
     private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfCodigoModificar;
     private javax.swing.JTextField jtfDNI;

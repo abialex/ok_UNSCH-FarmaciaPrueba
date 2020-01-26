@@ -31,6 +31,9 @@ public class Tarifario implements Serializable{
     @Column(name = "precio", nullable = false)
     private float precio;
     
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
+    
     @JoinColumn(insertable = true,updatable = false,name="id_RolTipo_asistencial",nullable = true)
     @ManyToOne(cascade = CascadeType.ALL)
     private Rol RolTipo_asistencial;
@@ -42,6 +45,16 @@ public class Tarifario implements Serializable{
     public void setRolTipo_asistencial(Rol RolTipo_asistencial) {
         this.RolTipo_asistencial = RolTipo_asistencial;
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
+    
     
     public int getId_Tarifario() {
         return id_Tarifario;

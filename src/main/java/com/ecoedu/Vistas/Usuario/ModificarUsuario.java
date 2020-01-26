@@ -71,6 +71,7 @@ public class ModificarUsuario extends javax.swing.JPanel {
         jtfDNI.setText("");
         jtfNombres.setText("");
         jbtnGuardarCambio.setEnabled(false);
+        jcbRol.removeAllItems();
         for (Rol objRol : Lista_Rol){
             jcbRol.addItem(objRol);
         } 

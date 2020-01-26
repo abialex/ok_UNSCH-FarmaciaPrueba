@@ -173,7 +173,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(800, 500));
         setLayout(new java.awt.BorderLayout());
 
-        head.setBackground(new java.awt.Color(153, 255, 102));
+        head.setBackground(new java.awt.Color(0, 0, 204));
         head.setPreferredSize(new java.awt.Dimension(100, 70));
 
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
@@ -234,16 +234,17 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jlblSerie.setPreferredSize(new java.awt.Dimension(39, 30));
         jPanel7.add(jlblSerie);
 
-        jLabel15.setPreferredSize(new java.awt.Dimension(135, 30));
+        jLabel15.setPreferredSize(new java.awt.Dimension(75, 30));
         jPanel7.add(jLabel15);
 
         jLabel8.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel8.setText("Código:");
-        jLabel8.setPreferredSize(new java.awt.Dimension(68, 30));
+        jLabel8.setText("Código o Dni:");
+        jLabel8.setPreferredSize(new java.awt.Dimension(128, 30));
         jPanel7.add(jLabel8);
 
-        jtfLookCodigo.setBackground(new java.awt.Color(240, 200, 20));
+        jtfLookCodigo.setBackground(new java.awt.Color(0, 0, 204));
         jtfLookCodigo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jtfLookCodigo.setForeground(new java.awt.Color(255, 255, 255));
         jtfLookCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfLookCodigo.setPreferredSize(new java.awt.Dimension(85, 30));
         jtfLookCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -334,7 +335,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jPanel9.add(jLabel18, java.awt.BorderLayout.LINE_START);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Click en la tabla para ver Detalles de la Receta");
+        jLabel1.setText("SELECCIONE PARA VER DETALLES DE UN SERVICIO");
         jPanel9.add(jLabel1, java.awt.BorderLayout.PAGE_END);
 
         cuerpoListaServicios.add(jPanel9);
@@ -633,7 +634,8 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     public void llenarControlAlumno(){//usando acceso BD  
         boolean aux=true;
         for (int i = 0; i < Lista_control_paciente.size(); i++){
-            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())){  
+            if (Lista_control_paciente.get(i).getEstudiante().getCodigo().equals(jtfLookCodigo.getText())
+                 || Lista_control_paciente.get(i).getEstudiante().getPersona().getDni().equals(jtfLookCodigo.getText())){  
                 aux=false;
                 objControl_paciente_Final=Lista_control_paciente.get(i);
                 limite_seguro=objControl_paciente_Final.getLimite_control();  

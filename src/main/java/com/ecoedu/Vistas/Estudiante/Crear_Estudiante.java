@@ -111,7 +111,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jtfCodigo = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
+        jlblCelular = new javax.swing.JLabel();
         jtfEscuela = new javax.swing.JTextField();
         jcbSerie = new javax.swing.JComboBox<>();
         jLabel26 = new javax.swing.JLabel();
@@ -130,6 +130,9 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jlblAsteriscoDNI = new javax.swing.JLabel();
         jlblAsteriscoEscuela = new javax.swing.JLabel();
         jlblMensaje = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jtfCelular = new javax.swing.JTextField();
+        jlblAsteriscoCelular = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -197,7 +200,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 440, -1, -1));
+        jPanel7.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 450, -1, -1));
 
         jLabel20.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -302,11 +305,11 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 330, 90, 25));
 
-        jLabel25.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel25.setText("Escuela:");
-        jLabel25.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 80, 25));
+        jlblCelular.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblCelular.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblCelular.setText("Celular:");
+        jlblCelular.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jlblCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 80, 25));
 
         jtfEscuela.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfEscuela.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -324,7 +327,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
 
         jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
-        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 160, 25));
+        jPanel7.add(jcbSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 330, 160, 25));
 
         jLabel26.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -437,7 +440,36 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         jlblMensaje.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
         jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 900, 20));
+        jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 900, 20));
+
+        jLabel34.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel34.setText("Escuela:");
+        jLabel34.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 80, 25));
+
+        jtfCelular.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfCelular.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCelularActionPerformed(evt);
+            }
+        });
+        jtfCelular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCelularKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCelularKeyTyped(evt);
+            }
+        });
+        jPanel7.add(jtfCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, 160, 25));
+
+        jlblAsteriscoCelular.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblAsteriscoCelular.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoCelular.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoCelular.setText("*");
+        jPanel7.add(jlblAsteriscoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 10, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -529,6 +561,8 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton3ActionPerformed
     public void limpiar(){
+        jlblCelular.setText("*");
+        jtfCelular.setText("");
         jtfAño.setText("");
         jtfMesVen.setText("");
         jtfDiaVenc.setText("");
@@ -852,6 +886,33 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jtfAñoKeyReleased
 
+    private void jtfCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCelularActionPerformed
+
+    private void jtfCelularKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCelularKeyReleased
+        if(jtfCelular.getText().length()>=9){
+            jlblAsteriscoCelular.setText("");
+        }
+        else{
+            jlblAsteriscoCelular.setText("*");            
+        }
+    }//GEN-LAST:event_jtfCelularKeyReleased
+
+    private void jtfCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCelularKeyTyped
+        if (jtfCelular.getText().length()>=9){             
+         evt.consume(); 
+         }     
+        char validar=evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+        }
+        if(' '==validar){
+            evt.consume();
+            }
+    }//GEN-LAST:event_jtfCelularKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyCard;
@@ -866,7 +927,6 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
@@ -875,6 +935,7 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel7;
@@ -882,15 +943,18 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     private javax.swing.JComboBox<Rol> jcbSexo;
     private javax.swing.JLabel jlblAsteriscoApellidoMaterno;
     private javax.swing.JLabel jlblAsteriscoApelloPaterno;
+    private javax.swing.JLabel jlblAsteriscoCelular;
     private javax.swing.JLabel jlblAsteriscoCodigo;
     private javax.swing.JLabel jlblAsteriscoDNI;
     private javax.swing.JLabel jlblAsteriscoEscuela;
     private javax.swing.JLabel jlblAsteriscoFecha;
     private javax.swing.JLabel jlblAsteriscoNombress;
+    private javax.swing.JLabel jlblCelular;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfAño;
+    private javax.swing.JTextField jtfCelular;
     private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfDNI;
     private javax.swing.JTextField jtfDiaVenc;

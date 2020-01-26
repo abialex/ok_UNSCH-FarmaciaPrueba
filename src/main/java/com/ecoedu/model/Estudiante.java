@@ -50,6 +50,19 @@ public class Estudiante{
     @JoinColumn(insertable = true,updatable = false,name="id_RolSexo",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Rol RolSexo;
+    
+    @Column(name="nroTelefonico",unique = true,length = 9,nullable = true)
+    private String NroTelefonico;
+
+    public String getNroTelefonico() {
+        return NroTelefonico;
+    }
+
+    public void setNroTelefonico(String NroTelefonico) {
+        this.NroTelefonico = NroTelefonico;
+    }
+    
+    
 
     public Rol getRolescuela() {
         return Rolescuela;
