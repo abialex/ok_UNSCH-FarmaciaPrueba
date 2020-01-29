@@ -33,13 +33,14 @@ public class Descargo extends javax.swing.JPanel {
     List<Rol> Lista_RolDescargo;
     List<Lote_detalle> Lista_LotesVencidos;
     TextAutoCompleter TextAutoCompleterLotes;
+    List<Lote_detalle> listaLotes;
     List<Lote_detalle> Lista_CarritosDeVencidos=new ArrayList<>();
     public Descargo(EntityManager objJPA, Usuario obj) {
         initComponents();
         llenarTabla(new ArrayList<Lote_detalle>());
         this.jpa=objJPA;
         this.objUsuario=obj;
-        this.TextAutoCompleterLotes=new TextAutoCompleter(jtfCodigoLote, new AutoCompleterCallback(){
+        this.TextAutoCompleterLotes=new TextAutoCompleter(jtfCodigoLotePerdida, new AutoCompleterCallback(){
             @Override
             public void callback(Object o){
                 }}); 
@@ -68,6 +69,14 @@ public class Descargo extends javax.swing.JPanel {
             jbtnGuardarVencidos.setEnabled(true);
             jlblMensaje.setVisible(false);    
             }
+    }
+    public void iniciar_conVencidos(){
+        for (Rol rol : Lista_RolDescargo){
+            if(rol.getNombre_rol().equals("VENCIDO")){
+                jcbTipoDescargo.setSelectedItem(rol);
+                break;
+            }            
+        }
     }
 
     /**
@@ -111,15 +120,25 @@ public class Descargo extends javax.swing.JPanel {
         jlblTConc = new javax.swing.JLabel();
         cuerpo2Faltante = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jtfCodigoLote = new javax.swing.JTextField();
-        jtfCodigoLote1 = new javax.swing.JTextField();
+        jtfCodigoLotePerdida = new javax.swing.JTextField();
+        jtfCantidadPerdida = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jbtnGuardarFaltantes = new javax.swing.JButton();
+        jlblAsteriscoCantidadPerdida = new javax.swing.JLabel();
+        jlblAsteriscoCodigoLotePerdida = new javax.swing.JLabel();
         cuerpo3Donacion = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jbtnGuardarFaltantes1 = new javax.swing.JButton();
+        jtfCodigoLote2 = new javax.swing.JTextField();
+        jtfCodigoLote3 = new javax.swing.JTextField();
+        cuerpo4Campaña = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jbtnGuardarFaltantes2 = new javax.swing.JButton();
+        jtfCodigoLote4 = new javax.swing.JTextField();
+        jtfCodigoLote5 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -293,29 +312,47 @@ public class Descargo extends javax.swing.JPanel {
 
         cuerpo2Faltante.setBackground(new java.awt.Color(255, 255, 255));
         cuerpo2Faltante.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpo2Faltante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cuerpo2FaltanteKeyReleased(evt);
+            }
+        });
         cuerpo2Faltante.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("CANTIDAD :");
         cuerpo2Faltante.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, 25));
 
-        jtfCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtfCodigoLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCodigoLote.addActionListener(new java.awt.event.ActionListener() {
+        jtfCodigoLotePerdida.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLotePerdida.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLotePerdida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoLoteActionPerformed(evt);
+                jtfCodigoLotePerdidaActionPerformed(evt);
             }
         });
-        cuerpo2Faltante.add(jtfCodigoLote, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 230, 25));
+        jtfCodigoLotePerdida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoLotePerdidaKeyReleased(evt);
+            }
+        });
+        cuerpo2Faltante.add(jtfCodigoLotePerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 230, 25));
 
-        jtfCodigoLote1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtfCodigoLote1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCodigoLote1.addActionListener(new java.awt.event.ActionListener() {
+        jtfCantidadPerdida.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCantidadPerdida.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCantidadPerdida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoLote1ActionPerformed(evt);
+                jtfCantidadPerdidaActionPerformed(evt);
             }
         });
-        cuerpo2Faltante.add(jtfCodigoLote1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 180, 25));
+        jtfCantidadPerdida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCantidadPerdidaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfCantidadPerdidaKeyTyped(evt);
+            }
+        });
+        cuerpo2Faltante.add(jtfCantidadPerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 180, 25));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("CÓDIGO LOTE :");
@@ -329,6 +366,18 @@ public class Descargo extends javax.swing.JPanel {
         jbtnGuardarFaltantes.setText("Guardar");
         jbtnGuardarFaltantes.setPreferredSize(new java.awt.Dimension(100, 25));
         cuerpo2Faltante.add(jbtnGuardarFaltantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, -1, 25));
+
+        jlblAsteriscoCantidadPerdida.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblAsteriscoCantidadPerdida.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoCantidadPerdida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoCantidadPerdida.setText("*");
+        cuerpo2Faltante.add(jlblAsteriscoCantidadPerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 20, 15, 25));
+
+        jlblAsteriscoCodigoLotePerdida.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblAsteriscoCodigoLotePerdida.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAsteriscoCodigoLotePerdida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAsteriscoCodigoLotePerdida.setText("*");
+        cuerpo2Faltante.add(jlblAsteriscoCodigoLotePerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 15, 25));
 
         body2.add(cuerpo2Faltante, "card2");
 
@@ -349,7 +398,62 @@ public class Descargo extends javax.swing.JPanel {
         jbtnGuardarFaltantes1.setPreferredSize(new java.awt.Dimension(100, 25));
         cuerpo3Donacion.add(jbtnGuardarFaltantes1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, -1, 25));
 
+        jtfCodigoLote2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote2ActionPerformed(evt);
+            }
+        });
+        cuerpo3Donacion.add(jtfCodigoLote2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 230, 25));
+
+        jtfCodigoLote3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote3ActionPerformed(evt);
+            }
+        });
+        cuerpo3Donacion.add(jtfCodigoLote3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 180, 25));
+
         body2.add(cuerpo3Donacion, "card2");
+
+        cuerpo4Campaña.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpo4Campaña.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpo4Campaña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("CÓDIGO LOTE :");
+        cuerpo4Campaña.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 25));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("CANTIDAD :");
+        cuerpo4Campaña.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, 25));
+
+        jbtnGuardarFaltantes2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarFaltantes2.setText("Guardar");
+        jbtnGuardarFaltantes2.setPreferredSize(new java.awt.Dimension(100, 25));
+        cuerpo4Campaña.add(jbtnGuardarFaltantes2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, -1, 25));
+
+        jtfCodigoLote4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote4ActionPerformed(evt);
+            }
+        });
+        cuerpo4Campaña.add(jtfCodigoLote4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 230, 25));
+
+        jtfCodigoLote5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote5ActionPerformed(evt);
+            }
+        });
+        cuerpo4Campaña.add(jtfCodigoLote5, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 180, 25));
+
+        body2.add(cuerpo4Campaña, "card2");
 
         body.add(body2, java.awt.BorderLayout.CENTER);
 
@@ -360,35 +464,46 @@ public class Descargo extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfCodigoDocumentoActionPerformed
 
-    private void jtfCodigoLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLoteActionPerformed
+    private void jtfCodigoLotePerdidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLotePerdidaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigoLoteActionPerformed
+    }//GEN-LAST:event_jtfCodigoLotePerdidaActionPerformed
 
-    private void jtfCodigoLote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote1ActionPerformed
+    private void jtfCantidadPerdidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCantidadPerdidaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigoLote1ActionPerformed
+    }//GEN-LAST:event_jtfCantidadPerdidaActionPerformed
 
     private void jcbTipoDescargoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbTipoDescargoItemStateChanged
            if(((Rol)jcbTipoDescargo.getSelectedItem())!=null){
                switch(((Rol)jcbTipoDescargo.getSelectedItem()).getNombre_rol()){
                    case "PÉRDIDA":
+                       
                        cuerpo3Donacion.setVisible(false);
                        cuerpo1Vencido.setVisible(false);
+                       cuerpo4Campaña.setVisible(false);
                        cuerpo2Faltante.setVisible(true);
-                       List<Lote_detalle> listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
+                       TextAutoCompleterLotes.removeAllItems();
+                       listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
                        for (Lote_detalle listaLote : listaLotes){
                            TextAutoCompleterLotes.addItem(listaLote);}
+                       
                        break;
                    case "DONACIÓN":
+                       cuerpo4Campaña.setVisible(false);
                        cuerpo3Donacion.setVisible(true);
                        cuerpo1Vencido.setVisible(false);
                        cuerpo2Faltante.setVisible(false);
                        break;
                    case "VENCIDO":
+                       cuerpo4Campaña.setVisible(false);
                        cuerpo3Donacion.setVisible(false);
                        cuerpo1Vencido.setVisible(true);
                        cuerpo2Faltante.setVisible(false);
                        break;
+                   case "CAMPAÑA":   
+                       cuerpo3Donacion.setVisible(false);
+                       cuerpo1Vencido.setVisible(false);
+                       cuerpo4Campaña.setVisible(true);
+                       cuerpo2Faltante.setVisible(false);
                        }
                }
     }//GEN-LAST:event_jcbTipoDescargoItemStateChanged
@@ -436,6 +551,62 @@ public class Descargo extends javax.swing.JPanel {
         
 
     }//GEN-LAST:event_jtblLotesSeleccionadosMouseClicked
+
+    private void jtfCodigoLote2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote2ActionPerformed
+
+    private void jtfCodigoLote3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote3ActionPerformed
+
+    private void jtfCodigoLote4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote4ActionPerformed
+
+    private void jtfCodigoLote5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodigoLote5ActionPerformed
+
+    private void jtfCodigoLotePerdidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoLotePerdidaKeyReleased
+           for (Lote_detalle listaLote : listaLotes){
+               if(listaLote.getCodigo().equals(jtfCodigoLotePerdida.getText())){
+                   jlblAsteriscoCodigoLotePerdida.setText("");
+                   break;
+               }
+               jlblAsteriscoCodigoLotePerdida.setText("*");
+               }
+        
+    }//GEN-LAST:event_jtfCodigoLotePerdidaKeyReleased
+
+    private void cuerpo2FaltanteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuerpo2FaltanteKeyReleased
+              
+            
+    }//GEN-LAST:event_cuerpo2FaltanteKeyReleased
+
+    private void jtfCantidadPerdidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadPerdidaKeyReleased
+        if(jtfCantidadPerdida.getText().isEmpty()){
+            jlblAsteriscoCantidadPerdida.setText("*");
+        }else{
+            jlblAsteriscoCantidadPerdida.setText("");
+        }
+    }//GEN-LAST:event_jtfCantidadPerdidaKeyReleased
+
+    private void jtfCantidadPerdidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadPerdidaKeyTyped
+        char validar=evt.getKeyChar();
+        if(!Character.isDigit(validar)){
+          
+                evt.consume();  
+                
+            }     
+        
+        if (jtfCantidadPerdida.getText().length()>=3){ 
+         evt.consume(); 
+         }
+        if(' '==evt.getKeyChar()){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfCantidadPerdidaKeyTyped
 
     public void llenarTabla(List<Lote_detalle> Lista_CarritoLote){ 
         DefaultTableModel modelo;
@@ -486,11 +657,14 @@ public class Descargo extends javax.swing.JPanel {
     private javax.swing.JPanel cuerpo1Vencido;
     private javax.swing.JPanel cuerpo2Faltante;
     private javax.swing.JPanel cuerpo3Donacion;
+    private javax.swing.JPanel cuerpo4Campaña;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
@@ -505,9 +679,12 @@ public class Descargo extends javax.swing.JPanel {
     private javax.swing.JButton jbtnAgregarLoteVencido;
     private javax.swing.JButton jbtnGuardarFaltantes;
     private javax.swing.JButton jbtnGuardarFaltantes1;
+    private javax.swing.JButton jbtnGuardarFaltantes2;
     private javax.swing.JButton jbtnGuardarVencidos;
     private javax.swing.JComboBox<Lote_detalle> jcbLotesVencidos;
     private javax.swing.JComboBox<Rol> jcbTipoDescargo;
+    private javax.swing.JLabel jlblAsteriscoCantidadPerdida;
+    private javax.swing.JLabel jlblAsteriscoCodigoLotePerdida;
     private javax.swing.JLabel jlblConc;
     private javax.swing.JLabel jlblFF;
     private javax.swing.JLabel jlblLoteSelecionado2;
@@ -518,9 +695,13 @@ public class Descargo extends javax.swing.JPanel {
     private javax.swing.JLabel jlblTff;
     private javax.swing.JLabel jlblTpf;
     private javax.swing.JTable jtblLotesSeleccionados;
+    private javax.swing.JTextField jtfCantidadPerdida;
     private javax.swing.JTextField jtfCodigoDocumento;
-    private javax.swing.JTextField jtfCodigoLote;
-    private javax.swing.JTextField jtfCodigoLote1;
+    private javax.swing.JTextField jtfCodigoLote2;
+    private javax.swing.JTextField jtfCodigoLote3;
+    private javax.swing.JTextField jtfCodigoLote4;
+    private javax.swing.JTextField jtfCodigoLote5;
+    private javax.swing.JTextField jtfCodigoLotePerdida;
     // End of variables declaration//GEN-END:variables
 
     

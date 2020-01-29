@@ -42,7 +42,7 @@ public class Login extends javax.swing.JPanel {
     
     public Login(CuadroLogin loginFrame){     
         initComponents(); 
-        jButton1.setEnabled(false);
+        jbtnIngresar.setEnabled(false);
         jlblMensaje.setText("Conectado a la Base de Datos....");
         new Proceso().start();
         this.loginframe=loginFrame;
@@ -70,7 +70,7 @@ public class Login extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jtfContraseña = new javax.swing.JPasswordField();
         jlblMensaje = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbtnIngresar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         barraProgreso = new javax.swing.JProgressBar();
         pie = new javax.swing.JPanel();
@@ -198,15 +198,15 @@ public class Login extends javax.swing.JPanel {
         jlblMensaje.setPreferredSize(new java.awt.Dimension(300, 15));
         cuerpito.add(jlblMensaje);
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Ingresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbtnIngresar.setBackground(new java.awt.Color(255, 255, 255));
+        jbtnIngresar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jbtnIngresar.setText("Ingresar");
+        jbtnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbtnIngresarActionPerformed(evt);
             }
         });
-        cuerpito.add(jButton1);
+        cuerpito.add(jbtnIngresar);
 
         jLabel6.setPreferredSize(new java.awt.Dimension(300, 15));
         cuerpito.add(jLabel6);
@@ -410,7 +410,7 @@ public class Login extends javax.swing.JPanel {
             
             this.jpa=JPAUtil.getEntityManagerFactory().createEntityManager();
             jlblMensaje.setText("Conexión exitosa");
-            jButton1.setEnabled(true);
+            jbtnIngresar.setEnabled(true);
             }
         catch(Exception e) {
             jlblMensaje.setText("Falló la conexión");
@@ -423,7 +423,8 @@ public class Login extends javax.swing.JPanel {
         objPrincipal.setVisible(true);
     }
     private void iniciarSesion(){
-        barraProgreso.setValue(20);        
+        barraProgreso.setValue(20);  
+        jbtnIngresar.setEnabled(false);
         if(auxOpera){
             try{
                 barraProgreso.setValue(40);
@@ -446,10 +447,12 @@ public class Login extends javax.swing.JPanel {
                     }
                 else{
                     jlblMensaje.setText("los datos no coinciden");
+                    jbtnIngresar.setEnabled(true);
                     barraProgreso.setValue(0);
                     }
                 }
             catch(HeadlessException e){
+                jbtnIngresar.setEnabled(true);
                 JOptionPane.showMessageDialog(barraProgreso, "error logueo"+e.toString());
                 barraProgreso.setValue(WIDTH);
                 }
@@ -466,9 +469,9 @@ public class Login extends javax.swing.JPanel {
         jlblOlvideContra.setForeground(Color.red);
     }//GEN-LAST:event_jlblOlvideContraMouseMoved
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIngresarActionPerformed
         iniciarSesion();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbtnIngresarActionPerformed
 
     private void jtfContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfContraseñaKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER && (("Conexión exitosa").equals(jlblMensaje.getText()) || ("los datos no coinciden").equals(jlblMensaje.getText()) )){
@@ -570,7 +573,6 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JPanel cuerpito2;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -589,6 +591,7 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JButton jbtnIngresar;
     private javax.swing.JLabel jlblDatos;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblMensaje1;

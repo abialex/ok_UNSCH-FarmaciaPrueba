@@ -52,9 +52,15 @@ public class Principal extends javax.swing.JFrame {
     public class Proceso extends Thread{
         @Override
         public void run(){
-            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60").getResultList();
-            jlblAlertaMedicamentosVencidos.setText(lotes_por_vencer.size()+"");
+            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0").getResultList();
+            
             String mensaje="Lotes por vencer: "+lotes_por_vencer.size()+"\n";
+            for (Lote_detalle lote_detalle : lotes_por_vencer){                
+                mensaje=mensaje+" LOTE-CODIGO: "+lote_detalle.getCodigo()+" FECHA VENC: "+Herramienta.formatoFechaMas1(lote_detalle.getFecha_vencimiento())+"\n";
+            }
+            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<0").getResultList();
+            jlblAlertaMedicamentosVencidos.setText(lotes_por_vencer.size()+"");
+            mensaje=mensaje+"Lotes  vencidos: "+lotes_por_vencer.size()+"\n";
             for (Lote_detalle lote_detalle : lotes_por_vencer){                
                 mensaje=mensaje+" LOTE-CODIGO: "+lote_detalle.getCodigo()+" FECHA VENC: "+Herramienta.formatoFechaMas1(lote_detalle.getFecha_vencimiento())+"\n";
             }
@@ -411,6 +417,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
+        jlblAlertaMedicamentosVencidos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAlertaMedicamentosVencidos.setPreferredSize(new java.awt.Dimension(32, 32));
         jlblAlertaMedicamentosVencidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2269,7 +2276,33 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseExited
 
     private void jlblAlertaMedicamentosVencidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblAlertaMedicamentosVencidosMouseClicked
-        JOptionPane.showMessageDialog(rootPane, "visualisar vista de lotes a vencer");
+        bodyContenedor.setVisible(true);//1           
+        objProveedorLaboratorio.setVisible(false);//14
+        objVer_inventario.setVisible(false);//3
+        objDetalle_Inventario.setVisible(false);//4
+        objCrear_Estudiante.setVisible(false);//5
+        objBusquedaVentas.setVisible(false);//6
+        objLlenarInventario.setVisible(false);//7
+        objServicioFarmacia.setVisible(false);//8
+        objCrearUsuario.setVisible(false);//9
+        objModificarUsuario.setVisible(false);//10
+        objEntragEntrega_del_dia.setVisible(false);//11
+        objModificar_Estudiante.setVisible(false);//12
+        objReporte_Por_Escuela.setVisible(false);//13
+        objReporte_Diagnostico.setVisible(false);//14
+        objCrearMedicamento.setVisible(false);//15
+        objModificarMedicamento.setVisible(false);//15
+        objReporte_Condicion.setVisible(false);//16        
+        objServicio_Asistencial.setVisible(false);//17
+        objAbrir_Inventario.setVisible(false);//18
+        objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCerrar_Inventario.setVisible(false);//19        
+        objCrear_Tarifario.setVisible(false);//22
+        objModificar_Tarifario.setVisible(false);//22  
+        objDescargo.ConsultaBD();
+        objDescargo.principalEjecucion();
+        objDescargo.iniciar_conVencidos();
+        objDescargo.setVisible(true);//23    
     }//GEN-LAST:event_jlblAlertaMedicamentosVencidosMouseClicked
 
     private void jleftTarifarioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifarioMouseMoved

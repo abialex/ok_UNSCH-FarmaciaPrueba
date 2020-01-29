@@ -141,12 +141,13 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jlblFecha = new javax.swing.JLabel();
         jbtnAgregar = new javax.swing.JButton();
         jlblTipo = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtblTarifas = new javax.swing.JTable();
         jlblAsteriscoServicioRegistrar = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblTarifas = new javax.swing.JTable();
         jPanel14 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jlblMontoTotalAsistencial = new javax.swing.JLabel();
@@ -283,25 +284,6 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jtblServicios.setBorder(new javax.swing.border.MatteBorder(null));
         jtblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
@@ -420,6 +402,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel19.setPreferredSize(new java.awt.Dimension(10, 14));
         jPanel12.add(jLabel19, java.awt.BorderLayout.LINE_START);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jtfDescripcion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -454,21 +437,6 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jlblTipo.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel1.add(jlblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 170, 25));
 
-        jtblTarifas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Tipo", "Descripción", "Costo"
-            }
-        ));
-        jScrollPane2.setViewportView(jtblTarifas);
-
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 180));
-
         jlblAsteriscoServicioRegistrar.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jlblAsteriscoServicioRegistrar.setForeground(new java.awt.Color(255, 0, 0));
         jlblAsteriscoServicioRegistrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -486,6 +454,35 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel39.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel39.setText("Fecha Registro:");
         jPanel1.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, -1, 25));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jtblTarifas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tipo", "Descripción", "Costo"
+            }
+        ));
+        jtblTarifas.setDoubleBuffered(true);
+        jtblTarifas.setPreferredSize(new java.awt.Dimension(225, 141));
+        jtblTarifas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblTarifasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtblTarifas);
+
+        jPanel3.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 900, 170));
 
         jPanel12.add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
@@ -559,6 +556,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel23.setPreferredSize(new java.awt.Dimension(10, 14));
         jPanel13.add(jLabel23, java.awt.BorderLayout.LINE_START);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(900, 300));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -577,6 +575,11 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
             }
         ));
         jtblDetalleServicioSocial.setMinimumSize(new java.awt.Dimension(0, 0));
+        jtblDetalleServicioSocial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblDetalleServicioSocialMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jtblDetalleServicioSocial);
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 180));
@@ -729,7 +732,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private void jbtnImprimirServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirServiciosActionPerformed
  
         try {
-            imprimirEstudiante();
+            //imprimirEstudiante();
             String url="Carpeta_de_Archivos\\Control_Estudiante"+objControl_paciente_Final.getEstudiante().getCodigo()+".pdf";
             ProcessBuilder p=new ProcessBuilder();
             p.command("cmd.exe","/c",url);
@@ -739,10 +742,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
             System.out.println(ex.toString());
             JOptionPane.showMessageDialog(jLabel12,"El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso");        
         } 
-        catch (DocumentException ex) {
-            JOptionPane.showMessageDialog(jLabel12,ex.toString());
-
-        }
+        
     }//GEN-LAST:event_jbtnImprimirServiciosActionPerformed
 
     private void jbtnCrearReceta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta1ActionPerformed
@@ -763,23 +763,26 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         principalEjecucion();
         llenarControlAlumno();
         jlblMontoTotalAsistencial.setText("S/0.00");
-        Lista_carrito_Servicio.clear();
+        
         cuerpoListaCrearServicio.setVisible(false);
         cuerpoListaServicios.setVisible(true);
         int confirmado = JOptionPane.showConfirmDialog(jlblNombres,"¿Desea Imprimir?");
             if (JOptionPane.OK_OPTION == confirmado){
                 try {                
-                    //imprimirReceta(Lista_carrito_medicamentos);
-                    String url="Carpeta_de_Archivos\\Servicio_Asistencial"+objControl_paciente_Final.getEstudiante().getCodigo()+"asistencial.pdf";
+                    imprimirEstudiante(Lista_carrito_Servicio);
+                    String url="Carpeta_de_Archivos\\esquela"+objControl_paciente_Final.getEstudiante().getCodigo()+".pdf";
                     ProcessBuilder p=new ProcessBuilder();
                     p.command("cmd.exe","/c",url);
                     p.start();            
                     } catch (IOException ex) {
                         Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        } catch (DocumentException ex) {
+               Logger.getLogger(Servicio_Asistencial.class.getName()).log(Level.SEVERE, null, ex);
+           }
                 }
             else{
                 System.out.println("vale... no borro nada...");}
+                Lista_carrito_Servicio.clear();
         jpa.getTransaction().commit();
     }//GEN-LAST:event_jbtnCrearReceta1ActionPerformed
 
@@ -859,14 +862,27 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private void jbtnCrearReceta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearReceta2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCrearReceta2ActionPerformed
-    public void imprimirEstudiante() throws FileNotFoundException, DocumentException, IOException{
+
+    private void jtblDetalleServicioSocialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblDetalleServicioSocialMouseClicked
+        
+        
+    }//GEN-LAST:event_jtblDetalleServicioSocialMouseClicked
+
+    private void jtblTarifasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblTarifasMouseClicked
+
+        Detalle_Servicio_Social objTarifa =(Detalle_Servicio_Social)jtblTarifas.getValueAt(jtblTarifas.getSelectedRow(),1);
+        Lista_carrito_Servicio.remove(objTarifa);
+        jlblMontoTotalAsistencial.setText("S/"+sumarPrecios()+"0");
+        llenar_Tabla_de_Detalle_Asistenciales(Lista_carrito_Servicio);
+    }//GEN-LAST:event_jtblTarifasMouseClicked
+    public void imprimirEstudiante(List<Detalle_Servicio_Social> Lista_ServiciosDetalles) throws FileNotFoundException, DocumentException, IOException{
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
         int fontTamaño=9;
         int fontHeadTamaño=11;
         PdfWriter writer=null;
         try {
-             writer=new PdfWriter("Carpeta_de_Archivos\\Control_Estudiante"+objControl_paciente_Final.getEstudiante().getCodigo()+".pdf");           
+             writer=new PdfWriter("Carpeta_de_Archivos\\esquela"+objControl_paciente_Final.getEstudiante().getCodigo()+".pdf");           
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(jLabel12, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso");
         } 
@@ -875,39 +891,70 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         Document document=new Document(pdf,PageSize.A4);        
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
         PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
-        Table table = new Table(new float[]{8,15,5,4,18});
+        Table table = new Table(new float[]{2,5,20,5});
         table.setWidthPercent(100);
         
         Paragraph paragIma=new Paragraph("").add(unsch);  
-        document.add(paragIma);
         
-        Paragraph paraTitle=new Paragraph("CONTROL ECONÓMICO DE ATENCIONES").setFontSize(16).setFont(bold).setTextAlignment(TextAlignment.CENTER);
-        document.add(paraTitle);
-        Paragraph parag=new Paragraph(new Text("APELLIDOS Y NOMBRES: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getPersona().getInfoPersona()).setTextAlignment(TextAlignment.LEFT);
-        document.add(parag);      
-        Paragraph paraEscCodSerie=new Paragraph(new Text("ESCUELA: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getRolescuela().getNombre_rol())
-                .add(new Text("         SERIE: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getSerie()).setTextAlignment(TextAlignment.LEFT)
-                .add(new Text("         CÓDIGO: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getCodigo());
-        document.add(paraEscCodSerie);
-        Paragraph parag2=new Paragraph("ATENCIONES-SERVICIO DE FARMACIA").setFont(bold).setTextAlignment(TextAlignment.CENTER);         
-        document.add(parag2);
-        document.add(new Paragraph(" "));    
-        table.addHeaderCell(new Cell().add(new Paragraph("Fecha").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
-        table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
-        table.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));        
-        table.addHeaderCell(new Cell().add(new Paragraph("Monto").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
-        table.addHeaderCell(new Cell().add(new Paragraph("Químico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
+        
+        Paragraph paraTitle=new Paragraph("ESQUELA DE GARANTÍA            OSEA").setFontSize(16).setFont(bold).setTextAlignment(TextAlignment.CENTER);
+        
+        Paragraph parag=new Paragraph(new Text("APELLIDOS Y NOMBRES: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getPersona().getInfoPersona()).setTextAlignment(TextAlignment.LEFT).
+                add(new Text("       CÓDIGO: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getCodigo());
+        
+        
+        Paragraph paraEscCodSerie=new Paragraph(new Text("Serie: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getSerie())
+                .add(new Text("      E.P: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getRolescuela().getNombre_rol()).setTextAlignment(TextAlignment.LEFT)
+                .add(new Text("      Procedencia del servicio: ").setFont(bold)).add(".............................")
+                ;
+        
+        Paragraph parag2=new Paragraph("Atención solicitada:").setFont(font).setTextAlignment(TextAlignment.LEFT);         
+           
+        table.addHeaderCell(new Cell().add(new Paragraph("N°").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
+        table.addHeaderCell(new Cell().add(new Paragraph("CÓDIGO").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
+        table.addHeaderCell(new Cell().add(new Paragraph("DETALLE").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));        
+        table.addHeaderCell(new Cell().add(new Paragraph("IMPORTE S/").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
                  
       //Collections.sort(Lista_servicio_social);//ordenando A-Z (método como Override)
-        for(Servicio_social detalle_servicio_social : Lista_servicio_social){
-           // table.addCell(new Paragraph(Herramienta.formatoFecha(Detalle_Medicamento.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            //table.addCell(new Paragraph(Detalle_Medicamento.getId_Medicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            //table.addCell(new Paragraph(Integer.toString(Detalle_Medicamento.getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            //table.addCell(new Paragraph(Float.toString(Detalle_Medicamento.getPrecio_Total())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+      int i=1;
+        for(Detalle_Servicio_Social detalle_servicio_social : Lista_ServiciosDetalles){
+           table.addCell(new Paragraph(i+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            table.addCell(new Paragraph(detalle_servicio_social.getTarifario().getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            table.addCell(new Paragraph(detalle_servicio_social.getTarifario().getDescripcion()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+            table.addCell(new Paragraph(detalle_servicio_social.getPrecio_Total()+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             //table.addCell(new Paragraph(Detalle_Medicamento.getUsuario().getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-            
+            i++;
         }
-        document.add(table);        
+        
+        Paragraph fecha=new Paragraph("Ayacucho "+Herramienta.formatoFechaMas1(new Date())).setFont(bold).setTextAlignment(TextAlignment.LEFT);         
+        document.add(paragIma);
+        document.add(paraTitle);
+        document.add(parag); 
+        document.add(paraEscCodSerie);
+        document.add(parag2);
+        document.add(new Paragraph(" ")); 
+        document.add(table); 
+        document.add(new Paragraph(""));
+        document.add(fecha);
+        
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph(" "));
+        
+        
+        document.add(paragIma);
+        document.add(paraTitle);
+        document.add(parag); 
+        document.add(paraEscCodSerie);
+        document.add(parag2);
+        document.add(new Paragraph(" ")); 
+        document.add(table); 
+        document.add(new Paragraph(""));
+        document.add(fecha);
         document.close();       
     }
     public void limpiarVista1(){
@@ -960,6 +1007,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;

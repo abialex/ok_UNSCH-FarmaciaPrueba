@@ -149,6 +149,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jlblAsteFF = new javax.swing.JLabel();
         jlblMensaje = new javax.swing.JLabel();
         jcbOrigen = new javax.swing.JComboBox<>();
+        jLabel24 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -365,7 +366,13 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 500, 20));
 
         jcbOrigen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 270, 160, 25));
+        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 270, 120, 25));
+
+        jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel24.setText("Origen");
+        jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 270, 50, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -481,6 +488,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
