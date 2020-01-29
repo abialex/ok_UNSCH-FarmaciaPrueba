@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.Inventario;
 
 
 import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.app.TextPrompt;
 import com.ecoedu.model.Detalle_llenado;
@@ -45,6 +46,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     Inventario objInventario_final=new Inventario();        
     public LlenarInventario(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
+        jtfProductoFarmaceutico.setDocument(new soloMayusculas());
         this.autoCompleterProductoFarmaceutico=new TextAutoCompleter(jtfProductoFarmaceutico, new AutoCompleterCallback(){
             @Override
             public void callback(Object o){
@@ -181,6 +183,8 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFactura = new javax.swing.JLabel();
         jlblAsteProveedor = new javax.swing.JLabel();
         jlblAsteFabricante = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jlblFormaOrigen = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -267,9 +271,9 @@ public class LlenarInventario extends javax.swing.JPanel {
 
         jLabel19.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel19.setText("Forma Farmaceutica");
+        jLabel19.setText("Origen");
         jLabel19.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 140, 25));
+        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 60, 25));
 
         jtfDiaVenc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfDiaVenc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -281,7 +285,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jtfDiaVencKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfDiaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 40, 25));
+        jPanel7.add(jtfDiaVenc, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 40, 25));
 
         jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -319,7 +323,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblFormaFarmaceutica.setForeground(new java.awt.Color(0, 102, 204));
         jlblFormaFarmaceutica.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblFormaFarmaceutica.setPreferredSize(new java.awt.Dimension(330, 25));
-        jPanel7.add(jlblFormaFarmaceutica, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 150, -1));
+        jPanel7.add(jlblFormaFarmaceutica, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 140, -1));
 
         jlblMensaje.setForeground(new java.awt.Color(255, 0, 0));
         jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -440,7 +444,7 @@ public class LlenarInventario extends javax.swing.JPanel {
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("/");
         jLabel22.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 130, 10, 25));
+        jPanel7.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 10, 25));
 
         jtfCodigoLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfCodigoLote.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -483,19 +487,19 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jtfAñovencimientoKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfAñovencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 40, 25));
+        jPanel7.add(jtfAñovencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 40, 25));
 
         jLabel27.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel27.setText("20");
         jLabel27.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 20, 25));
+        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, 20, 25));
 
         jLabel28.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("/");
         jLabel28.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 10, 25));
+        jPanel7.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 10, 25));
 
         jtfMesVen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtfMesVen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -510,7 +514,7 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jtfMesVenKeyTyped(evt);
             }
         });
-        jPanel7.add(jtfMesVen, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 40, 25));
+        jPanel7.add(jtfMesVen, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 40, 25));
 
         jLabel33.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -627,6 +631,18 @@ public class LlenarInventario extends javax.swing.JPanel {
         jlblAsteFabricante.setText("*");
         jPanel7.add(jlblAsteFabricante, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, -1, 25));
 
+        jLabel35.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel35.setText("Forma Farmaceutica");
+        jLabel35.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel7.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 140, 25));
+
+        jlblFormaOrigen.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblFormaOrigen.setForeground(new java.awt.Color(0, 102, 204));
+        jlblFormaOrigen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblFormaOrigen.setPreferredSize(new java.awt.Dimension(330, 25));
+        jPanel7.add(jlblFormaOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 160, -1));
+
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         vistaLlenar.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -641,12 +657,14 @@ public class LlenarInventario extends javax.swing.JPanel {
                 jlblFormaFarmaceutica.setText(Lista_Inventario.get(i).getMedicamento().getForma_farmaceutica());
                 jlblConcentracion.setText(Lista_Inventario.get(i).getMedicamento().getConcentracion());
                 objInventario_final=Lista_Inventario.get(i);
+                jlblFormaOrigen.setText(Lista_Inventario.get(i).getMedicamento().getRolorigen().getNombre_rol());
                 MensajeProductoFarmaceutico="";                               
             break;
             }
             MensajeProductoFarmaceutico="Ingrese un Medicamento Existente";
             jlblFormaFarmaceutica.setText("");
             jlblConcentracion.setText("");  
+            jlblFormaOrigen.setText("");
         }        
     }      
     private void jtfProductoFarmaceuticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfProductoFarmaceuticoKeyReleased
@@ -1178,6 +1196,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1200,6 +1219,7 @@ public class LlenarInventario extends javax.swing.JPanel {
     private javax.swing.JLabel jlblConcentracion;
     private javax.swing.JLabel jlblFechaHoy;
     private javax.swing.JLabel jlblFormaFarmaceutica;
+    private javax.swing.JLabel jlblFormaOrigen;
     private javax.swing.JLabel jlblHeadMensaje;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblPVR;

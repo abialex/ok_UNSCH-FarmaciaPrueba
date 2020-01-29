@@ -58,7 +58,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
     }
     public void ConsultaBD(){
         Lista_Medicamento=jpa.createQuery("SELECT p FROM Medicamento p").getResultList();
-        Lista_RolOrigen=jpa.createQuery("select p From Rol p where id_tipo_Roles=13").getResultList();
+        Lista_RolOrigen=jpa.createQuery("select p From Rol p where id_tipo_Roles=10").getResultList();
         
             
     }   
@@ -206,7 +206,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel23.setText("Origen");
         jLabel23.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 270, 50, 25));
+        jPanel7.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 270, 50, 25));
 
         jLabel25.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel25.setPreferredSize(new java.awt.Dimension(700, 14));
@@ -365,7 +365,7 @@ public class CrearMedicamento extends javax.swing.JPanel{
                 jcbOrigenPropertyChange(evt);
             }
         });
-        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 270, 120, 25));
+        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 25));
 
         jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);

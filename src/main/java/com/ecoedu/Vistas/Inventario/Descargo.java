@@ -49,7 +49,7 @@ public class Descargo extends javax.swing.JPanel {
    
     }
     public void ConsultaBD(){
-        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1002").getResultList();
+        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
         Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE()").getResultList();  
 //lista_Detalles_control_paciente=query1.getResultList();  
     }
@@ -475,8 +475,7 @@ public class Descargo extends javax.swing.JPanel {
     private void jcbTipoDescargoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbTipoDescargoItemStateChanged
            if(((Rol)jcbTipoDescargo.getSelectedItem())!=null){
                switch(((Rol)jcbTipoDescargo.getSelectedItem()).getNombre_rol()){
-                   case "PÉRDIDA":
-                       
+                   case "PÉRDIDA":                       
                        cuerpo3Donacion.setVisible(false);
                        cuerpo1Vencido.setVisible(false);
                        cuerpo4Campaña.setVisible(false);
@@ -489,9 +488,9 @@ public class Descargo extends javax.swing.JPanel {
                        break;
                    case "DONACIÓN":
                        cuerpo4Campaña.setVisible(false);
-                       cuerpo3Donacion.setVisible(true);
                        cuerpo1Vencido.setVisible(false);
                        cuerpo2Faltante.setVisible(false);
+                       cuerpo3Donacion.setVisible(true);
                        break;
                    case "VENCIDO":
                        cuerpo4Campaña.setVisible(false);
@@ -504,7 +503,10 @@ public class Descargo extends javax.swing.JPanel {
                        cuerpo1Vencido.setVisible(false);
                        cuerpo4Campaña.setVisible(true);
                        cuerpo2Faltante.setVisible(false);
+                   default:
+                       System.out.println("no reconoce ninguno");
                        }
+               
                }
     }//GEN-LAST:event_jcbTipoDescargoItemStateChanged
 

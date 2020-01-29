@@ -54,7 +54,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
            
     }
     public void ConsultaBD(){
-        Lista_RolOrigen=jpa.createQuery("select p From Rol p where id_tipo_Roles=13").getResultList();
+        Lista_RolOrigen=jpa.createQuery("select p From Rol p where id_tipo_Roles=10").getResultList();
         Query query1=jpa.createQuery("SELECT p FROM Medicamento p");
         Lista_Medicamento=query1.getResultList();      
     }   
@@ -366,13 +366,13 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jPanel7.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 500, 20));
 
         jcbOrigen.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 270, 120, 25));
+        jPanel7.add(jcbOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 25));
 
         jLabel24.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel24.setText("Origen");
         jLabel24.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 270, 50, 25));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 270, 50, 25));
 
         jPanel13.add(jPanel7, java.awt.BorderLayout.CENTER);
 
