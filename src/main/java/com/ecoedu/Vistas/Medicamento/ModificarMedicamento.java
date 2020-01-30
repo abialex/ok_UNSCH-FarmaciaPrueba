@@ -4,6 +4,7 @@ package com.ecoedu.Vistas.Medicamento;
 
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.model.Inventario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -11,6 +12,7 @@ import com.ecoedu.model.Medicamento;
 import com.ecoedu.model.Rol;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -45,9 +47,26 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         }        
     }
 
+    public List<Medicamento> getMedicamentosParecidos(String palabra){
+        List<Medicamento> listaInventario=new ArrayList<>();
+        for (int n = 0; n < Lista_Medicamento.size(); n++) {
+            boolean aux=true;
+            for (int i = 0; i<palabra.length(); i++){               
+                if(palabra.charAt(i)!=Lista_Medicamento.get(n).getNombre().charAt(i)){
+                    aux=false;
+                    break;                   
+                }            
+            }
+            if(aux){
+                listaInventario.add(Lista_Medicamento.get(n));
+            }
+        }
+        return listaInventario;        
+    }
     
     public ModificarMedicamento(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
+        jtfBusqueda.setDocument(new soloMayusculas());
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;        
          
@@ -140,7 +159,10 @@ public class ModificarMedicamento extends javax.swing.JPanel{
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtfBusqueda = new javax.swing.JTextField();
         jPanel12 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jtfFormaFarmaceutica = new javax.swing.JTextField();
@@ -307,11 +329,27 @@ public class ModificarMedicamento extends javax.swing.JPanel{
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setPreferredSize(new java.awt.Dimension(260, 14));
+        jPanel11.add(jLabel1);
+
         jLabel31.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setText("Lista de Medicamento Actual");
         jLabel31.setPreferredSize(new java.awt.Dimension(300, 30));
         jPanel11.add(jLabel31);
+
+        jLabel2.setPreferredSize(new java.awt.Dimension(100, 14));
+        jPanel11.add(jLabel2);
+
+        jtfBusqueda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jtfBusqueda.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfBusqueda.setPreferredSize(new java.awt.Dimension(200, 25));
+        jtfBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfBusquedaKeyReleased(evt);
+            }
+        });
+        jPanel11.add(jtfBusqueda);
 
         jPanel10.add(jPanel11, java.awt.BorderLayout.PAGE_START);
 
@@ -479,14 +517,20 @@ public class ModificarMedicamento extends javax.swing.JPanel{
             }
     }//GEN-LAST:event_jtfConcentracionKeyTyped
 
+    private void jtfBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBusquedaKeyReleased
+        llenar_tabla_Medicamento(getMedicamentosParecidos(jtfBusqueda.getText()));
+    }//GEN-LAST:event_jtfBusquedaKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyCard;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -510,6 +554,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
     private javax.swing.JLabel jlblAstePF;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JTable jtblMedicamento;
+    private javax.swing.JTextField jtfBusqueda;
     private javax.swing.JTextField jtfConcentracion;
     private javax.swing.JTextField jtfFormaFarmaceutica;
     private javax.swing.JTextField jtfProductoFarmaceutico;

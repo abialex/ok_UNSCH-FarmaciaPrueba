@@ -132,7 +132,7 @@ public class Principal extends javax.swing.JFrame {
        this.objReporte_Por_Escuela_AtendidosBotica=new Reporte_Por_Escuela_AtendidosBotica(OBJjpa, this);
        this.objCrear_Tarifario=new Crear_Tarifario(OBJjpa);
        this.objModificar_Tarifario=new Modificar_Tarifario(OBJjpa);
-       this.objDescargo=new Descargo(OBJjpa,user);
+       this.objDescargo=new Descargo(OBJjpa,user,this);
        
        this.setLocationRelativeTo(null);
        jlblUsuario.setText(user.getPersona().getInfoPersona());

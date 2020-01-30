@@ -787,7 +787,7 @@ public class LlenarInventario extends javax.swing.JPanel {
              //.....................................TABLA......................................
              String [] lista={"Producto Farmaceutico","Lote","Cantidad","P.U","P.V.R","Fecha Venc.","Laboratorio","Proveedor","Factura"}; 
              modelo=new DefaultTableModel(null,lista){
-                 boolean[] canEdit = new boolean [] {false, false,false, false,false,false};
+                 boolean[] canEdit = new boolean [] {false, false,false, false,false,false,false,false,false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
                      return canEdit [columnIndex];
                      }
@@ -797,9 +797,9 @@ public class LlenarInventario extends javax.swing.JPanel {
              if(listaLote.size()==listaLlenado.size()){//objListaLlenado tostring=precio_unitario
              for (int i = 0; i < listaLote.size(); i++){
                  fila_actividad[0]=listaLote.get(i).getInventario().getMedicamento().getNombre();
-                 fila_actividad[1]=listaLote.get(i).getCodigo();
+                 fila_actividad[1]=listaLote.get(i);
                  fila_actividad[2]=listaLote.get(i).getCantidad();             
-                 fila_actividad[3]=listaLlenado.get(i).getPrecio_unitario();
+                 fila_actividad[3]=listaLlenado.get(i);
                  fila_actividad[4]=listaLote.get(i).getPrecio_Venta_Redondeado();
                  fila_actividad[5]=Herramienta.formatoFecha(listaLote.get(i).getFecha_vencimiento());
                  fila_actividad[6]=listaLote.get(i).getRolFabricante().getNombre_rol();
@@ -1160,8 +1160,23 @@ public class LlenarInventario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtfCodigoFacturaKeyReleased
 
     private void jbtnGuardarLotes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarLotes1ActionPerformed
-       Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
-        llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
+       //Lista_Lote_detalle_final.clear();Lista_Detalle_Llenado_final.clear();
+       //llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);
+       
+       if(!Lista_Lote_detalle_final.isEmpty()){          
+           try{
+           Lote_detalle objLote_detalle=(Lote_detalle)jtblLoteDetalle.getValueAt(jtblLoteDetalle.getSelectedRow(),1);
+           Detalle_llenado objDetalle_llenado=(Detalle_llenado)jtblLoteDetalle.getValueAt(jtblLoteDetalle.getSelectedRow(),3);
+           Lista_Lote_detalle_final.remove(objLote_detalle);
+           Lista_Detalle_Llenado_final.remove(objDetalle_llenado);
+           llenar_tabla_LoteDetalle(Lista_Lote_detalle_final, Lista_Detalle_Llenado_final);}
+           catch(ArrayIndexOutOfBoundsException e){
+               JOptionPane.showMessageDialog(jtfMesVen, "Seleccione un item");
+               }}
+       else{
+           JOptionPane.showMessageDialog(jtfMesVen, "No hay un item que limpiar");
+       }
+
         
     }//GEN-LAST:event_jbtnGuardarLotes1ActionPerformed
       

@@ -977,13 +977,12 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this);
                 objCuadroCarrito.setVisible(true);
                 objPrincipal.setEnabled(false);
-                
+                }
             }
-        }
        llenar_Tabla_de_Recetas(Lista_Recetas);        
     }
     private void jbtnCrearRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearRecetaActionPerformed
-        Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p");
+        Query query1=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0");
         Lista_lote_detalle=query1.getResultList();
         cuerpo1ListaRecetas.setVisible(false);
         cuerp2CrearRecetas.setVisible(true);      

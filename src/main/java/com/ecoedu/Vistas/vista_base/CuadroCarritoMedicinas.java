@@ -5,6 +5,7 @@
  */
 package com.ecoedu.Vistas.vista_base;
 
+import com.ecoedu.Vistas.Inventario.Descargo;
 import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.ServicioFarmacia.ActualizarControlDelAlumno;
 import com.ecoedu.Vistas.ServicioFarmacia.Cantidad_Medicinas;
@@ -35,6 +36,12 @@ public class CuadroCarritoMedicinas extends javax.swing.JFrame {
     public CuadroCarritoMedicinas(EntityManager objJPA,Estudiante objEstudiante,Servicio_Asistencial objServicio_Asistencial){
         initComponents();
         this.objActualizarControlDelAlumno=new ActualizarControlDelAlumno(objJPA,objEstudiante,this,objServicio_Asistencial);
+        contenedor.add(objActualizarControlDelAlumno);
+        this.setLocationRelativeTo(null);
+    }
+    public CuadroCarritoMedicinas(EntityManager objJPA,Descargo objDescargo){
+        initComponents();
+        this.objCantMedicinas=new Cantidad_Medicinas(objJPA,this,objDescargo);
         contenedor.add(objActualizarControlDelAlumno);
         this.setLocationRelativeTo(null);
     }

@@ -2,6 +2,7 @@ package com.ecoedu.Vistas.ServicioFarmacia;
 
 
 import com.ecoedu.Vistas.Herramienta;
+import com.ecoedu.Vistas.Inventario.Descargo;
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.model.Detalle_Medicamentos;
@@ -35,24 +36,42 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     Detalle_Medicamentos objDetalle_Medicamento_Final=new Detalle_Medicamentos();
     ServicioFarmacia objServicioFarmacia;
     Lote_detalle objLoteDetalleFinal;
+    Descargo objDescargo;
     private int limite_seguro;
+    private boolean auxAuxiliar;
     public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia,int limite_seguros){
         initComponents();
         this.limite_seguro=limite_seguros;
         this.jpa=objJpa;
         this.limite_seguro=limite_seguros;
         this.objServicioFarmacia=OBJServicioFarmacia;
-        this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
+        this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;
+        this.auxAuxiliar=true;
         principalEjecucion();        
-    }       
+    }
+    public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarrito,Descargo sobjDescargo){
+        initComponents();
+        auxAuxiliar=false;
+        jtfMedicamento.setDocument(new soloMayusculas());
+        this.jpa=objJpa;
+        this.objCuadroCarritoMedicinas=objCuadroCarrito;
+        this.objDescargo=sobjDescargo;        
+    }
+    
   
     public void principalEjecucion(){
-        jtfMedicamento.setDocument(new soloMayusculas());
         list_Lote_detalle=objServicioFarmacia.getListaInventario();
         desglozarDatos(); 
         llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));
         jtfCantidad.setEditable(false);        
-     }
+    }
+    public void principalEjecucionCampaña(){
+        list_Lote_detalle=objDescargo.getListaLote();
+        desglozarDatos();
+        llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));
+        jtfCantidad.setEditable(true);
+        
+    }
     
     public void desglozarDatos(){
          //lista_Inventario
@@ -427,13 +446,23 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     }//GEN-LAST:event_jtfMedicamentoKeyReleased
     private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
         if(!jtfCantidad.getText().equals("")){
+            if(auxAuxiliar){
                 objDetalle_Medicamento_Final.setCantidad(Integer.parseInt(jtfCantidad.getText()));//get
                 objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));//get  
                 objServicioFarmacia.addPrecio_delControlEstudiante(Float.parseFloat(jlblPrecioTotal.getText()));//nada
                 objServicioFarmacia.getListaCarritos(objDetalle_Medicamento_Final);                  
                 objServicioFarmacia.getPrincipal().setEnabled(true);
-                objCuadroCarritoMedicinas.setVisible(false);  
+                objCuadroCarritoMedicinas.setVisible(false);
                 }
+            else{
+                objDetalle_Medicamento_Final.setCantidad(Integer.parseInt(jtfCantidad.getText()));//get
+                objDetalle_Medicamento_Final.setPrecio_Total(Float.parseFloat(jlblPrecioTotal.getText()));//get  
+                objDescargo.setMontoTotal(Float.parseFloat(jlblPrecioTotal.getText()));
+                objDescargo.getLista_CarritoCampaña(objDetalle_Medicamento_Final);
+                objDescargo.getPrincipal().setEnabled(true);
+                objCuadroCarritoMedicinas.setVisible(false);
+                }
+            }
     }//GEN-LAST:event_jbtnAgregarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

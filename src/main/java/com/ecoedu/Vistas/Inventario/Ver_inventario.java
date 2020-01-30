@@ -4,6 +4,7 @@ package com.ecoedu.Vistas.Inventario;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.model.Descruce;
 import com.ecoedu.model.Detalle_llenado;
 import java.awt.Color;
 import java.util.List;
@@ -15,6 +16,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.RegistroMensualLotes;
+import com.ecoedu.model.Rol;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -31,6 +34,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -46,6 +50,7 @@ public class Ver_inventario extends javax.swing.JPanel {
     List<Detalle_llenado> Lista_LotesDetalle_llenado;    
     EntityManager jpa;
     Principal objPrincipal;    
+    List<Rol> Lista_Origen;
     
     public Ver_inventario(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
@@ -53,6 +58,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         this.objPrincipal=OBJPrincipal;
     }
     public void ConsultaBD(){
+        Lista_Origen=jpa.createQuery("Select p from Rol p where id_tipo_Roles=13").getResultList();
         Query query1=jpa.createQuery("SELECT p FROM Detalle_llenado p ");
         Lista_LotesDetalle_llenado=query1.getResultList();      
     }   
@@ -350,17 +356,86 @@ public class Ver_inventario extends javax.swing.JPanel {
             }        
         }
     }//GEN-LAST:event_jtblInventarioOperacionesMouseClicked
-
+ 
+    public void Lista_LotesDetalle_llenado(Date Fe) throws MalformedURLException, IOException{
+        
+        String ol="images\\unsch.png";
+        Image unsch=new Image(ImageDataFactory.create(ol));
+        PdfWriter writer=null;
+        try {
+             writer=new PdfWriter
+                ("Carpeta_de_Archivos\\Inventario_"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf");           
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(jLabel12, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso");
+        }  
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document=new Document(pdf,PageSize.A4.rotate());        
+        PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
+        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
+        Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                                   INVENTARIO  DEL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
+        document.add(paragIma); 
+        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
+        document.add(parag2);
+        
+        for (Rol Origen : Lista_Origen){
+        boolean auxAgregar=false;
+        Table table = new Table(new float[]{19,7,6,11,11,8,11,11,11,11});
+        table.setWidthPercent(100);                 
+        document.add(new Paragraph(" "));    
+        table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        table.addHeaderCell(new Cell().add(new Paragraph("Conc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        table.addHeaderCell(new Cell().add(new Paragraph("F.F").setFont(bold)).setTextAlignment(TextAlignment.CENTER));        
+        table.addHeaderCell(new Cell().add(new Paragraph("Lab.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Lote").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("P.A").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Fecha Venc.").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Stock Actual").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("FACTURA").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        table.addHeaderCell(new Cell().add(new Paragraph("Proveedor").setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
+        //table.addHeaderCell(new Cell().add(new Paragraph("STOCK FINAL").setFont(bold)).setTextAlignment(TextAlignment.CENTER));              
+        Collections.sort(Lista_LotesDetalle_llenado);//ordenando A-Z (método como Override)
+        for (Detalle_llenado Lote_RegistroCierre : Lista_LotesDetalle_llenado){
+            if(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen){
+                auxAgregar=true;
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER));//P.F
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER));//Conc
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER));//FF
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER));//labo
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER));//lote
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getPrecio_Venta_Redondeado()+"").setFont(font).setTextAlignment(TextAlignment.CENTER));//P.A
+            if(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){
+                if((Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento().getTime()-(new Date()).getTime())/86400000 <=6*30){
+                    table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.YELLOW));
+                    }
+                else{
+                    table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.WHITE));
+                    }
+            }
+            else{
+                table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED));
+                }
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getCodigo_factura()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            //table.addCell(new Paragraph(Integer.toString(Lote_RegistroCierre.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+        }}
+        if(auxAgregar){document.add(new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER));document.add(table);}
+        }
+        document.close();          
+    }
+    
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
      
         try {
             Date Fe=new Date();
-            imprimir(Fe);            
+            Lista_LotesDetalle_llenado(Fe);
             String url="Carpeta_de_Archivos\\Inventario_"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
             ProcessBuilder p=new ProcessBuilder();
             p.command("cmd.exe","/c",url);
             p.start();                          
-        } catch (FileNotFoundException | DocumentException ex) {
+        } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(jtfMedicamento, ex.toString());
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(jtfMedicamento, ex.toString());
