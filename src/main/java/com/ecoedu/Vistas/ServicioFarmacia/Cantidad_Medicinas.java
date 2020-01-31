@@ -55,7 +55,8 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jtfMedicamento.setDocument(new soloMayusculas());
         this.jpa=objJpa;
         this.objCuadroCarritoMedicinas=objCuadroCarrito;
-        this.objDescargo=sobjDescargo;        
+        this.objDescargo=sobjDescargo; 
+        principalEjecucionCampaña();
     }
     
   
@@ -69,10 +70,8 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         list_Lote_detalle=objDescargo.getListaLote();
         desglozarDatos();
         llenar_Tabla_de_medicamentos_parecidos(getMedicamentosParecidos(""));
-        jtfCantidad.setEditable(true);
-        
+        jtfCantidad.setEditable(true);        
     }
-    
     public void desglozarDatos(){
          //lista_Inventario
          for (int i = 0; i < list_Lote_detalle.size(); i++){

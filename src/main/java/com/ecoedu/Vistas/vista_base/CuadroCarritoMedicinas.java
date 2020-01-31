@@ -6,6 +6,7 @@
 package com.ecoedu.Vistas.vista_base;
 
 import com.ecoedu.Vistas.Inventario.Descargo;
+import com.ecoedu.Vistas.Lista_De_Vencimientos;
 import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.ServicioFarmacia.ActualizarControlDelAlumno;
 import com.ecoedu.Vistas.ServicioFarmacia.Cantidad_Medicinas;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 public class CuadroCarritoMedicinas extends javax.swing.JFrame {
     Cantidad_Medicinas objCantMedicinas;
     ActualizarControlDelAlumno objActualizarControlDelAlumno;
+    Lista_De_Vencimientos objLista_De_Vencimientos;
     EntityManager jpa;    
     
     public CuadroCarritoMedicinas(EntityManager objJPA,ServicioFarmacia objServicioFarmacia,int limite_seguro){
@@ -42,7 +44,14 @@ public class CuadroCarritoMedicinas extends javax.swing.JFrame {
     public CuadroCarritoMedicinas(EntityManager objJPA,Descargo objDescargo){
         initComponents();
         this.objCantMedicinas=new Cantidad_Medicinas(objJPA,this,objDescargo);
-        contenedor.add(objActualizarControlDelAlumno);
+        contenedor.add(objCantMedicinas);
+        this.setLocationRelativeTo(null);
+    }
+    public CuadroCarritoMedicinas(EntityManager objJPA){
+        initComponents();
+        this.objLista_De_Vencimientos=new Lista_De_Vencimientos(objJPA,this);        
+        contenedor.add(objLista_De_Vencimientos);
+        //contenedor.validate();
         this.setLocationRelativeTo(null);
     }
     

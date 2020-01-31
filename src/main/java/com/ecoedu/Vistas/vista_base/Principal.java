@@ -18,6 +18,7 @@ import com.ecoedu.Vistas.Inventario.Descargo;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
 import com.ecoedu.Vistas.Inventario.LlenarInventario;
 import com.ecoedu.Vistas.Inventario.Ver_inventario;
+import com.ecoedu.Vistas.Lista_De_Vencimientos;
 import com.ecoedu.Vistas.Medicamento.CrearMedicamento;
 import com.ecoedu.Vistas.Medicamento.ModificarMedicamento;
 import com.ecoedu.Vistas.ProveedorFabricante.ProveedorLaboratorio;
@@ -51,20 +52,9 @@ public class Principal extends javax.swing.JFrame {
     List<Lote_detalle> lotes_por_vencer;
     public class Proceso extends Thread{
         @Override
-        public void run(){
-            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0").getResultList();
-            
-            String mensaje="Lotes por vencer: "+lotes_por_vencer.size()+"\n";
-            for (Lote_detalle lote_detalle : lotes_por_vencer){                
-                mensaje=mensaje+" LOTE-CODIGO: "+lote_detalle.getCodigo()+" FECHA VENC: "+Herramienta.formatoFechaMas1(lote_detalle.getFecha_vencimiento())+"\n";
-            }
-            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<0").getResultList();
-            jlblAlertaMedicamentosVencidos.setText(lotes_por_vencer.size()+"");
-            mensaje=mensaje+"Lotes  vencidos: "+lotes_por_vencer.size()+"\n";
-            for (Lote_detalle lote_detalle : lotes_por_vencer){                
-                mensaje=mensaje+" LOTE-CODIGO: "+lote_detalle.getCodigo()+" FECHA VENC: "+Herramienta.formatoFechaMas1(lote_detalle.getFecha_vencimiento())+"\n";
-            }
-            JOptionPane.showMessageDialog(rootPane,mensaje);
+        public void run(){            
+            CuadroCarritoMedicinas objCuadrito=new CuadroCarritoMedicinas(jpa);
+            objCuadrito.setVisible(true);
         }
         }
    
