@@ -147,21 +147,18 @@ public class ServicioFarmacia extends javax.swing.JPanel {
              jlblMensajito.setForeground(Color.red);
          }
          else{
-             if(jpa.createQuery("select p from RegistroMensualLotes p where MONTH(fecha_apertura)="+(new Date().getMonth())+1).getResultList().isEmpty()){
+             if(jpa.createQuery("select p from RegistroMensualLotes p where MONTH(fecha_apertura)="+(new Date().getMonth()+1)).getResultList().isEmpty()){
                  jbtnCrearReceta.setVisible(false);
                  jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
                  jlblMensajito.setText("Cierre el inventario de "+Herramienta.getNombreMes(listaRegistro.get(0).getFecha_apertura().getMonth()+1));
-                 jlblMensajito.setForeground(Color.red); 
-                 
+                 jlblMensajito.setForeground(Color.red);                  
              }
-             else{
-                 
+             else{                 
                  jbtnCrearReceta.setVisible(true);
                  jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
                  jlblMensajito.setText("LISTA DE RECETAS DEL ESTUDIANTE");
                  jlblMensajito.setForeground(Color.black); 
-                 }            
-         
+                 }                     
          }
          Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
          Lista_Procedencia =jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=5").getResultList();

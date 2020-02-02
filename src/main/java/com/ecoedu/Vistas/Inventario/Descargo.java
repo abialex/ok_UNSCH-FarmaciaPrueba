@@ -6,6 +6,7 @@ import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Descarga;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import com.mxrck.autocompleter.AutoCompleterCallback;
@@ -83,20 +84,15 @@ public class Descargo extends javax.swing.JPanel{
      
     
     public void ConsultaBD(){
-        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1002").getResultList();
+        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
         Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE() and isVencido=0").getResultList();  
         listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
 
 //lista_Detalles_control_paciente=query1.getResultList();  
     }
     public void principalEjecucion(){
-        jcbTipoDescargo.removeAllItems();
-        jcbLotesVencidos.removeAllItems();
-        for (Rol rol : Lista_RolDescargo){
-            jcbTipoDescargo.addItem(rol);}
-        for (Lote_detalle lotesVenc : Lista_LotesVencidos){
-            jcbLotesVencidos.addItem(lotesVenc);
-        }
+        
+        List<RegistroMensualLotes> listaRegistro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();         
         if(Lista_LotesVencidos.isEmpty()){
             jbtnGuardarVencidos.setEnabled(false);
             jlblMensaje.setVisible(true);            
@@ -104,7 +100,30 @@ public class Descargo extends javax.swing.JPanel{
         else{
             jbtnGuardarVencidos.setEnabled(true);
             jlblMensaje.setVisible(false);    
-            }
+            }         
+        if(listaRegistro.isEmpty()){       
+             jlblAdvertencia.setText("El inventario está cerrado");
+             jbtnGuardar.setEnabled(false);
+             jbtnGuardarFaltantes.setEnabled(false);
+             jbtnGuardarFaltantes2.setEnabled(false);
+             jbtnGuardarVencidos.setEnabled(false);
+             }
+         else{
+             jlblAdvertencia.setText("");
+             jbtnGuardar.setEnabled(true);
+             jbtnGuardarFaltantes.setEnabled(true);
+             jbtnGuardarFaltantes2.setEnabled(true);
+             jbtnGuardarVencidos.setEnabled(true);
+         }
+        
+        jcbTipoDescargo.removeAllItems();
+        jcbLotesVencidos.removeAllItems();
+        for (Rol rol : Lista_RolDescargo){
+            jcbTipoDescargo.addItem(rol);}
+        for (Lote_detalle lotesVenc : Lista_LotesVencidos){
+            jcbLotesVencidos.addItem(lotesVenc);
+        }
+        
     }
     public void iniciar_conVencidos(){
         for (Rol rol : Lista_RolDescargo){
@@ -139,6 +158,7 @@ public class Descargo extends javax.swing.JPanel{
         jtfCodigoDocumento = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         jlblCodigoDocumento = new javax.swing.JLabel();
+        jlblAdvertencia = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
         cuerpo4Campaña = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -187,7 +207,6 @@ public class Descargo extends javax.swing.JPanel{
         jLabel14 = new javax.swing.JLabel();
         jtfMotivoPerdida = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jlblProductoFarmaceuticoName = new javax.swing.JLabel();
         jlblFFname = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -196,6 +215,7 @@ public class Descargo extends javax.swing.JPanel{
         jLabel20 = new javax.swing.JLabel();
         jlblConcName = new javax.swing.JLabel();
         jlblMotivoPerdida = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -269,6 +289,11 @@ public class Descargo extends javax.swing.JPanel{
         jlblCodigoDocumento.setText("*");
         jlblCodigoDocumento.setPreferredSize(new java.awt.Dimension(10, 50));
         jPanel7.add(jlblCodigoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 60, 15, 25));
+
+        jlblAdvertencia.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jlblAdvertencia.setForeground(new java.awt.Color(255, 0, 0));
+        jlblAdvertencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel7.add(jlblAdvertencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 900, 25));
 
         head2.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -606,10 +631,6 @@ public class Descargo extends javax.swing.JPanel{
         jLabel33.setPreferredSize(new java.awt.Dimension(700, 14));
         cuerpo2Faltante.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 10));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("CÓDIGO LOTE :");
-        cuerpo2Faltante.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, 25));
-
         jlblProductoFarmaceuticoName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblProductoFarmaceuticoName.setForeground(new java.awt.Color(0, 0, 255));
         jlblProductoFarmaceuticoName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -644,6 +665,10 @@ public class Descargo extends javax.swing.JPanel{
         jlblMotivoPerdida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblMotivoPerdida.setText("*");
         cuerpo2Faltante.add(jlblMotivoPerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 15, 25));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setText("CÓDIGO LOTE :");
+        cuerpo2Faltante.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, 25));
 
         body2.add(cuerpo2Faltante, "card2");
 
@@ -871,6 +896,8 @@ public class Descargo extends javax.swing.JPanel{
         jpa.persist(objDescargoFaltante);
         JOptionPane.showMessageDialog(jPanel7, "Guardado con exito");
         limpiarPerdidos();
+        ConsultaBD();
+        principalEjecucion();
         jpa.getTransaction().commit();
         }
         else{
@@ -899,6 +926,8 @@ public class Descargo extends javax.swing.JPanel{
                 }
                 JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
                 limpiarVencidos();
+                ConsultaBD();
+                principalEjecucion();
                 jpa.getTransaction().commit();
                 
             }
@@ -934,22 +963,19 @@ public class Descargo extends javax.swing.JPanel{
     
     private void jbtnGuardarFaltantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarFaltantesActionPerformed
            GuardarPerdidos();
-           ConsultaBD();
-           principalEjecucion();
+           
         
         
     }//GEN-LAST:event_jbtnGuardarFaltantesActionPerformed
 
     private void jbtnGuardarVencidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarVencidosActionPerformed
           GuardarVencidos();
-          ConsultaBD();
-          principalEjecucion();
+          
     }//GEN-LAST:event_jbtnGuardarVencidosActionPerformed
 
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
         GuardarCampaña();
-        ConsultaBD();
-        principalEjecucion();
+        
     }//GEN-LAST:event_jbtnGuardarActionPerformed
 
     private void jtfNombresPersonaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresPersonaKeyReleased
@@ -977,6 +1003,14 @@ public class Descargo extends javax.swing.JPanel{
                     
                     jpa.persist(objDescargaCampaña);
                     }
+                JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
+                Lista_Medicamentos_Campaña.clear();
+                llenarTablaDetalleMedicmentos(Lista_Medicamentos_Campaña);
+                jtfCodigoDocumento.setText("");
+                jtfNombresPersona.setText("");
+                jlblMontotañ.setText("0.00");
+                ConsultaBD();
+                principalEjecucion();
                 jpa.getTransaction().commit();
                 
             }
@@ -1090,6 +1124,7 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1105,7 +1140,6 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel7;
@@ -1119,6 +1153,7 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JButton jbtnGuardarVencidos;
     private javax.swing.JComboBox<Lote_detalle> jcbLotesVencidos;
     private javax.swing.JComboBox<Rol> jcbTipoDescargo;
+    private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblAsteriscoCantidadPerdida;
     private javax.swing.JLabel jlblAsteriscoCodigoLotePerdida;
     private javax.swing.JLabel jlblCantidadName;

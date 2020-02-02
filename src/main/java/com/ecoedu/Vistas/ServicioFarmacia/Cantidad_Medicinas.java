@@ -465,7 +465,9 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(auxAuxiliar){
-            objServicioFarmacia.getPrincipal().setEnabled(true);}
+            objServicioFarmacia.getPrincipal().setEnabled(true);
+            objCuadroCarritoMedicinas.setVisible(false);
+        }
         else{
             objDescargo.getPrincipal().setEnabled(true);
             objCuadroCarritoMedicinas.setVisible(false);

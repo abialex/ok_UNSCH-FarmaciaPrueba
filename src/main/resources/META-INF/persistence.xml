@@ -8,7 +8,7 @@
     <class>com.ecoedu.model.Servicio_social</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=boticaPruba"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=ServidorAsis"/>
       <property name="javax.persistence.jdbc.user" value="AlexRecordatorio"/>
       <property name="javax.persistence.jdbc.password" value="12345"/>
       <property name="hibernate.show_sql" value="true"/>
