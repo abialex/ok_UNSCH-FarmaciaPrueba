@@ -3,6 +3,7 @@ package com.ecoedu.Vistas.Inventario;
 
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.model.Descarga;
 import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Rol;
@@ -11,9 +12,11 @@ import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -38,8 +41,9 @@ public class Descargo extends javax.swing.JPanel{
     TextAutoCompleter TextAutoCompleterLotes;
     List<Lote_detalle> listaLotes;
     List<Lote_detalle> Lista_CarritosDeVencidos=new ArrayList<>();
-    List<Detalle_Medicamentos> Lista_Lotes_Campaña=new ArrayList<>();
+    List<Detalle_Medicamentos> Lista_Medicamentos_Campaña=new ArrayList<>();
     Principal objPrincipal;
+    Lote_detalle objLote;
     float montoTotal=0;
     public Descargo(EntityManager objJPA, Usuario obj,Principal objPrinc) {
         initComponents();
@@ -53,6 +57,7 @@ public class Descargo extends javax.swing.JPanel{
                 }}); 
         
        // llenarTabla(lista_Detalles_control_paciente);
+        llenarTablaDetalleMedicmentos(new ArrayList<Detalle_Medicamentos>());
    
     }
     public Principal getPrincipal(){
@@ -64,14 +69,22 @@ public class Descargo extends javax.swing.JPanel{
         jlblMontotañ.setText(montoTotal+"");
     }
     public void getLista_CarritoCampaña(Detalle_Medicamentos objDetalle){
-         Lista_Lotes_Campaña.add(objDetalle);
+         Lista_Medicamentos_Campaña.add(objDetalle);
+         for (Lote_detalle lote_detalle : listaLotes){
+             if(lote_detalle==objDetalle.getLote_detalle()){
+                 lote_detalle.setCantidad(lote_detalle.getCantidad()-objDetalle.getCantidad());
+                 lote_detalle.getInventario().setCantidad(lote_detalle.getInventario().getCantidad()-objDetalle.getCantidad());
+                 break;
+                 }                          
+         }
+         llenarTablaDetalleMedicmentos(Lista_Medicamentos_Campaña);
          
     }
      
     
     public void ConsultaBD(){
-        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
-        Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE()").getResultList();  
+        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1002").getResultList();
+        Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE() and isVencido=0").getResultList();  
         listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
 
 //lista_Detalles_control_paciente=query1.getResultList();  
@@ -125,7 +138,25 @@ public class Descargo extends javax.swing.JPanel{
         jcbTipoDescargo = new javax.swing.JComboBox<>();
         jtfCodigoDocumento = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
+        jlblCodigoDocumento = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
+        cuerpo4Campaña = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jlblMontotañ = new javax.swing.JLabel();
+        jbtnAgregarMedicamentos = new javax.swing.JButton();
+        jtfNombresPersona = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblDonacion = new javax.swing.JTable();
+        jbtnGuardar = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jlblNombresCampaña = new javax.swing.JLabel();
+        cuerpo3Donacion = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jbtnGuardarFaltantes2 = new javax.swing.JButton();
+        jtfCodigoLote4 = new javax.swing.JTextField();
+        jtfCodigoLote5 = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
         cuerpo1Vencido = new javax.swing.JPanel();
         jlblPF = new javax.swing.JLabel();
         jcbLotesVencidos = new javax.swing.JComboBox<>();
@@ -141,18 +172,10 @@ public class Descargo extends javax.swing.JPanel{
         jlblTpf = new javax.swing.JLabel();
         jlblTff = new javax.swing.JLabel();
         jlblTConc = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jtfMotivoVencido = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
-        cuerpo4Campaña = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jlblMontotañ = new javax.swing.JLabel();
-        jbtnAgregarMedicamentos = new javax.swing.JButton();
-        jtfCodigoLote2 = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtblDonacion = new javax.swing.JTable();
-        jbtnGuardar = new javax.swing.JButton();
-        jLabel15 = new javax.swing.JLabel();
+        jlblMotivoVencido = new javax.swing.JLabel();
         cuerpo2Faltante = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jtfCodigoLotePerdida = new javax.swing.JTextField();
@@ -162,7 +185,7 @@ public class Descargo extends javax.swing.JPanel{
         jlblAsteriscoCantidadPerdida = new javax.swing.JLabel();
         jlblAsteriscoCodigoLotePerdida = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jtfMotivoPerdida = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jlblProductoFarmaceuticoName = new javax.swing.JLabel();
@@ -172,13 +195,7 @@ public class Descargo extends javax.swing.JPanel{
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jlblConcName = new javax.swing.JLabel();
-        cuerpo3Donacion = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jbtnGuardarFaltantes2 = new javax.swing.JButton();
-        jtfCodigoLote4 = new javax.swing.JTextField();
-        jtfCodigoLote5 = new javax.swing.JTextField();
-        jLabel30 = new javax.swing.JLabel();
+        jlblMotivoPerdida = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -226,7 +243,7 @@ public class Descargo extends javax.swing.JPanel{
                 jcbTipoDescargoItemStateChanged(evt);
             }
         });
-        jPanel7.add(jcbTipoDescargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 230, 25));
+        jPanel7.add(jcbTipoDescargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 240, 25));
 
         jtfCodigoDocumento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jtfCodigoDocumento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -235,11 +252,23 @@ public class Descargo extends javax.swing.JPanel{
                 jtfCodigoDocumentoActionPerformed(evt);
             }
         });
+        jtfCodigoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoDocumentoKeyReleased(evt);
+            }
+        });
         jPanel7.add(jtfCodigoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, 230, 25));
 
         jLabel31.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel31.setPreferredSize(new java.awt.Dimension(700, 14));
         jPanel7.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 900, 10));
+
+        jlblCodigoDocumento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblCodigoDocumento.setForeground(new java.awt.Color(255, 0, 0));
+        jlblCodigoDocumento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblCodigoDocumento.setText("*");
+        jlblCodigoDocumento.setPreferredSize(new java.awt.Dimension(10, 50));
+        jPanel7.add(jlblCodigoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 60, 15, 25));
 
         head2.add(jPanel7, java.awt.BorderLayout.CENTER);
 
@@ -250,6 +279,125 @@ public class Descargo extends javax.swing.JPanel{
         body2.setMinimumSize(new java.awt.Dimension(200, 200));
         body2.setPreferredSize(new java.awt.Dimension(9900, 520));
         body2.setLayout(new java.awt.CardLayout());
+
+        cuerpo4Campaña.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpo4Campaña.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpo4Campaña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("Nombres");
+        cuerpo4Campaña.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, 25));
+
+        jlblMontotañ.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMontotañ.setForeground(new java.awt.Color(0, 0, 255));
+        cuerpo4Campaña.add(jlblMontotañ, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 270, 90, 25));
+
+        jbtnAgregarMedicamentos.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregarMedicamentos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnAgregarMedicamentos.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregarMedicamentos.setText("Agregar Medicamentos");
+        jbtnAgregarMedicamentos.setPreferredSize(new java.awt.Dimension(100, 25));
+        jbtnAgregarMedicamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarMedicamentosActionPerformed(evt);
+            }
+        });
+        cuerpo4Campaña.add(jbtnAgregarMedicamentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 30, 210, 25));
+
+        jtfNombresPersona.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfNombresPersona.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfNombresPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfNombresPersonaActionPerformed(evt);
+            }
+        });
+        jtfNombresPersona.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfNombresPersonaKeyReleased(evt);
+            }
+        });
+        cuerpo4Campaña.add(jtfNombresPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 450, 25));
+
+        jtblDonacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jtblDonacion);
+
+        cuerpo4Campaña.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 810, 190));
+
+        jbtnGuardar.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnGuardar.setText("Guardar");
+        jbtnGuardar.setPreferredSize(new java.awt.Dimension(100, 25));
+        jbtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGuardarActionPerformed(evt);
+            }
+        });
+        cuerpo4Campaña.add(jbtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, 25));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel15.setText("Total:");
+        cuerpo4Campaña.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 270, -1, 25));
+
+        jlblNombresCampaña.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblNombresCampaña.setForeground(new java.awt.Color(255, 0, 0));
+        jlblNombresCampaña.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblNombresCampaña.setText("*");
+        jlblNombresCampaña.setPreferredSize(new java.awt.Dimension(10, 50));
+        cuerpo4Campaña.add(jlblNombresCampaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 15, 25));
+
+        body2.add(cuerpo4Campaña, "card2");
+
+        cuerpo3Donacion.setBackground(new java.awt.Color(255, 255, 255));
+        cuerpo3Donacion.setPreferredSize(new java.awt.Dimension(900, 350));
+        cuerpo3Donacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Nombre:");
+        cuerpo3Donacion.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, 25));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("CANTIDAD :");
+        cuerpo3Donacion.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, -1, 25));
+
+        jbtnGuardarFaltantes2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarFaltantes2.setText("Guardar");
+        jbtnGuardarFaltantes2.setPreferredSize(new java.awt.Dimension(100, 25));
+        cuerpo3Donacion.add(jbtnGuardarFaltantes2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 320, -1, 25));
+
+        jtfCodigoLote4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote4ActionPerformed(evt);
+            }
+        });
+        cuerpo3Donacion.add(jtfCodigoLote4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 230, 25));
+
+        jtfCodigoLote5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfCodigoLote5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfCodigoLote5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodigoLote5ActionPerformed(evt);
+            }
+        });
+        cuerpo3Donacion.add(jtfCodigoLote5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 120, 180, 25));
+
+        jLabel30.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel30.setPreferredSize(new java.awt.Dimension(700, 14));
+        cuerpo3Donacion.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 900, 10));
+
+        body2.add(cuerpo3Donacion, "card2");
 
         cuerpo1Vencido.setBackground(new java.awt.Color(255, 255, 255));
         cuerpo1Vencido.setPreferredSize(new java.awt.Dimension(900, 350));
@@ -304,9 +452,16 @@ public class Descargo extends javax.swing.JPanel{
         jlblMensaje.setText("NO HAY NINGÚN LOTE VENCIDO");
         cuerpo1Vencido.add(jlblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 900, 25));
 
+        jbtnGuardarVencidos.setBackground(new java.awt.Color(0, 0, 0));
         jbtnGuardarVencidos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarVencidos.setForeground(new java.awt.Color(255, 255, 255));
         jbtnGuardarVencidos.setText("Guardar");
         jbtnGuardarVencidos.setPreferredSize(new java.awt.Dimension(100, 25));
+        jbtnGuardarVencidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGuardarVencidosActionPerformed(evt);
+            }
+        });
         cuerpo1Vencido.add(jbtnGuardarVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, 25));
 
         jlblConc.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -337,9 +492,14 @@ public class Descargo extends javax.swing.JPanel{
         jlblTConc.setText("Conc :");
         cuerpo1Vencido.add(jlblTConc, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 240, -1, 25));
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        cuerpo1Vencido.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 710, 25));
+        jtfMotivoVencido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfMotivoVencido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfMotivoVencido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfMotivoVencidoKeyReleased(evt);
+            }
+        });
+        cuerpo1Vencido.add(jtfMotivoVencido, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 710, 25));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("MOTIVO :");
@@ -349,64 +509,13 @@ public class Descargo extends javax.swing.JPanel{
         jLabel32.setPreferredSize(new java.awt.Dimension(700, 14));
         cuerpo1Vencido.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 10));
 
+        jlblMotivoVencido.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMotivoVencido.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMotivoVencido.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblMotivoVencido.setText("*");
+        cuerpo1Vencido.add(jlblMotivoVencido, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 15, 25));
+
         body2.add(cuerpo1Vencido, "card2");
-
-        cuerpo4Campaña.setBackground(new java.awt.Color(255, 255, 255));
-        cuerpo4Campaña.setPreferredSize(new java.awt.Dimension(900, 350));
-        cuerpo4Campaña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Nombres");
-        cuerpo4Campaña.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, 25));
-
-        jlblMontotañ.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlblMontotañ.setForeground(new java.awt.Color(0, 0, 255));
-        cuerpo4Campaña.add(jlblMontotañ, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 270, 50, 25));
-
-        jbtnAgregarMedicamentos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbtnAgregarMedicamentos.setText("Agregar Medicamentos");
-        jbtnAgregarMedicamentos.setPreferredSize(new java.awt.Dimension(100, 25));
-        jbtnAgregarMedicamentos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnAgregarMedicamentosActionPerformed(evt);
-            }
-        });
-        cuerpo4Campaña.add(jbtnAgregarMedicamentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 60, 210, 25));
-
-        jtfCodigoLote2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtfCodigoLote2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCodigoLote2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoLote2ActionPerformed(evt);
-            }
-        });
-        cuerpo4Campaña.add(jtfCodigoLote2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 370, 25));
-
-        jtblDonacion.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jtblDonacion);
-
-        cuerpo4Campaña.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 720, 160));
-
-        jbtnGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbtnGuardar.setText("Guardar");
-        jbtnGuardar.setPreferredSize(new java.awt.Dimension(100, 25));
-        cuerpo4Campaña.add(jbtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 310, -1, 25));
-
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel15.setText("Total:");
-        cuerpo4Campaña.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 270, -1, 25));
-
-        body2.add(cuerpo4Campaña, "card2");
 
         cuerpo2Faltante.setBackground(new java.awt.Color(255, 255, 255));
         cuerpo2Faltante.setPreferredSize(new java.awt.Dimension(900, 350));
@@ -456,10 +565,17 @@ public class Descargo extends javax.swing.JPanel{
         jLabel6.setText("Conc:");
         cuerpo2Faltante.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, -1, 25));
 
+        jbtnGuardarFaltantes.setBackground(new java.awt.Color(0, 0, 0));
         jbtnGuardarFaltantes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarFaltantes.setForeground(new java.awt.Color(255, 255, 255));
         jbtnGuardarFaltantes.setText("Guardar");
         jbtnGuardarFaltantes.setPreferredSize(new java.awt.Dimension(100, 25));
-        cuerpo2Faltante.add(jbtnGuardarFaltantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, 25));
+        jbtnGuardarFaltantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGuardarFaltantesActionPerformed(evt);
+            }
+        });
+        cuerpo2Faltante.add(jbtnGuardarFaltantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, 25));
 
         jlblAsteriscoCantidadPerdida.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlblAsteriscoCantidadPerdida.setForeground(new java.awt.Color(255, 0, 0));
@@ -475,15 +591,20 @@ public class Descargo extends javax.swing.JPanel{
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setText("MOTIVO :");
-        cuerpo2Faltante.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, 25));
+        cuerpo2Faltante.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, -1, 25));
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        cuerpo2Faltante.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 710, 25));
+        jtfMotivoPerdida.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfMotivoPerdida.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfMotivoPerdida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfMotivoPerdidaKeyReleased(evt);
+            }
+        });
+        cuerpo2Faltante.add(jtfMotivoPerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 710, 25));
 
         jLabel33.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         jLabel33.setPreferredSize(new java.awt.Dimension(700, 14));
-        cuerpo2Faltante.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 900, 10));
+        cuerpo2Faltante.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 10));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("CÓDIGO LOTE :");
@@ -518,48 +639,13 @@ public class Descargo extends javax.swing.JPanel{
         jlblConcName.setForeground(new java.awt.Color(0, 0, 255));
         cuerpo2Faltante.add(jlblConcName, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 100, 25));
 
+        jlblMotivoPerdida.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jlblMotivoPerdida.setForeground(new java.awt.Color(255, 0, 0));
+        jlblMotivoPerdida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblMotivoPerdida.setText("*");
+        cuerpo2Faltante.add(jlblMotivoPerdida, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 15, 25));
+
         body2.add(cuerpo2Faltante, "card2");
-
-        cuerpo3Donacion.setBackground(new java.awt.Color(255, 255, 255));
-        cuerpo3Donacion.setPreferredSize(new java.awt.Dimension(900, 350));
-        cuerpo3Donacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setText("Nombre:");
-        cuerpo3Donacion.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, 25));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("CANTIDAD :");
-        cuerpo3Donacion.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, -1, 25));
-
-        jbtnGuardarFaltantes2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbtnGuardarFaltantes2.setText("Guardar");
-        jbtnGuardarFaltantes2.setPreferredSize(new java.awt.Dimension(100, 25));
-        cuerpo3Donacion.add(jbtnGuardarFaltantes2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 320, -1, 25));
-
-        jtfCodigoLote4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtfCodigoLote4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCodigoLote4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoLote4ActionPerformed(evt);
-            }
-        });
-        cuerpo3Donacion.add(jtfCodigoLote4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 230, 25));
-
-        jtfCodigoLote5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jtfCodigoLote5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtfCodigoLote5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoLote5ActionPerformed(evt);
-            }
-        });
-        cuerpo3Donacion.add(jtfCodigoLote5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 120, 180, 25));
-
-        jLabel30.setText("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        jLabel30.setPreferredSize(new java.awt.Dimension(700, 14));
-        cuerpo3Donacion.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 900, 10));
-
-        body2.add(cuerpo3Donacion, "card2");
 
         body.add(body2, java.awt.BorderLayout.CENTER);
 
@@ -592,9 +678,9 @@ public class Descargo extends javax.swing.JPanel{
                            TextAutoCompleterLotes.addItem(listaLote);}                       
                        break;
                    case "DONACIÓN":
-                       cuerpo3Donacion.setVisible(true);
+                       cuerpo3Donacion.setVisible(false);
                        cuerpo1Vencido.setVisible(false);
-                       cuerpo2Faltante.setVisible(false);
+                       cuerpo2Faltante.setVisible(true);
                        cuerpo4Campaña.setVisible(false);
                        break;
                    case "VENCIDO":
@@ -643,9 +729,9 @@ public class Descargo extends javax.swing.JPanel{
 
     private void jbtnAgregarLoteVencidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarLoteVencidoActionPerformed
         if(jcbLotesVencidos.getSelectedItem()!=null){
-            Lote_detalle objLote=(Lote_detalle)jcbLotesVencidos.getSelectedItem();
-            jcbLotesVencidos.removeItem(objLote);
-            Lista_CarritosDeVencidos.add(objLote);
+            Lote_detalle objLotes=(Lote_detalle)jcbLotesVencidos.getSelectedItem();
+            jcbLotesVencidos.removeItem(objLotes);
+            Lista_CarritosDeVencidos.add(objLotes);
             llenarTabla(Lista_CarritosDeVencidos);            
         }
         
@@ -662,13 +748,14 @@ public class Descargo extends javax.swing.JPanel{
 
     }//GEN-LAST:event_jtblLotesSeleccionadosMouseClicked
 
-    private void jtfCodigoLote2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote2ActionPerformed
+    private void jtfNombresPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNombresPersonaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigoLote2ActionPerformed
+    }//GEN-LAST:event_jtfNombresPersonaActionPerformed
 
     private void jtfCodigoLotePerdidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoLotePerdidaKeyReleased
            for (Lote_detalle listaLote : listaLotes){
                if(listaLote.getCodigo().equals(jtfCodigoLotePerdida.getText())){
+                   objLote=listaLote;
                    jlblCantidadName.setText(listaLote.getCantidad()+"");
                    jlblConcName.setText(listaLote.getInventario().getMedicamento().getConcentracion());
                    jlblFFname.setText(listaLote.getInventario().getMedicamento().getForma_farmaceutica());
@@ -676,6 +763,7 @@ public class Descargo extends javax.swing.JPanel{
                    jlblAsteriscoCodigoLotePerdida.setText("");
                    break;
                }
+               jtfCantidadPerdida.setText("");
                jlblAsteriscoCodigoLotePerdida.setText("*");
                jlblCantidadName.setText("");
                jlblConcName.setText("");
@@ -695,7 +783,14 @@ public class Descargo extends javax.swing.JPanel{
             jlblAsteriscoCantidadPerdida.setText("*");
         }else{
             jlblAsteriscoCantidadPerdida.setText("");
+            if(Integer.parseInt(jtfCantidadPerdida.getText())>objLote.getCantidad()){
+                jbtnGuardarFaltantes.setEnabled(false);
+                }
+            else{
+                jbtnGuardarFaltantes.setEnabled(true);
+                }
         }
+        
     }//GEN-LAST:event_jtfCantidadPerdidaKeyReleased
 
     private void jtfCantidadPerdidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadPerdidaKeyTyped
@@ -712,6 +807,7 @@ public class Descargo extends javax.swing.JPanel{
         if(' '==evt.getKeyChar()){
             evt.consume();
         }
+        
     }//GEN-LAST:event_jtfCantidadPerdidaKeyTyped
 
     private void jtfCodigoLote5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoLote5ActionPerformed
@@ -729,6 +825,169 @@ public class Descargo extends javax.swing.JPanel{
        objPrincipal.setEnabled(false);        
     }//GEN-LAST:event_jbtnAgregarMedicamentosActionPerformed
 
+    private void jtfCodigoDocumentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoDocumentoKeyReleased
+        if(jtfCodigoDocumento.getText().isEmpty()){
+            jlblCodigoDocumento.setText("*");
+        }
+        else{
+            jlblCodigoDocumento.setText("");
+        }
+    }//GEN-LAST:event_jtfCodigoDocumentoKeyReleased
+
+    private void jtfMotivoPerdidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMotivoPerdidaKeyReleased
+        
+        if(jtfMotivoPerdida.getText().isEmpty()){
+            jlblMotivoPerdida.setText("*");
+        }
+        else{
+            jlblMotivoPerdida.setText("");
+        }
+    }//GEN-LAST:event_jtfMotivoPerdidaKeyReleased
+
+    private void jtfMotivoVencidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMotivoVencidoKeyReleased
+        if(jtfMotivoVencido.getText().isEmpty()){
+            jlblMotivoVencido.setText("*");
+        }
+        else{
+            jlblMotivoVencido.setText("");
+        }
+    }//GEN-LAST:event_jtfMotivoVencidoKeyReleased
+
+    public void GuardarPerdidos(){
+        if(jlblCodigoDocumento.getText().isEmpty() && jlblMotivoPerdida.getText().isEmpty()
+           && jlblAsteriscoCodigoLotePerdida.getText().isEmpty() && jlblAsteriscoCantidadPerdida.getText().isEmpty()){
+            Descarga objDescargoFaltante=new Descarga();
+        objDescargoFaltante.setCantidad(Integer.parseInt(jtfCantidadPerdida.getText()));
+      //objDescargoFaltante.setDestino_persona(TOOL_TIP_TEXT_KEY);
+        objDescargoFaltante.setFecha(new Date());
+        objDescargoFaltante.setLote_detalle(objLote);
+        objDescargoFaltante.setMotivo(jtfMotivoPerdida.getText());
+        objDescargoFaltante.setUsuario(objUsuario);
+        objDescargoFaltante.setCodigo_documento(jtfCodigoDocumento.getText());
+        objDescargoFaltante.setRolTipo((Rol)jcbTipoDescargo.getSelectedItem());
+        objLote.setCantidad(objLote.getCantidad()-objDescargoFaltante.getCantidad());
+        objLote.getInventario().setCantidad(objLote.getInventario().getCantidad()-objDescargoFaltante.getCantidad());
+        jpa.getTransaction().begin();
+        jpa.persist(objDescargoFaltante);
+        JOptionPane.showMessageDialog(jPanel7, "Guardado con exito");
+        limpiarPerdidos();
+        jpa.getTransaction().commit();
+        }
+        else{
+            JOptionPane.showMessageDialog(jPanel7, "llene los espacios con *");
+        }
+    }
+    public void GuardarVencidos(){        
+        if(jlblMotivoVencido.getText().isEmpty() && jlblCodigoDocumento.getText().isEmpty()){
+            if(!Lista_CarritosDeVencidos.isEmpty()){
+                //
+                jpa.getTransaction().begin();
+                
+                for (Lote_detalle lote : Lista_CarritosDeVencidos){
+                    Descarga objDescargoVencido=new Descarga();
+                    objDescargoVencido.setCantidad(lote.getCantidad());
+                    //objDescargoFaltante.setDestino_persona(TOOL_TIP_TEXT_KEY);
+                    objDescargoVencido.setFecha(new Date());
+                    objDescargoVencido.setLote_detalle(lote);
+                    objDescargoVencido.setMotivo(jtfMotivoVencido.getText());
+                    objDescargoVencido.setUsuario(objUsuario);
+                    objDescargoVencido.setCodigo_documento(jtfCodigoDocumento.getText());
+                    objDescargoVencido.setRolTipo((Rol)jcbTipoDescargo.getSelectedItem());
+                    lote.getInventario().setCantidad(lote.getInventario().getCantidad()-objDescargoVencido.getCantidad());
+                    lote.setIsVencido(true);
+                    jpa.persist(objDescargoVencido);
+                }
+                JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
+                limpiarVencidos();
+                jpa.getTransaction().commit();
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(jPanel7,"no seleccionó un lote!");
+            }
+            
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(jPanel7,"llene los espacios con *");                        
+        }
+    }
+    public void limpiarPerdidos(){
+        jtfCantidadPerdida.setText("");
+        jtfCodigoDocumento.setText("");
+        jtfMotivoPerdida.setText("");
+        jtfCodigoLotePerdida.setText("");
+        
+        jlblCodigoDocumento.setText("*");
+        jlblMotivoPerdida.setText("*");
+        jlblAsteriscoCodigoLotePerdida.setText("*");
+        jlblAsteriscoCantidadPerdida.setText("*");
+    }
+    public void limpiarVencidos(){
+        Lista_CarritosDeVencidos.clear();
+        llenarTabla(Lista_CarritosDeVencidos);
+        jtfCodigoDocumento.setText("");
+        jtfMotivoVencido.setText("");        
+        jlblCodigoDocumento.setText("*");
+        jlblMotivoVencido.setText("*");
+    }
+    
+    private void jbtnGuardarFaltantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarFaltantesActionPerformed
+           GuardarPerdidos();
+           ConsultaBD();
+           principalEjecucion();
+        
+        
+    }//GEN-LAST:event_jbtnGuardarFaltantesActionPerformed
+
+    private void jbtnGuardarVencidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarVencidosActionPerformed
+          GuardarVencidos();
+          ConsultaBD();
+          principalEjecucion();
+    }//GEN-LAST:event_jbtnGuardarVencidosActionPerformed
+
+    private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
+        GuardarCampaña();
+        ConsultaBD();
+        principalEjecucion();
+    }//GEN-LAST:event_jbtnGuardarActionPerformed
+
+    private void jtfNombresPersonaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresPersonaKeyReleased
+        if(jtfNombresPersona.getText().isEmpty()){
+            jlblNombresCampaña.setText("*");
+        }
+        else{
+            jlblNombresCampaña.setText("");
+        }
+    }//GEN-LAST:event_jtfNombresPersonaKeyReleased
+
+    public void GuardarCampaña(){
+        if(jlblCodigoDocumento.getText().isEmpty()&& jlblNombresCampaña.getText().isEmpty()){
+            if(!Lista_Medicamentos_Campaña.isEmpty()){
+                jpa.getTransaction().begin();
+                for (Detalle_Medicamentos objDetalleMedicamento : Lista_Medicamentos_Campaña) {
+                    Descarga objDescargaCampaña=new Descarga();
+                    objDescargaCampaña.setCantidad(objDetalleMedicamento.getCantidad());
+                    objDescargaCampaña.setCodigo_documento(jtfCodigoDocumento.getText());
+                    objDescargaCampaña.setDestino_persona(jtfNombresPersona.getText());
+                    objDescargaCampaña.setFecha(new Date());
+                    objDescargaCampaña.setLote_detalle(objDetalleMedicamento.getLote_detalle());
+                    objDescargaCampaña.setRolTipo((Rol)jcbTipoDescargo.getSelectedItem());
+                    objDescargaCampaña.setUsuario(objUsuario);
+                    
+                    jpa.persist(objDescargaCampaña);
+                    }
+                jpa.getTransaction().commit();
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(jPanel7, "Agregue un Medicamento");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(jPanel7, "llene los espacios con *");            
+        }
+    }
     public void llenarTabla(List<Lote_detalle> Lista_CarritoLote){ 
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -768,14 +1027,14 @@ public class Descargo extends javax.swing.JPanel{
             //864-550=64       
     }   
     //
-    public void llenarTablaDetalleMedicmentos(List<Lote_detalle> Lista_CarritoLote){ 
+    public void llenarTablaDetalleMedicmentos(List<Detalle_Medicamentos> Lista_CarritoLote){ 
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Código","Cantidad"};
+             String [] lista={"Medicamento","Cantidad","Precio Unitario","Precio Total","Lote"};
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {
-                     false, false, false, false, false, false
+                     false, false, false, false, false
                          };
                  @Override
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -784,28 +1043,39 @@ public class Descargo extends javax.swing.JPanel{
                  };
              //.....................................TABLA...........Fin......................
              fila_actividad=new Object[modelo.getColumnCount()];  
-             for (Lote_detalle objLote: Lista_CarritoLote){
-                 fila_actividad[0]=objLote;
-                 fila_actividad[1]=objLote.getCantidad();   
+             for (Detalle_Medicamentos objMedicamento: Lista_CarritoLote){
+                 fila_actividad[0]=objMedicamento.getId_Medicamento().getNombre();
+                 fila_actividad[1]=objMedicamento.getCantidad();
+                 fila_actividad[2]=objMedicamento.getPrecio_Unitario();
+                 fila_actividad[3]=objMedicamento.getPrecio_Total();
+                 fila_actividad[4]=objMedicamento.getLote_detalle().getCodigo();
                    
                  modelo.addRow(fila_actividad);//agregando filas
                  }
-            jtblLotesSeleccionados.setModel(modelo); 
-            jtblLotesSeleccionados.setGridColor(Color.BLACK);
+            jtblDonacion.setModel(modelo); 
+            jtblDonacion.setGridColor(Color.BLACK);
             //jTable1.setBackground(Color.red);
             //jTable1.setForeground(Color.blue);
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
             tcr.setHorizontalAlignment(SwingConstants.CENTER);
-            jtblLotesSeleccionados.getColumnModel().getColumn(0).setCellRenderer(tcr);
-            jtblLotesSeleccionados.getColumnModel().getColumn(1).setCellRenderer(tcr);           
-            jtblLotesSeleccionados.setFont(new java.awt.Font("Tahoma", 0, 15));
-            jtblLotesSeleccionados.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
-            jtblLotesSeleccionados.getTableHeader().setBackground(Color.BLUE);
-            jtblLotesSeleccionados.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblLotesSeleccionados.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jtblLotesSeleccionados.getColumnModel().getColumn(1).setPreferredWidth(200);          
-            ((DefaultTableCellRenderer)jtblLotesSeleccionados.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-            //864-550=64       
+            jtblDonacion.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jtblDonacion.getColumnModel().getColumn(1).setCellRenderer(tcr);
+            jtblDonacion.getColumnModel().getColumn(2).setCellRenderer(tcr);
+            jtblDonacion.getColumnModel().getColumn(3).setCellRenderer(tcr);
+            jtblDonacion.getColumnModel().getColumn(4).setCellRenderer(tcr);       
+            jtblDonacion.setFont(new java.awt.Font("Tahoma", 0, 15));
+            jtblDonacion.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
+            jtblDonacion.getTableHeader().setBackground(Color.BLUE);
+            jtblDonacion.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jtblDonacion.getColumnModel().getColumn(0).setPreferredWidth(200);
+            jtblDonacion.getColumnModel().getColumn(1).setPreferredWidth(175);
+            jtblDonacion.getColumnModel().getColumn(2).setPreferredWidth(175);
+            jtblDonacion.getColumnModel().getColumn(3).setPreferredWidth(175);  
+            jtblDonacion.getColumnModel().getColumn(4).setPreferredWidth(175); 
+            ((DefaultTableCellRenderer)jtblDonacion.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            //864-550=64  
+            
+            
     }
     //
 
@@ -841,8 +1111,6 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JButton jbtnAgregarLoteVencido;
     private javax.swing.JButton jbtnAgregarMedicamentos;
     private javax.swing.JButton jbtnGuardar;
@@ -854,6 +1122,7 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JLabel jlblAsteriscoCantidadPerdida;
     private javax.swing.JLabel jlblAsteriscoCodigoLotePerdida;
     private javax.swing.JLabel jlblCantidadName;
+    private javax.swing.JLabel jlblCodigoDocumento;
     private javax.swing.JLabel jlblConc;
     private javax.swing.JLabel jlblConcName;
     private javax.swing.JLabel jlblFF;
@@ -862,6 +1131,9 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JLabel jlblLotesVencidos1;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblMontotañ;
+    private javax.swing.JLabel jlblMotivoPerdida;
+    private javax.swing.JLabel jlblMotivoVencido;
+    private javax.swing.JLabel jlblNombresCampaña;
     private javax.swing.JLabel jlblPF;
     private javax.swing.JLabel jlblProductoFarmaceuticoName;
     private javax.swing.JLabel jlblTConc;
@@ -871,10 +1143,12 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JTable jtblLotesSeleccionados;
     private javax.swing.JTextField jtfCantidadPerdida;
     private javax.swing.JTextField jtfCodigoDocumento;
-    private javax.swing.JTextField jtfCodigoLote2;
     private javax.swing.JTextField jtfCodigoLote4;
     private javax.swing.JTextField jtfCodigoLote5;
     private javax.swing.JTextField jtfCodigoLotePerdida;
+    private javax.swing.JTextField jtfMotivoPerdida;
+    private javax.swing.JTextField jtfMotivoVencido;
+    private javax.swing.JTextField jtfNombresPersona;
     // End of variables declaration//GEN-END:variables
 
     

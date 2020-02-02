@@ -63,8 +63,6 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Rol> Lista_Procedencia;    
     private List<Rol> Lista_Condicion;
     private List<Lote_detalle> Lista_lote_detalle;
-    private List<Lote_detalle> Lista_lote_detalleaux;
-    private List<Servicio_social> Lista_detalle_servicio_social;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
     private List<Control_paciente> Lista_control_paciente;//
@@ -227,7 +225,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          
      }
      public List<Lote_detalle> getListaInventario(){
-         return Lista_lote_detalle;
+         List<Lote_detalle> lista_Lote=new ArrayList<>();
+         for (Lote_detalle lote_detalle : Lista_lote_detalle) {
+             if(lote_detalle.getInventario().getMedicamento().getRolorigen().getNombre_rol().equals("Farmacia")){
+                 lista_Lote.add(lote_detalle);
+             }
+         }
+         return lista_Lote;
      } 
      public Principal getPrincipal(){
          return objPrincipal;

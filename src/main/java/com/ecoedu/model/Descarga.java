@@ -34,6 +34,10 @@ public class Descarga implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Lote_detalle lote_detalle;
     
+    @JoinColumn(insertable = true,updatable = false,name="id_RolTipo",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Rol rolTipo;
+    
     @Column(name = "cantidad",nullable = false)
     private int cantidad;
     
@@ -45,6 +49,19 @@ public class Descarga implements Serializable {
     
     @Column(name = "destino_persona",nullable = true, length = 60)
     private String destino_persona;
+    
+    @Column(name = "codigo_documento",nullable = false, length = 30)
+    private String codigo_documento;
+
+    public String getCodigo_documento() {
+        return codigo_documento;
+    }
+
+    public void setCodigo_documento(String codigo_documento) {
+        this.codigo_documento = codigo_documento;
+    }
+    
+    
 
     public int getId_Descarga() {
         return id_Descarga;
@@ -74,6 +91,14 @@ public class Descarga implements Serializable {
         return cantidad;
     }
 
+    public Rol getRolTipo() {
+        return rolTipo;
+    }
+
+    public void setRolTipo(Rol rolTipo) {
+        this.rolTipo = rolTipo;
+    }
+    
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }

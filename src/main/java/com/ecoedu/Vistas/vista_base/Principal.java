@@ -361,6 +361,7 @@ public class Principal extends javax.swing.JFrame {
         jlblNavegacion.setPreferredSize(new java.awt.Dimension(900, 19));
         jPanel4.add(jlblNavegacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
 
+        jPanel1.setBackground(new java.awt.Color(230, 230, 230));
         jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jPanel1MouseMoved(evt);
@@ -383,6 +384,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 7, 32, 32));
 
+        jPanel2.setBackground(new java.awt.Color(230, 230, 230));
         jPanel2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jPanel2MouseMoved(evt);
@@ -405,9 +407,12 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 7, 32, 32));
 
+        jPanel5.setBackground(new java.awt.Color(230, 230, 230));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
+        jlblAlertaMedicamentosVencidos.setForeground(new java.awt.Color(230, 230, 230));
         jlblAlertaMedicamentosVencidos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAlertaMedicamentosVencidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/015-warning.png"))); // NOI18N
         jlblAlertaMedicamentosVencidos.setPreferredSize(new java.awt.Dimension(32, 32));
         jlblAlertaMedicamentosVencidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -416,7 +421,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel5.add(jlblAlertaMedicamentosVencidos, java.awt.BorderLayout.CENTER);
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 32, 32));
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 7, 32, 32));
 
         head.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 900, 80));
 

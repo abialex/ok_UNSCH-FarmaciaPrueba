@@ -2,10 +2,7 @@ package com.ecoedu.Vistas;
 
 
 
-import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
-import com.ecoedu.model.Detalle_llenado;
-import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
 import java.awt.Color;
 import java.util.List;
@@ -46,7 +43,7 @@ public class Lista_De_Vencimientos extends javax.swing.JPanel{
         desglozarDatos(); 
      }
     public void ConsultaBD(){
-        lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<0").getResultList();
+        lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<=0").getResultList();
         lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0").getResultList();
 
     }
@@ -97,7 +94,7 @@ public class Lista_De_Vencimientos extends javax.swing.JPanel{
                 jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel2.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 210, -1));
+        jPanel2.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 316, 210, -1));
 
         head.setBackground(new java.awt.Color(204, 0, 0));
         head.setPreferredSize(new java.awt.Dimension(900, 70));

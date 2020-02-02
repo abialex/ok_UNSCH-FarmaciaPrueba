@@ -379,30 +379,29 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     private void jtfCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCantidadKeyReleased
         
         if(!jtfCantidad.getText().equals("")){
-           jlblPrecioTotal.setText(Herramienta.dosDecimales(Float.parseFloat(jlblPrecioUnitario.getText())*Float.parseFloat(jtfCantidad.getText())));
-           
-           if(objLoteDetalleFinal.getCantidad()-Integer.parseInt(jtfCantidad.getText())>=0){
-               if(objServicioFarmacia.getPrecio_delControlEstudiante()+Float.parseFloat(jlblPrecioTotal.getText())>=limite_seguro){
-                   jlblAviso.setText("Se supero el limite de "+limite_seguro);
-                   jbtnAgregar.setEnabled(false);
-                   }
-               else{
-                   jlblAviso.setText("");
-                   jbtnAgregar.setEnabled(true);                   
-                   }
-               }
-           else{
-               jlblAviso.setText("solo queda "+objLoteDetalleFinal.getCantidad()+" en el lote");
-               jbtnAgregar.setEnabled(false);
-           }
-           
-           
-        }
+            jlblPrecioTotal.setText(Herramienta.dosDecimales(Float.parseFloat(jlblPrecioUnitario.getText())*Float.parseFloat(jtfCantidad.getText())));
+            if(objLoteDetalleFinal.getCantidad()-Integer.parseInt(jtfCantidad.getText())>=0){
+                if(auxAuxiliar){
+                    if(objServicioFarmacia.getPrecio_delControlEstudiante()+Float.parseFloat(jlblPrecioTotal.getText())>=limite_seguro){
+                        jlblAviso.setText("Se supero el limite de "+limite_seguro);
+                        jbtnAgregar.setEnabled(false);
+                        }
+                    else{
+                        jlblAviso.setText("");
+                        jbtnAgregar.setEnabled(true);
+                        }
+                    }
+            }
+            else{
+                jlblAviso.setText("solo queda "+objLoteDetalleFinal.getCantidad()+" en el lote");
+                jbtnAgregar.setEnabled(false);
+                }
+            }
         else{
-           jlblPrecioTotal.setText(Herramienta.dosDecimales(0));
-           jlblAviso.setText("");
-           jbtnAgregar.setEnabled(true);
-        }
+            jlblPrecioTotal.setText(Herramienta.dosDecimales(0));
+            jlblAviso.setText("");
+            jbtnAgregar.setEnabled(true);
+            }
     }//GEN-LAST:event_jtfCantidadKeyReleased
 
     private void jtlblInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtlblInventarioMouseClicked
@@ -465,8 +464,12 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     }//GEN-LAST:event_jbtnAgregarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        objServicioFarmacia.getPrincipal().setEnabled(true);
-        objCuadroCarritoMedicinas.setVisible(false);
+        if(auxAuxiliar){
+            objServicioFarmacia.getPrincipal().setEnabled(true);}
+        else{
+            objDescargo.getPrincipal().setEnabled(true);
+            objCuadroCarritoMedicinas.setVisible(false);
+        }
         
        
     }//GEN-LAST:event_jButton1ActionPerformed
