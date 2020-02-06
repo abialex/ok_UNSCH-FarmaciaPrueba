@@ -38,6 +38,7 @@ public class Descargo extends javax.swing.JPanel{
     EntityManager jpa;
     Usuario objUsuario;
     List<Rol> Lista_RolDescargo;
+    List<Usuario> Lista_Usuario;
     List<Lote_detalle> Lista_LotesVencidos;
     TextAutoCompleter TextAutoCompleterLotes;
     List<Lote_detalle> listaLotes;
@@ -45,9 +46,14 @@ public class Descargo extends javax.swing.JPanel{
     List<Detalle_Medicamentos> Lista_Medicamentos_Campaña=new ArrayList<>();
     Principal objPrincipal;
     Lote_detalle objLote;
+    TextAutoCompleter autoCompleterDNI;
     float montoTotal=0;
     public Descargo(EntityManager objJPA, Usuario obj,Principal objPrinc) {
         initComponents();
+        jtfDNIPERSONAL.setVisible(false);
+        this.autoCompleterDNI=new TextAutoCompleter(jtfDNIPERSONAL,new AutoCompleterCallback() {
+            @Override
+            public void callback(Object o) {    }});
         llenarTabla(new ArrayList<Lote_detalle>());
         this.objPrincipal=objPrinc;
         this.jpa=objJPA;
@@ -85,10 +91,32 @@ public class Descargo extends javax.swing.JPanel{
     
     public void ConsultaBD(){
         Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
-        Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE() and isVencido=0").getResultList();  
         listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
+        jcbTipoDescargo.removeAllItems();
+        for (Rol rol : Lista_RolDescargo){
+            jcbTipoDescargo.addItem(rol);}
 
+        new Proceso().start();
+        
 //lista_Detalles_control_paciente=query1.getResultList();  
+    }
+    public class Proceso extends Thread{
+        Usuario objUsuario;
+        boolean hola;
+        public Proceso(Usuario objUsuario,boolean ola){
+       
+     
+        }
+        public Proceso(){
+          
+        }
+        @Override
+        public void run(){    
+        Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE() and isVencido=0").getResultList();  
+        Lista_Usuario=jpa.createQuery("Select p from Usuario p ").getResultList();
+        principalEjecucion();
+            
+        }        
     }
     public void principalEjecucion(){
         
@@ -100,26 +128,30 @@ public class Descargo extends javax.swing.JPanel{
         else{
             jbtnGuardarVencidos.setEnabled(true);
             jlblMensaje.setVisible(false);    
-            }         
+            }   
+        autoCompleterDNI.removeAllItems();
+        for (Usuario usuario : Lista_Usuario) {
+            autoCompleterDNI.addItem(usuario.getPersona().getDni());
+        }
+        //autoCompleterDNI.addItem(ui);
         if(listaRegistro.isEmpty()){       
              jlblAdvertencia.setText("El inventario está cerrado");
-             jbtnGuardar.setEnabled(false);
+             jbtnGuardarCampeInsumos.setEnabled(false);
              jbtnGuardarFaltantes.setEnabled(false);
              jbtnGuardarFaltantes2.setEnabled(false);
              jbtnGuardarVencidos.setEnabled(false);
              }
          else{
              jlblAdvertencia.setText("");
-             jbtnGuardar.setEnabled(true);
+             jbtnGuardarCampeInsumos.setEnabled(true);
              jbtnGuardarFaltantes.setEnabled(true);
              jbtnGuardarFaltantes2.setEnabled(true);
              jbtnGuardarVencidos.setEnabled(true);
          }
         
-        jcbTipoDescargo.removeAllItems();
+        
         jcbLotesVencidos.removeAllItems();
-        for (Rol rol : Lista_RolDescargo){
-            jcbTipoDescargo.addItem(rol);}
+        
         for (Lote_detalle lotesVenc : Lista_LotesVencidos){
             jcbLotesVencidos.addItem(lotesVenc);
         }
@@ -153,21 +185,23 @@ public class Descargo extends javax.swing.JPanel{
         head2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jlblCodigoDocumentoHead = new javax.swing.JLabel();
         jcbTipoDescargo = new javax.swing.JComboBox<>();
         jtfCodigoDocumento = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         jlblCodigoDocumento = new javax.swing.JLabel();
         jlblAdvertencia = new javax.swing.JLabel();
+        jtfDNIPERSONAL = new javax.swing.JTextField();
+        jlblInformacionPersonal = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
         cuerpo4Campaña = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        jlblPacienteNom = new javax.swing.JLabel();
         jlblMontotañ = new javax.swing.JLabel();
         jbtnAgregarMedicamentos = new javax.swing.JButton();
         jtfNombresPersona = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtblDonacion = new javax.swing.JTable();
-        jbtnGuardar = new javax.swing.JButton();
+        jbtnGuardarCampeInsumos = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jlblNombresCampaña = new javax.swing.JLabel();
         cuerpo3Donacion = new javax.swing.JPanel();
@@ -253,9 +287,9 @@ public class Descargo extends javax.swing.JPanel{
         jLabel3.setText("TIPO :");
         jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, -1, 25));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("CÓDIGO DOCUMENTO:");
-        jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, -1, 25));
+        jlblCodigoDocumentoHead.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblCodigoDocumentoHead.setText("NRO DOCUMENTO:");
+        jPanel7.add(jlblCodigoDocumentoHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, -1, 25));
 
         jcbTipoDescargo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jcbTipoDescargo.addItemListener(new java.awt.event.ItemListener() {
@@ -295,6 +329,25 @@ public class Descargo extends javax.swing.JPanel{
         jlblAdvertencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel7.add(jlblAdvertencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 900, 25));
 
+        jtfDNIPERSONAL.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jtfDNIPERSONAL.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtfDNIPERSONAL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfDNIPERSONALActionPerformed(evt);
+            }
+        });
+        jtfDNIPERSONAL.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDNIPERSONALKeyReleased(evt);
+            }
+        });
+        jPanel7.add(jtfDNIPERSONAL, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 60, 170, 25));
+
+        jlblInformacionPersonal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblInformacionPersonal.setForeground(new java.awt.Color(0, 0, 255));
+        jlblInformacionPersonal.setPreferredSize(new java.awt.Dimension(34, 25));
+        jPanel7.add(jlblInformacionPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 95, 710, -1));
+
         head2.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         body.add(head2, java.awt.BorderLayout.PAGE_START);
@@ -309,9 +362,9 @@ public class Descargo extends javax.swing.JPanel{
         cuerpo4Campaña.setPreferredSize(new java.awt.Dimension(900, 350));
         cuerpo4Campaña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Nombres");
-        cuerpo4Campaña.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, 25));
+        jlblPacienteNom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblPacienteNom.setText("PACIENTE:");
+        cuerpo4Campaña.add(jlblPacienteNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, 25));
 
         jlblMontotañ.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblMontotañ.setForeground(new java.awt.Color(0, 0, 255));
@@ -341,7 +394,7 @@ public class Descargo extends javax.swing.JPanel{
                 jtfNombresPersonaKeyReleased(evt);
             }
         });
-        cuerpo4Campaña.add(jtfNombresPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 450, 25));
+        cuerpo4Campaña.add(jtfNombresPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 450, 25));
 
         jtblDonacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -358,17 +411,17 @@ public class Descargo extends javax.swing.JPanel{
 
         cuerpo4Campaña.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 810, 190));
 
-        jbtnGuardar.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbtnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnGuardar.setText("Guardar");
-        jbtnGuardar.setPreferredSize(new java.awt.Dimension(100, 25));
-        jbtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnGuardarCampeInsumos.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnGuardarCampeInsumos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnGuardarCampeInsumos.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnGuardarCampeInsumos.setText("Guardar");
+        jbtnGuardarCampeInsumos.setPreferredSize(new java.awt.Dimension(100, 25));
+        jbtnGuardarCampeInsumos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnGuardarActionPerformed(evt);
+                jbtnGuardarCampeInsumosActionPerformed(evt);
             }
         });
-        cuerpo4Campaña.add(jbtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, 25));
+        cuerpo4Campaña.add(jbtnGuardarCampeInsumos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, 25));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setText("Total:");
@@ -379,7 +432,7 @@ public class Descargo extends javax.swing.JPanel{
         jlblNombresCampaña.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblNombresCampaña.setText("*");
         jlblNombresCampaña.setPreferredSize(new java.awt.Dimension(10, 50));
-        cuerpo4Campaña.add(jlblNombresCampaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 270, 15, 25));
+        cuerpo4Campaña.add(jlblNombresCampaña, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 270, 15, 25));
 
         body2.add(cuerpo4Campaña, "card2");
 
@@ -692,7 +745,8 @@ public class Descargo extends javax.swing.JPanel{
     private void jcbTipoDescargoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbTipoDescargoItemStateChanged
            if(((Rol)jcbTipoDescargo.getSelectedItem())!=null){
                switch(((Rol)jcbTipoDescargo.getSelectedItem()).getNombre_rol()){
-                   case "PÉRDIDA":                       
+                   case "PÉRDIDA":       
+                       jlblInformacionPersonal.setVisible(false);
                        cuerpo2Faltante.setVisible(true);
                        cuerpo4Campaña.setVisible(false);
                        cuerpo1Vencido.setVisible(false);
@@ -703,23 +757,108 @@ public class Descargo extends javax.swing.JPanel{
                            TextAutoCompleterLotes.addItem(listaLote);}                       
                        break;
                    case "DONACIÓN":
+                       jlblInformacionPersonal.setVisible(false);
+                       jtfCodigoDocumento.setVisible(true);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jlblCodigoDocumento.setVisible(true);
+                       jlblCodigoDocumentoHead.setText("NRO. DOCUMENTO");
+                       jtfDNIPERSONAL.setVisible(false);
                        cuerpo3Donacion.setVisible(false);
                        cuerpo1Vencido.setVisible(false);
                        cuerpo2Faltante.setVisible(true);
                        cuerpo4Campaña.setVisible(false);
                        break;
                    case "VENCIDO":
+                       jlblInformacionPersonal.setVisible(false);
+                       jtfCodigoDocumento.setVisible(true);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jlblCodigoDocumento.setVisible(true);
+                       jlblCodigoDocumentoHead.setText("NRO. DOCUMENTO");
+                       jtfDNIPERSONAL.setVisible(false);
                        cuerpo3Donacion.setVisible(false);
                        cuerpo4Campaña.setVisible(false);
                        cuerpo1Vencido.setVisible(true);
                        cuerpo2Faltante.setVisible(false);
                        break;
-                   case "CAMPAÑA":   
+                   case "CAMPAÑA": 
+                       jlblPacienteNom.setVisible(true);
+                       jtfNombresPersona.setVisible(true);
+                       jlblNombresCampaña.setVisible(true);
+                       jlblInformacionPersonal.setVisible(false);
+                       jtfCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumentoHead.setVisible(false);
+                       jlblCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumentoHead.setText("NRO. DOCUMENTO");
+                       jtfDNIPERSONAL.setVisible(false);
                        cuerpo4Campaña.setVisible(true);
                        cuerpo1Vencido.setVisible(false);
                        cuerpo3Donacion.setVisible(false);
                        cuerpo2Faltante.setVisible(false);
-                       break;                      
+                       break;  
+                    
+                   case "ODONTOLOGÍA":  
+                       jlblPacienteNom.setVisible(false);
+                       jtfNombresPersona.setVisible(false);
+                       jlblNombresCampaña.setVisible(false);
+                       jlblInformacionPersonal.setVisible(true);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jtfCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumento.setVisible(false);
+                       jtfDNIPERSONAL.setVisible(true);
+                       jlblCodigoDocumentoHead.setText("NRO DNI");
+                       cuerpo4Campaña.setVisible(true);
+                       cuerpo1Vencido.setVisible(false);
+                       cuerpo3Donacion.setVisible(false);
+                       cuerpo2Faltante.setVisible(false);
+                       break;
+                    
+                   case "ENFERMERÍA": 
+                       jlblPacienteNom.setVisible(false);
+                       jtfNombresPersona.setVisible(false);
+                       jlblNombresCampaña.setVisible(false);
+                       jlblInformacionPersonal.setVisible(true);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jtfCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumento.setVisible(false);
+                       jtfDNIPERSONAL.setVisible(true);
+                       jlblCodigoDocumentoHead.setText("NRO DNI");
+                       cuerpo4Campaña.setVisible(true);
+                       cuerpo1Vencido.setVisible(false);
+                       cuerpo3Donacion.setVisible(false);
+                       cuerpo2Faltante.setVisible(false);
+                       break;     
+                    
+                   case "LABORATORIO": 
+                       jlblPacienteNom.setVisible(false);
+                       jtfNombresPersona.setVisible(false);
+                       jlblNombresCampaña.setVisible(false);
+                       jlblInformacionPersonal.setVisible(true);
+                       jtfCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jlblCodigoDocumento.setVisible(false);
+                       jtfDNIPERSONAL.setVisible(true);
+                       jlblCodigoDocumentoHead.setText("NRO DNI");
+                       cuerpo4Campaña.setVisible(true);
+                       cuerpo1Vencido.setVisible(false);
+                       cuerpo3Donacion.setVisible(false);
+                       cuerpo2Faltante.setVisible(false);
+                       break;  
+                    case "OBSTETRICIA": 
+                       jlblPacienteNom.setVisible(false);
+                       jtfNombresPersona.setVisible(false);
+                       jlblNombresCampaña.setVisible(false);
+                       jlblInformacionPersonal.setVisible(true);
+                       jtfCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jlblCodigoDocumento.setVisible(false);
+                       jtfDNIPERSONAL.setVisible(true);
+                       jlblCodigoDocumentoHead.setText("NRO DNI");
+                       cuerpo4Campaña.setVisible(true);
+                       cuerpo1Vencido.setVisible(false);
+                       cuerpo3Donacion.setVisible(false);
+                       cuerpo2Faltante.setVisible(false);
+                       break;     
+                          
                        
                        
                    default:
@@ -973,10 +1112,10 @@ public class Descargo extends javax.swing.JPanel{
           
     }//GEN-LAST:event_jbtnGuardarVencidosActionPerformed
 
-    private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
+    private void jbtnGuardarCampeInsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarCampeInsumosActionPerformed
         GuardarCampaña();
         
-    }//GEN-LAST:event_jbtnGuardarActionPerformed
+    }//GEN-LAST:event_jbtnGuardarCampeInsumosActionPerformed
 
     private void jtfNombresPersonaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombresPersonaKeyReleased
         if(jtfNombresPersona.getText().isEmpty()){
@@ -987,8 +1126,23 @@ public class Descargo extends javax.swing.JPanel{
         }
     }//GEN-LAST:event_jtfNombresPersonaKeyReleased
 
+    private void jtfDNIPERSONALActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDNIPERSONALActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfDNIPERSONALActionPerformed
+    Usuario objPersonaReceptor;
+    private void jtfDNIPERSONALKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIPERSONALKeyReleased
+        for (Usuario usuario : Lista_Usuario){
+            if(jtfDNIPERSONAL.getText().equals(usuario.getPersona().getDni())){
+                jlblInformacionPersonal.setText(usuario.getRol().getAbre_rol()+" : "+usuario.getPersona().getInfoPersona());
+                objPersonaReceptor=usuario;
+                break;
+            }         
+            jlblInformacionPersonal.setText("");
+        }
+    }//GEN-LAST:event_jtfDNIPERSONALKeyReleased
+
     public void GuardarCampaña(){
-        if(jlblCodigoDocumento.getText().isEmpty()&& jlblNombresCampaña.getText().isEmpty()){
+        if(!jtfDNIPERSONAL.getText().isEmpty() || (jlblCodigoDocumento.getText().isEmpty()&& jlblNombresCampaña.getText().isEmpty())){
             if(!Lista_Medicamentos_Campaña.isEmpty()){
                 jpa.getTransaction().begin();
                 for (Detalle_Medicamentos objDetalleMedicamento : Lista_Medicamentos_Campaña) {
@@ -999,8 +1153,8 @@ public class Descargo extends javax.swing.JPanel{
                     objDescargaCampaña.setFecha(new Date());
                     objDescargaCampaña.setLote_detalle(objDetalleMedicamento.getLote_detalle());
                     objDescargaCampaña.setRolTipo((Rol)jcbTipoDescargo.getSelectedItem());
-                    objDescargaCampaña.setUsuario(objUsuario);
-                    
+                    objDescargaCampaña.setUsuario(objUsuario);  
+                    objDescargaCampaña.setUsuarioRecibe(objPersonaReceptor);
                     jpa.persist(objDescargaCampaña);
                     }
                 JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
@@ -1011,8 +1165,7 @@ public class Descargo extends javax.swing.JPanel{
                 jlblMontotañ.setText("0.00");
                 ConsultaBD();
                 principalEjecucion();
-                jpa.getTransaction().commit();
-                
+                jpa.getTransaction().commit();                
             }
             else{
                 JOptionPane.showMessageDialog(jPanel7, "Agregue un Medicamento");
@@ -1123,7 +1276,6 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JPanel cuerpo4Campaña;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1141,13 +1293,12 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbtnAgregarLoteVencido;
     private javax.swing.JButton jbtnAgregarMedicamentos;
-    private javax.swing.JButton jbtnGuardar;
+    private javax.swing.JButton jbtnGuardarCampeInsumos;
     private javax.swing.JButton jbtnGuardarFaltantes;
     private javax.swing.JButton jbtnGuardarFaltantes2;
     private javax.swing.JButton jbtnGuardarVencidos;
@@ -1158,10 +1309,12 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JLabel jlblAsteriscoCodigoLotePerdida;
     private javax.swing.JLabel jlblCantidadName;
     private javax.swing.JLabel jlblCodigoDocumento;
+    private javax.swing.JLabel jlblCodigoDocumentoHead;
     private javax.swing.JLabel jlblConc;
     private javax.swing.JLabel jlblConcName;
     private javax.swing.JLabel jlblFF;
     private javax.swing.JLabel jlblFFname;
+    private javax.swing.JLabel jlblInformacionPersonal;
     private javax.swing.JLabel jlblLoteSelecionado2;
     private javax.swing.JLabel jlblLotesVencidos1;
     private javax.swing.JLabel jlblMensaje;
@@ -1170,6 +1323,7 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JLabel jlblMotivoVencido;
     private javax.swing.JLabel jlblNombresCampaña;
     private javax.swing.JLabel jlblPF;
+    private javax.swing.JLabel jlblPacienteNom;
     private javax.swing.JLabel jlblProductoFarmaceuticoName;
     private javax.swing.JLabel jlblTConc;
     private javax.swing.JLabel jlblTff;
@@ -1181,6 +1335,7 @@ public class Descargo extends javax.swing.JPanel{
     private javax.swing.JTextField jtfCodigoLote4;
     private javax.swing.JTextField jtfCodigoLote5;
     private javax.swing.JTextField jtfCodigoLotePerdida;
+    private javax.swing.JTextField jtfDNIPERSONAL;
     private javax.swing.JTextField jtfMotivoPerdida;
     private javax.swing.JTextField jtfMotivoVencido;
     private javax.swing.JTextField jtfNombresPersona;

@@ -250,6 +250,7 @@
                                 </Column>
                               </TableColumnModel>
                             </Property>
+                            <Property name="focusCycleRoot" type="boolean" value="true"/>
                             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="0" red="0" type="rgb"/>
                             </Property>
@@ -263,6 +264,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtblVentasMouseClicked"/>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtblVentasKeyPressed"/>
                           </Events>
                         </Component>
                       </SubComponents>

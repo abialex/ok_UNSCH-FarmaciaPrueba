@@ -25,6 +25,7 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -427,6 +428,7 @@ public class Ver_inventario extends javax.swing.JPanel {
             Paragraph ols=new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);
             document.add(ols);
             document.add(table);
+            document.add(new AreaBreak());
             }
         }
         document.close();          

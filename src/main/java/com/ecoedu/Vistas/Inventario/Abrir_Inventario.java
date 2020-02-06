@@ -20,6 +20,7 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -377,7 +378,8 @@ public class Abrir_Inventario extends javax.swing.JPanel {
 
             }
         }
-        if(auxAgregar){document.add(new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER));document.add(table);}
+        if(auxAgregar){document.add(new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14));document.add(table);
+        document.add(new AreaBreak());}
         }        
         document.close(); 
     }

@@ -51,7 +51,7 @@ public class CrearUsuario extends javax.swing.JPanel {
             try {     
                 for (int i = 0; i < 11; i++){
                     if(hola){
-                        jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y su contraseña es su DNI "+i);} 
+                        jlblMensaje.setText("El nickname es: "+objUsuario.getNickname()+" y la es contraseña el DNI");} 
                         Thread.sleep(1000);
                         }
                 jlblMensaje.setText("");

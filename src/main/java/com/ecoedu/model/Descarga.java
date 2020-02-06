@@ -30,6 +30,10 @@ public class Descarga implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
     
+    @JoinColumn(insertable = true,updatable = false,name="id_UsuarioReceptor",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Usuario usuarioRecibe;
+    
     @JoinColumn(insertable = true,updatable = false,name="id_Lote_detalle",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Lote_detalle lote_detalle;
@@ -60,9 +64,15 @@ public class Descarga implements Serializable {
     public void setCodigo_documento(String codigo_documento) {
         this.codigo_documento = codigo_documento;
     }
-    
-    
 
+    public Usuario getUsuarioRecibe() {
+        return usuarioRecibe;
+    }
+
+    public void setUsuarioRecibe(Usuario usuarioRecibe) {
+        this.usuarioRecibe = usuarioRecibe;
+    }  
+    
     public int getId_Descarga() {
         return id_Descarga;
     }

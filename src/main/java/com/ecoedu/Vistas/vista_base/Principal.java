@@ -175,7 +175,7 @@ public class Principal extends javax.swing.JFrame {
        
        
        setIconImage(new ImageIcon(getClass().getResource("/images/014-pharmacy.png")).getImage());
-       if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR")){
+       if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR.QF")){
            jleftMedicamento.setVisible(false);
            jleftEstudiante.setVisible(false);
            jleftConsultas.setVisible(false);
@@ -228,7 +228,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jlblRolcito = new javax.swing.JLabel();
         jlblUsuario = new javax.swing.JLabel();
-        jlblNavegacion = new javax.swing.JLabel();
+        jlblSemestre = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jlblSalir = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -357,9 +357,21 @@ public class Principal extends javax.swing.JFrame {
         jlblUsuario.setPreferredSize(new java.awt.Dimension(640, 50));
         jPanel4.add(jlblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 5, 430, -1));
 
-        jlblNavegacion.setText("Navegacion");
-        jlblNavegacion.setPreferredSize(new java.awt.Dimension(900, 19));
-        jPanel4.add(jlblNavegacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
+        jlblSemestre.setFont(new java.awt.Font("Tahoma", 3, 13)); // NOI18N
+        jlblSemestre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblSemestre.setText("Semestre 2020-I                   inicio: 2020 Febrero 02                     fin: ??");
+        jlblSemestre.setPreferredSize(new java.awt.Dimension(900, 19));
+        jlblSemestre.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jlblSemestreMouseMoved(evt);
+            }
+        });
+        jlblSemestre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jlblSemestreMouseExited(evt);
+            }
+        });
+        jPanel4.add(jlblSemestre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 500, -1));
 
         jPanel1.setBackground(new java.awt.Color(230, 230, 230));
         jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -413,7 +425,6 @@ public class Principal extends javax.swing.JFrame {
         jlblAlertaMedicamentosVencidos.setForeground(new java.awt.Color(230, 230, 230));
         jlblAlertaMedicamentosVencidos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblAlertaMedicamentosVencidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/015-warning.png"))); // NOI18N
-        jlblAlertaMedicamentosVencidos.setPreferredSize(new java.awt.Dimension(32, 32));
         jlblAlertaMedicamentosVencidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jlblAlertaMedicamentosVencidosMouseClicked(evt);
@@ -2427,13 +2438,21 @@ public class Principal extends javax.swing.JFrame {
         objCrear_Tarifario.setVisible(false);//22
         objModificar_Tarifario.setVisible(false);//22  
         objDescargo.ConsultaBD();
-        objDescargo.principalEjecucion();
+        //objDescargo.principalEjecucion(); usando treah para agilizar la carga de vista
         objDescargo.setVisible(true);//23      
     }//GEN-LAST:event_jleftInventario_DescargoMouseClicked
 
     private void jleftInventario_DescargoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_DescargoMouseExited
         jleftInventario_Descargo.setBackground(colorExitSub);
     }//GEN-LAST:event_jleftInventario_DescargoMouseExited
+
+    private void jlblSemestreMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblSemestreMouseMoved
+        jlblSemestre.setForeground(Color.RED);
+    }//GEN-LAST:event_jlblSemestreMouseMoved
+
+    private void jlblSemestreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblSemestreMouseExited
+        jlblSemestre.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jlblSemestreMouseExited
 
     public Usuario getUsuario(){
         return user;
@@ -2494,9 +2513,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jlblEstudianteFlecha1;
     private javax.swing.JLabel jlblInventarioFlecha;
     private javax.swing.JLabel jlblMinimizar;
-    private javax.swing.JLabel jlblNavegacion;
     private javax.swing.JLabel jlblRolcito;
     private javax.swing.JLabel jlblSalir;
+    private javax.swing.JLabel jlblSemestre;
     private javax.swing.JLabel jlblTarifarioFlecha;
     private javax.swing.JLabel jlblUsuario;
     private javax.swing.JLabel jlblUsuarioFlecha;
