@@ -5,6 +5,7 @@
  */
 package com.ecoedu.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Control_paciente{
+public class Control_paciente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Control_paciente;
@@ -28,6 +29,10 @@ public class Control_paciente{
     @JoinColumn(insertable = true,updatable = false,name="id_estudiante",nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Estudiante estudiante;
+    
+    @JoinColumn(insertable = true,updatable = false,name="id_Semestre",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Semestre semestre;
     
     @Column(name="monto_Total",nullable = false)
     private float  monto_Total;
@@ -43,6 +48,15 @@ public class Control_paciente{
 
     public Date getFecha_registro() {
         return fecha_registro;
+    }
+
+    
+    public Semestre getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
     }
 
     public void setFecha_registro(Date fecha_registro) {

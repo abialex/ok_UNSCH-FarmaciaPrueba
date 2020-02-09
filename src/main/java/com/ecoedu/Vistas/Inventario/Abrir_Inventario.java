@@ -6,6 +6,7 @@ package com.ecoedu.Vistas.Inventario;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.ServicioFarmacia.ServicioFarmacia;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.app.EventoPagina;
 import com.ecoedu.model.Detalle_llenado;
 import com.ecoedu.model.Inventario;
 import com.ecoedu.model.RegistroMensualInventario;
@@ -14,6 +15,7 @@ import com.ecoedu.model.Rol;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -323,13 +325,18 @@ public class Abrir_Inventario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(jLabel12, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso");
         }  
         PdfDocument pdf = new PdfDocument(writer);
-        Document document=new Document(pdf,PageSize.A4.rotate());        
+        Document document=new Document(pdf,PageSize.A4.rotate());       
+        EventoPagina evento = new EventoPagina(document);
+        // Indicamos que el manejador se encargara del evento END_PAGE
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, evento);
+        document.setMargins(75, 36, 75, 36);    
+        
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
         PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);  
         Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                    APERTURA DE INVENTARIO PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
         document.add(paragIma);  
-        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
-        document.add(parag2);
+        //Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
+        //document.add(parag2);
         int tam=7;
         int tamFond=9;
         
@@ -353,7 +360,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         for (Detalle_llenado Lote_detalle : Lista_lote_detalle){
             if(Lote_detalle.getMedicamento().getRolorigen()==Origen){
                 auxAgregar=true;                            
-            table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getNombre()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//P.F
+            table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getNombre()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.LEFT));//P.F
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//Conc
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//FF
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getRolFabricante().getNombre_rol()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//labo
@@ -372,7 +379,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
                 table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_detalle.getLote_detalle().getFecha_vencimiento())).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED));
                 }
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getFactura().getCodigo_factura()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-            table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getRolFabricante().getNombre_rol()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getFactura().getRolProveedor().getNombre_rol()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
 
 

@@ -6,6 +6,8 @@ import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Estudiante;
+import com.ecoedu.model.Semestre;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
@@ -26,23 +28,26 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
     ServicioFarmacia objServicioFarmacia;
     Servicio_Asistencial objServicio_Asistencial;
     Estudiante objEstudiante;
+    Semestre objSemestre;
     boolean auxServis_Farmacia_o_Asistencial=false;
-    public ActualizarControlDelAlumno(EntityManager objJpa,Estudiante objEstudiante,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia){
+    public ActualizarControlDelAlumno(EntityManager objJpa,Estudiante objEstudiante,CuadroCarritoMedicinas objCuadroCarritoMedicinas,ServicioFarmacia OBJServicioFarmacia,Semestre objSemestres){
         initComponents();
         auxServis_Farmacia_o_Asistencial=true;
         this.objEstudiante=objEstudiante;
         this.jpa=objJpa;
         this.objServicioFarmacia=OBJServicioFarmacia;
         this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
+        this.objSemestre=objSemestres;
         principalEjecucion();        
     }
-    public ActualizarControlDelAlumno(EntityManager objJpa,Estudiante objEstudiante,CuadroCarritoMedicinas objCuadroCarritoMedicinas,Servicio_Asistencial objServicio_asistencial){
+    public ActualizarControlDelAlumno(EntityManager objJpa,Estudiante objEstudiante,CuadroCarritoMedicinas objCuadroCarritoMedicinas,Servicio_Asistencial objServicio_asistencial,Semestre objSemestres){
         initComponents();
         auxServis_Farmacia_o_Asistencial=true;
         this.objEstudiante=objEstudiante;
         this.jpa=objJpa;
         this.objServicio_Asistencial=objServicio_asistencial;
         this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;  
+        this.objSemestre=objSemestres;
         principalEjecucion();        
     } 
   
@@ -83,6 +88,7 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
         jlblEstEscuela = new javax.swing.JLabel();
         jlblEstCodigo = new javax.swing.JLabel();
         jlblEstCondicion = new javax.swing.JLabel();
+        jbtnAgregar1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 251, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -143,7 +149,7 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
                 jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel2.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
+        jPanel2.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, 210, -1));
 
         jcbSerie.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500", "600", "700" }));
@@ -199,6 +205,16 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
         jlblEstCondicion.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel2.add(jlblEstCondicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 150, 25));
 
+        jbtnAgregar1.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregar1.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregar1.setText("NO TIENE SU FICHA DE MATRÍCULA");
+        jbtnAgregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregar1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jbtnAgregar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
+
         contenedor.add(jPanel2, java.awt.BorderLayout.CENTER);
 
         add(contenedor, java.awt.BorderLayout.CENTER);
@@ -209,6 +225,8 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
         objControlNuevo.setEstudiante(objEstudiante);
         objControlNuevo.setLimite_control(110);
         objControlNuevo.setMonto_Total(0);
+        objControlNuevo.setSemestre(objSemestre);
+        objControlNuevo.setFecha_registro(new Date());
         objControlNuevo.setiSactivo(true);
         jpa.getTransaction().begin();
         objEstudiante.setSerie((String)jcbSerie.getSelectedItem());
@@ -229,6 +247,12 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
         objCuadroCarritoMedicinas.setVisible(false);
         jpa.getTransaction().commit();
     }//GEN-LAST:event_jbtnAgregarActionPerformed
+
+    private void jbtnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregar1ActionPerformed
+        
+        objServicioFarmacia.getPrincipal().setEnabled(true);
+        objCuadroCarritoMedicinas.setVisible(false);
+    }//GEN-LAST:event_jbtnAgregar1ActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -239,6 +263,7 @@ public class ActualizarControlDelAlumno extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbtnAgregar;
+    private javax.swing.JButton jbtnAgregar1;
     private javax.swing.JComboBox<String> jcbSerie;
     private javax.swing.JLabel jlblCodigo;
     private javax.swing.JLabel jlblCondicion;

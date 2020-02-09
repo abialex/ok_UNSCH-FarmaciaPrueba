@@ -429,7 +429,7 @@
                             </Property>
                             <Property name="horizontalAlignment" type="int" value="2"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[230, 30]"/>
+                              <Dimension value="[300, 30]"/>
                             </Property>
                           </Properties>
                         </Component>

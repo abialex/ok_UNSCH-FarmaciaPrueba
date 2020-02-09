@@ -18,7 +18,6 @@ import com.ecoedu.Vistas.Inventario.Descargo;
 import com.ecoedu.Vistas.Inventario.Detalle_Inventario;
 import com.ecoedu.Vistas.Inventario.LlenarInventario;
 import com.ecoedu.Vistas.Inventario.Ver_inventario;
-import com.ecoedu.Vistas.Lista_De_Vencimientos;
 import com.ecoedu.Vistas.Medicamento.CrearMedicamento;
 import com.ecoedu.Vistas.Medicamento.ModificarMedicamento;
 import com.ecoedu.Vistas.ProveedorFabricante.ProveedorLaboratorio;
@@ -29,6 +28,7 @@ import com.ecoedu.Vistas.Tarifario.Modificar_Tarifario;
 import com.ecoedu.Vistas.Usuario.CrearUsuario;
 import com.ecoedu.Vistas.Usuario.ModificarUsuario;
 import com.ecoedu.model.Lote_detalle;
+import com.ecoedu.model.Semestre;
 import com.ecoedu.model.Usuario;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.dom4j.DocumentException;
@@ -54,10 +55,56 @@ public class Principal extends javax.swing.JFrame {
         @Override
         public void run(){            
             CuadroCarritoMedicinas objCuadrito=new CuadroCarritoMedicinas(jpa);
+            actulizarPeriodo();            
             objCuadrito.setVisible(true);
+            }
         }
+   public void actulizarPeriodo(){
+       List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+        if(!lis.isEmpty()){
+            objSemestre=lis.get(0);
+            if(objSemestre.isSemestre_periodo()){
+                jlblSemestre.setText("Semestre: "+(objSemestre.getFecha_Fin().getYear()+1900)+"-II"
+                        + "   Fecha Inicio : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Inicio())
+                        + "   Fecha Fin : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Fin()));
+            }
+            else{
+                jlblSemestre.setText("Semestre: "+(objSemestre.getFecha_Fin().getYear()+1900)+"-I"
+                        + "   Fecha Inicio : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Inicio())
+                        + "   Fecha Fin : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Fin()));              
+            }
+            
+        }else{
+            jlblSemestre.setText("NO HAY UN SEMESTRE ACTIVO");
         }
-   
+   }    
+   public void actulizarPeriodoClick(){
+       List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+        if(!lis.isEmpty()){
+            objSemestre=lis.get(0);
+            if(objSemestre.isSemestre_periodo()){
+                jlblSemestre.setText("Semestre: "+(objSemestre.getFecha_Fin().getYear()+1900)+"-II"
+                        + "   Fecha Inicio : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Inicio())
+                        + "   Fecha Fin : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Fin()));
+            }
+            else{
+                jlblSemestre.setText("Semestre: "+(objSemestre.getFecha_Fin().getYear()+1900)+"-I"
+                        + "   Fecha Inicio : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Inicio())
+                        + "   Fecha Fin : "+Herramienta.formatoFechaMas1(objSemestre.getFecha_Fin()));              
+            }
+            objServicioFarmacia.ConsultaBD();
+            objServicioFarmacia.principalEjecucion();
+            objCrear_Estudiante.ConsultaBD();
+            objCrear_Estudiante.principalEjecucion();
+        }else{
+            jlblSemestre.setText("NO HAY UN SEMESTRE ACTIVO");
+            objServicioFarmacia.ConsultaBD();
+            objServicioFarmacia.principalEjecucion();
+            objCrear_Estudiante.ConsultaBD();
+            objCrear_Estudiante.principalEjecucion();
+        }
+   }
+   private Semestre objSemestre;
    EntityManager jpa;
    private Usuario user;
    private ServicioFarmacia objServicioFarmacia;
@@ -357,7 +404,7 @@ public class Principal extends javax.swing.JFrame {
         jlblUsuario.setPreferredSize(new java.awt.Dimension(640, 50));
         jPanel4.add(jlblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(258, 5, 430, -1));
 
-        jlblSemestre.setFont(new java.awt.Font("Tahoma", 3, 13)); // NOI18N
+        jlblSemestre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblSemestre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblSemestre.setText("Semestre 2020-I                   inicio: 2020 Febrero 02                     fin: ??");
         jlblSemestre.setPreferredSize(new java.awt.Dimension(900, 19));
@@ -367,6 +414,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jlblSemestre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblSemestreMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jlblSemestreMouseExited(evt);
             }
@@ -2453,6 +2503,11 @@ public class Principal extends javax.swing.JFrame {
     private void jlblSemestreMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblSemestreMouseExited
         jlblSemestre.setForeground(Color.BLACK);
     }//GEN-LAST:event_jlblSemestreMouseExited
+
+    private void jlblSemestreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblSemestreMouseClicked
+        CuadroCarritoMedicinas objCuadroSemestre=new CuadroCarritoMedicinas(jpa, true,this);
+        objCuadroSemestre.setVisible(true);
+    }//GEN-LAST:event_jlblSemestreMouseClicked
 
     public Usuario getUsuario(){
         return user;

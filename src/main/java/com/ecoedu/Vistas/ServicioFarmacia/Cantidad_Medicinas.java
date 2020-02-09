@@ -47,6 +47,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         this.objServicioFarmacia=OBJServicioFarmacia;
         this.objCuadroCarritoMedicinas=objCuadroCarritoMedicinas;
         this.auxAuxiliar=true;
+        jtfMedicamento.setDocument(new soloMayusculas());
         principalEjecucion();        
     }
     public Cantidad_Medicinas(EntityManager objJpa,CuadroCarritoMedicinas objCuadroCarrito,Descargo sobjDescargo){

@@ -4,6 +4,7 @@ package com.ecoedu.Vistas.Inventario;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.soloMayusculas;
 import com.ecoedu.Vistas.vista_base.Principal;
+import com.ecoedu.app.EventoPagina;
 import com.ecoedu.model.Descruce;
 import com.ecoedu.model.Detalle_llenado;
 import java.awt.Color;
@@ -19,6 +20,7 @@ import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Rol;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -304,7 +306,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         jlblNombreMedicamento.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jlblNombreMedicamento.setForeground(new java.awt.Color(0, 102, 204));
         jlblNombreMedicamento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jlblNombreMedicamento.setPreferredSize(new java.awt.Dimension(230, 30));
+        jlblNombreMedicamento.setPreferredSize(new java.awt.Dimension(300, 30));
         jPanel7.add(jlblNombreMedicamento);
 
         jPanel6.add(jPanel7, java.awt.BorderLayout.PAGE_START);
@@ -372,14 +374,20 @@ public class Ver_inventario extends javax.swing.JPanel {
         PdfDocument pdf = new PdfDocument(writer);
         int fontTamaño=7;
         int fontHeadTamaño=11;
-        Document document=new Document(pdf,PageSize.A4.rotate());        
+        Document document=new Document(pdf,PageSize.A4.rotate());     
+        EventoPagina evento = new EventoPagina(document);
+        // Indicamos que el manejador se encargara del evento END_PAGE
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, evento);
+        document.setMargins(75, 36, 75, 36);    
+        
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
         PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
         Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                                   INVENTARIO  DEL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
         document.add(paragIma); 
-        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
-        document.add(parag2);
+        //Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
+        //document.add(parag2);
         
+        List<Rol> listRolAu=Lista_Origen;
         for (Rol Origen : Lista_Origen){
         boolean auxAgregar=false;
         Table table = new Table(new float[]{28,7,12,11,9,5,10,11,10,5});
@@ -401,7 +409,7 @@ public class Ver_inventario extends javax.swing.JPanel {
         for (Detalle_llenado Lote_RegistroCierre : Lista_LotesDetalle_llenado){
             if(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen){
                 auxAgregar=true;
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//P.F
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.LEFT)).setFontSize(fontTamaño);//P.F
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//Conc
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//FF
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//labo
@@ -419,7 +427,7 @@ public class Ver_inventario extends javax.swing.JPanel {
                 table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED)).setFontSize(fontTamaño);
                 }
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getCodigo_factura()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
+            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getRolProveedor().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
 
             //table.addCell(new Paragraph(Integer.toString(Lote_RegistroCierre.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
@@ -427,8 +435,9 @@ public class Ver_inventario extends javax.swing.JPanel {
         if(auxAgregar){
             Paragraph ols=new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);
             document.add(ols);
-            document.add(table);
-            document.add(new AreaBreak());
+            
+            document.add(new AreaBreak());  
+                
             }
         }
         document.close();          

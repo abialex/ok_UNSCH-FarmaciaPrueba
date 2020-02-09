@@ -5,13 +5,13 @@ import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
-import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.Receta;
 import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
+import com.ecoedu.model.Semestre;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -101,7 +101,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                  fila_actividad[1]=listaDetallesMedicamentos.get(i).getId_Medicamento().getNombre();              
                  fila_actividad[2]= listaDetallesMedicamentos.get(i).getPrecio_Unitario();
                  fila_actividad[3]=listaDetallesMedicamentos.get(i).getPrecio_Total();    
-                 fila_actividad[4]=listaDetallesMedicamentos.get(i).getFecha(); 
+                 fila_actividad[4]=Herramienta.formatoFechaHoraMas1(listaDetallesMedicamentos.get(i).getFecha()); 
                  fila_actividad[5]=listaDetallesMedicamentos.get(i).getLote_detalle().getCodigo();  
                  fila_actividad[6]=listaDetallesMedicamentos.get(i).getUsuario().getPersona().getInfoPersona();
                  modelo.addRow(fila_actividad);//agregando filas                 
@@ -138,7 +138,8 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         this.objUsuario=OBJUsuario;        
     }
     
-     public void ConsultaBD(){  
+    private Semestre objSemestre;
+     public void ConsultaBD(){               
          List<RegistroMensualLotes> listaRegistro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre is null").getResultList();         
          if(listaRegistro.isEmpty()){         
              jbtnCrearReceta.setVisible(false);
@@ -160,7 +161,21 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                  jlblMensajito.setForeground(Color.black); 
                  }                     
          }
-         Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
+         List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+        if(!lis.isEmpty()){
+            objSemestre=lis.get(0);
+            Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1 and id_Semestre="+objSemestre.getId_Semestre()).getResultList();
+            jbtnCrearReceta.setVisible(true);
+            jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
+            jlblMensajito.setText("");
+        }
+        else{
+            Lista_control_paciente=new ArrayList<Control_paciente>();
+            jbtnCrearReceta.setVisible(false);
+            jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
+            jlblMensajito.setText("No hay un semestre vigente");
+        }
+         
          Lista_Procedencia =jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=5").getResultList();
          Lista_Condicion=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=8").getResultList();
      }
@@ -171,7 +186,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
          limpiarVista1();
          Limpiarcuerp2CrearRecetas();
          jtfLookCodigo.setEditable(true);
-         if(!objUsuario.getRol().getNombre_rol().equals("ADMINISTRADOR")){
+         if(!objUsuario.getRol().getNombre_rol().equals("ADMINISTRADOR.QF")){
              jbtnImprimir.setVisible(false);
          }         
          jbtnImprimir.setEnabled(false);
@@ -975,9 +990,10 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 limpiarVista1();
                 }
             else{
-                CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this);
+                if(objSemestre!=null){
+                CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this,objSemestre);
                 objCuadroCarrito.setVisible(true);
-                objPrincipal.setEnabled(false);
+                objPrincipal.setEnabled(false);}
                 }
             }
        llenar_Tabla_de_Recetas(Lista_Recetas);        
@@ -1092,13 +1108,15 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             jlblAdvertencia.setText("");           
             if(!Lista_Recetas.isEmpty()){
                 objReceta=fechadeUltimaReceta(Lista_Recetas);
-                if((objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000<180){//menor de 6 meses
+                if((-objReceta.getFecha_creada().getTime()+new Date().getTime())/86400000<179){//menor de 6 meses
                     objEstudiante.setRolCondicion(Lista_Condicion.get(1));
-                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1003+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    JOptionPane.showMessageDialog(jlblNombres, "CONCURRENTE"+(objReceta.getFecha_creada().getTime()-new Date().getTime())/86400000);
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+5+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);}
                 else{
+                    JOptionPane.showMessageDialog(jlblNombres, "REINGRESANTE");
                     objEstudiante.setRolCondicion(Lista_Condicion.get(2));
-                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+1003+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
+                    jpa.createNativeQuery("update Estudiante set id_RolCondicion="+6+" where id_Estudiante="+objEstudiante.getId_Estudiante()).executeUpdate();
                     jpa.persist(objEstudiante);//Reingresante
                     }
                 }            

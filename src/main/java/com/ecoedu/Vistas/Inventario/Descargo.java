@@ -95,7 +95,6 @@ public class Descargo extends javax.swing.JPanel{
         jcbTipoDescargo.removeAllItems();
         for (Rol rol : Lista_RolDescargo){
             jcbTipoDescargo.addItem(rol);}
-
         new Proceso().start();
         
 //lista_Detalles_control_paciente=query1.getResultList();  
@@ -103,10 +102,6 @@ public class Descargo extends javax.swing.JPanel{
     public class Proceso extends Thread{
         Usuario objUsuario;
         boolean hola;
-        public Proceso(Usuario objUsuario,boolean ola){
-       
-     
-        }
         public Proceso(){
           
         }

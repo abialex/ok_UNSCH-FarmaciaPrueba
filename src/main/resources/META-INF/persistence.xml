@@ -8,9 +8,9 @@
     <class>com.ecoedu.model.Servicio_social</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.1.41:1433;databaseName=ServidorAsis"/>
-      <property name="javax.persistence.jdbc.user" value="SuperUser"/>
-      <property name="javax.persistence.jdbc.password" value="metileno300"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=ServidorAsisActual"/>
+      <property name="javax.persistence.jdbc.user" value="Alexis"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
     </properties>

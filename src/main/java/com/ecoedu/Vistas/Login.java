@@ -412,6 +412,7 @@ public class Login extends javax.swing.JPanel {
             jbtnIngresar.setEnabled(true);
             }
         catch(Exception e) {
+            JOptionPane.showMessageDialog(barraProgreso, e.toString());
             jlblMensaje.setText("Falló la conexión");
             auxOpera=false; 
             }        

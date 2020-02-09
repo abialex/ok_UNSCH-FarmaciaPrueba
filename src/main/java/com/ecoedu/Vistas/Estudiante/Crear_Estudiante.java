@@ -9,6 +9,7 @@ import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Persona;
 import com.ecoedu.model.Rol;
+import com.ecoedu.model.Semestre;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.util.Date;
@@ -52,19 +53,32 @@ public class Crear_Estudiante extends javax.swing.JPanel {
     }
     public Crear_Estudiante(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
+        
         this.jpa=objJPA;
         this.objPrincipal=OBJPrincipal;
         this.TextAutoCompleterEscuela=new TextAutoCompleter(jtfEscuela, new AutoCompleterCallback(){
             @Override
             public void callback(Object o){
-                }});           
+                }});         
+        
     }
+    private Semestre objSemestre;
     public void ConsultaBD(){
         Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1");
         Lista_Escuela=query1.getResultList();
         
         Query query2=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=4");
         Lista_Sexo=query2.getResultList();
+         List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+        if(!lis.isEmpty()){
+            objSemestre=lis.get(0);
+            jlblMensaje.setText("");
+            jButton3.setEnabled(true);
+        }
+        else{
+            jlblMensaje.setText("No hay un semestre vigente");
+            jButton3.setEnabled(false);
+        }
         
       
     }   
@@ -510,7 +524,10 @@ public class Crear_Estudiante extends javax.swing.JPanel {
         objControl_paciente.setMonto_Total(0); 
         objControl_paciente.setLimite_control(110);
         objControl_paciente.setiSactivo(true);
+        objControl_paciente.setFecha_registro(new Date());
+        objControl_paciente.setSemestre(objSemestre);
         objPersona.setNombres(jtfNombres.getText());
+        objEstudiante.setNroTelefonico(jtfCelular.getText());
         objPersona.setApellido_Paterno(jtfApellidoPaterno.getText());
         objPersona.setApellido_Materno(jtfApellidoMaterno.getText());
         objPersona.setDni(jtfDNI.getText());

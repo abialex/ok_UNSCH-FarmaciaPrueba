@@ -6,6 +6,8 @@ import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Servicio_Social;
 import com.ecoedu.model.Estudiante;
+import com.ecoedu.model.RegistroMensualLotes;
+import com.ecoedu.model.Semestre;
 import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Tarifario;
 import com.ecoedu.model.Usuario;
@@ -53,6 +55,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
     private EntityManager jpa;   
     private List<Detalle_Servicio_Social> lista_DetalleServicioSocial=new ArrayList<>();
     private List<Detalle_Servicio_Social> Lista_carrito_Servicio=new ArrayList<>();//
+    private Semestre objSemestre;
     TextAutoCompleter autoCompleterServicio;
     private int limite_seguro;
     private List<Tarifario> Lista_tarifa;
@@ -70,8 +73,13 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         this.objUsuario=OBJUsuario;        
     }
      public void ConsultaBD(){
-         Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1").getResultList();
+         
          Lista_tarifa=jpa.createQuery("SELECT p FROM Tarifario p").getResultList();
+         List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+         if(!lis.isEmpty()){
+             objSemestre=lis.get(0);
+             Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1 and id_Semestre="+objSemestre.getId_Semestre()).getResultList();
+         }
      }    
      public void principalEjecucion(){ 
          llenar_Tabla_de_Detalle_Asistenciales(new ArrayList<Detalle_Servicio_Social>());
@@ -671,9 +679,10 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
                 limpiarVista1();
                 }
             else{
-                CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this);
+                if(objSemestre!=null){
+                CuadroCarritoMedicinas objCuadroCarrito=new CuadroCarritoMedicinas(jpa, Lista_Estudiante.get(0), this,objSemestre);
                 objCuadroCarrito.setVisible(true);
-                objPrincipal.setEnabled(false); 
+                objPrincipal.setEnabled(false);}
                 }
             }
         llenar_Tabla_de_Asistenciales(Lista_servicio_social);
