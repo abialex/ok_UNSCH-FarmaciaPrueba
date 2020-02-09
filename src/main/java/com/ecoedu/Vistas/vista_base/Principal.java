@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.dom4j.DocumentException;
@@ -2077,6 +2076,8 @@ public class Principal extends javax.swing.JFrame {
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
+        objReporte_Diagnostico.ConsultaBD();
+        objReporte_Diagnostico.principalEjecucion();
         objReporte_Diagnostico.setVisible(true);
         
  

@@ -77,6 +77,16 @@ public class Semestre implements Serializable {
     public void setSemestre_periodo(boolean semestre_periodo) {
         this.semestre_periodo = semestre_periodo;
     }
+    
+    @Override
+    public String toString(){
+        if(this.isSemestre_periodo()){
+            return (fecha_Inicio.getYear()+1900)+"-II";
+        }   
+        else{
+            return (fecha_Inicio.getYear()+1900)+"-I";
+        }
+    }
 
     
     
