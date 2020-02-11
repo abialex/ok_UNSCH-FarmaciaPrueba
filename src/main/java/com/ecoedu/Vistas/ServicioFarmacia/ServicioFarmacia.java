@@ -65,7 +65,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Lote_detalle> Lista_lote_detalle;
     private List<Detalle_Medicamentos> Lista_carrito_medicamentos=new ArrayList<>();//
     //datos q se desglozan de la BD               
-    private List<Control_paciente> Lista_control_paciente;//
+    private List<Control_paciente> Lista_control_paciente= new ArrayList<Control_paciente>();;//
     private List<Detalle_Medicamentos> Lista_detalle_medicamento;//
     private List<Receta> Lista_Recetas=new ArrayList<>();//
     private TextAutoCompleter TextAutoCOmpleterCodigoDiagnostico;
@@ -159,22 +159,22 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                  jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
                  jlblMensajito.setText("LISTA DE RECETAS DEL ESTUDIANTE");
                  jlblMensajito.setForeground(Color.black); 
+                 List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+                 if(!lis.isEmpty()){
+                     objSemestre=lis.get(0);
+                     Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1 and id_Semestre="+objSemestre.getId_Semestre()).getResultList();
+                     jbtnCrearReceta.setVisible(true);
+                     jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
+                     jlblMensajito.setText("");
+                     }
+                 else{
+                     jbtnCrearReceta.setVisible(false);
+                     jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
+                     jlblMensajito.setText("No hay un semestre vigente");
+                     }
                  }                     
          }
-         List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
-        if(!lis.isEmpty()){
-            objSemestre=lis.get(0);
-            Lista_control_paciente=jpa.createQuery("SELECT p FROM Control_paciente p where iSactivo=1 and id_Semestre="+objSemestre.getId_Semestre()).getResultList();
-            jbtnCrearReceta.setVisible(true);
-            jbtnAgregarMedicamentoExtemporaneo.setVisible(true);
-            jlblMensajito.setText("");
-        }
-        else{
-            Lista_control_paciente=new ArrayList<Control_paciente>();
-            jbtnCrearReceta.setVisible(false);
-            jbtnAgregarMedicamentoExtemporaneo.setVisible(false);
-            jlblMensajito.setText("No hay un semestre vigente");
-        }
+        
          
          Lista_Procedencia =jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=5").getResultList();
          Lista_Condicion=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=8").getResultList();

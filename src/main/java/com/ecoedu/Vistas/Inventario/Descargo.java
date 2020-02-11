@@ -96,11 +96,12 @@ public class Descargo extends javax.swing.JPanel{
         else{
             Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
             }
-        jcbTipoDescargo.removeAllItems();
-        for (Rol rol : Lista_RolDescargo){
-           
-            jcbTipoDescargo.addItem(rol);}
         listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
+
+        jcbTipoDescargo.removeAllItems();
+        for (Rol rol : Lista_RolDescargo){           
+            jcbTipoDescargo.addItem(rol);}
+        
         Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE() and isVencido=0").getResultList();  
         Lista_Usuario=jpa.createQuery("Select p from Usuario p ").getResultList();
         principalEjecucion();
@@ -742,7 +743,8 @@ public class Descargo extends javax.swing.JPanel{
                        cuerpo1Vencido.setVisible(false);
                        cuerpo3Donacion.setVisible(false);                       
                        TextAutoCompleterLotes.removeAllItems();
-                     //listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
+                       
+                       
                        for (Lote_detalle listaLote : listaLotes){
                            TextAutoCompleterLotes.addItem(listaLote);}                       
                        break;

@@ -50,6 +50,7 @@ import org.dom4j.DocumentException;
 public class Principal extends javax.swing.JFrame {
     
     List<Lote_detalle> lotes_por_vencer;
+    private boolean auxFarmacia=false;
     public class Proceso extends Thread{
         @Override
         public void run(){            
@@ -221,7 +222,8 @@ public class Principal extends javax.swing.JFrame {
        
        
        setIconImage(new ImageIcon(getClass().getResource("/images/014-pharmacy.png")).getImage());
-       if(OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR.QF")){             
+       if(OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR.QF")){   
+           auxFarmacia=true;
            jleftTarifario.setVisible(false);
            jleftServicioAsistencial.setVisible(false);
            new Proceso().start();
@@ -2341,6 +2343,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftConsultas_ReportePorEscuelaxAlumnoMouseExited
 
     private void jlblAlertaMedicamentosVencidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblAlertaMedicamentosVencidosMouseClicked
+    if(auxFarmacia){
         bodyContenedor.setVisible(true);//1           
         objProveedorLaboratorio.setVisible(false);//14
         objVer_inventario.setVisible(false);//3
@@ -2367,7 +2370,8 @@ public class Principal extends javax.swing.JFrame {
         objDescargo.ConsultaBD();
         objDescargo.principalEjecucion();
         objDescargo.iniciar_conVencidos();
-        objDescargo.setVisible(true);//23    
+        objDescargo.setVisible(true);//23   
+    }
     }//GEN-LAST:event_jlblAlertaMedicamentosVencidosMouseClicked
 
     private void jleftTarifarioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftTarifarioMouseMoved
@@ -2514,8 +2518,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jlblSemestreMouseExited
 
     private void jlblSemestreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblSemestreMouseClicked
+        if(auxFarmacia){
         CuadroCarritoMedicinas objCuadroSemestre=new CuadroCarritoMedicinas(jpa, true,this);
-        objCuadroSemestre.setVisible(true);
+        objCuadroSemestre.setVisible(true);}
     }//GEN-LAST:event_jlblSemestreMouseClicked
 
     public Usuario getUsuario(){

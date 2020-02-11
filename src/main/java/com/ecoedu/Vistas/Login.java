@@ -263,7 +263,7 @@ public class Login extends javax.swing.JPanel {
         pie.add(jlblOlvideContra);
 
         jLabel9.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel9.setText("| Soporte Técnico: 492939284");
+        jLabel9.setText("|  Soporte : 948537112");
         pie.add(jLabel9);
 
         Login.add(pie, java.awt.BorderLayout.PAGE_END);
