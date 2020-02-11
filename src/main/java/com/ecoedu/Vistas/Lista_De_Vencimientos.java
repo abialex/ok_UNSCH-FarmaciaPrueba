@@ -43,7 +43,7 @@ public class Lista_De_Vencimientos extends javax.swing.JPanel{
         desglozarDatos(); 
      }
     public void ConsultaBD(){
-        lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<=0").getResultList();
+        lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<=0 and isVencido=0").getResultList();
         lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0").getResultList();
 
     }

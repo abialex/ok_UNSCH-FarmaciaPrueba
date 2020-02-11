@@ -2,13 +2,10 @@ package com.ecoedu.Vistas;
 
 
 
-import com.ecoedu.Vistas.ServicioFarmacia.*;
-import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Semestre;
-import com.sun.xml.internal.ws.api.message.saaj.SAAJFactory;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;

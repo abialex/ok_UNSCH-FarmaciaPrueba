@@ -221,17 +221,26 @@ public class Principal extends javax.swing.JFrame {
        
        
        setIconImage(new ImageIcon(getClass().getResource("/images/014-pharmacy.png")).getImage());
-       if(!OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR.QF")){
+       if(OBJuser.getRol().getNombre_rol().equals("ADMINISTRADOR.QF")){             
+           jleftTarifario.setVisible(false);
+           jleftServicioAsistencial.setVisible(false);
+           new Proceso().start();
+           }
+       if(OBJuser.getRol().getNombre_rol().equals("TÉCNICO")){
+           jleftServicioAsistencial.setVisible(false);
+           jleftTarifario.setVisible(false);
            jleftMedicamento.setVisible(false);
-           jleftEstudiante.setVisible(false);
            jleftConsultas.setVisible(false);
            jleftUsuario.setVisible(false);
+           jleftInventario_AbrirInventario.setVisible(false);
+           jleftInventario_CerrarInventario.setVisible(false);
            jleftProveedorYfabricante.setVisible(false);
            jleftInventario_llenarInventario.setVisible(false);
            jleftInventario_detalleInventario.setVisible(false);   
-           jtfsub_inventario.setPreferredSize(new Dimension(300, 41)); 
-           
-           }
+           jtfsub_inventario.setPreferredSize(new Dimension(300, 81)); 
+           new Proceso().start();
+       }
+       
        if(OBJuser.getRol().getNombre_rol().equals("ASISTENCIAL-ADM")){
            setIconImage(new ImageIcon(getClass().getResource("/images/informacion.png")).getImage());
            jlblRolcito.setText("Trabajadora Social:");
@@ -246,9 +255,8 @@ public class Principal extends javax.swing.JFrame {
            jleftInventario_detalleInventario.setVisible(false);   
        }
        else{
-           new Proceso().start();
-           jleftTarifario.setVisible(false);
-           jleftServicioAsistencial.setVisible(false);
+           
+           
        }
        bodyContenedor.setVisible(false);
        jtfsub_Usuario.setVisible(false);

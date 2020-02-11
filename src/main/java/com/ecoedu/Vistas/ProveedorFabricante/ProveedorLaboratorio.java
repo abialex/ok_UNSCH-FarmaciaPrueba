@@ -277,6 +277,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
 
         jPanel7.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 200));
 
+        jcbPROFaCambio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbPROFaCambio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laboratorio", "Proveedor" }));
         jPanel7.add(jcbPROFaCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 250, 150, 25));
 
@@ -307,6 +308,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
         jLabel10.setPreferredSize(new java.awt.Dimension(330, 25));
         jPanel7.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 400, 60, -1));
 
+        jcbPROFa1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbPROFa1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laboratorio", "Proveedor" }));
         jPanel7.add(jcbPROFa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 400, 150, 25));
 

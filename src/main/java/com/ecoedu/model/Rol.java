@@ -5,7 +5,6 @@
  */
 package com.ecoedu.model;
 
-import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +19,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Rol implements Serializable{
+public class Rol implements Comparable<Rol>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Rol;
@@ -69,6 +68,11 @@ public class Rol implements Serializable{
     @Override
     public String toString(){
         return nombre_rol;
+    }
+
+    @Override
+    public int compareTo(Rol o) {
+        return abre_rol.compareTo(o.abre_rol);
     }
     
     

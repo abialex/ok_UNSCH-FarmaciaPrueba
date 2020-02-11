@@ -76,6 +76,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     }
     public void ConsultaBD(){   
         Lista_Origen=jpa.createQuery("Select p from Rol p where id_tipo_Roles=10").getResultList();
+        Collections.sort(Lista_Origen);
         Lista_Registro_Mensual=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
         Lista_Mensual_Inventario=jpa.createQuery("select p from RegistroMensualInventario p where fecha_cierre_real is null").getResultList();
         if(!Lista_Registro_Mensual.isEmpty()){

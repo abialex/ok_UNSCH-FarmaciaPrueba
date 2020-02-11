@@ -90,29 +90,24 @@ public class Descargo extends javax.swing.JPanel{
      
     
     public void ConsultaBD(){
-        Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
-        listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
+        if(objUsuario.getRol().getNombre_rol().equals("TÉCNICO")){
+            Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11 and abre_rol='Des'").getResultList();
+            }
+        else{
+            Lista_RolDescargo=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=11").getResultList();
+            }
         jcbTipoDescargo.removeAllItems();
         for (Rol rol : Lista_RolDescargo){
+           
             jcbTipoDescargo.addItem(rol);}
-        new Proceso().start();
-        
-//lista_Detalles_control_paciente=query1.getResultList();  
-    }
-    public class Proceso extends Thread{
-        Usuario objUsuario;
-        boolean hola;
-        public Proceso(){
-          
-        }
-        @Override
-        public void run(){    
+        listaLotes=jpa.createQuery("SELECT p FROM Lote_detalle p where isVencido=0").getResultList();
         Lista_LotesVencidos=jpa.createQuery("SELECT p FROM Lote_detalle p where fecha_vencimiento <= GETDATE() and isVencido=0").getResultList();  
         Lista_Usuario=jpa.createQuery("Select p from Usuario p ").getResultList();
         principalEjecucion();
-            
-        }        
+        
+//lista_Detalles_control_paciente=query1.getResultList();  
     }
+    
     public void principalEjecucion(){
         
         List<RegistroMensualLotes> listaRegistro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();         

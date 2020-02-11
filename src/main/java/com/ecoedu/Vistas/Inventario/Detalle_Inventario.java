@@ -4,7 +4,11 @@ package com.ecoedu.Vistas.Inventario;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Detalle_llenado;
+import com.ecoedu.model.Usuario;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -12,8 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import com.ecoedu.model.Inventario;
-import java.util.ArrayList;
+
 
 
 /*
@@ -36,6 +39,7 @@ public class Detalle_Inventario extends javax.swing.JPanel {
     List<Detalle_llenado> Lista_Detalle_Llenado;
     EntityManager jpa;
     Principal objPrincipal;
+    List<Usuario> lista_Usuario=new ArrayList<>();
     public Detalle_Inventario(EntityManager objJPA,Principal OBJPrincipal) {
         initComponents();
         this.jpa=objJPA;
@@ -49,16 +53,24 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         Lista_Detalle_Llenado=query1.getResultList();      
     }   
     public void principalEjecucion(){
-        jlblDesde.setVisible(false);
-        jcbYearDesde.setVisible(false);
-        jlblHasta.setVisible(false);
-        jcbYearHasta.setVisible(false);
-        jlblMes.setVisible(false);
-        jcbMeses.setVisible(false);
-        jcbYear.setVisible(false);
+        for (Detalle_llenado detalle_llenado : Lista_Detalle_Llenado){
+            boolean auxInventario=true;
+            for (Usuario objUsuario : lista_Usuario){
+                if(objUsuario==detalle_llenado.getUsuario()){
+                    auxInventario=false;		
+                    break;
+                    }
+                }
+            if(auxInventario){
+                lista_Usuario.add(detalle_llenado.getUsuario());
+                }
+            }
+        for (Usuario usuario : lista_Usuario){
+            jcbUsuarioLlenador.addItem(usuario);
+            }
         llenar_tabla_de_inventario(Lista_Detalle_Llenado);
-        
-    }
+        }
+     
     
 
     /**
@@ -80,21 +92,14 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jrbMesayo = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jrbEspecifica1 = new javax.swing.JRadioButton();
         jPanel8 = new javax.swing.JPanel();
         jlblDesde = new javax.swing.JLabel();
         jcbYearDesde = new rojeru_san.componentes.RSDateChooser();
         jlblHasta = new javax.swing.JLabel();
         jcbYearHasta = new rojeru_san.componentes.RSDateChooser();
-        jlblMes = new javax.swing.JLabel();
-        jcbMeses = new javax.swing.JComboBox<>();
-        jcbYear = new rojeru_san.componentes.RSYearDate();
         jlblQuimico = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbUsuarioLlenador = new javax.swing.JComboBox<>();
         body2 = new javax.swing.JPanel();
         vista11 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -141,44 +146,8 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         jLabel1.setPreferredSize(new java.awt.Dimension(50, 30));
         jPanel1.add(jLabel1);
 
-        jLabel17.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("BÚSQUEDA POR MES Y/O AÑO");
-        jLabel17.setPreferredSize(new java.awt.Dimension(210, 30));
-        jPanel1.add(jLabel17);
-
-        jrbMesayo.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrbMesayo);
-        jrbMesayo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jrbMesayo.setPreferredSize(new java.awt.Dimension(15, 30));
-        jrbMesayo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jrbMesayoMouseClicked(evt);
-            }
-        });
-        jPanel1.add(jrbMesayo);
-
         jLabel2.setPreferredSize(new java.awt.Dimension(50, 30));
         jPanel1.add(jLabel2);
-
-        jLabel15.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("BÚSQUEDA ESPECÍFICA");
-        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel15.setPreferredSize(new java.awt.Dimension(162, 30));
-        jPanel1.add(jLabel15);
-
-        jrbEspecifica1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrbEspecifica1);
-        jrbEspecifica1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jrbEspecifica1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jrbEspecifica1.setPreferredSize(new java.awt.Dimension(15, 30));
-        jrbEspecifica1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jrbEspecifica1MouseClicked(evt);
-            }
-        });
-        jPanel1.add(jrbEspecifica1);
 
         jPanel7.add(jPanel1);
 
@@ -203,29 +172,13 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         jcbYearHasta.setPreferredSize(new java.awt.Dimension(150, 30));
         jPanel8.add(jcbYearHasta);
 
-        jlblMes.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jlblMes.setText("Mes :");
-        jPanel8.add(jlblMes);
-
-        jcbMeses.setBackground(new java.awt.Color(0, 112, 192));
-        jcbMeses.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jcbMeses.setForeground(new java.awt.Color(67, 150, 209));
-        jcbMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre" }));
-        jcbMeses.setPreferredSize(new java.awt.Dimension(100, 30));
-        jPanel8.add(jcbMeses);
-
-        jcbYear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jcbYear.setPreferredSize(new java.awt.Dimension(150, 30));
-        jPanel8.add(jcbYear);
-
         jlblQuimico.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jlblQuimico.setText("Química(o):");
         jPanel8.add(jlblQuimico);
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yalle Alarcon, Alexis Jampier", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(260, 30));
-        jPanel8.add(jComboBox1);
+        jcbUsuarioLlenador.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jcbUsuarioLlenador.setPreferredSize(new java.awt.Dimension(260, 30));
+        jPanel8.add(jcbUsuarioLlenador);
 
         jPanel7.add(jPanel8);
 
@@ -246,11 +199,89 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         jPanel9.setPreferredSize(new java.awt.Dimension(900, 250));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(452, 350));
-
         jtblDetalle_Llenado.setBorder(new javax.swing.border.MatteBorder(null));
         jtblDetalle_Llenado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -278,7 +309,6 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         ));
         jtblDetalle_Llenado.setGridColor(new java.awt.Color(0, 0, 0));
         jtblDetalle_Llenado.setMinimumSize(new java.awt.Dimension(500, 100));
-        jtblDetalle_Llenado.setPreferredSize(new java.awt.Dimension(200, 260));
         jtblDetalle_Llenado.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(jtblDetalle_Llenado);
 
@@ -306,29 +336,6 @@ public class Detalle_Inventario extends javax.swing.JPanel {
         add(bodyCard, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jrbMesayoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrbMesayoMouseClicked
-        jcbYearDesde.setVisible(false);
-        jlblDesde.setVisible(false);
-        jlblHasta.setVisible(false);
-        jcbYearHasta.setVisible(false);
-
-        jcbMeses.setVisible(true);
-        jcbYear.setVisible(true);
-        jlblMes.setVisible(true);
-
-    }//GEN-LAST:event_jrbMesayoMouseClicked
-
-    private void jrbEspecifica1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrbEspecifica1MouseClicked
-        jcbYearDesde.setVisible(true);
-        jlblDesde.setVisible(true);
-        jlblHasta.setVisible(true);
-        jcbYearHasta.setVisible(true);
-
-        jcbMeses.setVisible(false);
-        jcbYear.setVisible(false);
-        jlblMes.setVisible(false);
-    }//GEN-LAST:event_jrbEspecifica1MouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body2;
@@ -337,13 +344,10 @@ public class Detalle_Inventario extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -351,26 +355,23 @@ public class Detalle_Inventario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> jcbMeses;
-    private rojeru_san.componentes.RSYearDate jcbYear;
+    private javax.swing.JComboBox<Usuario> jcbUsuarioLlenador;
     private rojeru_san.componentes.RSDateChooser jcbYearDesde;
     private rojeru_san.componentes.RSDateChooser jcbYearHasta;
     private javax.swing.JLabel jlblDesde;
     private javax.swing.JLabel jlblHasta;
-    private javax.swing.JLabel jlblMes;
     private javax.swing.JLabel jlblQuimico;
-    private javax.swing.JRadioButton jrbEspecifica1;
-    private javax.swing.JRadioButton jrbMesayo;
     private javax.swing.JTable jtblDetalle_Llenado;
     private javax.swing.JPanel vista1;
     private javax.swing.JPanel vista11;
     // End of variables declaration//GEN-END:variables
 
     public void llenar_tabla_de_inventario(List<Detalle_llenado> listaDetalleLlenado){
+        Collections.sort(listaDetalleLlenado);
         DefaultTableModel modelo;
         Object[] fila_actividad;
              //.....................................TABLA......................................
-             String [] lista={"Fecha de Registro","Química(o)","Producto Farmaceutico","Cantidad","P.U","P.V.R","Código"}; 
+             String [] lista={"Fecha de llenado","Química(o)","Producto Farmaceutico","Cant","P.U","P.V.R","Código lote"}; 
              modelo=new DefaultTableModel(null,lista){
                  boolean[] canEdit = new boolean [] {false, false, false, false,false,false,false};
                  public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -409,17 +410,17 @@ public class Detalle_Inventario extends javax.swing.JPanel {
    
         
    
-            jtblDetalle_Llenado.setFont(new java.awt.Font("Tahoma", 0, 15));
-            jtblDetalle_Llenado.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 20));
+            jtblDetalle_Llenado.setFont(new java.awt.Font("Tahoma", 0, 14));
+            jtblDetalle_Llenado.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 16));
             jtblDetalle_Llenado.getTableHeader().setBackground(Color.BLUE);
             jtblDetalle_Llenado.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
-            jtblDetalle_Llenado.getColumnModel().getColumn(0).setPreferredWidth(154);
-            jtblDetalle_Llenado.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtblDetalle_Llenado.getColumnModel().getColumn(2).setPreferredWidth(75);
-            jtblDetalle_Llenado.getColumnModel().getColumn(3).setPreferredWidth(125);  
-            jtblDetalle_Llenado.getColumnModel().getColumn(4).setPreferredWidth(125);  
-            jtblDetalle_Llenado.getColumnModel().getColumn(5).setPreferredWidth(125);  
-            jtblDetalle_Llenado.getColumnModel().getColumn(6).setPreferredWidth(50);
+            jtblDetalle_Llenado.getColumnModel().getColumn(0).setPreferredWidth(70);
+            jtblDetalle_Llenado.getColumnModel().getColumn(1).setPreferredWidth(170);
+            jtblDetalle_Llenado.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jtblDetalle_Llenado.getColumnModel().getColumn(3).setPreferredWidth(50);  
+            jtblDetalle_Llenado.getColumnModel().getColumn(4).setPreferredWidth(50);  
+            jtblDetalle_Llenado.getColumnModel().getColumn(5).setPreferredWidth(50);  
+            jtblDetalle_Llenado.getColumnModel().getColumn(6).setPreferredWidth(100);
             
             ((DefaultTableCellRenderer)jtblDetalle_Llenado.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
             //864-550=64                  

@@ -9,6 +9,7 @@ import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.app.EventoPagina;
 import com.ecoedu.model.Detalle_llenado;
 import com.ecoedu.model.Inventario;
+import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.RegistroMensualInventario;
 import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
@@ -58,10 +59,12 @@ import javax.swing.table.DefaultTableModel;
  * @author yrma
  */
 public class Abrir_Inventario extends javax.swing.JPanel {  
-    List<Detalle_llenado> Lista_lote_detalle;
+    List<Detalle_llenado> Lista_lote_detalle=new ArrayList<Detalle_llenado>();
     List<Inventario> Lista_Inventario;
     Principal objPrincipal;
     List<Rol> Lista_Origen;
+    List<Detalle_llenado> lista_aux;
+    
     Usuario objUsuario;
     EntityManager jpa;
     
@@ -73,12 +76,22 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     }
     public void ConsultaBD(){    
         Lista_Origen=jpa.createQuery("Select p from Rol p where id_tipo_Roles=10").getResultList();
+        Collections.sort(Lista_Origen);        
         List<RegistroMensualLotes> lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
          if(lista_registro.isEmpty()){
              jlblAdvertencia.setText("");
              Lista_Inventario=jpa.createQuery("select p from Inventario p where cantidad !=0").getResultList();
-             Lista_lote_detalle=jpa.createQuery("SELECT p FROM Detalle_llenado p").getResultList();
+             lista_aux=jpa.createQuery("SELECT p FROM Detalle_llenado p").getResultList();
+             
+             for (Detalle_llenado detalle_llenado : lista_aux) {
+                 if(!detalle_llenado.getLote_detalle().isIsVencido()){
+                 Lista_lote_detalle.add(detalle_llenado);}
+             }
+             
              Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)
+             
+             
+             
              llenarTabla(Lista_lote_detalle);
              if(jpa.createQuery("Select p from RegistroMensualLotes p where month(fecha_cierre_real)="+(new Date().getMonth()+1) ).getResultList().isEmpty()){
                  jbtnAbrirInventario.setEnabled(true);

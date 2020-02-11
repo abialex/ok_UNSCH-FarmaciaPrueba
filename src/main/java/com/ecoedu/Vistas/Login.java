@@ -64,7 +64,7 @@ public class Login extends javax.swing.JPanel {
         jlblSalida = new javax.swing.JLabel();
         Body = new javax.swing.JPanel();
         cuerpito = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jtfUsuario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -72,7 +72,10 @@ public class Login extends javax.swing.JPanel {
         jlblMensaje = new javax.swing.JLabel();
         jbtnIngresar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        barraProgreso = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         pie = new javax.swing.JPanel();
         jlblOlvideContra = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -166,13 +169,12 @@ public class Login extends javax.swing.JPanel {
         cuerpito.setBackground(new java.awt.Color(73, 25, 119));
         cuerpito.setPreferredSize(new java.awt.Dimension(350, 300));
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconUsuario.png"))); // NOI18N
-        jLabel1.setPreferredSize(new java.awt.Dimension(130, 125));
-        cuerpito.add(jLabel1);
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconUsuario.png"))); // NOI18N
+        jLabel8.setPreferredSize(new java.awt.Dimension(125, 125));
+        cuerpito.add(jLabel8);
 
-        jLabel5.setPreferredSize(new java.awt.Dimension(300, 15));
+        jLabel5.setPreferredSize(new java.awt.Dimension(300, 10));
         cuerpito.add(jLabel5);
 
         jtfUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -180,7 +182,7 @@ public class Login extends javax.swing.JPanel {
         jtfUsuario.setPreferredSize(new java.awt.Dimension(300, 30));
         cuerpito.add(jtfUsuario);
 
-        jLabel3.setPreferredSize(new java.awt.Dimension(300, 15));
+        jLabel3.setPreferredSize(new java.awt.Dimension(300, 10));
         cuerpito.add(jLabel3);
 
         jtfContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -194,7 +196,7 @@ public class Login extends javax.swing.JPanel {
 
         jlblMensaje.setForeground(new java.awt.Color(255, 255, 255));
         jlblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlblMensaje.setPreferredSize(new java.awt.Dimension(300, 15));
+        jlblMensaje.setPreferredSize(new java.awt.Dimension(300, 10));
         cuerpito.add(jlblMensaje);
 
         jbtnIngresar.setBackground(new java.awt.Color(255, 255, 255));
@@ -207,11 +209,40 @@ public class Login extends javax.swing.JPanel {
         });
         cuerpito.add(jbtnIngresar);
 
-        jLabel6.setPreferredSize(new java.awt.Dimension(300, 15));
+        jLabel6.setPreferredSize(new java.awt.Dimension(300, 35));
         cuerpito.add(jLabel6);
 
-        barraProgreso.setPreferredSize(new java.awt.Dimension(300, 20));
-        cuerpito.add(barraProgreso);
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("ELABORADO POR :");
+        jLabel1.setPreferredSize(new java.awt.Dimension(120, 10));
+        cuerpito.add(jLabel1);
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("ALEXIS YALLE ");
+        jLabel4.setPreferredSize(new java.awt.Dimension(90, 10));
+        cuerpito.add(jLabel4);
+
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Q.F. ROCÌO TUEROS");
+        jLabel11.setPreferredSize(new java.awt.Dimension(105, 10));
+        cuerpito.add(jLabel11);
+
+        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("                                                  Febrero del 2020");
+        jLabel12.setPreferredSize(new java.awt.Dimension(300, 10));
+        cuerpito.add(jLabel12);
 
         Body.add(cuerpito, "card2");
 
@@ -412,7 +443,6 @@ public class Login extends javax.swing.JPanel {
             jbtnIngresar.setEnabled(true);
             }
         catch(Exception e) {
-            JOptionPane.showMessageDialog(barraProgreso, e.toString());
             jlblMensaje.setText("Falló la conexión");
             auxOpera=false; 
             }        
@@ -423,18 +453,14 @@ public class Login extends javax.swing.JPanel {
         objPrincipal.setVisible(true);
     }
     private void iniciarSesion(){
-        barraProgreso.setValue(20);  
         jbtnIngresar.setEnabled(false);
         if(auxOpera){
             try{
-                barraProgreso.setValue(40);
                 Query query=jpa.createQuery("SELECT e FROM Usuario e where nickname="+"'"+jtfUsuario.getText()+"'"+" and "+
                 "contraseña="+"'"+ DigestUtils.md5Hex(jtfContraseña.getText())+"'");
-                barraProgreso.setValue(60);
                 List<Usuario> listaUsuario=query.getResultList();
                 if(!listaUsuario.isEmpty()){
                     usuario = listaUsuario.get(0);
-                    barraProgreso.setValue(80);                    
                     if(usuario.isCambio()){
                         abrirPantallaPrincipal();
                         }
@@ -448,17 +474,14 @@ public class Login extends javax.swing.JPanel {
                 else{
                     jlblMensaje.setText("los datos no coinciden");
                     jbtnIngresar.setEnabled(true);
-                    barraProgreso.setValue(0);
                     }
                 }
             catch(HeadlessException e){
                 jbtnIngresar.setEnabled(true);
-                JOptionPane.showMessageDialog(barraProgreso, "error logueo"+e.toString());
-                barraProgreso.setValue(WIDTH);
                 }
             }
         else{
-            JOptionPane.showMessageDialog(barraProgreso, "la base de datos no está disponible");
+            JOptionPane.showMessageDialog(jlblDatos, "la base de datos no está disponible");
             }
     }
     private void jlblOlvideContraMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblOlvideContraMouseExited
@@ -568,7 +591,6 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JPanel Body2;
     private javax.swing.JPanel CambiarContraseña;
     private javax.swing.JPanel Login;
-    private javax.swing.JProgressBar barraProgreso;
     private javax.swing.JPanel cuerpito;
     private javax.swing.JPanel cuerpito2;
     private javax.swing.JPanel head;
@@ -576,6 +598,8 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -583,9 +607,11 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
