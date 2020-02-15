@@ -4,6 +4,7 @@ import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Receta;
 import com.ecoedu.model.Rol;
+import com.ecoedu.model.Semestre;
 import com.ecoedu.model.ZObjetoProDiag;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -39,21 +40,28 @@ import org.dom4j.DocumentException;
 public class Reporte_Diagnostico extends javax.swing.JPanel {
     private Principal objPrincipal;
     private EntityManager jpa;   
+    private List<Semestre> list_semestre;
     //datos q se desglozan de la BD               
     private List<Receta> Lista_Recetas=new ArrayList<>();//    
     public Reporte_Diagnostico(EntityManager jpa2,Principal OBJPrincipal ){
         initComponents();        
         this.jpa=jpa2;
-        this.objPrincipal=OBJPrincipal;             
+        this.objPrincipal=OBJPrincipal;      
+      
     }
      public void ConsultaBD(){
+         list_semestre=jpa.createQuery("select p from Semestre p").getResultList();
                   
      }    
-     public void principalEjecucion() throws DocumentException, IOException{    
-            jcbTipoBusqueda.removeAllItems();                 
-            imprimir(0);
-            jbtnImprimir.setEnabled(false);
-            }
+     public void principalEjecucion(){ 
+         jcbSemestre.removeAllItems();
+         for (Semestre semestre : list_semestre){
+             jcbSemestre.addItem(semestre);
+             if(semestre.getFecha_Fin_Real()==null){
+                 jcbSemestre.setSelectedItem(semestre);
+                 }
+             }
+         }
      @SuppressWarnings("unchecked")     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -67,6 +75,7 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
         jcbYearDesde = new rojeru_san.componentes.RSDateChooser();
         jcbYearHasta = new rojeru_san.componentes.RSDateChooser();
         jcbTipoBusqueda = new javax.swing.JComboBox<>();
+        jcbSemestre = new javax.swing.JComboBox<>();
         jlblSerie = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
@@ -110,15 +119,22 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
         jPanel5.setEnabled(false);
         jPanel5.setPreferredSize(new java.awt.Dimension(880, 40));
 
-        jcbYearDesde.setPreferredSize(new java.awt.Dimension(240, 30));
+        jcbYearDesde.setPlaceholder("Fecha Inicio");
+        jcbYearDesde.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel5.add(jcbYearDesde);
 
-        jcbYearHasta.setPreferredSize(new java.awt.Dimension(240, 30));
+        jcbYearHasta.setPlaceholder("Fecha Fin");
+        jcbYearHasta.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel5.add(jcbYearHasta);
 
+        jcbTipoBusqueda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbTipoBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "POR DIAGNÓSTICO", "POR PROCEDENCIA" }));
-        jcbTipoBusqueda.setPreferredSize(new java.awt.Dimension(200, 30));
+        jcbTipoBusqueda.setPreferredSize(new java.awt.Dimension(170, 30));
         jPanel5.add(jcbTipoBusqueda);
+
+        jcbSemestre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jcbSemestre.setPreferredSize(new java.awt.Dimension(170, 30));
+        jPanel5.add(jcbSemestre);
 
         jPanel7.add(jPanel5);
 
@@ -153,29 +169,10 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
         jtblRecetas.setBorder(new javax.swing.border.MatteBorder(null));
         jtblRecetas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Código", "Fecha", "Total Costo", "Procedencia", "Diagnostico"
+                "N.N", "N.N", "N.N"
             }
         ));
         jtblRecetas.setGridColor(new java.awt.Color(0, 0, 0));
@@ -537,6 +534,7 @@ public class Reporte_Diagnostico extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnImprimir;
     private javax.swing.JButton jbtnVer;
+    private javax.swing.JComboBox<Semestre> jcbSemestre;
     private javax.swing.JComboBox<String> jcbTipoBusqueda;
     private rojeru_san.componentes.RSDateChooser jcbYearDesde;
     private rojeru_san.componentes.RSDateChooser jcbYearHasta;

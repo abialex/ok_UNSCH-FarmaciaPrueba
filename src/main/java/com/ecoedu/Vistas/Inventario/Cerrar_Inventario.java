@@ -1225,14 +1225,19 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                 }      
             }//fin for 
         if(objRegistroMensualInventario.getCantidad_final()!=auxCant){
-            JOptionPane.showMessageDialog(jPanel7, "no coincide la suma total de los lotes finales con el inventario final");
+            JOptionPane.showMessageDialog(jPanel7, "ERROR FATAL: no coincide la suma total de los lotes ");
             jpa.getTransaction().rollback();
             }//fin if
         JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
         if(Lista_Mensual_Inventario.size()==1){
+            confirmarImpresion.setVisible(true);
+            confirmarProceso.setVisible(false);
+            carga.setVisible(false);
             jDialog1.setSize(350,250);
             jDialog1.setLocationRelativeTo(null);
-            jDialog1.setVisible(true);         
+            jDialog1.setVisible(true);    
+            
+            
         
         }
         ConsultaBD();

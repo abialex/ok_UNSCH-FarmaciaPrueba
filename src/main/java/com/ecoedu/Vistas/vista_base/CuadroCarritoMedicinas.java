@@ -7,7 +7,6 @@ package com.ecoedu.Vistas.vista_base;
 
 import com.ecoedu.Vistas.CrearSemestredeAtencion;
 import com.ecoedu.Vistas.Inventario.Descargo;
-import com.ecoedu.Vistas.Lista_De_Vencimientos;
 import com.ecoedu.Vistas.ServicioAsistencial.Servicio_Asistencial;
 import com.ecoedu.Vistas.ServicioFarmacia.ActualizarControlDelAlumno;
 import com.ecoedu.Vistas.ServicioFarmacia.Cantidad_Medicinas;
@@ -22,7 +21,6 @@ import javax.persistence.EntityManager;
 public class CuadroCarritoMedicinas extends javax.swing.JFrame {
     Cantidad_Medicinas objCantMedicinas;
     ActualizarControlDelAlumno objActualizarControlDelAlumno;
-    Lista_De_Vencimientos objLista_De_Vencimientos;
     CrearSemestredeAtencion objSemestreAtencion;
     EntityManager jpa;    
     
@@ -56,13 +54,7 @@ public class CuadroCarritoMedicinas extends javax.swing.JFrame {
         contenedor.add(objCantMedicinas);
         this.setLocationRelativeTo(null);
     }
-    public CuadroCarritoMedicinas(EntityManager objJPA){
-        initComponents();
-        this.objLista_De_Vencimientos=new Lista_De_Vencimientos(objJPA,this);        
-        contenedor.add(objLista_De_Vencimientos);
-        //contenedor.validate();
-        this.setLocationRelativeTo(null);
-    }
+ 
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

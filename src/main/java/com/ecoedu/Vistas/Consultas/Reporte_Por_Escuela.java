@@ -6,6 +6,7 @@ import com.ecoedu.model.Detalle_Medicamentos;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Receta;
 import com.ecoedu.model.Rol;
+import com.ecoedu.model.Semestre;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -43,24 +44,33 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
     private List<Rol> Lista_Escuelas;
     //datos q se desglozan de la BD               
     private List<Receta> Lista_Recetas=new ArrayList<>();//    
+    private List<Semestre> list_semestre;
     public Reporte_Por_Escuela(EntityManager jpa2,Principal OBJPrincipal ){
         initComponents();        
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;             
     }
      public void ConsultaBD(){
-         Lista_Escuelas=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1").getResultList();             
+         Lista_Escuelas=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=1").getResultList();    
+         list_semestre=jpa.createQuery("select p from Semestre p").getResultList();         
      }    
      public void principalEjecucion() throws DocumentException, IOException{    
-            jcbEscuela.removeAllItems();
-            for (Rol RolEscuela : Lista_Escuelas){
-                jcbEscuela.addItem(RolEscuela);
-            }
-            Rol objEscuela1=new Rol();
-            objEscuela1.setId_Rol(450);
-            imprimir(objEscuela1);
-            jbtnImprimir.setEnabled(false);
-            }
+         jcbSemestre.removeAllItems();
+         for (Semestre semestre : list_semestre){
+             jcbSemestre.addItem(semestre);
+             if(semestre.getFecha_Fin_Real()==null){
+                 jcbSemestre.setSelectedItem(semestre);
+                 }
+             }
+         jcbEscuela.removeAllItems();
+         for (Rol RolEscuela : Lista_Escuelas){
+             jcbEscuela.addItem(RolEscuela);
+             }
+         Rol objEscuela1=new Rol();
+         objEscuela1.setId_Rol(450);
+         imprimir(objEscuela1);
+         jbtnImprimir.setEnabled(false);
+         }
      @SuppressWarnings("unchecked")     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -74,6 +84,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         jcbYearDesde = new rojeru_san.componentes.RSDateChooser();
         jcbYearHasta = new rojeru_san.componentes.RSDateChooser();
         jcbEscuela = new javax.swing.JComboBox<>();
+        jcbSemestre = new javax.swing.JComboBox<>();
         jlblSerie = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         body2 = new javax.swing.JPanel();
@@ -117,14 +128,21 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
         jPanel5.setEnabled(false);
         jPanel5.setPreferredSize(new java.awt.Dimension(880, 40));
 
-        jcbYearDesde.setPreferredSize(new java.awt.Dimension(240, 30));
+        jcbYearDesde.setPlaceholder("Fecha Inicio");
+        jcbYearDesde.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel5.add(jcbYearDesde);
 
-        jcbYearHasta.setPreferredSize(new java.awt.Dimension(240, 30));
+        jcbYearHasta.setPlaceholder("Fecha fin");
+        jcbYearHasta.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel5.add(jcbYearHasta);
 
+        jcbEscuela.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jcbEscuela.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel5.add(jcbEscuela);
+
+        jcbSemestre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jcbSemestre.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanel5.add(jcbSemestre);
 
         jPanel7.add(jPanel5);
 
@@ -451,6 +469,7 @@ public class Reporte_Por_Escuela extends javax.swing.JPanel {
     private javax.swing.JButton jbtnCrearReceta;
     private javax.swing.JButton jbtnImprimir;
     private javax.swing.JComboBox<Rol> jcbEscuela;
+    private javax.swing.JComboBox<Semestre> jcbSemestre;
     private rojeru_san.componentes.RSDateChooser jcbYearDesde;
     private rojeru_san.componentes.RSDateChooser jcbYearHasta;
     private javax.swing.JLabel jlblSerie;

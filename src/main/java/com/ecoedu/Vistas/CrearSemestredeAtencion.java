@@ -32,26 +32,7 @@ public class CrearSemestredeAtencion extends javax.swing.JPanel{
         this.objPrincipal=objPrincipals;
         this.objCuadrito=objCuadroCarritoMedicinas;
         this.jpa=objJpa;
-        List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
-        if(!lis.isEmpty()){
-            jbtnCerrarSemestre.setEnabled(true);
-            jlblAdvertencia.setText("Semestre Vigente");
-            objSemestreF=lis.get(0);  
-            jcbDateInicio.setDatoFecha(objSemestreF.getFecha_Inicio());
-            jcbDateFin.setDatoFecha(objSemestreF.getFecha_Fin());
-            jbtnGuardar.setText("GUARDAR CAMBIOS");
-            if(objSemestreF.isSemestre_periodo()){
-                jcbPeriodoSemestre.setSelectedItem("II");
-            }
-            else{
-                jcbPeriodoSemestre.setSelectedItem("I");                
-            }
-        }
-        else{
-            jbtnCerrarSemestre.setEnabled(false);
-            jlblAdvertencia.setText("");
-            objSemestreF=new Semestre();
-        }
+        
         principalEjecucion();        
     }
    

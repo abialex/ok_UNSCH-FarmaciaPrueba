@@ -172,6 +172,8 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jLabel10 = new javax.swing.JLabel();
         jlblLoteNombre = new javax.swing.JLabel();
         jlblAviso = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jlblOrigen = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 251, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -263,7 +265,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jlblProductoFarmaceutico.setForeground(new java.awt.Color(51, 102, 255));
         jlblProductoFarmaceutico.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblProductoFarmaceutico.setPreferredSize(new java.awt.Dimension(320, 20));
-        jPanel2.add(jlblProductoFarmaceutico, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 440, -1));
+        jPanel2.add(jlblProductoFarmaceutico, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 270, -1));
 
         jlblPrecioUnitario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jlblPrecioUnitario.setForeground(new java.awt.Color(51, 102, 255));
@@ -296,11 +298,11 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jLabel7.setPreferredSize(new java.awt.Dimension(330, 20));
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 90, -1));
 
-        jlblFechaVencimiento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jlblFechaVencimiento.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jlblFechaVencimiento.setForeground(new java.awt.Color(51, 102, 255));
         jlblFechaVencimiento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jlblFechaVencimiento.setPreferredSize(new java.awt.Dimension(105, 20));
-        jPanel2.add(jlblFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 140, -1));
+        jPanel2.add(jlblFechaVencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 130, -1));
 
         jlblPrecioTotal2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jlblPrecioTotal2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -351,15 +353,15 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
 
         jLabel9.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel9.setText("Lote:");
+        jLabel9.setText("Origen:");
         jLabel9.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 40, -1));
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 60, -1));
 
         jLabel10.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel10.setText("Fecha Ven.");
         jLabel10.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, 80, -1));
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 80, -1));
 
         jlblLoteNombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jlblLoteNombre.setForeground(new java.awt.Color(51, 102, 255));
@@ -371,6 +373,17 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jlblAviso.setForeground(new java.awt.Color(255, 0, 0));
         jlblAviso.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel2.add(jlblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, 230, 20));
+
+        jLabel11.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("Lote:");
+        jLabel11.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 40, -1));
+
+        jlblOrigen.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblOrigen.setForeground(new java.awt.Color(51, 102, 255));
+        jlblOrigen.setPreferredSize(new java.awt.Dimension(34, 20));
+        jPanel2.add(jlblOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 130, -1));
 
         contenedor.add(jPanel2);
 
@@ -419,6 +432,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
         jlblLoteNombre.setText(objLoteDetalleFinal.getCodigo());        
         jlblProductoFarmaceutico.setText(objInventario.getMedicamento().getNombre());
         jlblPrecioUnitario.setText(Float.toString(objLoteDetalleFinal.getPrecio_Venta_Redondeado()));
+        jlblOrigen.setText(objLoteDetalleFinal.getInventario().getMedicamento().getRolorigen().getNombre_rol());
         jlblPrecioTotal.setText("0.00");
         jbtnAgregar.setEnabled(true);
         jlblAviso.setText("");
@@ -507,6 +521,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -524,6 +539,7 @@ public class Cantidad_Medicinas extends javax.swing.JPanel{
     private javax.swing.JLabel jlblAviso;
     private javax.swing.JLabel jlblFechaVencimiento;
     private javax.swing.JLabel jlblLoteNombre;
+    private javax.swing.JLabel jlblOrigen;
     private javax.swing.JLabel jlblPrecioTotal;
     private javax.swing.JLabel jlblPrecioTotal2;
     private javax.swing.JLabel jlblPrecioUnitario;

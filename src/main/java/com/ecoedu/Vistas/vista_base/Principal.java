@@ -34,12 +34,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import org.dom4j.DocumentException;
 
 
@@ -49,26 +54,126 @@ import org.dom4j.DocumentException;
  */
 public class Principal extends javax.swing.JFrame{
     
-    List<Lote_detalle> lotes_por_vencer;
     private boolean auxFarmacia=false;
+    List<Lote_detalle> lotes_por_vencer;
+    List<Lote_detalle> lotes_por_vencidos;
+    Semestre objSemestreF;
 
     
     public class Proceso extends Thread{
         @Override
-        public void run(){            
-            CuadroCarritoMedicinas objCuadrito=new CuadroCarritoMedicinas(jpa);
-            actulizarPeriodo();            
-            objCuadrito.setVisible(true);
+        public void run(){    
+            jListaMedicamentosVencidos.setSize(700,350);
+            jListaMedicamentosVencidos.setLocationRelativeTo(null);
+            lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<=0 and isVencido=0").getResultList();
+            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0").getResultList();
+            llenar_tabla_LoteDetalleVencidos(lotes_por_vencidos);
+            llenar_tabla_LoteDetalle(lotes_por_vencer);
+            jlblPorvencer.setText("POR VENCER: "+lotes_por_vencer.size());
+            jlblVencidos.setText("VENCIDOS: "+lotes_por_vencidos.size());
+            jListaMedicamentosVencidos.setVisible(true);            
             }
         }
     public class ProcesoCarga extends Thread{
         @Override
         public void run(){          
-            jDialog1.setLocationRelativeTo(null);
-            jDialog1.setSize(350,250);
-            jDialog1.setVisible(true);
+            jdialogCarga.setLocationRelativeTo(null);
+            jdialogCarga.setSize(350,250);
+            jdialogCarga.setVisible(true);
             }
         }
+    public void llenar_tabla_LoteDetalle(List<Lote_detalle> listaLote){
+        DefaultTableModel modelo;
+        Object[] fila_actividad;
+             //.....................................TABLA......................................
+             String [] lista={"Producto Farmaceutico","Lote","Cantidad","Fecha Venc."}; 
+             modelo=new DefaultTableModel(null,lista){
+                 boolean[] canEdit = new boolean [] {false,false,false,false};
+                 public boolean isCellEditable(int rowIndex, int columnIndex) {
+                     return canEdit [columnIndex];
+                     }
+                 };
+             //.....................................TABLA...........Fin......................          
+             fila_actividad=new Object[modelo.getColumnCount()];  
+             for (int i = 0; i < listaLote.size(); i++){
+                 fila_actividad[0]=listaLote.get(i).getInventario().getMedicamento().getNombre();
+                 fila_actividad[1]=listaLote.get(i);
+                 fila_actividad[2]=listaLote.get(i).getCantidad();             
+                 fila_actividad[3]=Herramienta.formatoFechaMas1(listaLote.get(i).getFecha_vencimiento());
+                             
+                 modelo.addRow(fila_actividad);//agregando filas
+                 }             
+             
+             
+            jtblPorVencer.setModel(modelo); 
+            jtblPorVencer.setGridColor(Color.black);
+            //jTable1.setBackground(Color.red);
+            //jTable1.setForeground(Color.blue);
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+            tcr.setHorizontalAlignment(SwingConstants.CENTER);
+            jtblPorVencer.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jtblPorVencer.getColumnModel().getColumn(1).setCellRenderer(tcr);
+            jtblPorVencer.getColumnModel().getColumn(2).setCellRenderer(tcr);
+            jtblPorVencer.getColumnModel().getColumn(3).setCellRenderer(tcr);
+           
+            jtblPorVencer.setFont(new java.awt.Font("Tahoma", 0, 12));
+            jtblPorVencer.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 15));
+            jtblPorVencer.getTableHeader().setBackground(Color.BLUE);
+            jtblPorVencer.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jtblPorVencer.getColumnModel().getColumn(0).setPreferredWidth(200);
+            jtblPorVencer.getColumnModel().getColumn(1).setPreferredWidth(115);
+            jtblPorVencer.getColumnModel().getColumn(2).setPreferredWidth(85);    
+            jtblPorVencer.getColumnModel().getColumn(3).setPreferredWidth(60);
+           
+            ((DefaultTableCellRenderer)jtblPorVencer.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            //864-550=64                  
+    }
+    public void llenar_tabla_LoteDetalleVencidos(List<Lote_detalle> listaLote){
+        DefaultTableModel modelo;
+        Object[] fila_actividad;
+             //.....................................TABLA......................................
+             String [] lista={"Producto Farmaceutico","Lote","Cantidad","Fecha Venc."}; 
+             modelo=new DefaultTableModel(null,lista){
+                 boolean[] canEdit = new boolean [] {false,false,false,false};
+                 public boolean isCellEditable(int rowIndex, int columnIndex) {
+                     return canEdit [columnIndex];
+                     }
+                 };
+             //.....................................TABLA...........Fin......................          
+             fila_actividad=new Object[modelo.getColumnCount()];  
+             for (int i = 0; i < listaLote.size(); i++){
+                 fila_actividad[0]=listaLote.get(i).getInventario().getMedicamento().getNombre();
+                 fila_actividad[1]=listaLote.get(i);
+                 fila_actividad[2]=listaLote.get(i).getCantidad();             
+                 fila_actividad[3]=Herramienta.formatoFechaMas1(listaLote.get(i).getFecha_vencimiento());
+                             
+                 modelo.addRow(fila_actividad);//agregando filas
+                 }             
+             
+             
+            jbtlVencidos.setModel(modelo); 
+            jbtlVencidos.setGridColor(Color.black);
+            //jTable1.setBackground(Color.red);
+            //jTable1.setForeground(Color.blue);
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+            tcr.setHorizontalAlignment(SwingConstants.CENTER);
+            jbtlVencidos.getColumnModel().getColumn(0).setCellRenderer(tcr);
+            jbtlVencidos.getColumnModel().getColumn(1).setCellRenderer(tcr);
+            jbtlVencidos.getColumnModel().getColumn(2).setCellRenderer(tcr);
+            jbtlVencidos.getColumnModel().getColumn(3).setCellRenderer(tcr);
+           
+            jbtlVencidos.setFont(new java.awt.Font("Tahoma", 0, 12));
+            jbtlVencidos.getTableHeader().setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 15));
+            jbtlVencidos.getTableHeader().setBackground(Color.BLUE);
+            jbtlVencidos.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 30));
+            jbtlVencidos.getColumnModel().getColumn(0).setPreferredWidth(200);
+            jbtlVencidos.getColumnModel().getColumn(1).setPreferredWidth(115);
+            jbtlVencidos.getColumnModel().getColumn(2).setPreferredWidth(85);    
+            jbtlVencidos.getColumnModel().getColumn(3).setPreferredWidth(60);
+           
+            ((DefaultTableCellRenderer)jbtlVencidos.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+            //864-550=64                  
+    }
    public void actulizarPeriodo(){
        List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
         if(!lis.isEmpty()){
@@ -147,6 +252,7 @@ public class Principal extends javax.swing.JFrame{
    private Color colorExit=new Color(73,25,119);
    public Principal(EntityManager OBJjpa,Usuario OBJuser){
        initComponents();
+       
        File objFile=new File("Carpeta_de_Archivos");
         if (!objFile.exists()){
             if (objFile.mkdirs()) {
@@ -156,6 +262,27 @@ public class Principal extends javax.swing.JFrame{
             }
         }
        this.jpa=OBJjpa;
+       actulizarPeriodo();
+       List<Semestre> lis=jpa.createQuery("SELECT p from Semestre p where fecha_fin_Real is null").getResultList();  
+        if(!lis.isEmpty()){
+            jbtnCerrarSemestre.setEnabled(true);
+            jlblAdvertencia.setText("Semestre Vigente");
+            objSemestreF=lis.get(0);  
+            jcbDateInicio.setDatoFecha(objSemestreF.getFecha_Inicio());
+            jcbDateFin.setDatoFecha(objSemestreF.getFecha_Fin());
+            jbtnGuardar.setText("GUARDAR CAMBIOS");
+            if(objSemestreF.isSemestre_periodo()){
+                jcbPeriodoSemestre.setSelectedItem("II");
+            }
+            else{
+                jcbPeriodoSemestre.setSelectedItem("I");                
+            }
+        }
+        else{
+            jbtnCerrarSemestre.setEnabled(false);
+            jlblAdvertencia.setText("");
+            objSemestreF=new Semestre();
+        }
        this.user=OBJuser;
        this.objServicio_Asistencial=new Servicio_Asistencial(OBJjpa, this, OBJuser);
        this.objProveedorLaboratorio=new ProveedorLaboratorio(OBJjpa, this);
@@ -288,7 +415,7 @@ public class Principal extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        jdialogCarga = new javax.swing.JDialog();
         jPanel6 = new javax.swing.JPanel();
         carga = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -297,6 +424,37 @@ public class Principal extends javax.swing.JFrame{
         jlblMensaje3 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jListaMedicamentosVencidos = new javax.swing.JDialog();
+        contenedor = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jbtnAgregar = new javax.swing.JButton();
+        head1 = new javax.swing.JPanel();
+        jLabel42 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jbtlVencidos = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jtblPorVencer = new javax.swing.JTable();
+        jlblVencidos = new javax.swing.JLabel();
+        jlblPorvencer = new javax.swing.JLabel();
+        jdialogSemestreAtecion = new javax.swing.JDialog();
+        jPanel7 = new javax.swing.JPanel();
+        contenedor1 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel43 = new javax.swing.JLabel();
+        jlblSerie = new javax.swing.JLabel();
+        jbtnCerrarSemestre = new javax.swing.JButton();
+        jlblEscuela = new javax.swing.JLabel();
+        head2 = new javax.swing.JPanel();
+        jLabel44 = new javax.swing.JLabel();
+        jlblNombre1 = new javax.swing.JLabel();
+        jlblEstCodigo = new javax.swing.JLabel();
+        jlblCondicion1 = new javax.swing.JLabel();
+        jcbPeriodoSemestre = new javax.swing.JComboBox<>();
+        jcbDateFin = new rojeru_san.componentes.RSDateChooser();
+        jcbDateInicio = new rojeru_san.componentes.RSDateChooser();
+        jbtnSalir = new javax.swing.JButton();
+        jbtnGuardar = new javax.swing.JButton();
+        jlblAdvertencia = new javax.swing.JLabel();
         contenedorPrincipal = new javax.swing.JPanel();
         head = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -393,10 +551,10 @@ public class Principal extends javax.swing.JFrame{
         jLabel27 = new javax.swing.JLabel();
         bodyContenedor = new javax.swing.JPanel();
 
-        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
-        jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
-        jDialog1.setModal(true);
-        jDialog1.setUndecorated(true);
+        jdialogCarga.setMaximumSize(new java.awt.Dimension(350, 250));
+        jdialogCarga.setMinimumSize(new java.awt.Dimension(350, 250));
+        jdialogCarga.setModal(true);
+        jdialogCarga.setUndecorated(true);
 
         jPanel6.setBackground(new java.awt.Color(255, 251, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -440,7 +598,206 @@ public class Principal extends javax.swing.JFrame{
 
         jPanel6.add(carga, "card3");
 
-        jDialog1.getContentPane().add(jPanel6, java.awt.BorderLayout.CENTER);
+        jdialogCarga.getContentPane().add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        jListaMedicamentosVencidos.setMaximumSize(new java.awt.Dimension(350, 250));
+        jListaMedicamentosVencidos.setMinimumSize(new java.awt.Dimension(350, 250));
+        jListaMedicamentosVencidos.setModal(true);
+        jListaMedicamentosVencidos.setUndecorated(true);
+
+        contenedor.setBackground(new java.awt.Color(255, 255, 255));
+        contenedor.setMaximumSize(new java.awt.Dimension(700, 300));
+        contenedor.setMinimumSize(new java.awt.Dimension(700, 300));
+        contenedor.setName(""); // NOI18N
+        contenedor.setPreferredSize(new java.awt.Dimension(700, 300));
+        contenedor.setLayout(new java.awt.BorderLayout());
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setPreferredSize(new java.awt.Dimension(700, 345));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jbtnAgregar.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnAgregar.setText("OK");
+        jbtnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 316, 210, -1));
+
+        head1.setBackground(new java.awt.Color(204, 0, 0));
+        head1.setPreferredSize(new java.awt.Dimension(900, 70));
+
+        jLabel42.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel42.setText("LISTA DE MEDICAMENTOS VENCIDOS Y POR VENCER");
+        jLabel42.setPreferredSize(new java.awt.Dimension(900, 30));
+        head1.add(jLabel42);
+
+        jPanel8.add(head1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
+
+        jbtlVencidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jbtlVencidos);
+
+        jPanel8.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 660, 100));
+
+        jtblPorVencer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(jtblPorVencer);
+
+        jPanel8.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 660, 100));
+
+        jlblVencidos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblVencidos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblVencidos.setText("VENCIDOS:");
+        jPanel8.add(jlblVencidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 180, 700, 25));
+
+        jlblPorvencer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblPorvencer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblPorvencer.setText("POR VENCER:");
+        jPanel8.add(jlblPorvencer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 700, 25));
+
+        contenedor.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        jListaMedicamentosVencidos.getContentPane().add(contenedor, java.awt.BorderLayout.CENTER);
+
+        jdialogSemestreAtecion.setMaximumSize(new java.awt.Dimension(350, 250));
+        jdialogSemestreAtecion.setMinimumSize(new java.awt.Dimension(350, 250));
+        jdialogSemestreAtecion.setModal(true);
+        jdialogSemestreAtecion.setUndecorated(true);
+
+        jPanel7.setBackground(new java.awt.Color(255, 251, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel7.setMaximumSize(new java.awt.Dimension(100, 176));
+        jPanel7.setPreferredSize(new java.awt.Dimension(350, 250));
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        contenedor1.setBackground(new java.awt.Color(255, 255, 255));
+        contenedor1.setMaximumSize(new java.awt.Dimension(700, 300));
+        contenedor1.setMinimumSize(new java.awt.Dimension(700, 300));
+        contenedor1.setName(""); // NOI18N
+        contenedor1.setPreferredSize(new java.awt.Dimension(700, 300));
+        contenedor1.setLayout(new java.awt.BorderLayout());
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setPreferredSize(new java.awt.Dimension(700, 345));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel43.setText("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        jLabel43.setPreferredSize(new java.awt.Dimension(700, 14));
+        jPanel9.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 680, 10));
+
+        jlblSerie.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblSerie.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblSerie.setText("SEMESTRE:");
+        jlblSerie.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel9.add(jlblSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 80, 25));
+
+        jbtnCerrarSemestre.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnCerrarSemestre.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCerrarSemestre.setText("FINALIZAR SEMESTRE REAL");
+        jbtnCerrarSemestre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCerrarSemestreActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jbtnCerrarSemestre, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 230, -1));
+
+        jlblEscuela.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblEscuela.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblEscuela.setText("FECHA FIN:");
+        jlblEscuela.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel9.add(jlblEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 80, 25));
+
+        head2.setBackground(new java.awt.Color(0, 153, 102));
+        head2.setPreferredSize(new java.awt.Dimension(900, 70));
+
+        jLabel44.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel44.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel44.setText(" Semestre de Atención");
+        jLabel44.setPreferredSize(new java.awt.Dimension(900, 70));
+        head2.add(jLabel44);
+
+        jPanel9.add(head2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, -1));
+
+        jlblNombre1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblNombre1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblNombre1.setText("FECHA INICIO:");
+        jlblNombre1.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel9.add(jlblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 100, 25));
+
+        jlblEstCodigo.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
+        jlblEstCodigo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblEstCodigo.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel9.add(jlblEstCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 150, 25));
+
+        jlblCondicion1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jlblCondicion1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlblCondicion1.setText("2020");
+        jlblCondicion1.setPreferredSize(new java.awt.Dimension(330, 20));
+        jPanel9.add(jlblCondicion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 40, 25));
+
+        jcbPeriodoSemestre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jcbPeriodoSemestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I", "II" }));
+        jcbPeriodoSemestre.setPreferredSize(new java.awt.Dimension(56, 25));
+        jPanel9.add(jcbPeriodoSemestre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 50, -1));
+
+        jcbDateFin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel9.add(jcbDateFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, 160, 25));
+        jPanel9.add(jcbDateInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 160, 25));
+
+        jbtnSalir.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnSalir.setText("SALIR");
+        jbtnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSalirActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jbtnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 160, -1));
+
+        jbtnGuardar.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnGuardar.setText("GUARDAR");
+        jbtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jbtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 160, -1));
+
+        jlblAdvertencia.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jlblAdvertencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblAdvertencia.setText("Semestre vigente");
+        jPanel9.add(jlblAdvertencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 700, 20));
+
+        contenedor1.add(jPanel9, java.awt.BorderLayout.CENTER);
+
+        jPanel7.add(contenedor1, java.awt.BorderLayout.CENTER);
+
+        jdialogSemestreAtecion.getContentPane().add(jPanel7, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1200, 650));
@@ -2326,7 +2683,7 @@ public class Principal extends javax.swing.JFrame{
         objAbrir_Inventario.ConsultaBD();
         objAbrir_Inventario.principalEjecucion();
         objAbrir_Inventario.setVisible(true);//18 
-        jDialog1.dispose();
+        jdialogCarga.dispose();
     }//GEN-LAST:event_jleftInventario_AbrirInventarioMouseClicked
 
     private void jleftInventario_AbrirInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_AbrirInventarioMouseExited
@@ -2591,9 +2948,47 @@ public class Principal extends javax.swing.JFrame{
 
     private void jlblSemestreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblSemestreMouseClicked
         if(auxFarmacia){
-        CuadroCarritoMedicinas objCuadroSemestre=new CuadroCarritoMedicinas(jpa, true,this);
-        objCuadroSemestre.setVisible(true);}
+            jdialogSemestreAtecion.setLocationRelativeTo(null);
+            jdialogSemestreAtecion.setSize(700,350);
+            jdialogSemestreAtecion.setVisible(true);}
     }//GEN-LAST:event_jlblSemestreMouseClicked
+
+    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
+        jListaMedicamentosVencidos.setVisible(false);
+
+    }//GEN-LAST:event_jbtnAgregarActionPerformed
+
+    private void jbtnCerrarSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCerrarSemestreActionPerformed
+        objSemestreF.setFecha_Fin_Real(new Date());
+        jpa.getTransaction().begin();
+        jpa.persist(objSemestreF);
+        actulizarPeriodoClick();
+        JOptionPane.showMessageDialog(jLabel12, "Semestre culminado");
+        //objCuadrito.setVisible(false);
+        jpa.getTransaction().commit();
+    }//GEN-LAST:event_jbtnCerrarSemestreActionPerformed
+
+    private void jbtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSalirActionPerformed
+        jdialogSemestreAtecion.setVisible(false);
+    }//GEN-LAST:event_jbtnSalirActionPerformed
+
+    private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
+
+        objSemestreF.setFecha_Fin(jcbDateFin.getDatoFecha());
+        objSemestreF.setFecha_Inicio(jcbDateInicio.getDatoFecha());
+        if(((String)jcbPeriodoSemestre.getSelectedItem()).equals("I")){
+            objSemestreF.setSemestre_periodo(false);
+        }
+        else{
+            objSemestreF.setSemestre_periodo(true);
+        }
+        jpa.getTransaction().begin();
+        jpa.persist(objSemestreF);
+        actulizarPeriodoClick();
+        JOptionPane.showMessageDialog(jLabel12, "Guardado con exito");
+        jdialogSemestreAtecion.setVisible(false);
+        jpa.getTransaction().commit();
+    }//GEN-LAST:event_jbtnGuardarActionPerformed
 
     public Usuario getUsuario(){
         return user;
@@ -2603,9 +2998,12 @@ public class Principal extends javax.swing.JFrame{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyContenedor;
     private javax.swing.JPanel carga;
+    private javax.swing.JPanel contenedor;
+    private javax.swing.JPanel contenedor1;
     private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JPanel head;
-    private javax.swing.JDialog jDialog1;
+    private javax.swing.JPanel head1;
+    private javax.swing.JPanel head2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2641,11 +3039,15 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JDialog jListaMedicamentosVencidos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2655,20 +3057,43 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable jbtlVencidos;
+    private javax.swing.JButton jbtnAgregar;
+    private javax.swing.JButton jbtnCerrarSemestre;
+    private javax.swing.JButton jbtnGuardar;
+    private javax.swing.JButton jbtnSalir;
+    private rojeru_san.componentes.RSDateChooser jcbDateFin;
+    private rojeru_san.componentes.RSDateChooser jcbDateInicio;
+    private javax.swing.JComboBox<String> jcbPeriodoSemestre;
+    private javax.swing.JDialog jdialogCarga;
+    private javax.swing.JDialog jdialogSemestreAtecion;
+    private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblAlertaMedicamentosVencidos;
+    private javax.swing.JLabel jlblCondicion1;
     private javax.swing.JLabel jlblConsultasFlecha;
     private javax.swing.JLabel jlblConsultasFlecha1;
+    private javax.swing.JLabel jlblEscuela;
+    private javax.swing.JLabel jlblEstCodigo;
     private javax.swing.JLabel jlblEstudianteFlecha1;
     private javax.swing.JLabel jlblHead1;
     private javax.swing.JLabel jlblInventarioFlecha;
     private javax.swing.JLabel jlblMensaje3;
     private javax.swing.JLabel jlblMinimizar;
+    private javax.swing.JLabel jlblNombre1;
+    private javax.swing.JLabel jlblPorvencer;
     private javax.swing.JLabel jlblRolcito;
     private javax.swing.JLabel jlblSalir;
     private javax.swing.JLabel jlblSemestre;
+    private javax.swing.JLabel jlblSerie;
     private javax.swing.JLabel jlblTarifarioFlecha;
     private javax.swing.JLabel jlblUsuario;
     private javax.swing.JLabel jlblUsuarioFlecha;
+    private javax.swing.JLabel jlblVencidos;
     private javax.swing.JPanel jleftConsultas;
     private javax.swing.JPanel jleftConsultas_Entregadeldia;
     private javax.swing.JPanel jleftConsultas_MedicamentoUsado;
@@ -2698,6 +3123,7 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JPanel jleftUsuario;
     private javax.swing.JPanel jleftUsuario_AdministrarRol;
     private javax.swing.JPanel jleftUsuario_CrearModificarUser;
+    private javax.swing.JTable jtblPorVencer;
     private javax.swing.JPanel jtfsub_Consultas;
     private javax.swing.JPanel jtfsub_Estudiante;
     private javax.swing.JPanel jtfsub_Medicina;

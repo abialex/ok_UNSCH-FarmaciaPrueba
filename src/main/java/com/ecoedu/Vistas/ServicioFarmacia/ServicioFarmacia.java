@@ -669,6 +669,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jlblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel16.add(jlblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 720, 25));
 
+        jcbProcedencia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jPanel16.add(jcbProcedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 150, 25));
 
         jPanel14.add(jPanel16, java.awt.BorderLayout.CENTER);
@@ -693,6 +694,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         jLabel25.setPreferredSize(new java.awt.Dimension(180, 14));
         cabeza.add(jLabel25);
 
+        jbtnADDmedicamentos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbtnADDmedicamentos.setText("AGREGAR MEDICAMENTOS");
         jbtnADDmedicamentos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
