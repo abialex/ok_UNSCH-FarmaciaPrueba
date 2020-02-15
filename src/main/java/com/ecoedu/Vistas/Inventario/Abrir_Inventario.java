@@ -9,7 +9,6 @@ import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.app.EventoPagina;
 import com.ecoedu.model.Detalle_llenado;
 import com.ecoedu.model.Inventario;
-import com.ecoedu.model.Lote_detalle;
 import com.ecoedu.model.RegistroMensualInventario;
 import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
@@ -64,6 +63,9 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     Principal objPrincipal;
     List<Rol> Lista_Origen;
     List<Detalle_llenado> lista_aux;
+    boolean SWITCHBD=false;
+    boolean SWITCHimpresion=false;
+    //MensajeCarga objMensaje;
     
     Usuario objUsuario;
     EntityManager jpa;
@@ -74,6 +76,12 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         this.jpa=jpa2;
         this.objPrincipal=OBJPrincipal;             
     }
+    public class Proceso extends Thread{
+        @Override
+        public void run(){ 
+            aperturar();
+            }
+        }
     public void ConsultaBD(){    
         Lista_Origen=jpa.createQuery("Select p from Rol p where id_tipo_Roles=10").getResultList();
         Collections.sort(Lista_Origen);        
@@ -128,7 +136,39 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        jDialog1 = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
+        confirmarProceso = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jlblHead = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jlblMensaje = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jlblMensaje1 = new javax.swing.JLabel();
+        jlblMensaje2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jbtnAceptar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jbtnCancelar = new javax.swing.JButton();
+        carga = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jlblHead1 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jlblMensaje3 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        confirmarImpresion = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jlblHead3 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jlblMensaje5 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jlblMensaje6 = new javax.swing.JLabel();
+        jlblMensaje7 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jbtnImprimirApertura = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jbtnCancelarImpresion = new javax.swing.JButton();
         head = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         body = new javax.swing.JPanel();
@@ -144,6 +184,194 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jbtnAbrirInventario = new javax.swing.JButton();
+
+        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setModal(true);
+        jDialog1.setUndecorated(true);
+        jDialog1.setPreferredSize(new java.awt.Dimension(350, 250));
+
+        jPanel1.setBackground(new java.awt.Color(255, 251, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setMaximumSize(new java.awt.Dimension(100, 176));
+        jPanel1.setPreferredSize(new java.awt.Dimension(350, 250));
+        jPanel1.setLayout(new java.awt.CardLayout());
+
+        confirmarProceso.setBackground(new java.awt.Color(255, 255, 255));
+        confirmarProceso.setMaximumSize(new java.awt.Dimension(700, 300));
+        confirmarProceso.setMinimumSize(new java.awt.Dimension(700, 300));
+        confirmarProceso.setName(""); // NOI18N
+        confirmarProceso.setPreferredSize(new java.awt.Dimension(700, 300));
+        confirmarProceso.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel2.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead.setForeground(new java.awt.Color(153, 0, 51));
+        jlblHead.setText("AVISO");
+        jPanel2.add(jlblHead);
+
+        confirmarProceso.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje.setText("...");
+        jPanel3.add(jlblMensaje);
+
+        confirmarProceso.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje1.setText("Si abre ya no podrá llenar lotes");
+        jPanel4.add(jlblMensaje1);
+
+        jlblMensaje2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje2.setText("¿Segura(o) de abrir el inventario? ");
+        jPanel4.add(jlblMensaje2);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setPreferredSize(new java.awt.Dimension(290, 80));
+        jPanel4.add(jLabel5);
+
+        jbtnAceptar.setBackground(new java.awt.Color(0, 0, 255));
+        jbtnAceptar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnAceptar.setText("ACEPTAR");
+        jbtnAceptar.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAceptarActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jbtnAceptar);
+
+        jLabel6.setPreferredSize(new java.awt.Dimension(50, 14));
+        jPanel4.add(jLabel6);
+
+        jbtnCancelar.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnCancelar.setText("CANCELAR");
+        jbtnCancelar.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jbtnCancelar);
+
+        confirmarProceso.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(confirmarProceso, "card2");
+
+        carga.setBackground(new java.awt.Color(255, 255, 255));
+        carga.setMaximumSize(new java.awt.Dimension(700, 300));
+        carga.setMinimumSize(new java.awt.Dimension(700, 300));
+        carga.setName(""); // NOI18N
+        carga.setPreferredSize(new java.awt.Dimension(700, 300));
+        carga.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel5.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel5.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead1.setText("Espere porfavor...");
+        jPanel5.add(jlblHead1);
+
+        carga.add(jPanel5, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje3.setText("aperturando inventario");
+        jPanel6.add(jlblMensaje3);
+
+        carga.add(jPanel6, java.awt.BorderLayout.PAGE_END);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cargando2.gif"))); // NOI18N
+        jPanel8.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 5, 320, 160));
+
+        carga.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(carga, "card3");
+
+        confirmarImpresion.setBackground(new java.awt.Color(255, 255, 255));
+        confirmarImpresion.setMaximumSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion.setMinimumSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion.setName(""); // NOI18N
+        confirmarImpresion.setPreferredSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel13.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel13.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead3.setText("Escoga una opción");
+        jPanel13.add(jlblHead3);
+
+        confirmarImpresion.add(jPanel13, java.awt.BorderLayout.PAGE_START);
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje5.setText("...");
+        jPanel14.add(jlblMensaje5);
+
+        confirmarImpresion.add(jPanel14, java.awt.BorderLayout.PAGE_END);
+
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje6.setText("¿Desea Imprimir la apartura de Inventario?");
+        jPanel15.add(jlblMensaje6);
+
+        jlblMensaje7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje7.setForeground(new java.awt.Color(255, 255, 255));
+        jlblMensaje7.setText("¿Segura(o) de abrir el inventario? ");
+        jPanel15.add(jlblMensaje7);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setPreferredSize(new java.awt.Dimension(290, 80));
+        jPanel15.add(jLabel7);
+
+        jbtnImprimirApertura.setBackground(new java.awt.Color(0, 0, 255));
+        jbtnImprimirApertura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnImprimirApertura.setText("ACEPTAR");
+        jbtnImprimirApertura.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnImprimirApertura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnImprimirAperturaActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jbtnImprimirApertura);
+
+        jLabel8.setPreferredSize(new java.awt.Dimension(50, 14));
+        jPanel15.add(jLabel8);
+
+        jbtnCancelarImpresion.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancelarImpresion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnCancelarImpresion.setText("CANCELAR");
+        jbtnCancelarImpresion.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnCancelarImpresion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarImpresionActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jbtnCancelarImpresion);
+
+        confirmarImpresion.add(jPanel15, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(confirmarImpresion, "card2");
+
+        jDialog1.getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -274,16 +502,28 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnAbrirInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAbrirInventarioActionPerformed
+     
+        jDialog1.setSize(350,250);
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setVisible(true);
+        confirmarProceso.setVisible(true);
+        confirmarProceso.setVisible(false);
+        carga.setVisible(false);
+        
+        
+        
+    }//GEN-LAST:event_jbtnAbrirInventarioActionPerformed
 
-        int confirmad = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Seguro de abrir el inventario? ya no podrà llenar");
-        if(JOptionPane.OK_OPTION==confirmad){
+    public void aperturar(){
+        if(SWITCHBD){
         Date fechaApertu=new Date();
         Date fechaApertuReal=new Date();
         fechaApertu.setDate(1);
         fechaApertu.setHours(0);
         fechaApertu.setMinutes(0);
         fechaApertu.setSeconds(0);
-        jpa.getTransaction().begin();
+        
+        jpa.getTransaction().begin();        
         int auxComprobante=0;
         for (Inventario inventario : Lista_Inventario){   
             RegistroMensualInventario objRegistro=new RegistroMensualInventario(inventario.getCantidad(), fechaApertu, fechaApertuReal, objUsuario, inventario);
@@ -303,9 +543,21 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         }//fin for2       
         ConsultaBD();
         principalEjecucion();
-        JOptionPane.showMessageDialog(jlblAdvertencia, "Aperturó con exito el mes de "+Herramienta.getNombreMes(fechaApertuReal.getMonth()+1));
-        int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Desea Imprimir la Apertura del Inventario?");
-            if (JOptionPane.OK_OPTION == confirmado){
+        confirmarProceso.setVisible(false);
+        confirmarImpresion.setVisible(true);
+        carga.setVisible(false);
+        //objMensaje.setVisible(false);
+        //JOptionPane.showMessageDialog(jlblAdvertencia, "Aperturó con exito el mes de "+Herramienta.getNombreMes(fechaApertuReal.getMonth()+1));
+        //int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Desea Imprimir la Apertura del Inventario?");
+            
+            jpa.getTransaction().commit();
+        } 
+        else{
+           System.out.println("olgas");
+        }
+    }
+    public void imprimir(){
+        if (SWITCHimpresion){
                 try {                
                     Date Fe=new Date();
                     imprimirInventarioApertura(Fe);
@@ -319,13 +571,31 @@ public class Abrir_Inventario extends javax.swing.JPanel {
                 }
             else{
                 System.out.println("vale... no borro nada...");}
-        jpa.getTransaction().commit();
-        } 
-        else{
-           System.out.println("olgas");
-        }
+    }
+    private void jbtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptarActionPerformed
+        SWITCHBD=true;
+        confirmarProceso.setVisible(false);
+        confirmarImpresion.setVisible(false);
+        carga.setVisible(true);
+        new Proceso().start();
         
-    }//GEN-LAST:event_jbtnAbrirInventarioActionPerformed
+        
+        
+    }//GEN-LAST:event_jbtnAceptarActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        jDialog1.dispose();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jbtnImprimirAperturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirAperturaActionPerformed
+        SWITCHimpresion=true;
+        imprimir();
+        jDialog1.setVisible(false);
+    }//GEN-LAST:event_jbtnImprimirAperturaActionPerformed
+
+    private void jbtnCancelarImpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarImpresionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCancelarImpresionActionPerformed
     public void imprimirInventarioApertura(Date Fe) throws MalformedURLException, IOException{
         
         String ol="images\\unsch.png";
@@ -469,19 +739,51 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
     private javax.swing.JPanel body2;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel carga;
+    private javax.swing.JPanel confirmarImpresion;
+    private javax.swing.JPanel confirmarProceso;
     private javax.swing.JPanel cuerpo1;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnAbrirInventario;
+    private javax.swing.JButton jbtnAceptar;
+    private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnCancelarImpresion;
+    private javax.swing.JButton jbtnImprimirApertura;
     private javax.swing.JLabel jlblAdvertencia;
+    private javax.swing.JLabel jlblHead;
+    private javax.swing.JLabel jlblHead1;
+    private javax.swing.JLabel jlblHead3;
+    private javax.swing.JLabel jlblMensaje;
+    private javax.swing.JLabel jlblMensaje1;
+    private javax.swing.JLabel jlblMensaje2;
+    private javax.swing.JLabel jlblMensaje3;
+    private javax.swing.JLabel jlblMensaje5;
+    private javax.swing.JLabel jlblMensaje6;
+    private javax.swing.JLabel jlblMensaje7;
     private javax.swing.JTable jtblVentas;
     // End of variables declaration//GEN-END:variables
 

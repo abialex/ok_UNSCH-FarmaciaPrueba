@@ -738,6 +738,10 @@ public class Descargo extends javax.swing.JPanel{
                switch(((Rol)jcbTipoDescargo.getSelectedItem()).getNombre_rol()){
                    case "PÉRDIDA":       
                        jlblInformacionPersonal.setVisible(false);
+                       jlblCodigoDocumentoHead.setVisible(true);
+                       jtfDNIPERSONAL.setVisible(false);
+                       jlblCodigoDocumentoHead.setText("Nro. DOCUMENTO");
+                       jtfCodigoDocumento.setVisible(true);
                        cuerpo2Faltante.setVisible(true);
                        cuerpo4Campaña.setVisible(false);
                        cuerpo1Vencido.setVisible(false);
@@ -747,6 +751,21 @@ public class Descargo extends javax.swing.JPanel{
                        
                        for (Lote_detalle listaLote : listaLotes){
                            TextAutoCompleterLotes.addItem(listaLote);}                       
+                       break;
+                   case "TÓPICO":
+                       jlblPacienteNom.setVisible(false);
+                       jtfNombresPersona.setVisible(false);
+                       jlblNombresCampaña.setVisible(false);
+                       jlblInformacionPersonal.setVisible(true);
+                       jlblCodigoDocumentoHead.setVisible(false);
+                       jtfCodigoDocumento.setVisible(false);
+                       jlblCodigoDocumento.setVisible(false);
+                       jtfDNIPERSONAL.setVisible(false);
+                       jlblCodigoDocumentoHead.setText("NRO DNI");
+                       cuerpo4Campaña.setVisible(true);
+                       cuerpo1Vencido.setVisible(false);
+                       cuerpo3Donacion.setVisible(false);
+                       cuerpo2Faltante.setVisible(false);                       
                        break;
                    case "DONACIÓN":
                        jlblInformacionPersonal.setVisible(false);
@@ -1134,7 +1153,7 @@ public class Descargo extends javax.swing.JPanel{
     }//GEN-LAST:event_jtfDNIPERSONALKeyReleased
 
     public void GuardarCampaña(){
-        if(!jtfDNIPERSONAL.getText().isEmpty() || (jlblCodigoDocumento.getText().isEmpty()&& jlblNombresCampaña.getText().isEmpty())){
+        if(!jtfDNIPERSONAL.getText().isEmpty() || (jlblCodigoDocumento.getText().isEmpty()&& jlblNombresCampaña.getText().isEmpty())  || ((Rol)jcbTipoDescargo.getSelectedItem()).getNombre_rol().equals("TÓPICO")){
             if(!Lista_Medicamentos_Campaña.isEmpty()){
                 jpa.getTransaction().begin();
                 for (Detalle_Medicamentos objDetalleMedicamento : Lista_Medicamentos_Campaña) {
@@ -1148,6 +1167,7 @@ public class Descargo extends javax.swing.JPanel{
                     objDescargaCampaña.setUsuario(objUsuario);  
                     objDescargaCampaña.setUsuarioRecibe(objPersonaReceptor);
                     jpa.persist(objDescargaCampaña);
+                    
                     }
                 JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
                 Lista_Medicamentos_Campaña.clear();

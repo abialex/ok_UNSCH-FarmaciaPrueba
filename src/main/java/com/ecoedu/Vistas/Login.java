@@ -24,7 +24,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  *
  * @author yrma
  */
-public class Login extends javax.swing.JPanel {
+public class Login extends javax.swing.JPanel{
     EntityManager jpa;
     Usuario usuario;
     CuadroLogin loginframe;
@@ -38,6 +38,12 @@ public class Login extends javax.swing.JPanel {
         public void run(){
             conectarBD();
         }        
+    }
+    public class ProcesoCarga extends Thread{
+        @Override
+        public void run(){
+            iniciarSesion();
+        }
     }
     
     public Login(CuadroLogin loginFrame){     
@@ -55,6 +61,15 @@ public class Login extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jPanel6 = new javax.swing.JPanel();
+        carga = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jlblHead1 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jlblMensaje3 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
         Login = new javax.swing.JPanel();
         head = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -103,6 +118,55 @@ public class Login extends javax.swing.JPanel {
         pie2 = new javax.swing.JPanel();
         jlblOlvideContra2 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+
+        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setModal(true);
+        jDialog1.setUndecorated(true);
+
+        jPanel6.setBackground(new java.awt.Color(255, 251, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel6.setMaximumSize(new java.awt.Dimension(100, 176));
+        jPanel6.setPreferredSize(new java.awt.Dimension(350, 250));
+        jPanel6.setLayout(new java.awt.CardLayout());
+
+        carga.setBackground(new java.awt.Color(255, 255, 255));
+        carga.setMaximumSize(new java.awt.Dimension(700, 300));
+        carga.setMinimumSize(new java.awt.Dimension(700, 300));
+        carga.setName(""); // NOI18N
+        carga.setPreferredSize(new java.awt.Dimension(700, 300));
+        carga.setLayout(new java.awt.BorderLayout());
+
+        jPanel10.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel10.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel10.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead1.setText("Espere porfavor...");
+        jPanel10.add(jlblHead1);
+
+        carga.add(jPanel10, java.awt.BorderLayout.PAGE_START);
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje3.setText("Cargando Datos");
+        jPanel11.add(jlblMensaje3);
+
+        carga.add(jPanel11, java.awt.BorderLayout.PAGE_END);
+
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cargando2.gif"))); // NOI18N
+        jPanel12.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 5, 320, 160));
+
+        carga.add(jPanel12, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(carga, "card3");
+
+        jDialog1.getContentPane().add(jPanel6, java.awt.BorderLayout.CENTER);
 
         setBackground(new java.awt.Color(255, 251, 255));
         setMaximumSize(new java.awt.Dimension(100, 176));
@@ -448,9 +512,11 @@ public class Login extends javax.swing.JPanel {
             }        
     }
     public void abrirPantallaPrincipal(){
-        Principal objPrincipal=new Principal(jpa,usuario);   
-        loginframe.setVisible(false);
-        objPrincipal.setVisible(true);
+       
+       Principal objPrincipal=new Principal(jpa,usuario);   
+       jDialog1.dispose();
+       loginframe.setVisible(false);
+       objPrincipal.setVisible(true);
     }
     private void iniciarSesion(){
         jbtnIngresar.setEnabled(false);
@@ -465,6 +531,7 @@ public class Login extends javax.swing.JPanel {
                         abrirPantallaPrincipal();
                         }
                     else{
+                        jDialog1.dispose();
                         Login.setVisible(false);
                         CambiarContraseña.setVisible(true);
                         jlblDatos.setText(usuario.getPersona().getInfoPersona());
@@ -472,6 +539,7 @@ public class Login extends javax.swing.JPanel {
                     }
                     }
                 else{
+                    jDialog1.dispose();
                     jlblMensaje.setText("los datos no coinciden");
                     jbtnIngresar.setEnabled(true);
                     }
@@ -493,14 +561,22 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_jlblOlvideContraMouseMoved
 
     private void jbtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIngresarActionPerformed
-        iniciarSesion();
+        //iniciarSesion();
+        new ProcesoCarga().start();
+        jDialog1.setSize(350,250);
+        jDialog1.setLocation(508,350);
+        jDialog1.setVisible(true);        
+        
+        
     }//GEN-LAST:event_jbtnIngresarActionPerformed
 
     private void jtfContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfContraseñaKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER && (("Conexión exitosa").equals(jlblMensaje.getText()) || ("los datos no coinciden").equals(jlblMensaje.getText()) )){
-            iniciarSesion();
-
-        }
+            new ProcesoCarga().start();
+            jDialog1.setSize(350,250);
+            jDialog1.setLocation(508,350);
+            jDialog1.setVisible(true);
+            }
     }//GEN-LAST:event_jtfContraseñaKeyPressed
 
     private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
@@ -591,11 +667,13 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JPanel Body2;
     private javax.swing.JPanel CambiarContraseña;
     private javax.swing.JPanel Login;
+    private javax.swing.JPanel carga;
     private javax.swing.JPanel cuerpito;
     private javax.swing.JPanel cuerpito2;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -605,6 +683,7 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -613,14 +692,20 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JButton jbtnIngresar;
     private javax.swing.JLabel jlblDatos;
+    private javax.swing.JLabel jlblHead1;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblMensaje1;
+    private javax.swing.JLabel jlblMensaje3;
     private javax.swing.JLabel jlblMensajeCambiarContra;
     private javax.swing.JLabel jlblMinimizar;
     private javax.swing.JLabel jlblMinimizar2;

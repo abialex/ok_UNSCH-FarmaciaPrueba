@@ -47,16 +47,26 @@ import org.dom4j.DocumentException;
  *
  * @author yrma
  */
-public class Principal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JFrame{
     
     List<Lote_detalle> lotes_por_vencer;
     private boolean auxFarmacia=false;
+
+    
     public class Proceso extends Thread{
         @Override
         public void run(){            
             CuadroCarritoMedicinas objCuadrito=new CuadroCarritoMedicinas(jpa);
             actulizarPeriodo();            
             objCuadrito.setVisible(true);
+            }
+        }
+    public class ProcesoCarga extends Thread{
+        @Override
+        public void run(){          
+            jDialog1.setLocationRelativeTo(null);
+            jDialog1.setSize(350,250);
+            jDialog1.setVisible(true);
             }
         }
    public void actulizarPeriodo(){
@@ -228,6 +238,7 @@ public class Principal extends javax.swing.JFrame {
            jleftServicioAsistencial.setVisible(false);
            new Proceso().start();
            }
+       
        if(OBJuser.getRol().getNombre_rol().equals("TÉCNICO")){
            jleftServicioAsistencial.setVisible(false);
            jleftTarifario.setVisible(false);
@@ -243,14 +254,14 @@ public class Principal extends javax.swing.JFrame {
            new Proceso().start();
        }
        
-       if(OBJuser.getRol().getNombre_rol().equals("ASISTENCIAL-ADM")){
+       if(OBJuser.getRol().getNombre_rol().equals("ASISTENCIAL")){
            setIconImage(new ImageIcon(getClass().getResource("/images/informacion.png")).getImage());
            jlblRolcito.setText("Trabajadora Social:");
            jleftServicioFarmacia.setVisible(false);
            jleftMedicamento.setVisible(false);
-           jleftEstudiante.setVisible(true);
+           //jleftEstudiante.setVisible(true);
            jleftConsultas.setVisible(false);
-           jleftUsuario.setVisible(true);
+           //jleftUsuario.setVisible(true);
            jleftInventario.setVisible(false);
            jleftProveedorYfabricante.setVisible(false);
            jleftInventario_llenarInventario.setVisible(false);
@@ -277,6 +288,15 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jPanel6 = new javax.swing.JPanel();
+        carga = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jlblHead1 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jlblMensaje3 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         contenedorPrincipal = new javax.swing.JPanel();
         head = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -372,6 +392,55 @@ public class Principal extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         bodyContenedor = new javax.swing.JPanel();
+
+        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setModal(true);
+        jDialog1.setUndecorated(true);
+
+        jPanel6.setBackground(new java.awt.Color(255, 251, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel6.setMaximumSize(new java.awt.Dimension(100, 176));
+        jPanel6.setPreferredSize(new java.awt.Dimension(350, 250));
+        jPanel6.setLayout(new java.awt.CardLayout());
+
+        carga.setBackground(new java.awt.Color(255, 255, 255));
+        carga.setMaximumSize(new java.awt.Dimension(700, 300));
+        carga.setMinimumSize(new java.awt.Dimension(700, 300));
+        carga.setName(""); // NOI18N
+        carga.setPreferredSize(new java.awt.Dimension(700, 300));
+        carga.setLayout(new java.awt.BorderLayout());
+
+        jPanel10.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel10.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel10.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead1.setText("Espere porfavor...");
+        jPanel10.add(jlblHead1);
+
+        carga.add(jPanel10, java.awt.BorderLayout.PAGE_START);
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje3.setText("cerrando el inventario");
+        jPanel11.add(jlblMensaje3);
+
+        carga.add(jPanel11, java.awt.BorderLayout.PAGE_END);
+
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cargando2.gif"))); // NOI18N
+        jPanel12.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 5, 320, 160));
+
+        carga.add(jPanel12, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(carga, "card3");
+
+        jDialog1.getContentPane().add(jPanel6, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1200, 650));
@@ -2229,6 +2298,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jleftInventario_AbrirInventarioMouseMoved
 
     private void jleftInventario_AbrirInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_AbrirInventarioMouseClicked
+        new ProcesoCarga().start();
+
         bodyContenedor.setVisible(true);           
         objProveedorLaboratorio.setVisible(false);//14
         objVer_inventario.setVisible(false);
@@ -2255,6 +2326,7 @@ public class Principal extends javax.swing.JFrame {
         objAbrir_Inventario.ConsultaBD();
         objAbrir_Inventario.principalEjecucion();
         objAbrir_Inventario.setVisible(true);//18 
+        jDialog1.dispose();
     }//GEN-LAST:event_jleftInventario_AbrirInventarioMouseClicked
 
     private void jleftInventario_AbrirInventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftInventario_AbrirInventarioMouseExited
@@ -2530,8 +2602,10 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bodyContenedor;
+    private javax.swing.JPanel carga;
     private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JPanel head;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2567,20 +2641,27 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel jlblAlertaMedicamentosVencidos;
     private javax.swing.JLabel jlblConsultasFlecha;
     private javax.swing.JLabel jlblConsultasFlecha1;
     private javax.swing.JLabel jlblEstudianteFlecha1;
+    private javax.swing.JLabel jlblHead1;
     private javax.swing.JLabel jlblInventarioFlecha;
+    private javax.swing.JLabel jlblMensaje3;
     private javax.swing.JLabel jlblMinimizar;
     private javax.swing.JLabel jlblRolcito;
     private javax.swing.JLabel jlblSalir;

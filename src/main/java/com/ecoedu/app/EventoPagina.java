@@ -113,9 +113,10 @@ public class EventoPagina implements IEventHandler {
         Table tablaEncabezado = this.crearTablaEncabezado("Departamento de Recursos Humanos");
         Rectangle rectanguloEncabezado = this.crearRectanguloEncabezado(docEvent);        
         Canvas canvasEncabezado = new Canvas(canvas, pdfDoc, rectanguloEncabezado);
-        Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
-
-        canvasEncabezado.add(parag2);      
+        Paragraph serv_fecha=new Paragraph("Servicio Farmacia                                                                                                                                                                "+Herramienta.formatoFechaHoraMas1(new Date()));         
+        Paragraph just_serv=new Paragraph("Servicio Farmacia");
+        canvasEncabezado.add(serv_fecha);
+        
 
         Table tablaNumeracion = this.crearTablaPie(docEvent);
         Rectangle rectanguloPie = this.crearRectanguloPie(docEvent);

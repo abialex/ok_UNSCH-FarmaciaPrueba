@@ -12,6 +12,7 @@ import com.ecoedu.model.Rol;
 import com.ecoedu.model.Tipo_Roles;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.Collections;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -44,6 +45,7 @@ public class ProveedorLaboratorio extends javax.swing.JPanel{
     public void ConsultaBD(){
         Query query1=jpa.createQuery("SELECT p FROM Rol p where id_tipo_Roles=3 or id_tipo_Roles=2");
         Lista_LabProv=query1.getResultList();    
+        //Collections.sort(Lista_LabProv);
         Lista_Roles=jpa.createQuery("SELECT p FROM Tipo_Roles p ").getResultList();
     }   
     public void principalEjecucion(){  

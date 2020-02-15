@@ -382,8 +382,9 @@ public class Ver_inventario extends javax.swing.JPanel {
         document.setMargins(75, 36, 75, 36);    
         
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
-        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
-        Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                                   INVENTARIO  DEL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
+        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD); 
+        //configurar para que sea automático
+        Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                              INVENTARIO GENERAL DE "+Herramienta.getNombreMes((Fe.getMonth()+1))+" DEL 2019 II" ).setFontSize(16).setFont(bold);  
         document.add(paragIma); 
         //Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
         //document.add(parag2);

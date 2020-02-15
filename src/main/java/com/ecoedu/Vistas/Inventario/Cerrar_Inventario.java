@@ -57,8 +57,16 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     EntityManager jpa;
     TextAutoCompleter autoCompleterDescruceMedicamento1;
     TextAutoCompleter autoCompleterDescruceMedicamento2;
-    
+    boolean SWICHBD=false;    
+    boolean SWITCHimpresion=false;
     boolean estadoCierre=false;
+    
+    public class Proceso extends Thread{
+        @Override
+        public void run(){ 
+            cerrarInventario();
+            }
+        }
     public Cerrar_Inventario(EntityManager jpa2,Principal OBJPrincipal,Usuario objUser ){
         
         initComponents();   
@@ -127,7 +135,39 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        jDialog1 = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
+        confirmarProceso = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jlblHead = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jlblMensaje = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jlblMensaje1 = new javax.swing.JLabel();
+        jlblMensaje2 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jbtnAceptar = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jbtnCancelar = new javax.swing.JButton();
+        carga = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jlblHead1 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jlblMensaje3 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        confirmarImpresion = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jlblHead3 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jlblMensaje5 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jlblMensaje6 = new javax.swing.JLabel();
+        jlblMensaje7 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jbtnImprimirApertura = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jbtnCancelarImpresion = new javax.swing.JButton();
         head = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         body = new javax.swing.JPanel();
@@ -228,6 +268,193 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jLabel7 = new javax.swing.JLabel();
         jbtnAbrirInventario4 = new javax.swing.JButton();
         jbtnGuardarCierreLote1 = new javax.swing.JButton();
+
+        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
+        jDialog1.setModal(true);
+        jDialog1.setUndecorated(true);
+
+        jPanel1.setBackground(new java.awt.Color(255, 251, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setMaximumSize(new java.awt.Dimension(100, 176));
+        jPanel1.setPreferredSize(new java.awt.Dimension(350, 250));
+        jPanel1.setLayout(new java.awt.CardLayout());
+
+        confirmarProceso.setBackground(new java.awt.Color(255, 255, 255));
+        confirmarProceso.setMaximumSize(new java.awt.Dimension(700, 300));
+        confirmarProceso.setMinimumSize(new java.awt.Dimension(700, 300));
+        confirmarProceso.setName(""); // NOI18N
+        confirmarProceso.setPreferredSize(new java.awt.Dimension(700, 300));
+        confirmarProceso.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel2.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead.setForeground(new java.awt.Color(153, 0, 51));
+        jlblHead.setText("AVISO");
+        jPanel2.add(jlblHead);
+
+        confirmarProceso.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje.setText("...");
+        jPanel3.add(jlblMensaje);
+
+        confirmarProceso.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje1.setText("Si cierra ya no podrá entregar medicamentos ");
+        jPanel4.add(jlblMensaje1);
+
+        jlblMensaje2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje2.setText("¿Segura(o) de cerrar el inventario? ");
+        jPanel4.add(jlblMensaje2);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setPreferredSize(new java.awt.Dimension(290, 80));
+        jPanel4.add(jLabel10);
+
+        jbtnAceptar.setBackground(new java.awt.Color(0, 0, 255));
+        jbtnAceptar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnAceptar.setText("ACEPTAR");
+        jbtnAceptar.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAceptarActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jbtnAceptar);
+
+        jLabel11.setPreferredSize(new java.awt.Dimension(50, 14));
+        jPanel4.add(jLabel11);
+
+        jbtnCancelar.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnCancelar.setText("CANCELAR");
+        jbtnCancelar.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jbtnCancelar);
+
+        confirmarProceso.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(confirmarProceso, "card2");
+
+        carga.setBackground(new java.awt.Color(255, 255, 255));
+        carga.setMaximumSize(new java.awt.Dimension(700, 300));
+        carga.setMinimumSize(new java.awt.Dimension(700, 300));
+        carga.setName(""); // NOI18N
+        carga.setPreferredSize(new java.awt.Dimension(700, 300));
+        carga.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel5.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel5.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead1.setText("Espere porfavor...");
+        jPanel5.add(jlblHead1);
+
+        carga.add(jPanel5, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje3.setText("cerrando el inventario");
+        jPanel6.add(jlblMensaje3);
+
+        carga.add(jPanel6, java.awt.BorderLayout.PAGE_END);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cargando2.gif"))); // NOI18N
+        jPanel8.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 5, 320, 160));
+
+        carga.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(carga, "card3");
+
+        confirmarImpresion.setBackground(new java.awt.Color(255, 255, 255));
+        confirmarImpresion.setMaximumSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion.setMinimumSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion.setName(""); // NOI18N
+        confirmarImpresion.setPreferredSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel13.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel13.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead3.setText("Escoga una opción");
+        jPanel13.add(jlblHead3);
+
+        confirmarImpresion.add(jPanel13, java.awt.BorderLayout.PAGE_START);
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje5.setText("...");
+        jPanel14.add(jlblMensaje5);
+
+        confirmarImpresion.add(jPanel14, java.awt.BorderLayout.PAGE_END);
+
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje6.setText("¿Desea Imprimir la apartura de Inventario?");
+        jPanel15.add(jlblMensaje6);
+
+        jlblMensaje7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje7.setForeground(new java.awt.Color(255, 255, 255));
+        jlblMensaje7.setText("¿Segura(o) de abrir el inventario? ");
+        jPanel15.add(jlblMensaje7);
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setPreferredSize(new java.awt.Dimension(290, 80));
+        jPanel15.add(jLabel13);
+
+        jbtnImprimirApertura.setBackground(new java.awt.Color(0, 0, 255));
+        jbtnImprimirApertura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnImprimirApertura.setText("ACEPTAR");
+        jbtnImprimirApertura.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnImprimirApertura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnImprimirAperturaActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jbtnImprimirApertura);
+
+        jLabel15.setPreferredSize(new java.awt.Dimension(50, 14));
+        jPanel15.add(jLabel15);
+
+        jbtnCancelarImpresion.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancelarImpresion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnCancelarImpresion.setText("CANCELAR");
+        jbtnCancelarImpresion.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnCancelarImpresion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarImpresionActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jbtnCancelarImpresion);
+
+        confirmarImpresion.add(jPanel15, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(confirmarImpresion, "card2");
+
+        jDialog1.getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -869,6 +1096,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             jlblFFGeneral.setText(objRegistroMensualInventario.getInventario().getMedicamento().getForma_farmaceutica());
             jlblConcGeneral.setText(objRegistroMensualInventario.getInventario().getMedicamento().getConcentracion());
             jlblCantInicialGeneral.setText(objRegistroMensualInventario.getCantidad_inicial()+"");
+            
             jlblCantFinalGeneral.setText(objRegistroMensualInventario.getInventario().getCantidad()+"");
             jlblFechaAperturadaGeneral.setText(Herramienta.formatoFechaHoraMas1(objRegistroMensualInventario.getFecha_apertura_real()));
             //
@@ -890,6 +1118,8 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             jlblConc.setText(objRegistroMensualLotes.getLote_detalle().getInventario().getMedicamento().getConcentracion());
             jlblCantFinal.setText(objRegistroMensualLotes.getLote_detalle().getCantidad()+"");
             jlblCantInicial.setText(objRegistroMensualLotes.getCantidad_inicial()+"");
+            if(objRegistroMensualLotes.getLote_detalle().isIsVencido()){jlblCantFinal.setText("vencido");}
+            else{jlblCantFinal.setText(objRegistroMensualLotes.getLote_detalle().getCantidad()+"");}
             jlblCodigoLote.setText(objRegistroMensualLotes.getLote_detalle().getCodigo());
             jlblFechaAperturada.setText(Herramienta.formatoFechaHoraMas1(objRegistroMensualLotes.getFecha_apertura_real()));
             jlblFechaVen.setText(Herramienta.formatoFechaMas1(objRegistroMensualLotes.getLote_detalle().getFecha_vencimiento()));
@@ -915,9 +1145,18 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
 
     private void jbtnCerrarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCerrarInventarioActionPerformed
 
-        int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,
-                "Si cierra ya no podrá entregar medicamentos hasta que inventaríe todos los medicamentos ¿Está seguro de continuar?");
-            if (JOptionPane.OK_OPTION == confirmado){
+        jDialog1.setSize(350,250);
+        jDialog1.setLocationRelativeTo(null);
+        confirmarProceso.setVisible(true);
+        confirmarImpresion.setVisible(false);
+        carga.setVisible(false);
+        jDialog1.setVisible(true);
+            
+        
+    }//GEN-LAST:event_jbtnCerrarInventarioActionPerformed
+
+    public void cerrarInventario(){
+        if(SWICHBD){
                 jpa.getTransaction().begin();                
                 for (RegistroMensualLotes registroMensualLotes : Lista_Registro_Mensual){
                     registroMensualLotes.setFecha_cierra(new Date());
@@ -928,16 +1167,14 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                     jpa.persist(registroMensualInventario);
                     }
                 jpa.flush();
-                JOptionPane.showMessageDialog(jPanel7, "se cerró con exito");
                 ConsultaBD();
+                jDialog1.dispose();
                 jpa.getTransaction().commit();                
                 }
             
             else{
                 System.out.println("vale... no borro nada...");}
-        
-    }//GEN-LAST:event_jbtnCerrarInventarioActionPerformed
-
+    }
     private void jbtnAbrirInventario4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAbrirInventario4ActionPerformed
         vistaMedicamentesVer.setVisible(false);
         vistaRegistroLotes.setVisible(true);
@@ -993,10 +1230,22 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             }//fin if
         JOptionPane.showMessageDialog(jPanel7, "Guardado con Exito");
         if(Lista_Mensual_Inventario.size()==1){
-            JOptionPane.showMessageDialog(jPanel7, "¿desea imprimir el reporte del mes"+Herramienta.getNombreMes(Lista_Mensual_Inventario.get(0).getFecha_apertura().getMonth()+1)+"?");
-            
-            int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Desea Imprimir el cierre de inventario?");
-            if (JOptionPane.OK_OPTION == confirmado){
+            jDialog1.setSize(350,250);
+            jDialog1.setLocationRelativeTo(null);
+            jDialog1.setVisible(true);         
+        
+        }
+        ConsultaBD();
+        vistaMedicamentesVer.setVisible(false);
+        vistaRegistroLotes.setVisible(true);
+        jpa.getTransaction().commit();
+        
+        
+        //objRegistroMensualInventario;
+    }//GEN-LAST:event_jbtnGuardarCierreLote1ActionPerformed
+
+    private void imprimir(){
+        if (SWITCHimpresion){
                 try {                
                     Date Fe=new Date();
                     imprimirInventarioApertura(Fe,Lista_Registro_Mensual.get(0));
@@ -1010,17 +1259,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                 }
             else{
                 System.out.println("vale... no borro nada...");}
-        
-        }
-        ConsultaBD();
-        vistaMedicamentesVer.setVisible(false);
-        vistaRegistroLotes.setVisible(true);
-        jpa.getTransaction().commit();
-        
-        
-        //objRegistroMensualInventario;
-    }//GEN-LAST:event_jbtnGuardarCierreLote1ActionPerformed
-
+    }
     private void jbtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVolverActionPerformed
         vistaDesCruce.setVisible(false);
         vistaRegistroLotes.setVisible(true);
@@ -1250,6 +1489,29 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             }            
         }
     }//GEN-LAST:event_jtblVentasKeyPressed
+
+    private void jbtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptarActionPerformed
+       SWICHBD=true;
+        confirmarProceso.setVisible(false);
+        confirmarImpresion.setVisible(false);
+        carga.setVisible(true);
+        new Proceso().start();
+
+    }//GEN-LAST:event_jbtnAceptarActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        jDialog1.dispose();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jbtnImprimirAperturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirAperturaActionPerformed
+        SWITCHimpresion=true;
+        imprimir();
+        jDialog1.setVisible(false);
+    }//GEN-LAST:event_jbtnImprimirAperturaActionPerformed
+
+    private void jbtnCancelarImpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarImpresionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCancelarImpresionActionPerformed
 
     //
     public void llenarLotesMedicamento2(List<Lote_detalle> Lista_lote){ 
@@ -1540,8 +1802,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                  fila_actividad[1]=objRegistro.getLote_detalle().getInventario().getMedicamento().getNombre();
                  fila_actividad[2]=objRegistro.getCantidad_inicial();
                  //fila_actividad[3]=objRegistro.getLote_detalle().getPrecio_Venta_Redondeado();  
-                 fila_actividad[4]=objRegistro.getUsuario_apertura().getPersona().getInfoPersona();   
-                 fila_actividad[3]=objRegistro.getLote_detalle().getCantidad();   
+                 fila_actividad[4]=objRegistro.getUsuario_apertura().getPersona().getInfoPersona(); 
+                 if(objRegistro.getLote_detalle().isIsVencido()){fila_actividad[3]="VENC.";}
+                 else{fila_actividad[3]=objRegistro.getLote_detalle().getCantidad();}   
                  fila_actividad[5]=Herramienta.formatoFechaMas1(objRegistro.getLote_detalle().getFecha_vencimiento());  
                  modelo.addRow(fila_actividad);//agregando filas
                  }
@@ -1704,11 +1967,19 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;
     private javax.swing.JPanel body2;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel carga;
+    private javax.swing.JPanel confirmarImpresion;
+    private javax.swing.JPanel confirmarProceso;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -1744,10 +2015,20 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1758,10 +2039,14 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JSpinner jSpinnerCantidad2;
     private javax.swing.JButton jbtnAbrirInventario3;
     private javax.swing.JButton jbtnAbrirInventario4;
+    private javax.swing.JButton jbtnAceptar;
+    private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnCancelarImpresion;
     private javax.swing.JButton jbtnCerrarInventario;
     private javax.swing.JButton jbtnDescruzar;
     private javax.swing.JButton jbtnGuardarCierreLote1;
     private javax.swing.JButton jbtnGuardarDescruce;
+    private javax.swing.JButton jbtnImprimirApertura;
     private javax.swing.JButton jbtnVolver;
     private javax.swing.JLabel jlblAdverte;
     private javax.swing.JLabel jlblAdvertencia;
@@ -1788,6 +2073,16 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JLabel jlblFechaAperturada;
     private javax.swing.JLabel jlblFechaAperturadaGeneral;
     private javax.swing.JLabel jlblFechaVen;
+    private javax.swing.JLabel jlblHead;
+    private javax.swing.JLabel jlblHead1;
+    private javax.swing.JLabel jlblHead3;
+    private javax.swing.JLabel jlblMensaje;
+    private javax.swing.JLabel jlblMensaje1;
+    private javax.swing.JLabel jlblMensaje2;
+    private javax.swing.JLabel jlblMensaje3;
+    private javax.swing.JLabel jlblMensaje5;
+    private javax.swing.JLabel jlblMensaje6;
+    private javax.swing.JLabel jlblMensaje7;
     private javax.swing.JLabel jlblPF;
     private javax.swing.JLabel jlblPFGeneral;
     private javax.swing.JLabel jlblmasdas;
