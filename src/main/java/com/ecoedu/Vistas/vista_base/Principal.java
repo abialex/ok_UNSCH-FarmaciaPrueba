@@ -11,6 +11,7 @@ import com.ecoedu.Vistas.Estudiante.Crear_Estudiante;
 import com.ecoedu.Vistas.Estudiante.Modificar_Estudiante;
 import com.ecoedu.Vistas.Consultas.Reporte_Por_Escuela;
 import com.ecoedu.Vistas.Consultas.Reporte_Por_Escuela_AtendidosBotica;
+import com.ecoedu.Vistas.Consultas.Reporte_de_insumos;
 import com.ecoedu.Vistas.Herramienta;
 import com.ecoedu.Vistas.Inventario.Abrir_Inventario;
 import com.ecoedu.Vistas.Inventario.Cerrar_Inventario;
@@ -245,6 +246,7 @@ public class Principal extends javax.swing.JFrame{
    private Crear_Tarifario objCrear_Tarifario;
    private Modificar_Tarifario objModificar_Tarifario;
    private Descargo objDescargo;
+   private Reporte_de_insumos objReporte_de_insumos;
    
    
    private Color colorMoved=new Color(4,20,25);
@@ -283,7 +285,9 @@ public class Principal extends javax.swing.JFrame{
             jlblAdvertencia.setText("");
             objSemestreF=new Semestre();
         }
+       
        this.user=OBJuser;
+       this.objReporte_de_insumos=new Reporte_de_insumos(OBJjpa, this);
        this.objServicio_Asistencial=new Servicio_Asistencial(OBJjpa, this, OBJuser);
        this.objProveedorLaboratorio=new ProveedorLaboratorio(OBJjpa, this);
        this.objReporte_Diagnostico=new Reporte_Diagnostico(OBJjpa, this);
@@ -355,6 +359,8 @@ public class Principal extends javax.swing.JFrame{
        bodyContenedor.add(objModificar_Tarifario);//22
        bodyContenedor.validate();
        bodyContenedor.add(objDescargo);//23
+       bodyContenedor.validate();
+       bodyContenedor.add(objReporte_de_insumos);
        bodyContenedor.validate();
        
        
@@ -537,6 +543,8 @@ public class Principal extends javax.swing.JFrame{
         jLabel31 = new javax.swing.JLabel();
         jleftConsultas_ReportePorEscuelaxAlumno = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
+        jleftConsultas_Reporte_Insumo = new javax.swing.JPanel();
+        jLabel41 = new javax.swing.JLabel();
         jleftUsuario = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -1550,7 +1558,7 @@ public class Principal extends javax.swing.JFrame{
         left.add(jleftConsultas);
 
         jtfsub_Consultas.setBackground(new java.awt.Color(73, 20, 100));
-        jtfsub_Consultas.setPreferredSize(new java.awt.Dimension(300, 200));
+        jtfsub_Consultas.setPreferredSize(new java.awt.Dimension(300, 240));
 
         jleftConsultas_Entregadeldia.setBackground(new java.awt.Color(73, 20, 100));
         jleftConsultas_Entregadeldia.setPreferredSize(new java.awt.Dimension(300, 32));
@@ -1686,6 +1694,33 @@ public class Principal extends javax.swing.JFrame{
         jleftConsultas_ReportePorEscuelaxAlumno.add(jLabel35, java.awt.BorderLayout.CENTER);
 
         jtfsub_Consultas.add(jleftConsultas_ReportePorEscuelaxAlumno);
+
+        jleftConsultas_Reporte_Insumo.setBackground(new java.awt.Color(73, 20, 100));
+        jleftConsultas_Reporte_Insumo.setPreferredSize(new java.awt.Dimension(300, 32));
+        jleftConsultas_Reporte_Insumo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jleftConsultas_Reporte_InsumoMouseMoved(evt);
+            }
+        });
+        jleftConsultas_Reporte_Insumo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jleftConsultas_Reporte_InsumoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jleftConsultas_Reporte_InsumoMouseExited(evt);
+            }
+        });
+        jleftConsultas_Reporte_Insumo.setLayout(new java.awt.BorderLayout());
+
+        jLabel41.setBackground(new java.awt.Color(153, 0, 153));
+        jLabel41.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel41.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel41.setText("Reporte de Insumos");
+        jLabel41.setPreferredSize(new java.awt.Dimension(300, 50));
+        jleftConsultas_Reporte_Insumo.add(jLabel41, java.awt.BorderLayout.CENTER);
+
+        jtfsub_Consultas.add(jleftConsultas_Reporte_Insumo);
 
         left.add(jtfsub_Consultas);
 
@@ -1912,6 +1947,7 @@ public class Principal extends javax.swing.JFrame{
         jtfsub_Medicina.setVisible(false);
         jtfsub_Usuario.setVisible(false);
         jtfsub_inventario.setVisible(false);
+        objReporte_de_insumos.setVisible(false);
         jlblConsultasFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblUsuarioFlecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
         jlblConsultasFlecha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/008-left-arrow.png")));
@@ -2061,6 +2097,7 @@ public class Principal extends javax.swing.JFrame{
       objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
       objCerrar_Inventario.setVisible(false);
         objModificar_Tarifario.setVisible(false);
+        objReporte_de_insumos.setVisible(false);
       objLlenarInventario.ConsultaBD();
       //objLlenarInventario.principalEjecucion();(acondicionado con apertura/cierre inventario
       objLlenarInventario.setVisible(true);
@@ -2093,6 +2130,7 @@ public class Principal extends javax.swing.JFrame{
       objModificar_Estudiante.setVisible(false);
       objReporte_Por_Escuela.setVisible(false);      
       objReporte_Diagnostico.setVisible(false);
+      objReporte_de_insumos.setVisible(false);
       
     }//GEN-LAST:event_jleftInventario_detalleInventarioMouseClicked
 
@@ -2157,6 +2195,7 @@ public class Principal extends javax.swing.JFrame{
         objAbrir_Inventario.setVisible(false);//18
         objCrear_Tarifario.setVisible(false);//19
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);
         objVer_inventario.ConsultaBD();
         objVer_inventario.principalEjecucion();        
         objVer_inventario.setVisible(true);
@@ -2247,6 +2286,7 @@ public class Principal extends javax.swing.JFrame{
         jtfsub_Estudiante.setVisible(false);
         jtfsub_Medicina.setVisible(false);
         jtfsub_Usuario.setVisible(false);
+        objReporte_de_insumos.setVisible(false);
         jtfsub_inventario.setVisible(false);
         
     }//GEN-LAST:event_jleftProveedorYfabricanteMouseClicked
@@ -2280,6 +2320,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objCrearMedicamento.setVisible(true);
         objCrearMedicamento.ConsultaBD();
         objCrearMedicamento.principalEjecucion();
@@ -2312,6 +2353,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objCrearUsuario.ConsultaBD();
         objCrearUsuario.principalEjecucion();
         objCrearUsuario.setVisible(true);
@@ -2344,6 +2386,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objModificarUsuario.ConsultaBD();
         objModificarUsuario.principalEjecucion();
         
@@ -2375,6 +2418,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objCrear_Estudiante.setVisible(true); 
         objCrear_Estudiante.ConsultaBD();
         objCrear_Estudiante.principalEjecucion();
@@ -2405,6 +2449,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objModificar_Estudiante.setVisible(false);
         objEntragEntrega_del_dia.ConsultaBD();
         objEntragEntrega_del_dia.principalEjecucion();
@@ -2435,6 +2480,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objModificar_Estudiante.ConsultaBD();
         objModificar_Estudiante.principalEjecucion();
         objModificar_Estudiante.setVisible(true);
@@ -2470,6 +2516,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objReporte_Por_Escuela.ConsultaBD();
        try {
            objReporte_Por_Escuela.principalEjecucion();
@@ -2512,6 +2559,7 @@ public class Principal extends javax.swing.JFrame{
         objEntragEntrega_del_dia.setVisible(false);
         objModificar_Estudiante.setVisible(false);
         objReporte_Por_Escuela.setVisible(false);
+        objReporte_de_insumos.setVisible(false);//24
         objReporte_Diagnostico.ConsultaBD();
         objReporte_Diagnostico.principalEjecucion();
         objReporte_Diagnostico.setVisible(true);
@@ -2561,6 +2609,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objModificarMedicamento.setVisible(true);//15
         
         objModificarMedicamento.ConsultaBD();
@@ -2600,6 +2649,7 @@ public class Principal extends javax.swing.JFrame{
            objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
            objReporte_Condicion.ConsultaBD();
            objReporte_Condicion.principalEjecucion();
            objReporte_Condicion.setVisible(true);//16
@@ -2641,6 +2691,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objServicio_Asistencial.ConsultaBD();
         objServicio_Asistencial.principalEjecucion();
         objServicio_Asistencial.setVisible(true);//17           
@@ -2680,6 +2731,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objAbrir_Inventario.ConsultaBD();
         objAbrir_Inventario.principalEjecucion();
         objAbrir_Inventario.setVisible(true);//18 
@@ -2718,6 +2770,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objCerrar_Inventario.ConsultaBD();
         objCerrar_Inventario.principalEjecucion();
         objCerrar_Inventario.setVisible(true);//19
@@ -2756,6 +2809,7 @@ public class Principal extends javax.swing.JFrame{
         objCrear_Tarifario.setVisible(false);
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objReporte_Por_Escuela_AtendidosBotica.ConsultaBD();
        try {
            objReporte_Por_Escuela_AtendidosBotica.principalEjecucion();
@@ -2796,6 +2850,7 @@ public class Principal extends javax.swing.JFrame{
         objCerrar_Inventario.setVisible(false);//19        
         objCrear_Tarifario.setVisible(false);//22
         objModificar_Tarifario.setVisible(false);//22  
+        objReporte_de_insumos.setVisible(false);//24
         objDescargo.ConsultaBD();
         objDescargo.principalEjecucion();
         objDescargo.iniciar_conVencidos();
@@ -2853,6 +2908,7 @@ public class Principal extends javax.swing.JFrame{
         objCerrar_Inventario.setVisible(false);//19        
         objModificar_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objCrear_Tarifario.ConsultaBD();
         objCrear_Tarifario.principalEjecucion();
         objCrear_Tarifario.setVisible(true);//22
@@ -2891,6 +2947,7 @@ public class Principal extends javax.swing.JFrame{
         objCerrar_Inventario.setVisible(false);//19        
         objCrear_Tarifario.setVisible(false);//22
         objDescargo.setVisible(false);//23
+        objReporte_de_insumos.setVisible(false);//24
         objModificar_Tarifario.ConsultaBD();
         objModificar_Tarifario.principalEjecucion();
         objModificar_Tarifario.setVisible(true);//22
@@ -2928,7 +2985,8 @@ public class Principal extends javax.swing.JFrame{
         objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
         objCerrar_Inventario.setVisible(false);//19        
         objCrear_Tarifario.setVisible(false);//22
-        objModificar_Tarifario.setVisible(false);//22  
+        objModificar_Tarifario.setVisible(false);//23  
+        objReporte_de_insumos.setVisible(false);//24
         objDescargo.ConsultaBD();
         //objDescargo.principalEjecucion(); usando treah para agilizar la carga de vista
         objDescargo.setVisible(true);//23      
@@ -2990,6 +3048,45 @@ public class Principal extends javax.swing.JFrame{
         jpa.getTransaction().commit();
     }//GEN-LAST:event_jbtnGuardarActionPerformed
 
+    private void jleftConsultas_Reporte_InsumoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_InsumoMouseMoved
+        jleftConsultas_Reporte_Insumo.setBackground(colorMoved);
+    }//GEN-LAST:event_jleftConsultas_Reporte_InsumoMouseMoved
+
+    private void jleftConsultas_Reporte_InsumoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_InsumoMouseClicked
+        bodyContenedor.setVisible(true);//1           
+        objProveedorLaboratorio.setVisible(false);//14
+        objVer_inventario.setVisible(false);//3
+        objDetalle_Inventario.setVisible(false);//4
+        objCrear_Estudiante.setVisible(false);//5
+        objBusquedaVentas.setVisible(false);//6
+        objLlenarInventario.setVisible(false);//7
+        objServicioFarmacia.setVisible(false);//8
+        objCrearUsuario.setVisible(false);//9
+        objModificarUsuario.setVisible(false);//10
+        objEntragEntrega_del_dia.setVisible(false);//11
+        objModificar_Estudiante.setVisible(false);//12
+        objReporte_Por_Escuela.setVisible(false);//13
+        objReporte_Diagnostico.setVisible(false);//14
+        objCrearMedicamento.setVisible(false);//15
+        objModificarMedicamento.setVisible(false);//15
+        objReporte_Condicion.setVisible(false);//16        
+        objServicio_Asistencial.setVisible(false);//17
+        objAbrir_Inventario.setVisible(false);//18
+        objReporte_Por_Escuela_AtendidosBotica.setVisible(false);//20
+        objCerrar_Inventario.setVisible(false);//19        
+        objCrear_Tarifario.setVisible(false);//22
+        objModificar_Tarifario.setVisible(false);//23 
+        objDescargo.setVisible(false);//23 
+        
+        objReporte_de_insumos.ConsultaBD();
+        objReporte_de_insumos.principalEjecucion();
+        objReporte_de_insumos.setVisible(true);//24
+    }//GEN-LAST:event_jleftConsultas_Reporte_InsumoMouseClicked
+
+    private void jleftConsultas_Reporte_InsumoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jleftConsultas_Reporte_InsumoMouseExited
+        jleftConsultas_Reporte_Insumo.setBackground(colorExitSub);
+    }//GEN-LAST:event_jleftConsultas_Reporte_InsumoMouseExited
+
     public Usuario getUsuario(){
         return user;
     } 
@@ -3039,6 +3136,7 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
@@ -3100,6 +3198,7 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JPanel jleftConsultas_ReportePorEscuela;
     private javax.swing.JPanel jleftConsultas_ReportePorEscuelaxAlumno;
     private javax.swing.JPanel jleftConsultas_Reporte_Condicion;
+    private javax.swing.JPanel jleftConsultas_Reporte_Insumo;
     private javax.swing.JPanel jleftConsultas_ReportedelMes;
     private javax.swing.JPanel jleftEstudiante;
     private javax.swing.JPanel jleftEstudiante_CrearModificarEstudiante;

@@ -362,7 +362,6 @@ public class Ver_inventario extends javax.swing.JPanel {
     }//GEN-LAST:event_jtblInventarioOperacionesMouseClicked
  
     public void Lista_LotesDetalle_llenado(Date Fe) throws MalformedURLException, IOException{
-        
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
         PdfWriter writer=null;
