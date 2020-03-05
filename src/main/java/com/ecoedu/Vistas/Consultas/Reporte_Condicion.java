@@ -301,7 +301,7 @@ public class Reporte_Condicion extends javax.swing.JPanel {
             }            
             llenar_Tabla_de_Recetas(modelo); 
             if(modelo.getRowCount()==0){
-                JOptionPane.showMessageDialog(jPanel7, "No se encontró Procedentes/Diagnostico en el Rango de la Fecha");
+                JOptionPane.showMessageDialog(jPanel7, "No se encontró Procedentes en el Rango de la Fecha");
                 jbtnImprimir.setEnabled(false);
                 }
             document.add(table);  

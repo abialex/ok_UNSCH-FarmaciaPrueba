@@ -14,10 +14,16 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
     private Diagnostico objDiagnostico;
     private Rol objRolesMuchos;
     private int cantidad;
+    private Estudiante objEstudiante;
     public ZObjetoProDiag(Rol objRol, int cantidad) {
         this.objRolesMuchos = objRol;
         this.cantidad = cantidad;
     }
+    public ZObjetoProDiag(Estudiante objEstudiante, int cantidad) {
+        this.objEstudiante = objEstudiante;
+        this.cantidad = cantidad;
+    }
+        
     public ZObjetoProDiag(Diagnostico objDiagnostico, int cantidad) {
         this.objDiagnostico = objDiagnostico;
         this.cantidad = cantidad;
@@ -44,6 +50,14 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
 
     public void setObjDiagnostico(Diagnostico objDiagnostico) {
         this.objDiagnostico = objDiagnostico;
+    }
+
+    public Estudiante getObjEstudiante() {
+        return objEstudiante;
+    }
+
+    public void setObjEstudiante(Estudiante objEstudiante) {
+        this.objEstudiante = objEstudiante;
     }
     
 

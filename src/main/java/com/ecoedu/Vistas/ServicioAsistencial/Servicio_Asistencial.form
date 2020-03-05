@@ -387,7 +387,7 @@
                           <Font name="Tw Cen MT Condensed Extra Bold" size="18" style="3"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="text" type="java.lang.String" value=" SERVICIOS ASISTENCIALES DEL ESTUDIANTE"/>
+                        <Property name="text" type="java.lang.String" value="Lista de servicios"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[178, 30]"/>
                         </Property>

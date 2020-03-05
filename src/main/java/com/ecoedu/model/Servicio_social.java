@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
  * @author yrma
  */
 @Entity
-public class Servicio_social implements Serializable {
+public class Servicio_social implements Serializable,Comparable<Servicio_social> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Detalle_servicio_social;//cambiar xd
@@ -72,6 +72,11 @@ public class Servicio_social implements Serializable {
     @Override
     public String toString(){
         return monto+"";
+    }
+
+    @Override
+    public int compareTo(Servicio_social o){
+        return this.fecha.compareTo(o.fecha);
     }
 
    

@@ -314,7 +314,7 @@ public class Servicio_Asistencial extends javax.swing.JPanel {
         jLabel11.setBackground(new java.awt.Color(255, 255, 255));
         jLabel11.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 3, 18)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText(" SERVICIOS ASISTENCIALES DEL ESTUDIANTE");
+        jLabel11.setText("Lista de servicios");
         jLabel11.setPreferredSize(new java.awt.Dimension(178, 30));
         jPanel9.add(jLabel11, java.awt.BorderLayout.PAGE_START);
 

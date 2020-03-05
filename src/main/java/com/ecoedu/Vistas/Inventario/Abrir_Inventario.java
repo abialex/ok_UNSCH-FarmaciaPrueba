@@ -69,6 +69,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     
     Usuario objUsuario;
     EntityManager jpa;
+    List<RegistroMensualLotes> lista_registro;
     
     public Abrir_Inventario(EntityManager jpa2,Principal OBJPrincipal,Usuario objUser ){
         initComponents();   
@@ -85,40 +86,44 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     public void ConsultaBD(){    
         Lista_Origen=jpa.createQuery("Select p from Rol p where id_tipo_Roles=10").getResultList();
         Collections.sort(Lista_Origen);        
-        List<RegistroMensualLotes> lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
-         if(lista_registro.isEmpty()){
-             jlblAdvertencia.setText("");
+        lista_registro=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
+        lista_aux=jpa.createQuery("SELECT p FROM Detalle_llenado p").getResultList();
+        if(lista_registro.isEmpty()){
+             jlblAdvertencia.setText("");            
              Lista_Inventario=jpa.createQuery("select p from Inventario p where cantidad !=0").getResultList();
-             lista_aux=jpa.createQuery("SELECT p FROM Detalle_llenado p").getResultList();
              
+             Lista_lote_detalle.clear();
              for (Detalle_llenado detalle_llenado : lista_aux) {
                  if(!detalle_llenado.getLote_detalle().isIsVencido()){
                  Lista_lote_detalle.add(detalle_llenado);}
              }
-             
-             Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)
-             
-             
-             
-             llenarTabla(Lista_lote_detalle);
-             if(jpa.createQuery("Select p from RegistroMensualLotes p where month(fecha_cierre_real)="+(new Date().getMonth()+1) ).getResultList().isEmpty()){
-                 jbtnAbrirInventario.setEnabled(true);
+             Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)            
+            
+             if(jpa.createQuery("Select p from RegistroMensualLotes p where month(fecha_apertura)="+(new Date().getMonth()+1)).getResultList().isEmpty()){
+                 jbtnAbrirInventario.setVisible(true);
+                 jbtnImprimir.setVisible(false);
+                 llenarTabla(Lista_lote_detalle);                 
              }
              else{
                  jlblAdvertencia.setText("YA ABRIÓ PARA ESTE MES");
-                 jbtnAbrirInventario.setEnabled(false);
+                 jbtnAbrirInventario.setVisible(false);
+                 llenarTabla(new ArrayList<Detalle_llenado>());
+                 jbtnImprimir.setVisible(false);
                  }
              }
          else{
              if(lista_registro.get(0).getFecha_cierra()==null){
                  jlblAdvertencia.setText("El Inventario de "+Herramienta.getNombreMes(lista_registro.get(0).getFecha_apertura().getMonth()+1)+" Está Abierto");
-                 jbtnAbrirInventario.setEnabled(false);
+                 jbtnAbrirInventario.setVisible(false);
                  
                  }
              else{
                  jlblAdvertencia.setText("Inventaríe los lotes para Abrir Inventario del Mes de "+Herramienta.getNombreMes(lista_registro.get(0).getFecha_apertura().getMonth()+2));
+                 
                  }
-             jbtnAbrirInventario.setEnabled(false);
+             jbtnImprimir.setVisible(true);
+             jbtnImprimir.setText("Imprimir Apertura de "+Herramienta.getNombreMes(lista_registro.get(0).getFecha_apertura().getMonth()+1));
+             jbtnAbrirInventario.setVisible(false);
              llenarTabla(new ArrayList<Detalle_llenado>());
              }
          }
@@ -183,13 +188,13 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jbtnAbrirInventario = new javax.swing.JButton();
+        jbtnImprimir = new javax.swing.JButton();
 
-        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
         jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
         jDialog1.setModal(true);
         jDialog1.setUndecorated(true);
-        jDialog1.setPreferredSize(new java.awt.Dimension(350, 250));
 
         jPanel1.setBackground(new java.awt.Color(255, 251, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -346,11 +351,6 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         jbtnImprimirApertura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jbtnImprimirApertura.setText("ACEPTAR");
         jbtnImprimirApertura.setPreferredSize(new java.awt.Dimension(100, 30));
-        jbtnImprimirApertura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnImprimirAperturaActionPerformed(evt);
-            }
-        });
         jPanel15.add(jbtnImprimirApertura);
 
         jLabel8.setPreferredSize(new java.awt.Dimension(50, 14));
@@ -480,19 +480,33 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         jLabel18.setPreferredSize(new java.awt.Dimension(10, 14));
         jPanel9.add(jLabel18, java.awt.BorderLayout.LINE_START);
 
+        jLabel2.setText("jLabel2");
+        jPanel9.add(jLabel2, java.awt.BorderLayout.PAGE_START);
+
         cuerpo1.add(jPanel9);
 
         jbtnAbrirInventario.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnAbrirInventario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnAbrirInventario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbtnAbrirInventario.setForeground(new java.awt.Color(255, 255, 255));
         jbtnAbrirInventario.setText("ABRIR INVENTARIO MENSUAL");
-        jbtnAbrirInventario.setPreferredSize(new java.awt.Dimension(220, 25));
+        jbtnAbrirInventario.setPreferredSize(new java.awt.Dimension(265, 25));
         jbtnAbrirInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnAbrirInventarioActionPerformed(evt);
             }
         });
         cuerpo1.add(jbtnAbrirInventario);
+
+        jbtnImprimir.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnImprimir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnImprimir.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnImprimir.setText("Imprimir");
+        jbtnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnImprimirActionPerformed(evt);
+            }
+        });
+        cuerpo1.add(jbtnImprimir);
 
         body2.add(cuerpo1, java.awt.BorderLayout.CENTER);
 
@@ -521,8 +535,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         fechaApertu.setDate(1);
         fechaApertu.setHours(0);
         fechaApertu.setMinutes(0);
-        fechaApertu.setSeconds(0);
-        
+        fechaApertu.setSeconds(0);        
         jpa.getTransaction().begin();        
         int auxComprobante=0;
         for (Inventario inventario : Lista_Inventario){   
@@ -536,16 +549,16 @@ public class Abrir_Inventario extends javax.swing.JPanel {
                 }//fin if
             }//fin for  
             if(auxComprobante!=inventario.getCantidad()){
+                
                 jpa.getTransaction().rollback();
-                JOptionPane.showMessageDialog(cuerpo1, "no coincide la suma de lostes iniciales con el inventario inicial");
+                JOptionPane.showMessageDialog(cuerpo1,inventario.getMedicamento().getNombre()+" "+inventario.getId_Inventario()+" real: "+auxComprobante+" sistema: "+inventario.getCantidad() + " no coincide la suma de lostes iniciales con el inventario inicial");
             }
             auxComprobante=0;            
-        }//fin for2       
+        }//fin for2   
+        jpa.flush();
         ConsultaBD();
         principalEjecucion();
-        confirmarProceso.setVisible(false);
-        confirmarImpresion.setVisible(true);
-        carga.setVisible(false);
+        jDialog1.dispose();
         //objMensaje.setVisible(false);
         //JOptionPane.showMessageDialog(jlblAdvertencia, "Aperturó con exito el mes de "+Herramienta.getNombreMes(fechaApertuReal.getMonth()+1));
         //int confirmado = JOptionPane.showConfirmDialog(jlblAdvertencia,"¿Desea Imprimir la Apertura del Inventario?");
@@ -557,20 +570,17 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         }
     }
     public void imprimir(){
-        if (SWITCHimpresion){
-                try {                
-                    Date Fe=new Date();
-                    imprimirInventarioApertura(Fe);
-                    String url="Carpeta_de_Archivos\\Inventario_Apertura"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
-                    ProcessBuilder p=new ProcessBuilder();
-                    p.command("cmd.exe","/c",url);
-                    p.start();            
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+        try {
+            Date Fe=new Date();
+            imprimirInventarioApertura(Fe);
+            String url="Carpeta_de_Archivos\\Inventario_Apertura"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
+            ProcessBuilder p=new ProcessBuilder();
+            p.command("cmd.exe","/c",url);
+            p.start();
+            } catch (IOException ex) {
+                Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            else{
-                System.out.println("vale... no borro nada...");}
+             
     }
     private void jbtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptarActionPerformed
         SWITCHBD=true;
@@ -587,15 +597,28 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         jDialog1.dispose();
     }//GEN-LAST:event_jbtnCancelarActionPerformed
 
-    private void jbtnImprimirAperturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirAperturaActionPerformed
-        SWITCHimpresion=true;
-        imprimir();
-        jDialog1.setVisible(false);
-    }//GEN-LAST:event_jbtnImprimirAperturaActionPerformed
-
     private void jbtnCancelarImpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarImpresionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCancelarImpresionActionPerformed
+
+    private void jbtnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirActionPerformed
+        /*Lista_lote_detalle.clear();
+        for (RegistroMensualLotes registroMensualLotes : lista_registro){
+            for (Detalle_llenado detalle : lista_aux) {
+                if(detalle.getLote_detalle()==registroMensualLotes.getLote_detalle()){
+                    //solo para que salga en el stock inicial
+                    Detalle_llenado ols=new Detalle_llenado();
+                    ols.set(detalle.getCantidad());
+                    //detalle.getLote_detalle().setCantidad(registroMensualLotes.getCantidad_inicial());
+                    Lista_lote_detalle.add(ols);
+                    
+                    break;       
+                    }
+                }
+            } */      
+        imprimir();
+       
+    }//GEN-LAST:event_jbtnImprimirActionPerformed
     public void imprimirInventarioApertura(Date Fe) throws MalformedURLException, IOException{
         
         String ol="images\\unsch.png";
@@ -639,9 +662,10 @@ public class Abrir_Inventario extends javax.swing.JPanel {
             table.addHeaderCell(new Cell().add(new Paragraph("Proveedor").setFontSize(tamFond).setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
             table.addHeaderCell(new Cell().add(new Paragraph("Stock Inicial").setFontSize(tamFond).setFont(bold)).setTextAlignment(TextAlignment.CENTER)); 
 
-      Collections.sort(Lista_lote_detalle);//ordenando A-Z (método como Override)
-        for (Detalle_llenado Lote_detalle : Lista_lote_detalle){
-            if(Lote_detalle.getMedicamento().getRolorigen()==Origen){
+      Collections.sort(lista_registro);//ordenando A-Z (método como Override)
+        for (RegistroMensualLotes Lote_detalle : lista_registro){
+            if(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen){
+                
                 auxAgregar=true;                            
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getNombre()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.LEFT));//P.F
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//Conc
@@ -663,7 +687,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
                 }
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getFactura().getCodigo_factura()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_detalle.getLote_detalle().getFactura().getRolProveedor().getNombre_rol()).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-            table.addCell(new Paragraph(Integer.toString(Lote_detalle.getLote_detalle().getCantidad())).setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            table.addCell(new Paragraph(Lote_detalle.getCantidad_inicial()+"").setFontSize(tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
 
 
             }
@@ -671,6 +695,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
         if(auxAgregar){document.add(new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14));document.add(table);
         document.add(new AreaBreak());}
         }        
+        //Lista_lote_detalle.clear();
         document.close(); 
     }
     public void llenarTabla(List<Detalle_llenado> lista_lote_detalle){ 
@@ -751,6 +776,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -772,6 +798,7 @@ public class Abrir_Inventario extends javax.swing.JPanel {
     private javax.swing.JButton jbtnAceptar;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnCancelarImpresion;
+    private javax.swing.JButton jbtnImprimir;
     private javax.swing.JButton jbtnImprimirApertura;
     private javax.swing.JLabel jlblAdvertencia;
     private javax.swing.JLabel jlblHead;

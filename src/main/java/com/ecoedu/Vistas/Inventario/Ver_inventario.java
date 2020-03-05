@@ -409,28 +409,28 @@ public class Ver_inventario extends javax.swing.JPanel {
         Collections.sort(Lista_LotesDetalle_llenado);//ordenando A-Z (método como Override)
         for (Detalle_llenado Lote_RegistroCierre : Lista_LotesDetalle_llenado){
             if(!Lote_RegistroCierre.getLote_detalle().isIsVencido()){
-            if(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen){
-                auxAgregar=true;
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.LEFT)).setFontSize(fontTamaño);//P.F
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//Conc
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//FF
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//labo
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//lote
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getPrecio_Venta_Redondeado()+"").setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//P.A
-            if(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){
-                if((Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento().getTime()-(new Date()).getTime())/86400000 <=6*30){
-                    table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.YELLOW).setFontSize(fontTamaño));
+                if(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen){
+                    auxAgregar=true;
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getNombre()).setFont(font).setTextAlignment(TextAlignment.LEFT)).setFontSize(fontTamaño);//P.F
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//Conc
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getForma_farmaceutica()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//FF
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getRolFabricante().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//labo
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCodigo()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//lote
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getPrecio_Venta_Redondeado()+"").setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//P.A
+                    if(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento().getTime()-(new Date()).getTime()>=0){
+                        if((Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento().getTime()-(new Date()).getTime())/86400000 <=6*30){
+                            table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.YELLOW).setFontSize(fontTamaño));
+                            }
+                        else{
+                            table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.WHITE).setFontSize(fontTamaño));
+                            }
                     }
-                else{
-                    table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.WHITE).setFontSize(fontTamaño));
-                    }
-            }
-            else{
-                table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED)).setFontSize(fontTamaño);
-                }
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getCodigo_factura()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getRolProveedor().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
-            table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
+                    else{
+                        table.addCell(new Paragraph(Herramienta.formatoFecha(Lote_RegistroCierre.getLote_detalle().getFecha_vencimiento())).setFont(font).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(com.itextpdf.kernel.color.Color.RED)).setFontSize(fontTamaño);
+                        }
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getCodigo_factura()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getRolProveedor().getNombre_rol()).setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
+                    table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCantidad()+"").setFont(font).setTextAlignment(TextAlignment.CENTER)).setFontSize(fontTamaño);//stock final
 
             //table.addCell(new Paragraph(Integer.toString(Lote_RegistroCierre.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
         }}}

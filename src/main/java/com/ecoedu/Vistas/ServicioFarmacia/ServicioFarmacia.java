@@ -5,6 +5,7 @@ import com.ecoedu.Vistas.vista_base.CuadroCarritoMedicinas;
 import com.ecoedu.Vistas.vista_base.Principal;
 import com.ecoedu.model.Control_paciente;
 import com.ecoedu.model.Detalle_Medicamentos;
+import com.ecoedu.model.Detalle_Servicio_Social;
 import com.ecoedu.model.Diagnostico;
 import com.ecoedu.model.Estudiante;
 import com.ecoedu.model.Lote_detalle;
@@ -12,6 +13,7 @@ import com.ecoedu.model.Receta;
 import com.ecoedu.model.RegistroMensualLotes;
 import com.ecoedu.model.Rol;
 import com.ecoedu.model.Semestre;
+import com.ecoedu.model.Servicio_social;
 import com.ecoedu.model.Usuario;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -68,6 +70,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
     private List<Control_paciente> Lista_control_paciente= new ArrayList<Control_paciente>();;//
     private List<Detalle_Medicamentos> Lista_detalle_medicamento;//
     private List<Receta> Lista_Recetas=new ArrayList<>();//
+    private List<Servicio_social> Lista_Servicio;
     private TextAutoCompleter TextAutoCOmpleterCodigoDiagnostico;
     private int limite_seguro;
     
@@ -239,7 +242,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
      public List<Lote_detalle> getListaInventario(){
          List<Lote_detalle> lista_Lote=new ArrayList<>();
          for (Lote_detalle lote_detalle : Lista_lote_detalle) {
-             if(lote_detalle.getInventario().getMedicamento().getRolorigen().getNombre_rol().equals("Farmacia")){
+             if(lote_detalle.getInventario().getMedicamento().getRolorigen().getNombre_rol().equals("Med. Farmacia")){
                  lista_Lote.add(lote_detalle);
              }
          }
@@ -970,6 +973,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
                 jlblEscuela.setText(Lista_control_paciente.get(i).getEstudiante().getRolescuela().getNombre_rol());
                 jlblMontoTotal.setText("S/"+Herramienta.dosDecimales(Lista_control_paciente.get(i).getMonto_Total()));              
                 Lista_Recetas=Herramienta.findbyWhere(Receta.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
+                Lista_Servicio=Herramienta.findbyWhere(Servicio_social.class,"id_Control_paciente",objControl_paciente_Final.getId_Control_paciente(), jpa);
                 jbtnCrearReceta.setEnabled(true);
                 jbtnImprimir.setEnabled(true);
                 if(Lista_Recetas.isEmpty()){
@@ -1322,20 +1326,13 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         Table table = new Table(new float[]{8,15,5,4,18});
         table.setWidthPercent(100);
         
-        Paragraph paragIma=new Paragraph("").add(unsch);  
-        document.add(paragIma);
-        
-        Paragraph paraTitle=new Paragraph("CONTROL ECONÓMICO DE ATENCIONES").setFontSize(16).setFont(bold).setTextAlignment(TextAlignment.CENTER);
-        document.add(paraTitle);
+        Paragraph paragIma=new Paragraph("").add(unsch);         
+        Paragraph paraTitle=new Paragraph("CONTROL ECONÓMICO DE ATENCIONES").setFontSize(16).setFont(bold).setTextAlignment(TextAlignment.CENTER);        
         Paragraph parag=new Paragraph(new Text("APELLIDOS Y NOMBRES: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getPersona().getInfoPersona()).setTextAlignment(TextAlignment.LEFT);
-        document.add(parag);      
         Paragraph paraEscCodSerie=new Paragraph(new Text("ESCUELA: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getRolescuela().getNombre_rol())
                 .add(new Text("         SERIE: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getSerie()).setTextAlignment(TextAlignment.LEFT)
                 .add(new Text("         CÓDIGO: ").setFont(bold)).add(objControl_paciente_Final.getEstudiante().getCodigo());
-        document.add(paraEscCodSerie);
-        Paragraph parag2=new Paragraph("ATENCIONES-SERVICIO DE FARMACIA").setFont(bold).setTextAlignment(TextAlignment.CENTER);         
-        document.add(parag2);
-        document.add(new Paragraph(" "));    
+        Paragraph paraTitulo=new Paragraph("ATENCIONES-SERVICIO DE FARMACIA").setFont(bold).setTextAlignment(TextAlignment.CENTER);         
         table.addHeaderCell(new Cell().add(new Paragraph("Fecha").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
         table.addHeaderCell(new Cell().add(new Paragraph("Producto Farmacéutico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
         table.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));        
@@ -1343,6 +1340,7 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         table.addHeaderCell(new Cell().add(new Paragraph("Químico").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño)); 
                  
       Collections.sort(Lista_Recetas);//ordenando A-Z (método como Override)
+      Collections.sort(Lista_Servicio);
         for(Receta receta : Lista_Recetas){
             List<Detalle_Medicamentos> listMedi=Herramienta.findbyWhere(Detalle_Medicamentos.class,"id_Receta", receta.getId_Receta(), jpa);
             Collections.sort(listMedi);//ordenando A-Z (método como Override)
@@ -1365,7 +1363,31 @@ public class ServicioFarmacia extends javax.swing.JPanel {
             table.addCell(new Paragraph(Detalle_Medicamento.getUsuario().getPersona().getInfoPersona()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
             }
         }
-        document.add(table);        
+        Paragraph paraTituloSocial=new Paragraph("ATENCIONES-SERVICIO SOCIAL").setFont(bold).setTextAlignment(TextAlignment.CENTER);         
+        Table tableSocial = new Table(new float[]{5,12,3});
+        tableSocial.addHeaderCell(new Cell().add(new Paragraph("Fecha").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
+        tableSocial.addHeaderCell(new Cell().add(new Paragraph("Servicio").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));         
+        tableSocial.addHeaderCell(new Cell().add(new Paragraph("Precio").setFont(bold)).setTextAlignment(TextAlignment.CENTER).setFontSize(fontHeadTamaño));        
+        for (Servicio_social servicio_social : Lista_Servicio){
+            List<Detalle_Servicio_Social> lista_Detalle_ServicioSocial=Herramienta.findbyWhere(Detalle_Servicio_Social.class,"id_Servicio_social", servicio_social.getId_Detalle_servicio_social(), jpa);
+            for (Detalle_Servicio_Social detalle_Servicio_Social : lista_Detalle_ServicioSocial) {
+                table.addCell(new Paragraph(Herramienta.formatoFecha(servicio_social.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+                table.addCell(new Paragraph(detalle_Servicio_Social.getTarifario().getDescripcion()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+                table.addCell(new Paragraph(detalle_Servicio_Social.getPrecio_Total()+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+
+                }
+            }
+        
+        document.add(paragIma);
+        document.add(paraTitle);
+        document.add(parag);      
+        document.add(paraEscCodSerie);
+        document.add(paraTitulo);
+        document.add(new Paragraph(" "));    
+        document.add(table);   
+        if(!Lista_Servicio.isEmpty()){
+        document.add(paraTituloSocial);
+        document.add(tableSocial);}
         document.close();       
     }
     public void limpiarVista1(){

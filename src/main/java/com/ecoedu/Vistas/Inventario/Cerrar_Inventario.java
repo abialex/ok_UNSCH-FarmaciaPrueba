@@ -58,7 +58,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     TextAutoCompleter autoCompleterDescruceMedicamento1;
     TextAutoCompleter autoCompleterDescruceMedicamento2;
     boolean SWICHBD=false;    
+    boolean SWICHBDefinitivo=false;
     boolean SWITCHimpresion=false;
+    boolean SWITCHimpresionDefinitivo=false;
     boolean estadoCierre=false;
     
     public class Proceso extends Thread{
@@ -67,9 +69,17 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             cerrarInventario();
             }
         }
+    public class Proceso1 extends Thread{
+        @Override
+        public void run(){ 
+            cerrarInventarioDefinitivo();
+            }
+        }
     public Cerrar_Inventario(EntityManager jpa2,Principal OBJPrincipal,Usuario objUser ){
         
         initComponents();   
+        jbtnImprimirCierreInventario.setVisible(false);
+        jbtnGuardarCierreLote.setVisible(false);
         this.autoCompleterDescruceMedicamento1=new TextAutoCompleter(jtfDescruzeMedicamento1,new AutoCompleterCallback(){
             @Override
             public void callback(Object o) { /*  */}});
@@ -95,11 +105,13 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                  jlblAdverte.setText("Click en el Lote");
                  jbtnCerrarInventario.setEnabled(true);
                  jbtnDescruzar.setVisible(false);
+                 jbtnCierreDefinitivo.setVisible(false);
+                 jbtnInventarioPreliminar.setVisible(false);
                  llenarTabla(Lista_Registro_Mensual);
                  }
              else{
                  jlblAdvertencia.setText("Inventaríe los medicamentos, correspondientes al mes de "+Herramienta.getNombreMes(Lista_Registro_Mensual.get(0).getFecha_apertura().getMonth()+1));
-                 jlblAdverte.setText("click para cerrar algún Medicamento");
+                 jlblAdverte.setText("");
                  Collections.sort(Lista_Mensual_Inventario);
                  llenarTablaInventarios(Lista_Mensual_Inventario);
                  }             
@@ -111,14 +123,18 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
              }
              jbtnCerrarInventario.setVisible(Lista_Registro_Mensual.get(0).getFecha_cierra()==null);
              jbtnDescruzar.setVisible(Lista_Registro_Mensual.get(0).getFecha_cierra()!=null);
+             jbtnCierreDefinitivo.setVisible(Lista_Registro_Mensual.get(0).getFecha_cierra()!=null);
+             jbtnInventarioPreliminar.setVisible(Lista_Registro_Mensual.get(0).getFecha_cierra()!=null);
              //jbtnDescruzar.setVisible(!(Lista_Registro_Mensual.get(0).getFecha_cierra()==null));
              }
          else{
              jlblAdvertencia.setText("El Inventario Está Cerrado"); 
              jbtnDescruzar.setVisible(false);
+             jbtnCierreDefinitivo.setVisible(false);
+                 jbtnInventarioPreliminar.setVisible(false);
              Lista_Mensual_Inventario=jpa.createQuery("select p from RegistroMensualInventario p where fecha_cierre_real is null").getResultList();
-             
-             jbtnCerrarInventario.setEnabled(false);
+             jbtnCerrarInventario.setVisible(false);
+             jbtnImprimirCierreInventario.setVisible(true);
              jlblAdverte.setText("");
              Lista_Registro_Mensual=new ArrayList<>();
              llenarTabla(Lista_Registro_Mensual);
@@ -168,6 +184,39 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jbtnImprimirApertura = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jbtnCancelarImpresion = new javax.swing.JButton();
+        jDialog2 = new javax.swing.JDialog();
+        jPanel16 = new javax.swing.JPanel();
+        confirmarProceso1 = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        jlblHead2 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        jlblMensaje4 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jlblMensaje8 = new javax.swing.JLabel();
+        jlblMensaje9 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jbtnAceptar1 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jbtnCancelar1 = new javax.swing.JButton();
+        carga1 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        jlblHead4 = new javax.swing.JLabel();
+        jPanel21 = new javax.swing.JPanel();
+        jlblMensaje10 = new javax.swing.JLabel();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        confirmarImpresion1 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jlblHead5 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        jlblMensaje11 = new javax.swing.JLabel();
+        jPanel25 = new javax.swing.JPanel();
+        jlblMensaje12 = new javax.swing.JLabel();
+        jlblMensaje13 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jbtnImprimirApertura1 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jbtnCancelarImpresion1 = new javax.swing.JButton();
         head = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         body = new javax.swing.JPanel();
@@ -184,6 +233,9 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jlblAdverte = new javax.swing.JLabel();
         jbtnCerrarInventario = new javax.swing.JButton();
         jbtnDescruzar = new javax.swing.JButton();
+        jbtnInventarioPreliminar = new javax.swing.JButton();
+        jbtnCierreDefinitivo = new javax.swing.JButton();
+        jbtnImprimirCierreInventario = new javax.swing.JButton();
         vistaDesCruce = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -267,9 +319,8 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jbtnAbrirInventario4 = new javax.swing.JButton();
-        jbtnGuardarCierreLote1 = new javax.swing.JButton();
+        jbtnGuardarCierreLote = new javax.swing.JButton();
 
-        jDialog1.setMaximumSize(new java.awt.Dimension(350, 250));
         jDialog1.setMinimumSize(new java.awt.Dimension(350, 250));
         jDialog1.setModal(true);
         jDialog1.setUndecorated(true);
@@ -413,7 +464,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
 
         jlblMensaje6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlblMensaje6.setText("¿Desea Imprimir la apartura de Inventario?");
+        jlblMensaje6.setText("¿Desea imprimir inventario preliminar?");
         jPanel15.add(jlblMensaje6);
 
         jlblMensaje7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -429,11 +480,6 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jbtnImprimirApertura.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jbtnImprimirApertura.setText("ACEPTAR");
         jbtnImprimirApertura.setPreferredSize(new java.awt.Dimension(100, 30));
-        jbtnImprimirApertura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnImprimirAperturaActionPerformed(evt);
-            }
-        });
         jPanel15.add(jbtnImprimirApertura);
 
         jLabel15.setPreferredSize(new java.awt.Dimension(50, 14));
@@ -455,6 +501,187 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jPanel1.add(confirmarImpresion, "card2");
 
         jDialog1.getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jDialog2.setMinimumSize(new java.awt.Dimension(350, 250));
+        jDialog2.setModal(true);
+        jDialog2.setUndecorated(true);
+
+        jPanel16.setBackground(new java.awt.Color(255, 251, 255));
+        jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel16.setMaximumSize(new java.awt.Dimension(100, 176));
+        jPanel16.setPreferredSize(new java.awt.Dimension(350, 250));
+        jPanel16.setLayout(new java.awt.CardLayout());
+
+        confirmarProceso1.setBackground(new java.awt.Color(255, 255, 255));
+        confirmarProceso1.setMaximumSize(new java.awt.Dimension(700, 300));
+        confirmarProceso1.setMinimumSize(new java.awt.Dimension(700, 300));
+        confirmarProceso1.setName(""); // NOI18N
+        confirmarProceso1.setPreferredSize(new java.awt.Dimension(700, 300));
+        confirmarProceso1.setLayout(new java.awt.BorderLayout());
+
+        jPanel17.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel17.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel17.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead2.setForeground(new java.awt.Color(153, 0, 51));
+        jlblHead2.setText("AVISO");
+        jPanel17.add(jlblHead2);
+
+        confirmarProceso1.add(jPanel17, java.awt.BorderLayout.PAGE_START);
+
+        jPanel18.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje4.setText("...");
+        jPanel18.add(jlblMensaje4);
+
+        confirmarProceso1.add(jPanel18, java.awt.BorderLayout.PAGE_END);
+
+        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje8.setText("Cerrando inventario ");
+        jPanel19.add(jlblMensaje8);
+
+        jlblMensaje9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje9.setText("¿Segura(o) de cerrar el inventario? ");
+        jPanel19.add(jlblMensaje9);
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel16.setPreferredSize(new java.awt.Dimension(290, 80));
+        jPanel19.add(jLabel16);
+
+        jbtnAceptar1.setBackground(new java.awt.Color(0, 0, 255));
+        jbtnAceptar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnAceptar1.setText("ACEPTAR");
+        jbtnAceptar1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnAceptar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAceptar1ActionPerformed(evt);
+            }
+        });
+        jPanel19.add(jbtnAceptar1);
+
+        jLabel17.setPreferredSize(new java.awt.Dimension(50, 14));
+        jPanel19.add(jLabel17);
+
+        jbtnCancelar1.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancelar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnCancelar1.setText("CANCELAR");
+        jbtnCancelar1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelar1ActionPerformed(evt);
+            }
+        });
+        jPanel19.add(jbtnCancelar1);
+
+        confirmarProceso1.add(jPanel19, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(confirmarProceso1, "card2");
+
+        carga1.setBackground(new java.awt.Color(255, 255, 255));
+        carga1.setMaximumSize(new java.awt.Dimension(700, 300));
+        carga1.setMinimumSize(new java.awt.Dimension(700, 300));
+        carga1.setName(""); // NOI18N
+        carga1.setPreferredSize(new java.awt.Dimension(700, 300));
+        carga1.setLayout(new java.awt.BorderLayout());
+
+        jPanel20.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel20.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel20.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead4.setText("Espere porfavor...");
+        jPanel20.add(jlblHead4);
+
+        carga1.add(jPanel20, java.awt.BorderLayout.PAGE_START);
+
+        jPanel21.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje10.setText("cerrando el inventario");
+        jPanel21.add(jlblMensaje10);
+
+        carga1.add(jPanel21, java.awt.BorderLayout.PAGE_END);
+
+        jPanel22.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel22.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cargando2.gif"))); // NOI18N
+        jPanel22.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 5, 320, 160));
+
+        carga1.add(jPanel22, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(carga1, "card3");
+
+        confirmarImpresion1.setBackground(new java.awt.Color(255, 255, 255));
+        confirmarImpresion1.setMaximumSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion1.setMinimumSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion1.setName(""); // NOI18N
+        confirmarImpresion1.setPreferredSize(new java.awt.Dimension(700, 300));
+        confirmarImpresion1.setLayout(new java.awt.BorderLayout());
+
+        jPanel23.setBackground(new java.awt.Color(0, 193, 151));
+        jPanel23.setForeground(new java.awt.Color(0, 193, 151));
+        jPanel23.setPreferredSize(new java.awt.Dimension(100, 40));
+
+        jlblHead5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblHead5.setText("Escoga una opción");
+        jPanel23.add(jlblHead5);
+
+        confirmarImpresion1.add(jPanel23, java.awt.BorderLayout.PAGE_START);
+
+        jPanel24.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlblMensaje11.setText("...");
+        jPanel24.add(jlblMensaje11);
+
+        confirmarImpresion1.add(jPanel24, java.awt.BorderLayout.PAGE_END);
+
+        jPanel25.setBackground(new java.awt.Color(255, 255, 255));
+
+        jlblMensaje12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje12.setText("¿Desea imprimir cierre inventario?");
+        jPanel25.add(jlblMensaje12);
+
+        jlblMensaje13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblMensaje13.setForeground(new java.awt.Color(255, 255, 255));
+        jlblMensaje13.setText("¿Segura(o) de abrir el inventario? ");
+        jPanel25.add(jlblMensaje13);
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel19.setPreferredSize(new java.awt.Dimension(290, 80));
+        jPanel25.add(jLabel19);
+
+        jbtnImprimirApertura1.setBackground(new java.awt.Color(0, 0, 255));
+        jbtnImprimirApertura1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnImprimirApertura1.setText("ACEPTAR");
+        jbtnImprimirApertura1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jPanel25.add(jbtnImprimirApertura1);
+
+        jLabel20.setPreferredSize(new java.awt.Dimension(50, 14));
+        jPanel25.add(jLabel20);
+
+        jbtnCancelarImpresion1.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancelarImpresion1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbtnCancelarImpresion1.setText("CANCELAR");
+        jbtnCancelarImpresion1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jbtnCancelarImpresion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarImpresion1ActionPerformed(evt);
+            }
+        });
+        jPanel25.add(jbtnCancelarImpresion1);
+
+        confirmarImpresion1.add(jPanel25, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(confirmarImpresion1, "card2");
+
+        jDialog2.getContentPane().add(jPanel16, java.awt.BorderLayout.CENTER);
 
         setBackground(new java.awt.Color(0, 255, 204));
         setInheritsPopupMenu(true);
@@ -595,17 +822,51 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         });
         vistaRegistroLotes.add(jbtnCerrarInventario);
 
-        jbtnDescruzar.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnDescruzar.setBackground(new java.awt.Color(0, 0, 255));
         jbtnDescruzar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbtnDescruzar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnDescruzar.setText("DESCRUZAR");
-        jbtnDescruzar.setPreferredSize(new java.awt.Dimension(220, 25));
+        jbtnDescruzar.setPreferredSize(new java.awt.Dimension(200, 25));
         jbtnDescruzar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnDescruzarActionPerformed(evt);
             }
         });
         vistaRegistroLotes.add(jbtnDescruzar);
+
+        jbtnInventarioPreliminar.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnInventarioPreliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnInventarioPreliminar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnInventarioPreliminar.setText("Imprimir Inventario Preliminar");
+        jbtnInventarioPreliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnInventarioPreliminarActionPerformed(evt);
+            }
+        });
+        vistaRegistroLotes.add(jbtnInventarioPreliminar);
+
+        jbtnCierreDefinitivo.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCierreDefinitivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnCierreDefinitivo.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCierreDefinitivo.setText("CIERRE DEFINITIVO");
+        jbtnCierreDefinitivo.setPreferredSize(new java.awt.Dimension(200, 25));
+        jbtnCierreDefinitivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCierreDefinitivoActionPerformed(evt);
+            }
+        });
+        vistaRegistroLotes.add(jbtnCierreDefinitivo);
+
+        jbtnImprimirCierreInventario.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnImprimirCierreInventario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbtnImprimirCierreInventario.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnImprimirCierreInventario.setText("Imprimir Cierre de Inventario");
+        jbtnImprimirCierreInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnImprimirCierreInventarioActionPerformed(evt);
+            }
+        });
+        vistaRegistroLotes.add(jbtnImprimirCierreInventario);
 
         body2.add(vistaRegistroLotes, "card2");
 
@@ -1068,17 +1329,17 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         });
         vistaMedicamentesVer.add(jbtnAbrirInventario4);
 
-        jbtnGuardarCierreLote1.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnGuardarCierreLote1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbtnGuardarCierreLote1.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnGuardarCierreLote1.setText("Guardar");
-        jbtnGuardarCierreLote1.setPreferredSize(new java.awt.Dimension(220, 25));
-        jbtnGuardarCierreLote1.addActionListener(new java.awt.event.ActionListener() {
+        jbtnGuardarCierreLote.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnGuardarCierreLote.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jbtnGuardarCierreLote.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnGuardarCierreLote.setText("Guardar");
+        jbtnGuardarCierreLote.setPreferredSize(new java.awt.Dimension(220, 25));
+        jbtnGuardarCierreLote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnGuardarCierreLote1ActionPerformed(evt);
+                jbtnGuardarCierreLoteActionPerformed(evt);
             }
         });
-        vistaMedicamentesVer.add(jbtnGuardarCierreLote1);
+        vistaMedicamentesVer.add(jbtnGuardarCierreLote);
 
         body2.add(vistaMedicamentesVer, "card2");
 
@@ -1167,6 +1428,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
                     jpa.persist(registroMensualInventario);
                     }
                 jpa.flush();
+                //imprimir inventario preliminar;
                 ConsultaBD();
                 jDialog1.dispose();
                 jpa.getTransaction().commit();                
@@ -1174,6 +1436,31 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             
             else{
                 System.out.println("vale... no borro nada...");}
+    }
+        public void cerrarInventarioDefinitivo(){
+            Lista_Registro_Mensual=jpa.createQuery("SELECT p FROM RegistroMensualLotes p where fecha_cierre_real is null").getResultList();
+            Lista_Mensual_Inventario=jpa.createQuery("select p from RegistroMensualInventario p where fecha_cierre_real is null").getResultList();
+            jpa.getTransaction().begin();     
+            for (RegistroMensualLotes registroMensualLotes : Lista_Registro_Mensual){
+                registroMensualLotes.setFecha_cierre_real(new Date());
+                registroMensualLotes.setCantidad_final(registroMensualLotes.getLote_detalle().getCantidad());
+                jpa.createQuery("update RegistroMensualLotes set id_Usuario_cierre= "+objUsuario.getId_Usuario()+" where id_Registro_mensual_lotes= "+registroMensualLotes.getId_Registro_mensual_lotes()).executeUpdate();
+                jpa.persist(registroMensualLotes);
+                    }
+            for (RegistroMensualInventario registroMensualInventario : Lista_Mensual_Inventario){
+                registroMensualInventario.setFecha_cierre_real(new Date());
+                jpa.createQuery("update RegistroMensualInventario set id_Usuario_cierre= "+objUsuario.getId_Usuario()+" where id_Registro_mensual_inventario= "+registroMensualInventario.getId_Registro_mensual_Inventario()).executeUpdate();
+                registroMensualInventario.setCantidad_final(registroMensualInventario.getInventario().getCantidad());
+                jpa.persist(registroMensualInventario);
+                }
+            jDialog2.dispose();
+            jpa.flush();
+            ConsultaBD();
+            confirmarImpresion1.setVisible(true);
+            confirmarProceso1.setVisible(false);
+            carga1.setVisible(false);
+            jpa.getTransaction().commit();   
+ 
     }
     private void jbtnAbrirInventario4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAbrirInventario4ActionPerformed
         vistaMedicamentesVer.setVisible(false);
@@ -1207,7 +1494,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         
     }//GEN-LAST:event_jtblLotesDelMedicamentoMouseClicked
 
-    private void jbtnGuardarCierreLote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarCierreLote1ActionPerformed
+    private void jbtnGuardarCierreLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarCierreLoteActionPerformed
         //maybe
         jpa.getTransaction().begin();
         objRegistroMensualInventario.setCantidad_final(objRegistroMensualInventario.getInventario().getCantidad());
@@ -1235,35 +1522,39 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             carga.setVisible(false);
             jDialog1.setSize(350,250);
             jDialog1.setLocationRelativeTo(null);
-            jDialog1.setVisible(true);    
-            
-            
-        
+            jDialog1.setVisible(true);     
         }
         ConsultaBD();
         vistaMedicamentesVer.setVisible(false);
         vistaRegistroLotes.setVisible(true);
         jpa.getTransaction().commit();
-        
-        
         //objRegistroMensualInventario;
-    }//GEN-LAST:event_jbtnGuardarCierreLote1ActionPerformed
+    }//GEN-LAST:event_jbtnGuardarCierreLoteActionPerformed
 
-    private void imprimir(){
-        if (SWITCHimpresion){
-                try {                
-                    Date Fe=new Date();
-                    imprimirInventarioApertura(Fe,Lista_Registro_Mensual.get(0));
-                    String url="Carpeta_de_Archivos\\Inventario_Cierre"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
-                    ProcessBuilder p=new ProcessBuilder();
-                    p.command("cmd.exe","/c",url);
-                    p.start();            
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                }
-            else{
-                System.out.println("vale... no borro nada...");}
+    private void imprimir(boolean algo){
+        try{
+            Date Fe=new Date();
+            imprimirInventarioApertura(algo,Fe,Lista_Registro_Mensual.get(0),true);
+            String url="Carpeta_de_Archivos\\Inventario_Cierre"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
+            ProcessBuilder p=new ProcessBuilder();
+            p.command("cmd.exe","/c",url);
+            p.start();            
+            } catch (IOException ex) {
+            Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
+            }                
+    }
+    
+    private void imprimirLista_Descruce(){
+        try{
+            Date Fe=new Date();
+            imprimirDescruce(Fe,Lista_Registro_Mensual.get(0));
+            String url="Carpeta_de_Archivos\\Lista_Descruce"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf";
+            ProcessBuilder p=new ProcessBuilder();
+            p.command("cmd.exe","/c",url);
+            p.start();            
+            } catch (IOException ex) {
+            Logger.getLogger(ServicioFarmacia.class.getName()).log(Level.SEVERE, null, ex);
+            }                
     }
     private void jbtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVolverActionPerformed
         vistaDesCruce.setVisible(false);
@@ -1316,6 +1607,8 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jpa.persist(objDescruce);
         limpiarDescruce();
         jpa.flush();
+        
+        
         ConsultaBD();
         principalEjecucion();
         JOptionPane.showMessageDialog(jPanel7, "Guardado con exito");
@@ -1350,7 +1643,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         for (RegistroMensualInventario registroMensualInventario : Lista_Inventario_Descruce){
             if(registroMensualInventario.getInventario().getMedicamento().getNombre().equals(jtfDescruzeMedicamento1.getText())){
                 List<Lote_detalle> lista_Lotes=jpa.createQuery("select p from Lote_detalle p where id_Inventario="+
-                registroMensualInventario.getInventario().getId_Inventario()).getResultList();
+                registroMensualInventario.getInventario().getId_Inventario()+"and isVencido=0").getResultList();
                 jlblDescruceFF1.setText(registroMensualInventario.getInventario().getMedicamento().getForma_farmaceutica());
                 jlblDescruceCon1.setText(registroMensualInventario.getInventario().getMedicamento().getConcentracion());
                 llenarLotesMedicamento1(lista_Lotes);
@@ -1496,7 +1789,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     }//GEN-LAST:event_jtblVentasKeyPressed
 
     private void jbtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptarActionPerformed
-       SWICHBD=true;
+        SWICHBD=true;
         confirmarProceso.setVisible(false);
         confirmarImpresion.setVisible(false);
         carga.setVisible(true);
@@ -1508,15 +1801,50 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         jDialog1.dispose();
     }//GEN-LAST:event_jbtnCancelarActionPerformed
 
-    private void jbtnImprimirAperturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirAperturaActionPerformed
-        SWITCHimpresion=true;
-        imprimir();
-        jDialog1.setVisible(false);
-    }//GEN-LAST:event_jbtnImprimirAperturaActionPerformed
-
     private void jbtnCancelarImpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarImpresionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCancelarImpresionActionPerformed
+
+    private void jbtnCierreDefinitivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCierreDefinitivoActionPerformed
+
+        jDialog2.setSize(350,250);
+        jDialog2.setLocationRelativeTo(null);
+        confirmarProceso1.setVisible(true);
+        confirmarImpresion1.setVisible(false);
+        carga1.setVisible(false);
+        jDialog2.setVisible(true);
+        
+    }//GEN-LAST:event_jbtnCierreDefinitivoActionPerformed
+
+    private void jbtnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptar1ActionPerformed
+
+        SWICHBDefinitivo=true;
+        confirmarProceso1.setVisible(false);
+        confirmarImpresion1.setVisible(false);
+        carga1.setVisible(true);
+        new Proceso1().start();
+    }//GEN-LAST:event_jbtnAceptar1ActionPerformed
+
+    private void jbtnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelar1ActionPerformed
+        jDialog2.dispose();
+    }//GEN-LAST:event_jbtnCancelar1ActionPerformed
+
+    private void jbtnCancelarImpresion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarImpresion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCancelarImpresion1ActionPerformed
+
+    private void jbtnInventarioPreliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnInventarioPreliminarActionPerformed
+        
+        imprimir(true);
+    }//GEN-LAST:event_jbtnInventarioPreliminarActionPerformed
+
+    private void jbtnImprimirCierreInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnImprimirCierreInventarioActionPerformed
+        //reutilizando array para imprimir los datos guardados 
+        Lista_Registro_Mensual=jpa.createQuery("SELECT  p  from RegistroMensualLotes p ORDER BY id_Registro_mensual_lotes desc").setMaxResults(1).getResultList();
+  
+        imprimir(false);//false para que salga título cierre inventario de mes de xxxx
+        imprimirLista_Descruce();
+    }//GEN-LAST:event_jbtnImprimirCierreInventarioActionPerformed
 
     //
     public void llenarLotesMedicamento2(List<Lote_detalle> Lista_lote){ 
@@ -1598,8 +1926,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             //864-550=64      
     }
     //
-    public void imprimirInventarioApertura(Date Fe,RegistroMensualLotes obj) throws MalformedURLException, IOException{
-        
+    public void imprimirInventarioApertura(boolean iSpreliminar,Date Fe,RegistroMensualLotes obj,boolean iSdescruce) throws MalformedURLException, IOException{ 
         String ol="images\\unsch.png";
         Image unsch=new Image(ImageDataFactory.create(ol));
         PdfWriter writer=null;
@@ -1618,8 +1945,11 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         
         PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
         PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
-        Paragraph paragIma=new Paragraph("     ").add(unsch).add("                                    CIERRE DE INVENTARIO PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
-        document.add(paragIma); 
+        Paragraph paragTituloCIerre=new Paragraph("     ").add(unsch).add("                                    CIERRE DE INVENTARIO PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
+        Paragraph paragPreliminar=new Paragraph("     ").add(unsch).add("                                      INVENTARIO PRELIMINAR DEL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
+        if(iSpreliminar){document.add(paragPreliminar);}
+        else{document.add(paragTituloCIerre);}
+        
         int HeadTamaño=9;
         int Tamaño=7;
         //Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
@@ -1627,7 +1957,7 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
         System.out.println(obj.getFecha_apertura().getMonth()+"-------------------------");
         List<RegistroMensualLotes> listaRegistroMensualImprimir=
                 jpa.createQuery("select p from RegistroMensualLotes p where Month(fecha_apertura)="+((obj.getFecha_apertura().getMonth())+1)).getResultList();
-        System.out.println(listaRegistroMensualImprimir.size()+"asdasd");
+
         for (Rol Origen : Lista_Origen){
         boolean auxAgregar=false;
         Table table = new Table(new float[]{19,7,6,11,11,8,11,11,11,11,11});
@@ -1648,7 +1978,8 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
 //table.addHeaderCell(new Cell().add(new Paragraph("STOCK FINAL").setFont(bold)).setTextAlignment(TextAlignment.CENTER));              
         Collections.sort(listaRegistroMensualImprimir);//ordenando A-Z (método como Override)
         for (RegistroMensualLotes Lote_RegistroCierre : listaRegistroMensualImprimir){
-            if(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen){
+            
+            if(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getRolorigen()==Origen && !Lote_RegistroCierre.getLote_detalle().isIsVencido()){
                 auxAgregar=true;
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getNombre()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.LEFT));//P.F
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getInventario().getMedicamento().getConcentracion()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//Conc
@@ -1671,16 +2002,105 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getFactura().getRolProveedor().getNombre_rol()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_RegistroCierre.getCantidad_inicial()+"").setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
             table.addCell(new Paragraph(Lote_RegistroCierre.getLote_detalle().getCantidad()+"").setFont(font).setFontSize(Tamaño).setTextAlignment(TextAlignment.CENTER));//stock final
-            
-//table.addCell(new Paragraph(Integer.toString(Lote_RegistroCierre.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-    
-        }}
-        if(auxAgregar){
+
+            //table.addCell(new Paragraph(Integer.toString(Lote_RegistroCierre.getLote_detalle().getCantidad())).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            }}
+        if(auxAgregar && iSdescruce){
             Paragraph asd=new Paragraph(Origen.getNombre_rol()).setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);
             document.add(asd);
-            document.add(table);}
+            document.add(table);
+            document.add(new AreaBreak());
+            }
+        }
+        Paragraph parag3=new Paragraph("Descruces").setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);        
+        Table tableDescruce = new Table(new float[]{10,7,8,7,8,20,10});
+        tableDescruce.setWidthPercent(100);
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Fecha Descruce").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Lote 1").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Cantidad 1").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Lote 2").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Cantidad 2").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Motivo").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Usuario").setFontSize(HeadTamaño).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
         
-    }
+        List<Descruce> Lista_Descruce=jpa.createQuery("select p from Descruce p where mes>="+(listaRegistroMensualImprimir.get(0).getFecha_apertura().getMonth()+1) ).getResultList();
+        for (Descruce descruce : Lista_Descruce) {
+            tableDescruce.addCell(new Paragraph(Herramienta.formatoFechaHoraMas1(descruce.getFecha_registro())).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getLote_detalle().getCodigo()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getCantidad()+"").setFont(font).setFontSize(Tamaño).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getLote_detalle2().getCodigo()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getCantidad2()+"").setFont(font).setFontSize(Tamaño).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getMotivo()).setFont(font).setFontSize(Tamaño).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescruce.addCell(new Paragraph(descruce.getUsuario().getPersona().getInfoPersona()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+        }      
+        if(!iSdescruce){//!Lista_Descruce.isEmpty()
+            document.add(parag3);document.add(tableDescruce);
+            }        
+        Paragraph parag4=new Paragraph("DESCARGA").setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);        
+        Table tableDescarga = new Table(new float[]{10,7,8,7,8,20});
+        int HeadTam=11;
+        int Tam=9;
+                        
+        tableDescarga.setWidthPercent(100);
+        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Fecha Descarga").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Tipo").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
+        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Código Lote").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        //tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Motivo").setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Usuario").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Documento").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
+                
+        List<Descarga> Lista_Descarga=jpa.createQuery("select p from Descarga p where month(fecha)>="+(listaRegistroMensualImprimir.get(0).getFecha_apertura().getMonth()+1)).getResultList();
+        for (Descarga descarga : Lista_Descarga){
+            tableDescarga.addCell(new Paragraph(Herramienta.formatoFechaHoraMas1(descarga.getFecha())).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescarga.addCell(new Paragraph(descarga.getRolTipo().getNombre_rol()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
+            tableDescarga.addCell(new Paragraph(descarga.getCantidad()+"").setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            tableDescarga.addCell(new Paragraph(descarga.getLote_detalle().getCodigo()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));
+            //tableDescruce.addCell(new Paragraph(descarga.getMotivo()).setFont(font).setTextAlignment(TextAlignment.CENTER));            
+            tableDescarga.addCell(new Paragraph(descarga.getUsuario().getPersona().getInfoPersona()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER)); 
+            tableDescarga.addCell(new Paragraph(descarga.getCodigo_documento()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));
+        }
+        
+        if(false){
+            document.add(parag4);
+            document.add(tableDescarga);
+            document.add(new AreaBreak());
+            }
+                
+        document.close();  
+        }
+    
+    public void imprimirDescruce(Date Fe,RegistroMensualLotes obj ) throws MalformedURLException, IOException{ 
+        String ol="images\\unsch.png";
+        Image unsch=new Image(ImageDataFactory.create(ol));
+        PdfWriter writer=null;
+        try {
+             writer=new PdfWriter
+                ("Carpeta_de_Archivos\\Lista_Descruce"+(Fe.getYear()+1900)+"_"+Fe.getMonth()+"_"+Fe.getDate()+".pdf");           
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(jLabel12, "El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso");
+        }  
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document=new Document(pdf,PageSize.A4.rotate());     
+        EventoPagina evento = new EventoPagina(document);
+        // Indicamos que el manejador se encargara del evento END_PAGE
+        pdf.addEventHandler(PdfDocumentEvent.END_PAGE, evento);
+        document.setMargins(75, 36, 75, 36);    
+        
+        PdfFont font=PdfFontFactory.createFont(FontConstants.HELVETICA);
+        PdfFont bold=PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);     
+        Paragraph paragTitulo=new Paragraph("     ").add(unsch).add("                                    LISTA DE DESCRUCE PARA EL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
+        Paragraph paragPreliminar=new Paragraph("     ").add(unsch).add("                                      INVENTARIO PRELIMINAR DEL MES DE "+Herramienta.getNombreMes((Fe.getMonth()+1)) ).setFontSize(16).setFont(bold);  
+        document.add(paragTitulo);
+        
+        int HeadTamaño=9;
+        int Tamaño=7;
+        //Paragraph parag2=new Paragraph("Servicio Farmacia                                                                                                                                                                 "+Herramienta.formatoFechaHoraMas1(new Date()));         
+        //document.add(parag2);
+        System.out.println(obj.getFecha_apertura().getMonth()+"-------------------------");
+        List<RegistroMensualLotes> listaRegistroMensualImprimir=
+                jpa.createQuery("select p from RegistroMensualLotes p where Month(fecha_apertura)="+((obj.getFecha_apertura().getMonth())+1)).getResultList();
+
         
         Paragraph parag3=new Paragraph("Descruces").setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);        
         Table tableDescruce = new Table(new float[]{10,7,8,7,8,20,10});
@@ -1702,47 +2122,11 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
             tableDescruce.addCell(new Paragraph(descruce.getCantidad2()+"").setFont(font).setFontSize(Tamaño).setTextAlignment(TextAlignment.CENTER));//stock final
             tableDescruce.addCell(new Paragraph(descruce.getMotivo()).setFont(font).setFontSize(Tamaño).setTextAlignment(TextAlignment.CENTER));//stock final
             tableDescruce.addCell(new Paragraph(descruce.getUsuario().getPersona().getInfoPersona()).setFontSize(Tamaño).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-        }        
-        if(!Lista_Descruce.isEmpty()){
-            document.add(parag3);document.add(tableDescruce);
             }
-        
-        Paragraph parag4=new Paragraph("DESCARGA").setTextAlignment(TextAlignment.CENTER).setFont(bold).setFontSize(14);        
-        Table tableDescarga = new Table(new float[]{10,7,8,7,8,20});
-        int HeadTam=11;
-        int Tam=9;
-                
-                
-        tableDescarga.setWidthPercent(100);
-        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Fecha Descarga").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
-        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Tipo").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
-        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Cantidad").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));         
-        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Código Lote").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
-        //tableDescruce.addHeaderCell(new Cell().add(new Paragraph("Motivo").setFont(bold)).setTextAlignment(TextAlignment.CENTER));
-        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Usuario").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
-        tableDescarga.addHeaderCell(new Cell().add(new Paragraph("Documento").setFontSize(HeadTam).setFont(bold)).setTextAlignment(TextAlignment.CENTER));
-
-        
-        List<Descarga> Lista_Descarga=jpa.createQuery("select p from Descarga p where month(fecha)>="+(listaRegistroMensualImprimir.get(0).getFecha_apertura().getMonth()+1)).getResultList();
-        for (Descarga descarga : Lista_Descarga){
-            tableDescarga.addCell(new Paragraph(Herramienta.formatoFechaHoraMas1(descarga.getFecha())).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-            tableDescarga.addCell(new Paragraph(descarga.getRolTipo().getNombre_rol()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));//stock final
-            tableDescarga.addCell(new Paragraph(descarga.getCantidad()+"").setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));
-            tableDescarga.addCell(new Paragraph(descarga.getLote_detalle().getCodigo()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));
-            //tableDescruce.addCell(new Paragraph(descarga.getMotivo()).setFont(font).setTextAlignment(TextAlignment.CENTER));            
-            tableDescarga.addCell(new Paragraph(descarga.getUsuario().getPersona().getInfoPersona()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER)); 
-            tableDescarga.addCell(new Paragraph(descarga.getCodigo_documento()).setFontSize(Tam).setFont(font).setTextAlignment(TextAlignment.CENTER));
-        }
-        if(!Lista_Descarga.isEmpty()){
-            document.add(parag4);
-            document.add(tableDescarga);
-            document.add(new AreaBreak());
-            }
-        
-        
+        document.add(parag3);document.add(tableDescruce);
         document.close();  
-        
-    }
+        }
+    
     public void llenarTablaInventarios(List<RegistroMensualInventario> lista_Registro_Inventario){ 
         DefaultTableModel modelo;
         Object[] fila_actividad;
@@ -1973,11 +2357,15 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JPanel body;
     private javax.swing.JPanel body2;
     private javax.swing.JPanel carga;
+    private javax.swing.JPanel carga1;
     private javax.swing.JPanel confirmarImpresion;
+    private javax.swing.JPanel confirmarImpresion1;
     private javax.swing.JPanel confirmarProceso;
+    private javax.swing.JPanel confirmarProceso1;
     private javax.swing.JPanel head;
     private javax.swing.JPanel head2;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1985,7 +2373,12 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -2027,7 +2420,17 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -2045,13 +2448,20 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JButton jbtnAbrirInventario3;
     private javax.swing.JButton jbtnAbrirInventario4;
     private javax.swing.JButton jbtnAceptar;
+    private javax.swing.JButton jbtnAceptar1;
     private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnCancelar1;
     private javax.swing.JButton jbtnCancelarImpresion;
+    private javax.swing.JButton jbtnCancelarImpresion1;
     private javax.swing.JButton jbtnCerrarInventario;
+    private javax.swing.JButton jbtnCierreDefinitivo;
     private javax.swing.JButton jbtnDescruzar;
-    private javax.swing.JButton jbtnGuardarCierreLote1;
+    private javax.swing.JButton jbtnGuardarCierreLote;
     private javax.swing.JButton jbtnGuardarDescruce;
     private javax.swing.JButton jbtnImprimirApertura;
+    private javax.swing.JButton jbtnImprimirApertura1;
+    private javax.swing.JButton jbtnImprimirCierreInventario;
+    private javax.swing.JButton jbtnInventarioPreliminar;
     private javax.swing.JButton jbtnVolver;
     private javax.swing.JLabel jlblAdverte;
     private javax.swing.JLabel jlblAdvertencia;
@@ -2080,14 +2490,24 @@ public class Cerrar_Inventario extends javax.swing.JPanel{
     private javax.swing.JLabel jlblFechaVen;
     private javax.swing.JLabel jlblHead;
     private javax.swing.JLabel jlblHead1;
+    private javax.swing.JLabel jlblHead2;
     private javax.swing.JLabel jlblHead3;
+    private javax.swing.JLabel jlblHead4;
+    private javax.swing.JLabel jlblHead5;
     private javax.swing.JLabel jlblMensaje;
     private javax.swing.JLabel jlblMensaje1;
+    private javax.swing.JLabel jlblMensaje10;
+    private javax.swing.JLabel jlblMensaje11;
+    private javax.swing.JLabel jlblMensaje12;
+    private javax.swing.JLabel jlblMensaje13;
     private javax.swing.JLabel jlblMensaje2;
     private javax.swing.JLabel jlblMensaje3;
+    private javax.swing.JLabel jlblMensaje4;
     private javax.swing.JLabel jlblMensaje5;
     private javax.swing.JLabel jlblMensaje6;
     private javax.swing.JLabel jlblMensaje7;
+    private javax.swing.JLabel jlblMensaje8;
+    private javax.swing.JLabel jlblMensaje9;
     private javax.swing.JLabel jlblPF;
     private javax.swing.JLabel jlblPFGeneral;
     private javax.swing.JLabel jlblmasdas;
