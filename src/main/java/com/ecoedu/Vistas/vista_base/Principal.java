@@ -65,17 +65,19 @@ public class Principal extends javax.swing.JFrame{
     public class Proceso extends Thread{
         @Override
         public void run(){    
-            jListaMedicamentosVencidos.setSize(700,350);
-            jListaMedicamentosVencidos.setLocationRelativeTo(null);
-            lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<=0 and isVencido=0").getResultList();
-            lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0  and isVencido=0").getResultList();
+            //jListaMedicamentosVencidos.setSize(700,350);
+            //jListaMedicamentosVencidos.setLocationRelativeTo(null);
+            //lotes_por_vencidos=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<=0 and isVencido=0").getResultList();
+            //lotes_por_vencer=jpa.createQuery("select p from Lote_detalle p where  DATEDIFF(day,  GETDATE(),fecha_vencimiento)<60 and DATEDIFF(day,  GETDATE(),fecha_vencimiento)>0  and isVencido=0").getResultList();
+            //llenar_tabla_LoteDetalleVencidos(lotes_por_vencidos);
+            //llenar_tabla_LoteDetalle(lotes_por_vencer);
             objInicio.ConsultaBD();
             objInicio.principalEjecucion();
-            llenar_tabla_LoteDetalleVencidos(lotes_por_vencidos);
-            llenar_tabla_LoteDetalle(lotes_por_vencer);
-            jlblPorvencer.setText("POR VENCER: "+lotes_por_vencer.size());
-            jlblVencidos.setText("VENCIDOS: "+lotes_por_vencidos.size());
-            jListaMedicamentosVencidos.setVisible(true);           
+            
+            
+            //jlblPorvencer.setText("POR VENCER: "+lotes_por_vencer.size());
+            //jlblVencidos.setText("VENCIDOS: "+lotes_por_vencidos.size());
+            //jListaMedicamentosVencidos.setVisible(true);           
             
             }
         }
@@ -274,7 +276,7 @@ public class Principal extends javax.swing.JFrame{
         if(!lis.isEmpty()){
             jbtnCerrarSemestre.setEnabled(true);
             jlblAdvertencia.setText("Semestre Vigente");
-            objSemestreF=lis.get(0);  
+            objSemestreF=lis.get(0);//automaticamente por orden da el primero que se creo  
             jcbDateInicio.setDatoFecha(objSemestreF.getFecha_Inicio());
             jcbDateFin.setDatoFecha(objSemestreF.getFecha_Fin());
             jbtnGuardar.setText("GUARDAR CAMBIOS");

@@ -445,6 +445,7 @@ public class ModificarMedicamento extends javax.swing.JPanel{
       objMedicamento.setRolorigen((Rol)jcbOrigen.getSelectedItem());
       jpa.createQuery("update Medicamento set id_RolOrigen="+((Rol)jcbOrigen.getSelectedItem()).getId_Rol()+" where id_Medicamento= "+objMedicamento.getId_Medicamento() ).executeUpdate();
       jpa.persist(objMedicamento);
+      jpa.flush();
       jpa.getTransaction().commit();
       ConsultaBD();
       jtfConcentracion.setText("");

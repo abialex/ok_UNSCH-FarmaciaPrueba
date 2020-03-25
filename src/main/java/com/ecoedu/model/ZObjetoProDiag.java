@@ -15,9 +15,16 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
     private Rol objRolesMuchos;
     private int cantidad;
     private Estudiante objEstudiante;
+    private String mes_Name;
+    private int mes_ind;
+
     public ZObjetoProDiag(Rol objRol, int cantidad) {
         this.objRolesMuchos = objRol;
         this.cantidad = cantidad;
+    }
+    public ZObjetoProDiag(String mes_Name, int mes_ind) {
+        this.mes_Name = mes_Name;
+        this.mes_ind = mes_ind;
     }
     public ZObjetoProDiag(Estudiante objEstudiante, int cantidad) {
         this.objEstudiante = objEstudiante;
@@ -60,6 +67,26 @@ public class ZObjetoProDiag implements Comparable<ZObjetoProDiag>{
         this.objEstudiante = objEstudiante;
     }
     
+    public String getMes_Name() {
+        return mes_Name;
+    }
+
+    public void setMes_Name(String mes_Name) {
+        this.mes_Name = mes_Name;
+    }
+
+    public int getMes_ind() {
+        return mes_ind;
+    }
+
+    public void setMes_ind(int mes_ind) {
+        this.mes_ind = mes_ind;
+    }
+    
+    @Override
+    public String toString(){
+        return mes_Name;
+    }
 
     @Override
     public int compareTo(ZObjetoProDiag o) {

@@ -1371,13 +1371,11 @@ public class ServicioFarmacia extends javax.swing.JPanel {
         for (Servicio_social servicio_social : Lista_Servicio){
             List<Detalle_Servicio_Social> lista_Detalle_ServicioSocial=Herramienta.findbyWhere(Detalle_Servicio_Social.class,"id_Servicio_social", servicio_social.getId_Detalle_servicio_social(), jpa);
             for (Detalle_Servicio_Social detalle_Servicio_Social : lista_Detalle_ServicioSocial) {
-                table.addCell(new Paragraph(Herramienta.formatoFecha(servicio_social.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-                table.addCell(new Paragraph(detalle_Servicio_Social.getTarifario().getDescripcion()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-                table.addCell(new Paragraph(detalle_Servicio_Social.getPrecio_Total()+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
-
+                tableSocial.addCell(new Paragraph(Herramienta.formatoFecha(servicio_social.getFecha())).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+                tableSocial.addCell(new Paragraph(detalle_Servicio_Social.getTarifario().getDescripcion()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
+                tableSocial.addCell(new Paragraph(detalle_Servicio_Social.getPrecio_Total()+"").setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(fontTamaño));
                 }
-            }
-        
+            }        
         document.add(paragIma);
         document.add(paraTitle);
         document.add(parag);      
